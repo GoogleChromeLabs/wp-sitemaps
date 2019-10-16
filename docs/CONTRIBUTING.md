@@ -6,9 +6,9 @@ We appreciate all contributions as they help to move the project forward.
 
 ## Contributions to Issues
 
-Tickets will often need input from multiple points of view. We invite you to share your POV by adding a comment to the relevent ticket.
+Tickets will often need input from multiple points of view. We invite you to share your POV by adding a comment to the relevant ticket.
 
-If a ticket does not yet exist, you can create a new ticket and add it to the back log, but please do read: https://make.wordpress.org/core/2019/06/12/xml-sitemaps-feature-project-proposal/ and double check that what you are proposing is inline with what we are trying to achieve within this project's scope.
+If a ticket does not yet exist, you can create a new ticket and add it to the back log, but please do read: https://make.wordpress.org/core/2019/06/12/xml-sitemaps-feature-project-proposal/ and double check that what you are proposing is in line with what we are trying to achieve within this project's scope.
 
 
 ### Creating an Issue
