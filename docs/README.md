@@ -4,20 +4,25 @@ See for a project overview: https://make.wordpress.org/core/2019/06/12/xml-sitem
 
 ## Getting Set up
 
-- Local Setup: Please see the [Local set up documentation section](/docs/setup/).
-- Coding Standards: Please see the [Developer Documentation section](/docs/setup/).
+- Local Setup
+- Coding Standards
 
+Please see the [Local Set Up documentation section](/docs/SETUP.md).
 
 ## Contributing
 
-- Input Documentation: Please see the [Contributing Documentation section](/docs/contributing/CONTRIBUTIONS.md).
-- Developer Documentation: Please see the [Contributing Documentation section](/docs/contributing/CONTRIBUTIONS.md).
-- Contribute to the Documentation: Please see the [Contributing Documentation section](/docs/contributing/CONTRIBUTIONS.md).
+- Input Documentation
+- Developer Documentation
+- Contribute to the Documentation
+
+Please see the [Contributing Documentation section](/docs/CONTRIBUTING.md).
 
 
 ## Testing
 
-- Unit Tests: Please see the [Local set up documentation section](/docs/testing/).
+- Unit Tests
+
+Please see the [Testing documentation section](/docs/TESTING.md).
 
 
 ## Reporting Security Issues

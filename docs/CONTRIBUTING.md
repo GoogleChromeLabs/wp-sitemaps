@@ -59,8 +59,10 @@ issues if one exists.
 
 ## Contribute to the Documentation
 
-All of the documentation for this plugin lives at [/docs/](/docs/contributing/CONTRIBUTIONS.md)
+All of the documentation for this plugin lives at [/docs/](/docs/README.md)
 
 To contribute to the documentation either follow the Contributions to Issues workflow above and leave a comment about your suggested change. Or, follow the Developer Contributions workflow, and create a pull request with your suggested changes in.
 
 ## Reporting Security Issues
+
+[TODO: Add this]
