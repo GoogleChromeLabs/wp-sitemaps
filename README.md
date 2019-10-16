@@ -16,7 +16,7 @@ See: https://make.wordpress.org/core/2019/06/12/xml-sitemaps-feature-project-pro
 
 ## Documentation ##
 
-- Local Set Up: [Local Set Up Documentation Section](/docs/SETUP.md/).
+- Local Setup: [Local Setup Documentation Section](/docs/SETUP.md/).
 - Contributing: [Contributing Documentation Section](/docs/CONTRIBUTING.md)
 - Testing: [Testing Documentation Section](/docs/TESTING.md).
 

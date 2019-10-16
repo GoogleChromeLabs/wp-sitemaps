@@ -7,7 +7,7 @@ See for a project overview: https://make.wordpress.org/core/2019/06/12/xml-sitem
 - Local Setup
 - Coding Standards
 
-Please see the [Local Set Up Documentation Section](/docs/SETUP.md).
+Please see the [Local Setup Documentation Section](/docs/SETUP.md).
 
 ## Contributing
 
