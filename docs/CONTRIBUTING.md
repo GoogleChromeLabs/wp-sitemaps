@@ -33,7 +33,7 @@ When contributing through code, each feature should be developed in a seperate b
 
 - Create a new branch, forked from `master`.
 - Each branch should be prefixed with the issue number, followed by a short-description of the task. For example: Issue 3: Index Sitemap would become `3-index-sitemap`.
-- Regurlarly commit your work and push it to your remote branch on Github.
+- Regularly commit your work and push it to your remote branch on Github.
 
 
 ### Submitting Pull Requests ###
