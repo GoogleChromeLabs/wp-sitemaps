@@ -1,4 +1,4 @@
-# Local SetUp
+# Local Setup
 
 To get a local environment set up locally we would recommend cloning the [core-sitemaps-quickstart](https://github.com/humanmade/core-sitemaps-quickstart) repo and following the installation instructions there.
 
