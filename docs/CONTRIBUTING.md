@@ -32,7 +32,7 @@ Please don't assign the t-shirt labels to issues or the issues to milestones as 
 When contributing through code, each feature should be developed in a seperate branch.
 
 - Create a new branch, forked from `develop`.
-- Each branch should be prefixed with the issue number, followed by a short-description of the task. For example: Issue 3: Index Sitemap would become `3-index-sitemap`.
+- Each branch should be prefixed with `feature/` and the issue number, followed by a short-description of the task. For example: Issue 3: Index Sitemap would become `feature/3-index-sitemap`.
 - Regularly commit your work and push it to your remote branch on Github.
 
 
@@ -65,4 +65,6 @@ To contribute to the documentation either follow the Contributions to Issues wor
 
 ## Reporting Security Issues
 
-[TODO: Add this]
+If you find a security issue, please do not post about it publicly anywhere. Even if there’s a report filed on one of the official security tracking sites, bringing more awareness to the security issue tends to increase people being hacked, and rarely speeds up the fixing.
+
+Please email plugins@wordpress.org with a clear and concise description of the issue. It greatly helps if you can provide us with how you verified this is an exploit (links to the plugin listing on sites like secunia.com are perfect).
