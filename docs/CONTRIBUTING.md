@@ -1,6 +1,6 @@
 # Contributing
 
-Thank you for thinking about contributing to the WordPress sitemaps project! Contributions can either be made in the form of code or through input on tickets.
+Thank you for thinking about contributing to the Core Sitemaps project! Contributions can either be made in the form of code or through input on tickets.
 We appreciate all contributions as they help to move the project forward.
 
 
