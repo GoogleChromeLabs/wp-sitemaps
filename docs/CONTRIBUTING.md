@@ -14,9 +14,8 @@ If a ticket does not yet exist, you can create a new ticket and add it to the ba
 ### Creating an Issue
 
 - In Github, under 'Issues' click the green 'new issue' button.
-- Give the issue a short but meaningful title. This should be descriptive, summarize what your request is about in 5-10 words at most.
+- Give the issue a short but meaningful title. This should be descriptive, summarize the issue in 5-10 words at most.
 - Give us much detail about the issue as possible in the description box.
-
 
 ## Developer Contributions
 
@@ -42,11 +41,6 @@ When submitting a PR there are some items you should take note of:
 - Did you include unit tests (if applicable)?
 - Was your local copy recently pulled from `develop`, so it's a clean patch?
 
-
-The title of the pull request should be descriptive, summarize what your request is about in 5-10 words at most.
-For the main body of the pull request, describe what you have done, and what problem this solves.
-Include screenshots if possible to help visualize what changes have been introduced, and reference any open
-issues if one exists.
 
 ## Contribute to the Documentation
 
