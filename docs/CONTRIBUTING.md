@@ -14,17 +14,8 @@ If a ticket does not yet exist, you can create a new ticket and add it to the ba
 ### Creating an Issue
 
 - In Github, under 'Issues' click the green 'new issue' button.
-- Give the issue a short but meaningful title.
-- Give us much detail about the issue in the description box
-- Give the issue a label. Either:
-	- Type: Bug (Something isn't working)
-	- Type: Enhancement (Enhancement to an existing feature)
-	- Type: Feature (New feature)
-	- Type: Spike (Task to better understand a requirement)
-	- Type: Task (Specific task that may not be part of a given feature)
-- Assign the issue to the `Execution` project
-
-Please don't assign the t-shirt labels to issues or the issues to milestones as those are for internal use to manage workflow.
+- Give the issue a short but meaningful title. This should be descriptive, summarize what your request is about in 5-10 words at most.
+- Give us much detail about the issue as possible in the description box.
 
 
 ## Developer Contributions
