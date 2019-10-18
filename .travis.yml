@@ -50,7 +50,7 @@ before_script:
     fi
   - |
     if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
-      composer global require wp-coding-standards/wpcs
+      composer global require wp-coding-standards/wpcs phpcompatibility/phpcompatibility-wp
       phpcs --config-set installed_paths $HOME/.composer/vendor/phpcompatibility/php-compatibility,$HOME/.composer/vendor/phpcompatibility/phpcompatibility-paragonie,$HOME/.composer/vendor/phpcompatibility/phpcompatibility-wp,$HOME/.composer/vendor/wp-coding-standards/wpcs
     fi
 
