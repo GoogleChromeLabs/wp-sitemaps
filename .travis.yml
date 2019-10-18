@@ -33,6 +33,7 @@ matrix:
     - php: 5.6
       env: WP_TRAVISCI=phpcs
       dist: precise
+      fast_finish: true
 
 before_script:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
