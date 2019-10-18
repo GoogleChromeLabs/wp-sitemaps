@@ -1,0 +1,47 @@
+default:
+  suites:
+    default:
+      contexts:
+        - PaulGibbs\WordpressBehatExtension\Context\WordpressContext
+        - HM\Tests\Behat\FeatureContext
+        - Behat\MinkExtension\Context\MinkContext
+        - PaulGibbs\WordpressBehatExtension\Context\ContentContext
+        - PaulGibbs\WordpressBehatExtension\Context\DashboardContext
+        - PaulGibbs\WordpressBehatExtension\Context\SiteContext
+        - HM\Tests\Behat\UserContext
+        - PaulGibbs\WordpressBehatExtension\Context\EditPostContext
+        - PaulGibbs\WordpressBehatExtension\Context\WidgetContext
+        - PaulGibbs\WordpressBehatExtension\Context\DebugContext
+        - PaulGibbs\WordpressBehatExtension\Context\ToolbarContext
+        - FailAid\Context\FailureContext
+
+  extensions:
+    Behat\MinkExtension:
+      browser_name: chrome
+      default_session: default
+      javascript_session: javascript
+      files_path: '%paths.base%/tests/assets'
+      sessions:
+        default:
+          goutte:
+            guzzle_parameters:
+              verify: false  # Allow self-signed SSL certificates
+        javascript:
+          selenium2:
+            wd_host: "http://127.0.0.1:4444/wd/hub"
+
+    PaulGibbs\WordpressBehatExtension:
+      default_driver: wpcli # alternatively wpphp
+      users:
+        - roles:
+            - administrator
+          username: wordpress
+          password: password
+      database:
+        restore_after_test: true
+      wpcli:
+        binary: ./vendor/bin/wp
+
+    FailAid\Extension:
+      screenshotDirectory: '%paths.base%/tests/artifacts'
+      screenshotMode: default

@@ -5,6 +5,8 @@
  * @package Core_Sitemaps
  */
 
+namespace HM\Tests\PHPUnit;
+
 /**
  * Sample test case.
  */
