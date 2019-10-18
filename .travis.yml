@@ -11,7 +11,7 @@ notifications:
 branches:
   only:
     - master
-    - 7-coding-standards
+    - feature/7-coding-standards
 
 cache:
   directories:
