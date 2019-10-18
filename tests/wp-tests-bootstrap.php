@@ -5,7 +5,7 @@
 
 namespace HM\Tests\Phpunit;
 
-$_root_dir = getcwd();
+$_root_dir = dirname( __DIR__ );
 require_once $_root_dir . '/vendor/autoload.php';
 
 $_tests_dir = getenv( 'WP_PHPUNIT__DIR' );
@@ -36,17 +36,6 @@ function _remove_automated_checks() {
  */
 tests_add_filter( 'muplugins_loaded', function() use ( $_root_dir ) {
 	_remove_automated_checks();
-} );
-
-/**
- * Hardcode timezone for tests.
- *
- * @param bool $_ Not used.
- *
- * @return string New timezone.
- */
-tests_add_filter( 'pre_option_timezone_string', function( $_ ) {
-	return 'Europe/London';
 } );
 
 require $_tests_dir . '/includes/bootstrap.php';
