@@ -15,27 +15,6 @@
 	<exclude-pattern>*.min.js</exclude-pattern>
 	<exclude-pattern>*.min.css</exclude-pattern>
 
-	<rule ref="HM">
-		<!-- Ignore indentation rules that conflict with multi-line function call formatting -->
-		<exclude name="PEAR.Functions.FunctionCallSignature.Indent" />
-
-		<!-- Don't require a `@package` tag -->
-		<exclude name="Squiz.Commenting.FileComment.MissingPackageTag" />
-
-		<!-- Remove strictness around file naming -->
-		<exclude name="HM.Files.ClassFileName.MismatchedName" />
-		<exclude name="HM.Files.FunctionFileName.WrongFile" />
-		<exclude name="HM.Files.NamespaceDirectoryName.NameMismatch" />
-		<exclude name="HM.Files.NamespaceDirectoryName.NoIncDirectory" />
-		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
-
-		<!-- Don't require Yoda conditions checks -->
-		<exclude name="WordPress.PHP.YodaConditions.NotYoda" />
-
-		<!-- Let code breath. -->
-		<exclude name="Squiz.WhiteSpace.SuperfluousWhitespace.EmptyLines" />
-	</rule>
-
 	<rule ref="WordPress-Docs" />
 	<rule ref="WordPress-Extra" />
 
