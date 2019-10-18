@@ -45,10 +45,10 @@
     ],
     "test:behat-local": [
       "# Make sure Selenium is running!",
-      "BEHAT_PARAMS='{\"extensions\":{\"Behat\\\\MinkExtension\":{\"base_url\":\"http://sitemaps.local\"},\"PaulGibbs\\\\WordpressBehatExtension\":{\"site_url\":\"http://sitemaps.local/wp\",\"wpcli\":{\"alias\":\"local\"}}}}' vendor/bin/behat --colors --format progress --"
+      "BEHAT_PARAMS='{\"extensions\":{\"Behat\\\\MinkExtension\":{\"base_url\":\"'${WP_SITEURL:-http://sitemaps.local}'\"},\"PaulGibbs\\\\WordpressBehatExtension\":{\"site_url\":\"'${WP_SITEURL:-http://sitemaps.local}'/wp\",\"wpcli\":{\"alias\":\"local\"}}}}' vendor/bin/behat --colors --format progress --"
     ],
     "test:behat-steps": [
-      "BEHAT_PARAMS='{\"extensions\":{\"Behat\\\\MinkExtension\":{\"base_url\":\"http://sitemaps.local\"},\"PaulGibbs\\\\WordpressBehatExtension\":{\"site_url\":\"http://sitemaps.local/wp\",\"wpcli\":{\"alias\":\"local\"}}}}' vendor/bin/behat --colors --definitions i"
+      "BEHAT_PARAMS='{\"extensions\":{\"Behat\\\\MinkExtension\":{\"base_url\":\"'${WP_SITEURL:-http://sitemaps.local}'\"},\"PaulGibbs\\\\WordpressBehatExtension\":{\"site_url\":\"'${WP_SITEURL:-http://sitemaps.local}'/wp\",\"wpcli\":{\"alias\":\"local\"}}}}' vendor/bin/behat --colors --definitions i"
     ]
   },
   "scripts-descriptions": {
