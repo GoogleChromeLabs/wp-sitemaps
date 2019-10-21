@@ -1,0 +1,27 @@
+### Issue Number
+Please add a link to the original issue this PR aims to fix.
+
+### Description
+Please include a summary of the change. The summary should include what problem is addressed and how it has been fixed.
+
+### Screenshots (before and after if applicable)
+If your PR includes visual changes please include before and after screenshots showing the change.
+
+### Type of change
+Please select the relevant options:
+
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+
+### Steps to test
+Please describe the tests required to verify your changes.
+Provide instructions so the PR Tester can check functionality and also list any relevant details and / or dependancies required for your tests.
+
+### Acceptance criteris
+- [ ] My code follows WordPress coding standards.
+- [ ] I have performed a self-review of my own code.
+- [ ] If the changes are visual, I have cross browser / device tested.
+- [ ] I have commented my code, particularly in hard-to-understand areas.
+- [ ] My changes generate no new warnings.
+- [ ] I have added test instructions that prove my fix is effective or that my feature works.
