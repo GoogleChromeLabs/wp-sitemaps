@@ -1,11 +1,11 @@
 ### Issue Number
-Please add a link to the original issue this PR aims to fix.
+A link to the original issue in Github that this PR aims to fix.
 
 ### Description
-Please include a summary of the change. The summary should include what problem is addressed and how it has been fixed.
+A summary of the change. The summary should include what problem is addressed and how it has been fixed.
 
 ### Screenshots (before and after if applicable)
-If your PR includes visual changes please include before and after screenshots showing the change.
+If your PR includes visual changes include before and after screenshots showing the change.
 
 ### Type of change
 Please select the relevant options:
@@ -15,7 +15,7 @@ Please select the relevant options:
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
 
 ### Steps to test
-Please describe the tests required to verify your changes.
+Describe the tests required to verify your changes.
 Provide instructions so the PR Tester can check functionality and also list any relevant details and / or dependancies required for your tests.
 
 ### Acceptance criteris
