@@ -29,36 +29,37 @@
     "setup": [
       "@composer run-script --list"
     ],
-    "local-tests": [
-      "@test:phpunit-local",
-      "@test:behat-local"
+    "local:behat": [
+      "# Make sure Selenium is running!",
+      "export WP_SITEURL=$(vagrant ssh -c \"cd /vagrant && wp option get home\"); BEHAT_PARAMS='{\"extensions\":{\"Behat\\\\MinkExtension\":{\"base_url\":\"'${WP_SITEURL}'\"},\"PaulGibbs\\\\WordpressBehatExtension\":{\"site_url\":\"'${WP_SITEURL}'/wp\",\"wpcli\":{\"alias\":\"local\"}}}}' vendor/bin/behat --colors --format progress --"
     ],
-    "test:phpunit": [
-      "vendor/bin/phpunit --verbose --colors=always"
+    "local:behat-steps": [
+      "export WP_SITEURL=$(vagrant ssh -c \"cd /vagrant && wp option get home\"); BEHAT_PARAMS='{\"extensions\":{\"Behat\\\\MinkExtension\":{\"base_url\":\"'${WP_SITEURL}'\"},\"PaulGibbs\\\\WordpressBehatExtension\":{\"site_url\":\"'${WP_SITEURL}'/wp\",\"wpcli\":{\"alias\":\"local\"}}}}' vendor/bin/behat --colors --definitions i"
     ],
-    "test:phpunit-local": [
+    "local:tests": [
+      "@test:phpcs",
+      "@local:phpunit",
+      "@local:behat"
+    ],
+    "local:phpunit": [
       "wp @local db query --dbuser=root --dbpass=password \"CREATE DATABASE IF NOT EXISTS wordpress_test DEFAULT CHARSET utf8\"",
       "vagrant ssh -c \"cd /vagrant/content/plugins/core-sitemaps && WP_TESTS_DB_PASS=password composer run test:phpunit\""
     ],
     "test:phpcs": [
       "vendor/bin/phpcs -nps --colors --report-code --report-summary --report-width=80 ."
     ],
-    "test:behat-local": [
-      "# Make sure Selenium is running!",
-      "BEHAT_PARAMS='{\"extensions\":{\"Behat\\\\MinkExtension\":{\"base_url\":\"'${WP_SITEURL:-http://sitemaps.local}'\"},\"PaulGibbs\\\\WordpressBehatExtension\":{\"site_url\":\"'${WP_SITEURL:-http://sitemaps.local}'/wp\",\"wpcli\":{\"alias\":\"local\"}}}}' vendor/bin/behat --colors --format progress --"
-    ],
-    "test:behat-steps": [
-      "BEHAT_PARAMS='{\"extensions\":{\"Behat\\\\MinkExtension\":{\"base_url\":\"'${WP_SITEURL:-http://sitemaps.local}'\"},\"PaulGibbs\\\\WordpressBehatExtension\":{\"site_url\":\"'${WP_SITEURL:-http://sitemaps.local}'/wp\",\"wpcli\":{\"alias\":\"local\"}}}}' vendor/bin/behat --colors --definitions i"
+    "test:phpunit": [
+      "vendor/bin/phpunit --verbose --colors=always"
     ]
   },
   "scripts-descriptions": {
     "setup": "Sets up the development environment.",
-    "local-tests": "Runs all tests (PHPUnit and Behat) -- for local environments.",
+    "local:tests": "Runs all tests (PHPCS, PHPUnit and Behat) (local)",
+    "local:phpunit": "Run PHPUnit tests (local)",
+    "local:behat": "Run Behat tests (local)",
+    "local:behat-steps": "View Behat step definitions (local)",
     "test:phpunit": "Run PHPUnit tests.",
-    "test:phpunit-local": "Run PHPUnit tests -- for local environments.",
-    "test:phpcs": "Runs the PHP code sniffer.",
-    "test:behat-local": "Run Behat tests -- for local environments.",
-    "test:behat-steps": "View step definitions for Behat tests -- for local environments."
+    "test:phpcs": "Runs the PHP code sniffer."
   },
   "require": {
     "php": ">=5.6.0",
