@@ -6,9 +6,7 @@
  * allows for easy composition and inheritance of common functionality.
  */
 
-declare( strict_types = 1 );
-
-namespace HM\Tests\Behat;
+namespace Core_Sitemaps\Tests\Behat;
 
 use PaulGibbs\WordpressBehatExtension\Context\RawWordpressContext;
 

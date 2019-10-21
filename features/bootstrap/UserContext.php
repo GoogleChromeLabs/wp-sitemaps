@@ -3,9 +3,7 @@
  * Provides step definitions for all things relating to users.
  */
 
-declare( strict_types = 1 );
-
-namespace HM\Tests\Behat;
+namespace Core_Sitemaps\Tests\Behat;
 
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Exception;
@@ -29,7 +27,7 @@ class UserContext extends RawProjectContext {
 	 * @return array The user details matching the given username.
 	 * @throws RuntimeException If specified user not found.
 	 */
-	protected function getUserByName( string $username ) : array {
+	protected function getUserByName( $username ) {
 		$found_user = null;
 		$users      = $this->getWordpressParameter( 'users' );
 
@@ -58,7 +56,7 @@ class UserContext extends RawProjectContext {
 	 *
 	 * @param TableNode $users Represents data about users to create.
 	 */
-	public function thereAreUsers( TableNode $users ) : void {
+	public function thereAreUsers( $users ) {
 		$params = $this->getWordpressParameters();
 
 		foreach ( $users->getHash() as $user ) {
@@ -68,11 +66,11 @@ class UserContext extends RawProjectContext {
 
 			$this->createUser( $user['user_login'], $user['user_email'], $user );
 
-			$params['users'][] = [
+			$params['users'][] = array(
 				'roles'    => $this->getUserDataFromUsername( 'roles', $user['user_login'] ),
 				'username' => $user['user_login'],
 				'password' => $user['user_pass'],
-			];
+			);
 		}
 
 		$this->setWordpressParameters( $params );
@@ -87,7 +85,7 @@ class UserContext extends RawProjectContext {
 	 *
 	 * @param string $user_login Account username.
 	 */
-	public function iDeleteTheUserAccount( string $user_login ) : void {
+	public function iDeleteTheUserAccount( $user_login ) {
 		$this->deleteUser( $this->getUserIdFromLogin( $user_login ) );
 	}
 
@@ -100,12 +98,13 @@ class UserContext extends RawProjectContext {
 	 *
 	 * @param string $username Account username.
 	 */
-	public function iAmViewingAuthorArchive( string $username ) : void {
+	public function iAmViewingAuthorArchive( $username ) {
 		$found_user = $this->getUserByName( $username );
 
+		$wordpress_parameters = $this->getWordpressParameters();
 		$this->visitPath(
 			sprintf(
-				$this->getWordpressParameters()['permalinks']['author_archive'],
+				$wordpress_parameters['permalinks']['author_archive'],
 				$this->getUserDataFromUsername( 'user_nicename', $found_user['username'] )
 			)
 		);
@@ -122,7 +121,7 @@ class UserContext extends RawProjectContext {
 	 *
 	 * @throws Exception\DriverException If the browser has not been opened yet (but, it's ok!).
 	 */
-	public function iAmAnonymousUser() : void {
+	public function iAmAnonymousUser() {
 			$this->logOut();
 	}
 
@@ -138,7 +137,7 @@ class UserContext extends RawProjectContext {
 	 * @throws RuntimeException If specified user not found.
 	 * @throws Exception\ExpectationException
 	 */
-	public function iAmLoggedInAsRole( string $role ) : void {
+	public function iAmLoggedInAsRole( $role ) {
 		$found_user = null;
 		$users      = $this->getWordpressParameter( 'users' );
 
@@ -165,7 +164,7 @@ class UserContext extends RawProjectContext {
 	 *
 	 * @param string $username Account username.
 	 */
-	public function iAmLoggedInAsUser( string $username ) : void {
+	public function iAmLoggedInAsUser( $username ) {
 		$found_user = $this->getUserByName( $username );
 
 		$this->logIn( $found_user['username'], $found_user['password'] );
@@ -182,7 +181,7 @@ class UserContext extends RawProjectContext {
 	 *
 	 * @throws Exception\ExpectationException If a user was able to log-in successfully (this should fail).
 	 */
-	public function iShouldNotBeAbleToLogInAsRole( string $role ) : void {
+	public function iShouldNotBeAbleToLogInAsRole( $role ) {
 		try {
 			$this->iAmLoggedInAsRole( $role );
 		} catch ( RuntimeException $e ) {
@@ -210,7 +209,7 @@ class UserContext extends RawProjectContext {
 	 *
 	 * @throws Exception\ExpectationException If a user was able to log-in successfully (this should fail).
 	 */
-	public function iShouldNotBeAbleToLogInAsUser( string $username ) : void {
+	public function iShouldNotBeAbleToLogInAsUser( $username ) {
 		try {
 			$this->iAmLoggedInAsUser( $username );
 		} catch ( RuntimeException $e ) {

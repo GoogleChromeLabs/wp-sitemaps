@@ -1,19 +1,11 @@
 <?php
 /**
- * Provides step definitions for custom DMS requirements.
+ * Provides step definitions for custom sitemap requirements.
  */
 
-declare( strict_types = 1 );
+namespace Core_Sitemaps\Tests\Behat;
 
-namespace HM\Tests\Behat;
-
-use Behat\Gherkin\Node\TableNode;
-use Behat\Mink\Exception\ExpectationException;
-use Behat\Mink\Exception\ElementNotFoundException;
 use PaulGibbs\WordpressBehatExtension\Context\Traits;
-use PaulGibbs\WordpressBehatExtension\Util;
-use PHPUnit\Framework\Assert as PHPUnit;
-use RuntimeException;
 
 /**
  * Provides step definitions for custom DMS requirements.

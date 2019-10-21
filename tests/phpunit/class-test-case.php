@@ -3,9 +3,7 @@
  * A factory for making WordPress data with a cross-object type API.
  */
 
-declare( strict_types = 1 );
-
-namespace HM\Tests\Phpunit;
+namespace Core_Sitemaps\Tests\Phpunit;
 
 use WP_UnitTestCase;
 
@@ -28,7 +26,7 @@ class Test_Case extends WP_UnitTestCase {
 			return;
 		}
 
-		call_user_func( [ $c, 'wpSetUpBeforeClass' ], self::factory() );
+		call_user_func( array( $c, 'wpSetUpBeforeClass' ), self::factory() );
 
 		self::commit_transaction();
 	}

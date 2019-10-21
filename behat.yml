@@ -3,12 +3,12 @@ default:
     default:
       contexts:
         - PaulGibbs\WordpressBehatExtension\Context\WordpressContext
-        - HM\Tests\Behat\FeatureContext
         - Behat\MinkExtension\Context\MinkContext
         - PaulGibbs\WordpressBehatExtension\Context\ContentContext
         - PaulGibbs\WordpressBehatExtension\Context\DashboardContext
         - PaulGibbs\WordpressBehatExtension\Context\SiteContext
-        - HM\Tests\Behat\UserContext
+        - Core_Sitemaps\Tests\Behat\FeatureContext
+        - Core_Sitemaps\Tests\Behat\UserContext
         - PaulGibbs\WordpressBehatExtension\Context\EditPostContext
         - PaulGibbs\WordpressBehatExtension\Context\WidgetContext
         - PaulGibbs\WordpressBehatExtension\Context\DebugContext

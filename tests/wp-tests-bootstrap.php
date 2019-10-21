@@ -3,21 +3,19 @@
  * WordPress PHPUnit bootstrap file.
  */
 
-namespace HM\Tests\Phpunit;
+$core_sitemaps_root_dir = dirname( __DIR__ );
+require_once $core_sitemaps_root_dir . '/vendor/autoload.php';
 
-$_root_dir = dirname( __DIR__ );
-require_once $_root_dir . '/vendor/autoload.php';
+$core_sitemaps_tests_dir = getenv( 'WP_PHPUNIT__DIR' );
 
-$_tests_dir = getenv( 'WP_PHPUNIT__DIR' );
-
-require_once $_tests_dir . '/includes/functions.php';
+require_once $core_sitemaps_tests_dir . '/includes/functions.php';
 
 /**
  * Disable update checks for core, themes, and plugins.
  *
  * No need for this work to happen when spinning up tests.
  */
-function _remove_automated_checks() {
+function core_sitemaps_remove_automated_checks() {
 	remove_action( 'wp_maybe_auto_update', 'wp_maybe_auto_update' );
 	remove_action( 'wp_update_themes', 'wp_update_themes' );
 	remove_action( 'wp_update_plugins', 'wp_update_plugins' );
@@ -34,8 +32,8 @@ function _remove_automated_checks() {
 /**
  * Load any plugins we might need.
  */
-tests_add_filter( 'muplugins_loaded', function() use ( $_root_dir ) {
-	_remove_automated_checks();
+tests_add_filter( 'muplugins_loaded', function () use ( $core_sitemaps_root_dir ) {
+	core_sitemaps_remove_automated_checks();
 } );
 
 /**
@@ -49,6 +47,6 @@ tests_add_filter( 'pre_option_timezone_string', function ( $_ ) {
 	return 'UTC';
 } );
 
-require $_tests_dir . '/includes/bootstrap.php';
+require $core_sitemaps_tests_dir . '/includes/bootstrap.php';
 
-require_once $_root_dir . '/tests/phpunit/class-test-case.php';
+require_once $core_sitemaps_root_dir . '/tests/phpunit/class-test-case.php';
