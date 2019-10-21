@@ -17,3 +17,9 @@ A clear and concise description of what the enhancement is and what you want to 
 
 **Additional context**
 Add any other context or screenshots about the enhancement request here.
+
+### Acceptance Criteria
+Add the relevant acceptance criteria here.
+- []
+- []
+- []

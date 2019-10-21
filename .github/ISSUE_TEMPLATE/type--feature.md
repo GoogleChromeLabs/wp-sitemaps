@@ -23,3 +23,9 @@ Add any other context or screenshots about the feature request here.
 
 **Is this feature in line with the project proposal:**
 https://make.wordpress.org/core/2019/06/12/xml-sitemaps-feature-project-proposal/
+
+### Acceptance Criteria
+Add the relevant acceptance criteria here.
+- []
+- []
+- []
