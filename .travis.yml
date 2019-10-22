@@ -48,7 +48,7 @@ before_script:
     fi
   - |
   - composer install --no-interaction --no-progress --no-suggest --prefer-dist
-  - omposer require phpunit/phpunit
+  - composer require phpunit/phpunit
 script:
   - |
     if [[ ! -z "$WP_VERSION" ]] ; then
