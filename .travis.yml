@@ -48,7 +48,7 @@ before_script:
     fi
   - |
   - composer install --no-interaction --no-progress --no-suggest --prefer-dist
-  - composer require phpunit/phpunit
+  - composer global require "phpunit/phpunit=4.8.*|5.7.*|7.5.*"
 script:
   - |
     if [[ ! -z "$WP_VERSION" ]] ; then
