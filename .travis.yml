@@ -52,7 +52,7 @@ script:
   - |
     if [[ ! -z "$WP_VERSION" ]] ; then
       vendor/bin/phpunit
-      WP_MULTISITE=1 phpunit
+      WP_MULTISITE=1 vendor/bin/phpunit
     fi
   - |
     if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
