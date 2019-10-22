@@ -29,17 +29,9 @@
     "setup": [
       "@composer run-script --list"
     ],
-    "local:behat": [
-      "# Make sure Selenium is running!",
-      "export WP_SITEURL=$(vagrant ssh -c \"cd /vagrant && wp option get home\"); BEHAT_PARAMS='{\"extensions\":{\"Behat\\\\MinkExtension\":{\"base_url\":\"'${WP_SITEURL}'\"},\"PaulGibbs\\\\WordpressBehatExtension\":{\"site_url\":\"'${WP_SITEURL}'/wp\",\"wpcli\":{\"alias\":\"local\"}}}}' vendor/bin/behat --colors --format progress --"
-    ],
-    "local:behat-steps": [
-      "export WP_SITEURL=$(vagrant ssh -c \"cd /vagrant && wp option get home\"); BEHAT_PARAMS='{\"extensions\":{\"Behat\\\\MinkExtension\":{\"base_url\":\"'${WP_SITEURL}'\"},\"PaulGibbs\\\\WordpressBehatExtension\":{\"site_url\":\"'${WP_SITEURL}'/wp\",\"wpcli\":{\"alias\":\"local\"}}}}' vendor/bin/behat --colors --definitions i"
-    ],
     "local:tests": [
       "@test:phpcs",
-      "@local:phpunit",
-      "@local:behat"
+      "@local:phpunit"
     ],
     "local:phpunit": [
       "wp @local db query --dbuser=root --dbpass=password \"CREATE DATABASE IF NOT EXISTS wordpress_test DEFAULT CHARSET utf8\"",
@@ -56,8 +48,6 @@
     "setup": "Sets up the development environment.",
     "local:tests": "Runs all tests (PHPCS, PHPUnit and Behat) (local)",
     "local:phpunit": "Run PHPUnit tests (local)",
-    "local:behat": "Run Behat tests (local)",
-    "local:behat-steps": "View Behat step definitions (local)",
     "test:phpunit": "Run PHPUnit tests.",
     "test:phpcs": "Runs the PHP code sniffer."
   },
@@ -67,10 +57,6 @@
     "oomphinc/composer-installers-extender": "^1.1"
   },
   "require-dev": {
-    "behat/mink-goutte-driver": "^1.2",
-    "behat/mink-selenium2-driver": "^1.3",
-    "genesis/behat-fail-aid": "^2.0",
-    "paulgibbs/behat-wordpress-extension": "~3.0",
     "phpcompatibility/phpcompatibility-wp": "^2.1",
     "phpunit/phpunit": "~7.0",
     "roave/security-advisories": "dev-master",
