@@ -1,0 +1,79 @@
+{
+  "name": "humanmade/core-sitemaps",
+  "description": "Core Sitemaps project",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0-or-later",
+  "config": {
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "autoloader-suffix": "csm",
+    "platform": {
+      "php": "7.3"
+    },
+    "process-timeout": 600,
+    "vendor-dir": "vendor"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org"
+    }
+  ],
+  "scripts": {
+    "post-install-cmd": [
+      "@setup"
+    ],
+    "post-update-cmd": [
+      "@setup"
+    ],
+    "setup": [
+      "@composer run-script --list"
+    ],
+    "local:tests": [
+      "@test:phpcs",
+      "@local:phpunit"
+    ],
+    "local:phpunit": [
+      "wp @local db query --dbuser=root --dbpass=password \"CREATE DATABASE IF NOT EXISTS wordpress_test DEFAULT CHARSET utf8\"",
+      "vagrant ssh -c \"cd /vagrant/content/plugins/core-sitemaps && WP_TESTS_DB_PASS=password composer run test:phpunit\""
+    ],
+    "test:phpcs": [
+      "vendor/bin/phpcs -nps --colors --report-code --report-summary --report-width=80 ."
+    ],
+    "test:phpunit": [
+      "vendor/bin/phpunit --verbose --colors=always"
+    ]
+  },
+  "scripts-descriptions": {
+    "setup": "Sets up the development environment.",
+    "local:phpunit": "Run PHPUnit tests (local)",
+    "test:phpunit": "Run PHPUnit tests.",
+    "test:phpcs": "Runs the PHP code sniffer."
+  },
+  "require": {
+    "php": ">=5.6.0",
+    "composer/installers": "~1.0",
+    "oomphinc/composer-installers-extender": "^1.1"
+  },
+  "require-dev": {
+    "phpcompatibility/phpcompatibility-wp": "^2.1",
+    "phpunit/phpunit": "<6.0",
+    "roave/security-advisories": "dev-master",
+    "roots/wordpress": "5.2.2",
+    "wp-cli/wp-cli": "2.2.0",
+    "wp-cli/wp-cli-bundle": "^2.1",
+    "wp-coding-standards/wpcs": "^2.1",
+    "wp-phpunit/wp-phpunit": "5.1.1"
+  },
+  "extra": {
+    "installer-types": [
+      "library"
+    ],
+    "wordpress-install-dir": "tests/app/www"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Core_Sitemaps\\Tests\\Behat\\": "features/bootstrap/"
+    }
+  }
+}
