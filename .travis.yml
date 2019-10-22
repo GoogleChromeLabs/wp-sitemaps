@@ -48,11 +48,12 @@ before_script:
     fi
   - |
   - composer install --no-interaction --no-progress --no-suggest --prefer-dist
+  - omposer require phpunit/phpunit
 script:
   - |
     if [[ ! -z "$WP_VERSION" ]] ; then
       vendor/bin/phpunit
-      WP_MULTISITE=1 vendor/bin/phpunit
+      WP_MULTISITE=1 phpunit
     fi
   - |
     if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then

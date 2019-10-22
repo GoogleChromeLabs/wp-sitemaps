@@ -46,7 +46,6 @@
   },
   "scripts-descriptions": {
     "setup": "Sets up the development environment.",
-    "local:tests": "Runs all tests (PHPCS, PHPUnit and Behat) (local)",
     "local:phpunit": "Run PHPUnit tests (local)",
     "test:phpunit": "Run PHPUnit tests.",
     "test:phpcs": "Runs the PHP code sniffer."
