@@ -12,4 +12,14 @@
  * @package         Core_Sitemaps
  */
 
-// Your code starts here.
+defined( 'ABSPATH' ) or die();
+
+// require_once __DIR__ . '/inc/class-core-sitemaps-page.php';
+
+/**
+ * Bootstrapping.
+ */
+function core_sitemaps_init() {
+}
+
+add_action( 'init', 'core_sitemaps_init', 10 );
