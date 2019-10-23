@@ -8,9 +8,7 @@
 	<file>.</file>
 	<exclude-pattern>/vendor/</exclude-pattern>
 	<exclude-pattern>/tests/app/</exclude-pattern>
-	<exclude-pattern>/tests/wp-tests-config.php</exclude-pattern>
-	<exclude-pattern>/tests/wp-tests-config.php</exclude-pattern>
-	<exclude-pattern>/tests/.php</exclude-pattern>
+	<exclude-pattern>/tests/*config.php</exclude-pattern>
 	<exclude-pattern>/node_modules/</exclude-pattern>
 
 	<!-- How to scan -->
@@ -24,7 +22,7 @@
 
 	<!-- Rules: Check PHP version compatibility -->
 	<!-- https://github.com/PHPCompatibility/PHPCompatibility#sniffing-your-code-for-compatibility-with-specific-php-versions -->
-	<config name="testVersion" value="5.3-"/>
+	<config name="testVersion" value="5.6-"/>
 	<!-- https://github.com/PHPCompatibility/PHPCompatibilityWP -->
 	<rule ref="PHPCompatibilityWP"/>
 
