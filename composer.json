@@ -41,7 +41,7 @@
       "phpcs"
     ],
     "test:phpunit": [
-      "vendor/bin/phpunit --verbose --colors=always"
+      "vendor/bin/phpunit --colors=always"
     ]
   },
   "scripts-descriptions": {

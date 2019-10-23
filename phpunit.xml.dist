@@ -1,12 +1,13 @@
 <phpunit
-	bootstrap="tests/wp-tests-bootstrap.php"
 	backupGlobals="false"
+	beStrictAboutOutputDuringTests="true"
+	beStrictAboutTestsThatDoNotTestAnything="true"
+	bootstrap="tests/wp-tests-bootstrap.php"
 	colors="true"
 	convertErrorsToExceptions="true"
 	convertNoticesToExceptions="true"
 	convertWarningsToExceptions="true"
-	beStrictAboutTestsThatDoNotTestAnything="true"
-	beStrictAboutOutputDuringTests="true"
+	verbose="true"
 	>
 	<php>
 		<env name="WP_PHPUNIT__TESTS_CONFIG" value="tests/wp-tests-config.php" />
