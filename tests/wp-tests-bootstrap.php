@@ -1,6 +1,11 @@
 <?php
 /**
  * WordPress PHPUnit bootstrap file.
+ *
+ * @package Core_Sitemaps
+ * @copyright 2019 The Core Sitemaps Contributors
+ * @license   GNU General Public License, version 2
+ * @link      https://github.com/GoogleChromeLabs/wp-sitemaps
  */
 
 $core_sitemaps_root_dir = dirname( __DIR__ );

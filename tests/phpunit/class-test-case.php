@@ -1,6 +1,11 @@
 <?php
 /**
  * A factory for making WordPress data with a cross-object type API.
+ *
+ * @package Core_Sitemaps
+ * @copyright 2019 The Core Sitemaps Contributors
+ * @license   GNU General Public License, version 2
+ * @link      https://github.com/GoogleChromeLabs/wp-sitemaps
  */
 
 namespace Core_Sitemaps\Tests\Phpunit;
