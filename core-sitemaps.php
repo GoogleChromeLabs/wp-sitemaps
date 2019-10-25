@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || die();
 const CORE_SITEMAPS_CPT_BUCKET       = 'core_sitemaps_bucket';
 const CORE_SITEMAPS_POSTS_PER_BUCKET = 2000;
 
+require_once __DIR__ . '/inc/bucket.php';
 require_once __DIR__ . '/inc/page.php';
 require_once __DIR__ . '/inc/type-post.php';
 require_once __DIR__ . '/inc/url.php';
@@ -28,10 +29,12 @@ function core_sitemaps_init() {
 	core_sitemaps_bucket_register();
 
 	$register_post_types = core_sitemaps_registered_post_types();
-	foreach ( $register_post_types as $post_type ) {
+	foreach ( array_keys( $register_post_types ) as $post_type ) {
 		call_user_func( $register_post_types[ $post_type ] );
 	}
 }
+
+add_action( 'init', 'core_sitemaps_init', 10 );
 
 /**
  * Provides the `core_sitemaps_register_post_types` filter to register post types for inclusion in the sitemap.
@@ -41,5 +44,3 @@ function core_sitemaps_init() {
 function core_sitemaps_registered_post_types() {
 	return apply_filters( 'core_sitemaps_register_post_types', array() );
 }
-
-add_action( 'init', 'core_sitemaps_init', 10 );
