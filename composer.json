@@ -29,6 +29,9 @@
     "setup": [
       "@composer run-script --list"
     ],
+    "setup:local": [
+      "wp @local rewrite structure '/%year%/%monthnum%/%postname%/'"
+    ],
     "local:tests": [
       "@test:phpcs",
       "@local:phpunit"
