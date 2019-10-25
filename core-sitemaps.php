@@ -18,3 +18,7 @@
  */
 
 // Your code starts here.
+
+require_once dirname( __FILE__ ) . '/sitemaps-index.php';
+
+new WP_Sitemaps_Index();
