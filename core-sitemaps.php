@@ -26,6 +26,7 @@ require_once __DIR__ . '/inc/url.php';
  * Bootstrapping.
  */
 function core_sitemaps_init() {
+	// Fixme: temporarily unhooking template.
 	core_sitemaps_bucket_register();
 
 	$register_post_types = core_sitemaps_registered_post_types();
@@ -43,4 +44,18 @@ add_action( 'init', 'core_sitemaps_init', 10 );
  */
 function core_sitemaps_registered_post_types() {
 	return apply_filters( 'core_sitemaps_register_post_types', array() );
+}
+
+/**
+ * Temporary header rendering, obviously we'd want to do an XML DOMDocument.
+ */
+function core_sitemaps_render_header() {
+	echo '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+}
+
+/**
+ * Temporary footer rendering, probably won't be required soon.
+ */
+function core_sitemaps_render_footer() {
+	echo '</urlset>';
 }
