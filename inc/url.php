@@ -55,6 +55,6 @@ function core_sitemaps_url_render( $url_data ) {
 </url>',
 		esc_html( $url_data['loc'] ),
 		esc_html( $url_data['lastmod'] ),
-		esc_html( $url_data['frequency'] ),
+		esc_html( $url_data['changefreq'] ),
 		esc_html( $url_data['priority'] ) );
 }
