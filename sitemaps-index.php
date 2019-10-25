@@ -61,7 +61,7 @@ class Core_Sitemaps_Index {
 		$sitemap_index = get_query_var( 'sitemap' );
 
 		if ( ! empty( $sitemap_index ) ) {
-			header( 'Content-type: text/xml; charset=' );
+			header( 'Content-type: application/xml; charset=UTF-8' );
 
 			$output = '<?xml version="1.0" encoding="UTF-8"?>';
 			$output .= '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
