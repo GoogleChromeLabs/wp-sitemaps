@@ -12,20 +12,20 @@
  * @package         Core_Sitemaps
  */
 
-defined( 'ABSPATH' ) or die();
+defined( 'ABSPATH' ) || die();
 
-const CORE_SITEMAPS_CPT_PAGE       = 'core_sitemaps_page';
-const CORE_SITEMAPS_POSTS_PER_PAGE = 2000;
+const CORE_SITEMAPS_CPT_BUCKET       = 'core_sitemaps_bucket';
+const CORE_SITEMAPS_POSTS_PER_BUCKET = 2000;
 
-require_once __DIR__ . '/inc/core-sitemaps-page.php';
-require_once __DIR__ . '/inc/core-sitemaps-type-post.php';
-require_once __DIR__ . '/inc/core-sitemaps-url.php';
+require_once __DIR__ . '/inc/page.php';
+require_once __DIR__ . '/inc/type-post.php';
+require_once __DIR__ . '/inc/url.php';
 
 /**
  * Bootstrapping.
  */
 function core_sitemaps_init() {
-	core_sitemaps_page_register();
+	core_sitemaps_bucket_register();
 
 	$register_post_types = core_sitemaps_registered_post_types();
 	foreach ( $register_post_types as $post_type ) {
@@ -34,7 +34,9 @@ function core_sitemaps_init() {
 }
 
 /**
- * @return mixed|void
+ * Provides the `core_sitemaps_register_post_types` filter to register post types for inclusion in the sitemap.
+ *
+ * @return array Associative array.  Key is the post-type name; Value is a registration callback function.
  */
 function core_sitemaps_registered_post_types() {
 	return apply_filters( 'core_sitemaps_register_post_types', array() );

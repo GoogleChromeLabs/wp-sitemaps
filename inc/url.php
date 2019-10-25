@@ -12,8 +12,8 @@ defined( 'ABSPATH' ) or die();
 function core_sitemaps_url_content( $post ) {
 	return array(
 		'loc'        => get_permalink( $post ),
-		// TODO check gmt
-		'lastmod'    => mysql2date( DATE_W3C, $post->post_modified, false ),
+		// DATE_W3C does not contain a timezone offset, so UTC date must be used.
+		'lastmod'    => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
 		'priority'   => core_sitemaps_url_priority( $post ),
 		'changefreq' => core_sitemaps_url_changefreq( $post ),
 	);
