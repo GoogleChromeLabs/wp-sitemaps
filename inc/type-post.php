@@ -49,8 +49,8 @@ function core_sitemaps_type_post_on_save( $post_id, WP_Post $post ) {
  * @return bool @see wp_update_post()
  */
 function core_sitemaps_type_post_on_delete( $post_id ) {
-	$page_num     = core_sitemaps_page_calculate_bucket_num( $post_id );
-	$query_result = core_sitemaps_bucket_lookup( 'post', $page_num );
+	$bucket_num   = core_sitemaps_page_calculate_bucket_num( $post_id );
+	$query_result = core_sitemaps_bucket_lookup( 'post', $bucket_num );
 	if ( false === $query_result ) {
 		return false;
 	}
@@ -66,4 +66,15 @@ function core_sitemaps_type_post_on_delete( $post_id ) {
 	}
 
 	return false;
+}
+
+function core_sitemaps_type_post_render() {
+
+	$post_type = 'post';
+	global $wpdb;
+	$max_id     = $wpdb->get_var( $wpdb->prepare( 'SELECT MAX(ID) FROM $wpdb->posts WHERE post_type = %s', $post_type ) );
+	$page_count = core_sitemaps_page_calculate_num( $max_id );
+	for ( $p = 1; $p <= $page_count; $p++ ) {
+		core_sitemaps_page_render( $post_type, $p );
+	}
 }

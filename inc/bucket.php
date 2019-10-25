@@ -41,29 +41,44 @@ function core_sitemaps_page_calculate_bucket_num( $post_id ) {
  * Get the Sitemap Page for a pagination number.
  *
  * @param string $post_type Registered post-type.
- * @param int    $bucket_num Sitemap Page pagination number.
+ * @param int    $start_bucket Sitemap Page pagination number.
+ *
+ * @param int    $max_buckets Number of buckets to return.
  *
  * @return bool|int[]|WP_Post[] Zero or more Post objects of the type CORE_SITEMAPS_CPT_PAGE.
  */
-function core_sitemaps_bucket_lookup( $post_type, $bucket_num ) {
+function core_sitemaps_bucket_lookup( $post_type, $start_bucket, $max_buckets = 1 ) {
 	$page_query            = new WP_Query();
 	$registered_post_types = core_sitemaps_registered_post_types();
 	if ( false === isset( $registered_post_types[ $post_type ] ) ) {
 		return false;
 	}
+	$bucket_meta = array(
+		array(
+			'key'   => 'post_type',
+			'value' => $post_type,
+		),
+	);
+	if ( 1 === $max_buckets ) {
+		// One bucket.
+		$bucket_meta[] = array(
+			'key'   => 'bucket_num',
+			'value' => $start_bucket,
+		);
+	} else {
+		// Range query.
+		$bucket_meta[] = array(
+			'key'     => 'bucket_num',
+			'value'   => array( $start_bucket, $start_bucket + $max_buckets - 1 ),
+			'type'    => 'numeric',
+			'compare' => 'BETWEEN',
+		);
+	}
+
 	$query_result = $page_query->query(
 		array(
 			'post_type'  => CORE_SITEMAPS_CPT_BUCKET,
-			'meta_query' => array(
-				array(
-					'key'   => 'bucket_num',
-					'value' => $bucket_num,
-				),
-				array(
-					'key'   => 'post_type',
-					'value' => $post_type,
-				),
-			),
+			'meta_query' => $bucket_meta,
 		)
 	);
 
@@ -97,17 +112,24 @@ function core_sitemaps_bucket_insert( $post, $bucket_num ) {
 }
 
 /**
- * Update a sitemap page with post info.
+ * Update a sitemap bucket with post info.
  *
  * @param WP_Post $post Post object.
- * @param WP_Post $page Sitemap Page object.
+ * @param WP_Post $bucket Sitemap Page object.
  *
  * @return int|WP_Error @see wp_update_post()
  */
-function core_sitemaps_bucket_update( $post, $page ) {
-	$items              = json_decode( $page->post_content, true );
-	$items[ $post->ID ] = core_sitemaps_url_content( $post );
-	$page->post_content = wp_json_encode( $items );
+function core_sitemaps_bucket_update( $post, $bucket ) {
+	$items                = json_decode( $bucket->post_content, true );
+	$items[ $post->ID ]   = core_sitemaps_url_content( $post );
+	$bucket->post_content = wp_json_encode( $items );
 
-	return wp_update_post( $page );
+	return wp_update_post( $bucket );
+}
+
+function core_sitemaps_bucket_render( $bucket ) {
+	$items = json_decode( $bucket->post_content, true );
+	foreach ( $items as $post_id => $url_data ) {
+		core_sitemaps_url_render( $url_data );
+	}
 }

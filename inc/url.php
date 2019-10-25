@@ -42,3 +42,19 @@ function core_sitemaps_url_changefreq( $post ) {
 	// Fixme: placeholder
 	return 'monthly';
 }
+
+/**
+ * @param array $url_data URL data.
+ */
+function core_sitemaps_url_render( $url_data ) {
+	printf( '<url>
+<loc>%1$s</loc>
+<lastmod>%2$s</lastmod>
+<changefreq>%3$s</changefreq>
+<priority>%4$s</priority>
+</url>',
+		esc_html( $url_data['loc'] ),
+		esc_html( $url_data['lastmod'] ),
+		esc_html( $url_data['frequency'] ),
+		esc_html( $url_data['priority'] ) );
+}
