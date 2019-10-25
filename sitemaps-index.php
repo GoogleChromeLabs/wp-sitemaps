@@ -75,6 +75,4 @@ class WP_Sitemaps_Index {
 			return $output;
 		}
 	}
-
-
 }
