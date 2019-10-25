@@ -29,7 +29,6 @@ class Core_Sitemaps_Index {
 	 * @todo Additional rewrites will probably need adding to this.
 	 */
 	public function url_rewrites() {
-
 		add_rewrite_tag('%sitemap%','sitemap');
 		add_rewrite_rule( '^sitemap\.xml$', 'index.php?sitemap=sitemap', 'top' );
 	}
