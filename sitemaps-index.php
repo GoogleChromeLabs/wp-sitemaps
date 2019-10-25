@@ -1,12 +1,12 @@
 <?php
 /**
- * Class WP_Sitemaps_Index.
+ * Class Core_Sitemaps_Index.
  * Builds the sitemap index page that lists the links to all of the sitemaps.
  *
  * @todo This will probably be split out so that rewrites are in a class, building the xml output is a class,
  * rendering sitemaps content is a class etc.
  */
-class WP_Sitemaps_Index {
+class Core_Sitemaps_Index {
 
 	/**
 	 * Content of the sitemap to output.
@@ -42,7 +42,6 @@ class WP_Sitemaps_Index {
 	 * @return bool|string $redirect
 	 */
 	public function redirect_canonical( $redirect ) {
-
 		if ( get_query_var( 'sitemap' ) ) {
 			return false;
 		}
@@ -59,11 +58,9 @@ class WP_Sitemaps_Index {
 	 * @todo Split this into seperate functions to apply headers, <xml> tag and <sitemapindex> tag if this is an index?
 	 */
 	public function output_sitemap( $sitemap_content ) {
-
 		$sitemap_index = get_query_var( 'sitemap' );
 
 		if ( ! empty( $sitemap_index ) ) {
-
 			header( 'Content-type: text/xml; charset=' );
 
 			$output = '<?xml version="1.0" encoding="UTF-8"?>';

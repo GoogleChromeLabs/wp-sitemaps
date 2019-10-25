@@ -21,4 +21,4 @@
 
 require_once dirname( __FILE__ ) . '/sitemaps-index.php';
 
-new WP_Sitemaps_Index();
+new Core_Sitemaps_Index();
