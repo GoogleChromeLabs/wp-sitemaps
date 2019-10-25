@@ -1,5 +1,5 @@
 {
-  "name": "humanmade/core-sitemaps",
+  "name": "GoogleChromeLabs/wp-sitemaps",
   "description": "Core Sitemaps project",
   "type": "wordpress-plugin",
   "license": "GPL-2.0-or-later",

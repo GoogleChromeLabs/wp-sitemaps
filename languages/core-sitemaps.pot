@@ -29,7 +29,7 @@ msgid "Core Sitemaps"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
-msgid "https://github.com/humanmade/core-sitemaps"
+msgid "https://github.com/GoogleChromeLabs/wp-sitemaps"
 msgstr ""
 
 #. Description of the plugin/theme
@@ -41,5 +41,5 @@ msgid "Core Sitemaps Plugin Contributors"
 msgstr ""
 
 #. Author URI of the plugin/theme
-msgid "https://github.com/humanmade/core-sitemaps/graphs/contributors"
+msgid "https://github.com/GoogleChromeLabs/wp-sitemaps/graphs/contributors"
 msgstr ""

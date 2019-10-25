@@ -1,6 +1,11 @@
 <?php
 /**
  * WordPress Behat tests config file.
+ *
+ * @package Core_Sitemaps
+ * @copyright 2019 The Core Sitemaps Contributors
+ * @license   GNU General Public License, version 2
+ * @link      https://github.com/GoogleChromeLabs/wp-sitemaps
  */
 
 define( 'DB_NAME',     getenv( 'WP_TESTS_DB_NAME' ) ?: 'wordpress_app' );

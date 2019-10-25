@@ -3,6 +3,9 @@
  * Class SampleTest
  *
  * @package Core_Sitemaps
+ * @copyright 2019 The Core Sitemaps Contributors
+ * @license   GNU General Public License, version 2
+ * @link      https://github.com/GoogleChromeLabs/wp-sitemaps
  */
 
 namespace Core_Sitemaps\Tests\PHPUnit;
