@@ -64,7 +64,7 @@ function core_sitemaps_type_post_on_delete( $post_id ) {
 
 	/** @noinspection LoopWhichDoesNotLoopInspection */
 	foreach ( $query_result as $page ) {
-		$items = json_decode( $page->post_content );
+		$items = json_decode( $page->post_content, true );
 		if ( isset( $items[ $post_id ] ) ) {
 			unset( $items[ $post_id ] );
 		}
