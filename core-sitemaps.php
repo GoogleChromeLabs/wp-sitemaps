@@ -19,6 +19,6 @@
 
 // Your code starts here.
 
-require_once dirname( __FILE__ ) . '/sitemaps-index.php';
+require_once __DIR__ . '/sitemaps-index.php';
 
 new Core_Sitemaps_Index();
