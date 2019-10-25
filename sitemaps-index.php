@@ -32,7 +32,7 @@ class Core_Sitemaps_Index {
 		global $wp;
 		$wp->add_query_var( 'sitemap' );
 
-		add_rewrite_rule( 'sitemap_index\.xml$', 'index.php?sitemap=sitemap', 'top' );
+		add_rewrite_rule( '^sitemap\.xml$', 'index.php?sitemap=sitemap', 'top' );
 	}
 
 	/**
