@@ -59,7 +59,7 @@ class Core_Sitemaps_Index {
 	 *
 	 * @todo Split this into seperate functions to apply headers, <xml> tag and <sitemapindex> tag if this is an index?
 	 */
-	public function output_sitemap( $sitemap_content ) {
+	public function output_sitemap( $template ) {
 		$sitemap_index = get_query_var( 'sitemap' );
 
 		if ( ! empty( $sitemap_index ) ) {
@@ -68,10 +68,10 @@ class Core_Sitemaps_Index {
 			$output = '<?xml version="1.0" encoding="UTF-8" ?>';
 			$output .= '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
-			$output .= $sitemap_content;
 			$output .= '</sitemapindex>';
 
 			return $output;
 		}
+		return $template;
 	}
 }
