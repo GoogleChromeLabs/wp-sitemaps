@@ -54,9 +54,10 @@ class Core_Sitemaps_Index {
 	/**
 	 * Produce XML to output.
 	 *
-	 * @param string  $sitemap_content Sitemap Links XML.
+	 * @param string  $template The template to return. Either custom XML or default.
 	 * @return string
 	 *
+	 * @todo Review later how $sitemap_content gets pulled in here to display the list of links.
 	 * @todo Split this into seperate functions to apply headers, <xml> tag and <sitemapindex> tag if this is an index?
 	 */
 	public function output_sitemap( $template ) {
