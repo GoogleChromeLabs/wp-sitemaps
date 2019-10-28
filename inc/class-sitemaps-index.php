@@ -16,12 +16,16 @@ class Core_Sitemaps_Index {
 	protected $sitemap_content = '';
 
 	/**
-	 * Class constructor.
+	 *
+	 * A helper function to initiate actions, hooks and other features needed.
+	 *
+	 * @uses add_action()
+	 * @uses add_filter()
 	 */
-	public function __construct() {
+	public function bootstrap() {
 		add_action( 'init', array( $this, 'url_rewrites' ), 99 );
 		add_filter( 'redirect_canonical', array( $this, 'redirect_canonical' ) );
-		add_action( 'template_include', array( $this, 'output_sitemap' ) );
+		add_filter( 'template_include', array( $this, 'output_sitemap' ) );
 	}
 
 	/**
@@ -29,8 +33,8 @@ class Core_Sitemaps_Index {
 	 * @todo Additional rewrites will probably need adding to this.
 	 */
 	public function url_rewrites() {
-		add_rewrite_tag('%sitemap%','sitemap');
-		add_rewrite_rule( '^sitemap\.xml$', 'index.php?sitemap=sitemap', 'top' );
+		add_rewrite_tag( '%sitemap%','sitemap' );
+		add_rewrite_rule( 'sitemap\.xml$', 'index.php?sitemap=sitemap', 'top' );
 	}
 
 	/**
@@ -61,7 +65,7 @@ class Core_Sitemaps_Index {
 		if ( ! empty( $sitemap_index ) ) {
 			header( 'Content-type: application/xml; charset=UTF-8' );
 
-			$output = '<?xml version="1.0" encoding="UTF-8"?>';
+			$output = '<?xml version="1.0" encoding="UTF-8" ?>';
 			$output .= '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
 			$output .= $sitemap_content;
