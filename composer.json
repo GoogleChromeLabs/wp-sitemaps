@@ -38,7 +38,7 @@
       "vagrant ssh -c \"cd /vagrant/content/plugins/core-sitemaps && WP_TESTS_DB_PASS=password composer run test:phpunit\""
     ],
     "test:phpcs": [
-      "vendor/bin/phpcs -nps --colors --report-code --report-summary --report-width=80 ."
+      "phpcs"
     ],
     "test:phpunit": [
       "vendor/bin/phpunit --colors=always"
