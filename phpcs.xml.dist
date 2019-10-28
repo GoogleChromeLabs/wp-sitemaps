@@ -8,9 +8,7 @@
 	<file>.</file>
 	<exclude-pattern>/vendor/</exclude-pattern>
 	<exclude-pattern>/tests/app/</exclude-pattern>
-	<exclude-pattern>/tests/wp-tests-config.php</exclude-pattern>
-	<exclude-pattern>/tests/wp-tests-config.php</exclude-pattern>
-	<exclude-pattern>/tests/.php</exclude-pattern>
+	<exclude-pattern>/tests/*config.php</exclude-pattern>
 	<exclude-pattern>/node_modules/</exclude-pattern>
 
 	<!-- How to scan -->
