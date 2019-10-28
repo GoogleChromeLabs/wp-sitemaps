@@ -1,5 +1,5 @@
 {
-  "name": "GoogleChromeLabs/wp-sitemaps",
+  "name": "googlechromelabs/wp-sitemaps",
   "description": "Core Sitemaps project",
   "type": "wordpress-plugin",
   "license": "GPL-2.0-or-later",
@@ -61,7 +61,7 @@
   "require-dev": {
     "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
     "phpcompatibility/phpcompatibility-wp": "^2.1",
-    "phpunit/phpunit": "<8.0",
+    "phpunit/phpunit": "^5.0 || ^6.0 || ^7.0",
     "roave/security-advisories": "dev-master",
     "roots/wordpress": "5.2.2",
     "wp-cli/wp-cli": "2.2.0",
