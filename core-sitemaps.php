@@ -21,5 +21,5 @@
 
 require_once __DIR__ . '/inc/class-sitemaps-index.php';
 
-$sitemap_index = new Core_Sitemaps_Index();
-$sitemap_index->bootstrap();
+$core_sitemaps_index = new Core_Sitemaps_Index();
+$core_sitemaps_index->bootstrap();
