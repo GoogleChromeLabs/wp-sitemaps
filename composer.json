@@ -70,10 +70,5 @@
       "library"
     ],
     "wordpress-install-dir": "tests/app/www"
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Core_Sitemaps\\Tests\\Behat\\": "features/bootstrap/"
-    }
   }
 }
