@@ -61,6 +61,19 @@ class Core_Sitemaps_Registry {
 	}
 
 	/**
+	 * Remove sitemap by name.
+	 *
+	 * @param string $name Sitemap name.
+	 *
+	 * @return array Remaining sitemaps.
+	 */
+	public function remove_sitemap( $name ) {
+		unset( $this->sitemaps[ $name ] );
+
+		return $this->sitemaps;
+	}
+
+	/**
 	 * Setup rewrite rules for all registered sitemaps.
 	 *
 	 * @return void
