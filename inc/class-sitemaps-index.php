@@ -16,19 +16,6 @@ class Core_Sitemaps_Index {
 	protected $sitemap_content = '';
 
 	/**
-	 *
-	 * A helper function to initiate actions, hooks and other features needed.
-	 *
-	 * @uses add_action()
-	 * @uses add_filter()
-	 */
-	public function bootstrap() {
-		add_action( 'init', array( $this, 'url_rewrites' ), 99 );
-		add_filter( 'redirect_canonical', array( $this, 'redirect_canonical' ) );
-		add_filter( 'template_include', array( $this, 'output_sitemap' ) );
-	}
-
-	/**
 	 * Sets up rewrite rule for sitemap_index.
 	 * @todo Additional rewrites will probably need adding to this.
 	 */
