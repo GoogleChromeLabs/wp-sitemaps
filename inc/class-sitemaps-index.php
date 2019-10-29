@@ -23,7 +23,6 @@ class Core_Sitemaps_Index {
 	 * Sets up rewrite rule for sitemap_index.
 	 */
 	public function url_rewrites() {
-		add_rewrite_tag( '%sitemap%','sitemap_index' );
 		$registry = Core_Sitemaps_Registry::instance();
 		$registry->add_sitemap( 'sitemap_index', 'sitemap\.xml$' );
 	}

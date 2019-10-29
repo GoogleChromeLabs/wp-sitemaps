@@ -82,7 +82,8 @@ class Core_Sitemaps_Registry {
 		do_action( 'core_sitemaps_setup_sitemaps' );
 
 		foreach ( $this->sitemaps as $name => $sitemap ) {
-			add_rewrite_rule( $sitemap->route, 'index.php?sitemap=' . $name, 'top' );
+			add_rewrite_tag( '%sitemap%', $name );
+			add_rewrite_rule( $sitemap['route'], 'index.php?sitemap=' . $name, 'top' );
 		}
 	}
 }
