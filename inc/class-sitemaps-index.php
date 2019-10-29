@@ -17,6 +17,14 @@ class Core_Sitemaps_Index {
 		add_action( 'init', array( $this, 'url_rewrites' ), 99 );
 		add_filter( 'redirect_canonical', array( $this, 'redirect_canonical' ) );
 		add_action( 'template_redirect', array( $this, 'output_sitemap' ) );
+
+		$core_sitemaps_posts = new Core_Sitemaps_Posts();
+		add_action( 'init', array( $core_sitemaps_posts, 'url_rewrites' ), 99 );
+		add_filter( 'template_include', array( $core_sitemaps_posts, 'template' ) );
+
+		// Setup all registered sitemap data providers, after all others.
+		$registry = Core_Sitemaps_Registry::instance();
+		add_action( 'init', array( $registry, 'setup_sitemaps' ), 100 );
 	}
 
 	/**
