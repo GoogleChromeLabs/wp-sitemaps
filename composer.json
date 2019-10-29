@@ -1,5 +1,5 @@
 {
-  "name": "GoogleChromeLabs/wp-sitemaps",
+  "name": "googlechromelabs/wp-sitemaps",
   "description": "Core Sitemaps project",
   "type": "wordpress-plugin",
   "license": "GPL-2.0-or-later",
@@ -8,7 +8,7 @@
     "sort-packages": true,
     "autoloader-suffix": "csm",
     "platform": {
-      "php": "7.3"
+      "php": "5.6"
     },
     "process-timeout": 600,
     "vendor-dir": "vendor"
@@ -38,10 +38,10 @@
       "vagrant ssh -c \"cd /vagrant/content/plugins/core-sitemaps && WP_TESTS_DB_PASS=password composer run test:phpunit\""
     ],
     "test:phpcs": [
-      "vendor/bin/phpcs -nps --colors --report-code --report-summary --report-width=80 ."
+      "phpcs"
     ],
     "test:phpunit": [
-      "vendor/bin/phpunit --verbose --colors=always"
+      "vendor/bin/phpunit --colors=always"
     ]
   },
   "scripts-descriptions": {
@@ -56,8 +56,9 @@
     "oomphinc/composer-installers-extender": "^1.1"
   },
   "require-dev": {
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
     "phpcompatibility/phpcompatibility-wp": "^2.1",
-    "phpunit/phpunit": "<6.0",
+    "phpunit/phpunit": "^5.0 || ^6.0 || ^7.0",
     "roave/security-advisories": "dev-master",
     "roots/wordpress": "5.2.2",
     "wp-cli/wp-cli": "2.2.0",
@@ -70,10 +71,5 @@
       "library"
     ],
     "wordpress-install-dir": "tests/app/www"
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Core_Sitemaps\\Tests\\Behat\\": "features/bootstrap/"
-    }
   }
 }
