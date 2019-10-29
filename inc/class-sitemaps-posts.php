@@ -16,7 +16,6 @@ class Core_Sitemaps_Posts {
 	 * Sets up rewrite rule for sitemap_index.
 	 */
 	public function url_rewrites() {
-		add_rewrite_tag( '%sitemap%', 'posts' );
 		$registry = Core_Sitemaps_Registry::instance();
 		$registry->add_sitemap( 'posts', '^sitemap-posts\.xml$' );
 	}
