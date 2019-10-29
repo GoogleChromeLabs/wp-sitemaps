@@ -53,14 +53,6 @@ class Core_Sitemaps_Registry {
 	}
 
 	/**
-	 * List of all registered sitemaps.
-	 * @return array List of sitemaps.
-	 */
-	public function get_sitemaps() {
-		return $this->sitemaps;
-	}
-
-	/**
 	 * Remove sitemap by name.
 	 *
 	 * @param string $name Sitemap name.
@@ -70,6 +62,14 @@ class Core_Sitemaps_Registry {
 	public function remove_sitemap( $name ) {
 		unset( $this->sitemaps[ $name ] );
 
+		return $this->sitemaps;
+	}
+
+	/**
+	 * List of all registered sitemaps.
+	 * @return array List of sitemaps.
+	 */
+	public function get_sitemaps() {
 		return $this->sitemaps;
 	}
 
