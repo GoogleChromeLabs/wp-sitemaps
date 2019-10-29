@@ -44,7 +44,6 @@ class Core_Sitemaps_Index {
 	/**
 	 * Produce XML to output.
 	 *
-	 * @param string  $sitemap_content Sitemap Links XML.
 	 * @return string
 	 *
 	 */
