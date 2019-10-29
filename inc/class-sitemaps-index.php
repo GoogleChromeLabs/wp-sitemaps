@@ -3,8 +3,6 @@
  * Class Core_Sitemaps_Index.
  * Builds the sitemap index page that lists the links to all of the sitemaps.
  *
- * @todo This will probably be split out so that rewrites are in a class, building the xml output is a class,
- * rendering sitemaps content is a class etc.
  */
 class Core_Sitemaps_Index {
 
