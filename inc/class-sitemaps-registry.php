@@ -14,10 +14,31 @@ class Core_Sitemaps_Registry {
 	 */
 	private $sitemaps = [];
 
-	public function __construct() {
-		// Nothing happening
+	/**
+	 * Returns the *Singleton* instance of this class.
+	 *
+	 * @staticvar Singleton $instance The *Singleton* instances of this class.
+	 *
+	 * @return self
+	 */
+	public static function instance() {
+		static $instance = null;
+		if ( null === $instance ) {
+			$instance = new self();
+		}
+
+		return $instance;
 	}
 
+	/**
+	 * Add a sitemap with route to the registry.
+	 *
+	 * @param string $name Name of the sitemap.
+	 * @param string $route Regex route of the sitemap.
+	 * @param array  $args List of other arguments.
+	 *
+	 * @return bool True if the sitemap was added, false if it wasn't as it's name was already registered.
+	 */
 	public function add_sitemap( $name, $route, $args = [] ) {
 		if ( isset( $this->sitemaps[ $name ] ) ) {
 			return false;
@@ -27,14 +48,14 @@ class Core_Sitemaps_Registry {
 			'route' => $route,
 			'args'  => $args,
 		];
+
+		return true;
 	}
 
-	public function remove_sitemap( $name ) {
-		unset( $this->sitemaps[ $name ] );
-
-		return $this->sitemaps;
-	}
-
+	/**
+	 * List of all registered sitemaps.
+	 * @return array List of sitemaps.
+	 */
 	public function get_sitemaps() {
 		return $this->sitemaps;
 	}
@@ -47,8 +68,8 @@ class Core_Sitemaps_Registry {
 	public function setup_sitemaps() {
 		do_action( 'core_sitemaps_setup_sitemaps' );
 
-		foreach ( $this->sitemaps as $sitemap ) {
-			add_rewrite_rule( $sitemap->route, 'index.php?sitemap=' . $sitemap->name, 'top' );
+		foreach ( $this->sitemaps as $name => $sitemap ) {
+			add_rewrite_rule( $sitemap->route, 'index.php?sitemap=' . $name, 'top' );
 		}
 	}
 }
