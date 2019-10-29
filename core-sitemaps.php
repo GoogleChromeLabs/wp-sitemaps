@@ -18,3 +18,8 @@
  */
 
 // Your code starts here.
+
+require_once __DIR__ . '/inc/class-sitemaps-index.php';
+
+$core_sitemaps_index = new Core_Sitemaps_Index();
+$core_sitemaps_index->bootstrap();
