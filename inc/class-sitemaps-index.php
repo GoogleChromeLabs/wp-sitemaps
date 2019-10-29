@@ -44,7 +44,7 @@ class Core_Sitemaps_Index {
 	/**
 	 * Produce XML to output.
 	 *
-	 * @return string
+	 * @return void
 	 *
 	 */
 	public function output_sitemap() {
