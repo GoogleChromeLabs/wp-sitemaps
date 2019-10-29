@@ -7,13 +7,6 @@
 class Core_Sitemaps_Index {
 
 	/**
-	 * Content of the sitemap to output.
-	 *
-	 * @var string
-	 */
-	protected $sitemap_content = '';
-
-	/**
 	 *
 	 * A helper function to initiate actions, hooks and other features needed.
 	 *
@@ -67,6 +60,5 @@ class Core_Sitemaps_Index {
 			echo '</sitemapindex>';
 			exit;
 		}
-
 	}
 }
