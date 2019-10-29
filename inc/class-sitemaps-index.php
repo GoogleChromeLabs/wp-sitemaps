@@ -58,7 +58,9 @@ class Core_Sitemaps_Index {
 
 			$output .= '</sitemapindex>';
 
-			return $output;
+			echo $output;
+
+			return '';
 		}
 		return $template;
 	}
