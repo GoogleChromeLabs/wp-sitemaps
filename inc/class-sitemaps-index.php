@@ -25,7 +25,7 @@ class Core_Sitemaps_Index {
 	public function bootstrap() {
 		add_action( 'init', array( $this, 'url_rewrites' ), 99 );
 		add_filter( 'redirect_canonical', array( $this, 'redirect_canonical' ) );
-		add_filter( 'template_include', array( $this, 'output_sitemap' ) );
+		add_action( 'template_redirect', array( $this, 'output_sitemap' ) );
 	}
 
 	/**
@@ -33,7 +33,7 @@ class Core_Sitemaps_Index {
 	 */
 	public function url_rewrites() {
 		add_rewrite_tag( '%sitemap%','sitemap_index' );
-		add_rewrite_rule( 'sitemap_index\.xml$', 'index.php?sitemap=sitemap_index', 'top' );
+		add_rewrite_rule( 'sitemap\.xml$', 'index.php?sitemap=sitemap_index', 'top' );
 	}
 
 	/**
@@ -57,19 +57,18 @@ class Core_Sitemaps_Index {
 	 * @return string
 	 *
 	 */
-	public function output_sitemap( $template ) {
+	public function output_sitemap() {
 		$sitemap_index = get_query_var( 'sitemap' );
 
-		if ( ! empty( $sitemap_index ) ) {
+		if ( 'sitemap_index' === $sitemap_index ) {
 			header( 'Content-type: application/xml; charset=UTF-8' );
 
-			$output = '<?xml version="1.0" encoding="UTF-8" ?>';
-			$output .= '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+			echo '<?xml version="1.0" encoding="UTF-8" ?>';
+			echo '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
-			$output .= '</sitemapindex>';
-
-			return $output;
+			echo '</sitemapindex>';
+			exit;
 		}
-		return $template;
+
 	}
 }
