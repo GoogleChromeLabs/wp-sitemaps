@@ -34,7 +34,7 @@ class Core_Sitemaps_Index {
 	 */
 	public function url_rewrites() {
 		add_rewrite_tag( '%sitemap%','sitemap' );
-		add_rewrite_rule( 'sitemap\.xml$', 'index.php?sitemap=sitemap', 'top' );
+		add_rewrite_rule( 'sitemap_index\.xml$', 'index.php?sitemap=sitemap', 'top' );
 	}
 
 	/**
@@ -57,22 +57,17 @@ class Core_Sitemaps_Index {
 	 * @param string  $template The template to return. Either custom XML or default.
 	 * @return string
 	 *
-	 * @todo Review later how $sitemap_content gets pulled in here to display the list of links.
+	 * @todo Review how the sitemap files are built and placed in the root of the site.
 	 * @todo Split this into seperate functions to apply headers, <xml> tag and <sitemapindex> tag if this is an index?
 	 */
 	public function output_sitemap( $template ) {
 		$sitemap_index = get_query_var( 'sitemap' );
 
 		if ( ! empty( $sitemap_index ) ) {
-			header( 'Content-type: application/xml; charset=UTF-8' );
-
-			$output = '<?xml version="1.0" encoding="UTF-8" ?>';
-			$output .= '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
-
-			$output .= '</sitemapindex>';
-
-			return $output;
+			wp_redirect( home_url( 'wp-content/plugins/core-sitemaps/inc/sitemap_index.xml' ), 301, 'Yoast SEO' );
+			exit;
 		}
+
 		return $template;
 	}
 }
