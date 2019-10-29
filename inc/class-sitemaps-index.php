@@ -17,11 +17,11 @@ class Core_Sitemaps_Index {
 
 	/**
 	 * Sets up rewrite rule for sitemap_index.
-	 * @todo Additional rewrites will probably need adding to this.
 	 */
 	public function url_rewrites() {
-		add_rewrite_tag( '%sitemap%','sitemap' );
-		add_rewrite_rule( 'sitemap\.xml$', 'index.php?sitemap=sitemap', 'top' );
+		add_rewrite_tag( '%sitemap%', 'sitemap' );
+		$registry = Core_Sitemaps_Registry::instance();
+		$registry->add_sitemap( 'sitemap', '^sitemap\.xml$' );
 	}
 
 	/**

@@ -18,6 +18,7 @@
  */
 
 require_once __DIR__ . '/inc/class-sitemaps-index.php';
+require_once __DIR__ . '/inc/class-sitemaps-registry.php';
 
 /**
  *
