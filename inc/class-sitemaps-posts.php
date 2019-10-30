@@ -39,7 +39,7 @@ class Core_Sitemaps_Posts {
 
 		header( 'Content-type: application/xml; charset=UTF-8' );
 		echo '<?xml version="1.0" encoding="UTF-8" ?>';
-		echo '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+		echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 		foreach ( $this->content as $post ) {
 			$url_data = array(
 				'loc'        => get_permalink( $post ),
@@ -61,7 +61,7 @@ class Core_Sitemaps_Posts {
 				esc_html( $url_data['priority'] )
 			);
 		}
-		echo '</sitemapindex>';
+		echo '</urlset>';
 		exit;
 	}
 
