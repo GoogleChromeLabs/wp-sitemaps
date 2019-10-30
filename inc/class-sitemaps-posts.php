@@ -28,7 +28,7 @@ class Core_Sitemaps_Posts {
 	 */
 	public function bootstrap() {
 		add_action( 'core_sitemaps_setup_sitemaps', array( $this, 'register_sitemap' ), 99 );
-		add_filter( 'template_include', array( $this, 'template' ) );
+		add_filter( 'template_include', array( $this, 'render_sitemap' ) );
 	}
 
 	/**
@@ -45,7 +45,7 @@ class Core_Sitemaps_Posts {
 	 *
 	 * @return string
 	 */
-	public function template( $template ) {
+	public function render_sitemap( $template ) {
 		$sitemap = get_query_var( 'sitemap' );
 		$paged   = get_query_var( 'paged' );
 
@@ -86,18 +86,19 @@ class Core_Sitemaps_Posts {
 	/**
 	 * Get content for a page.
 	 *
-	 * @param int $page_num Page of results.
+	 * @param string $post_type Name of the post_type.
+	 * @param int    $page_num Page of results.
 	 *
 	 * @return int[]|WP_Post[] Query result.
 	 */
-	public function get_content_per_page( $page_num = 1 ) {
+	public function get_content_per_page( $post_type, $page_num = 1 ) {
 		$query = new WP_Query();
 
 		return $query->query(
 			array(
 				'orderby'        => 'ID',
 				'order'          => 'ASC',
-				'post_type'      => 'post',
+				'post_type'      => $post_type,
 				'posts_per_page' => CORE_SITEMAPS_POSTS_PER_PAGE,
 				'paged'          => $page_num,
 			)

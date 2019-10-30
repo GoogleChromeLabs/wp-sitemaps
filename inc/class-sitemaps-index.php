@@ -27,7 +27,7 @@ class Core_Sitemaps_Index {
 	public function bootstrap() {
 		add_action( 'core_sitemaps_setup_sitemaps', array( $this, 'register_sitemap' ), 99 );
 		add_filter( 'redirect_canonical', array( $this, 'redirect_canonical' ) );
-		add_action( 'template_redirect', array( $this, 'output_sitemap' ) );
+		add_action( 'template_redirect', array( $this, 'render_sitemap' ) );
 
 		// FIXME: Move this into a Core_Sitemaps class registration system.
 		$core_sitemaps_posts = new Core_Sitemaps_Posts();
@@ -61,7 +61,7 @@ class Core_Sitemaps_Index {
 	 * @return void
 	 *
 	 */
-	public function output_sitemap() {
+	public function render_sitemap() {
 		$sitemap_index = get_query_var( 'sitemap' );
 
 		if ( 'sitemap_index' === $sitemap_index ) {
