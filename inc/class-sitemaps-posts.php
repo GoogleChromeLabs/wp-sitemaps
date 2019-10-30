@@ -67,6 +67,7 @@ class Core_Sitemaps_Posts {
 				);
 			}
 			echo '</urlset>';
+			exit;
 		}
 	}
 
