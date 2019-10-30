@@ -58,8 +58,6 @@ class Core_Sitemaps_Index {
 	/**
 	 * Produce XML to output.
 	 *
-	 * @return void
-	 *
 	 */
 	public function render_sitemap() {
 		$sitemap_index = get_query_var( 'sitemap' );

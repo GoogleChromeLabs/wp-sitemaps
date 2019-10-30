@@ -22,7 +22,7 @@ class Core_Sitemaps_Posts {
 	 */
 	public function bootstrap() {
 		add_action( 'core_sitemaps_setup_sitemaps', array( $this, 'register_sitemap' ), 99 );
-		add_filter( 'template_include', array( $this, 'render_sitemap' ) );
+		add_filter( 'template_redirect', array( $this, 'render_sitemap' ) );
 	}
 
 	/**
@@ -34,48 +34,40 @@ class Core_Sitemaps_Posts {
 
 	/**
 	 * Produce XML to output.
-	 *
-	 * @param string $template The template to return. Either custom XML or default.
-	 *
-	 * @return string Name of the template (empty string if no template is required).
 	 */
-	public function render_sitemap( $template ) {
+	public function render_sitemap() {
 		$sitemap = get_query_var( 'sitemap' );
 		$paged   = get_query_var( 'paged' );
 
-		if ( 'posts' !== $sitemap ) {
-			return $template;
-		}
+		if ( 'posts' === $sitemap ) {
+			$content = $this->get_content_per_page( 'post', $paged );
 
-		$content = $this->get_content_per_page( 'post', $paged );
-
-		header( 'Content-type: application/xml; charset=UTF-8' );
-		echo '<?xml version="1.0" encoding="UTF-8" ?>';
-		echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
-		foreach ( $content as $post ) {
-			$url_data = array(
-				'loc'        => get_permalink( $post ),
-				// DATE_W3C does not contain a timezone offset, so UTC date must be used.
-				'lastmod'    => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
-				'priority'   => '0.5',
-				'changefreq' => 'monthly',
-			);
-			printf(
-				'<url>
+			header( 'Content-type: application/xml; charset=UTF-8' );
+			echo '<?xml version="1.0" encoding="UTF-8" ?>';
+			echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+			foreach ( $content as $post ) {
+				$url_data = array(
+					'loc'        => get_permalink( $post ),
+					// DATE_W3C does not contain a timezone offset, so UTC date must be used.
+					'lastmod'    => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
+					'priority'   => '0.5',
+					'changefreq' => 'monthly',
+				);
+				printf(
+					'<url>
 <loc>%1$s</loc>
 <lastmod>%2$s</lastmod>
 <changefreq>%3$s</changefreq>
 <priority>%4$s</priority>
 </url>',
-				esc_html( $url_data['loc'] ),
-				esc_html( $url_data['lastmod'] ),
-				esc_html( $url_data['changefreq'] ),
-				esc_html( $url_data['priority'] )
-			);
+					esc_html( $url_data['loc'] ),
+					esc_html( $url_data['lastmod'] ),
+					esc_html( $url_data['changefreq'] ),
+					esc_html( $url_data['priority'] )
+				);
+			}
+			echo '</urlset>';
 		}
-		echo '</urlset>';
-
-		return '';
 	}
 
 	/**
