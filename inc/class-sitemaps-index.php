@@ -72,9 +72,7 @@ class Core_Sitemaps_Index {
 	public function add_robots( $output, $public ) {
 		if ( $public ) {
 			$output .= 'Sitemap: ' . home_url( '/sitemap.xml' ) . "\n";
-
 		}
-
 		return $output;
 	}
 }
