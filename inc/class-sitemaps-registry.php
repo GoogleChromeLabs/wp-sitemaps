@@ -15,7 +15,16 @@ class Core_Sitemaps_Registry {
 	private $sitemaps = [];
 
 	/**
+	 * Core_Sitemaps_Registry constructor.
+	 *  Setup all registered sitemap data providers, after all are registered at priority 99.
+	 */
+	public function __construct() {
+		add_action( 'init', array( $this, 'setup_sitemaps' ), 100 );
+	}
+
+	/**
 	 * Returns the *Singleton* instance of this class.
+	 * FIXME: Instantiate a single class of this in a future Core_Sitemaps class.
 	 *
 	 * @staticvar Singleton $instance The *Singleton* instances of this class.
 	 *
@@ -67,6 +76,7 @@ class Core_Sitemaps_Registry {
 
 	/**
 	 * List of all registered sitemaps.
+	 *
 	 * @return array List of sitemaps.
 	 */
 	public function get_sitemaps() {

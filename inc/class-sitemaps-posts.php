@@ -11,13 +11,31 @@ class Core_Sitemaps_Posts {
 	 * @var array
 	 */
 	protected $content = [];
+	/**
+	 * @var Core_Sitemaps_Registry object
+	 */
+	public $registry;
+
+	/**
+	 * Core_Sitemaps_Index constructor.
+	 */
+	public function __construct() {
+		$this->registry = Core_Sitemaps_Registry::instance();
+	}
+
+	/**
+	 * Bootstrapping the filters.
+	 */
+	public function bootstrap() {
+		add_action( 'init', array( $this, 'url_rewrites' ), 99 );
+		add_filter( 'template_include', array( $this, 'template' ) );
+	}
 
 	/**
 	 * Sets up rewrite rule for sitemap_index.
 	 */
 	public function url_rewrites() {
-		$registry = Core_Sitemaps_Registry::instance();
-		$registry->add_sitemap( 'posts', '^sitemap-posts\.xml$' );
+		$this->registry->add_sitemap( 'posts', '^sitemap-posts\.xml$' );
 	}
 
 	/**
