@@ -15,6 +15,7 @@ class Core_Sitemaps_Index {
 	 */
 	public function bootstrap() {
 		add_action( 'init', array( $this, 'url_rewrites' ), 99 );
+		add_filter( 'robots_txt', array( $this, 'add_robots' ), 0, 2 );
 		add_filter( 'redirect_canonical', array( $this, 'redirect_canonical' ) );
 		add_action( 'template_redirect', array( $this, 'output_sitemap' ) );
 	}
@@ -59,5 +60,21 @@ class Core_Sitemaps_Index {
 			echo '</sitemapindex>';
 			exit;
 		}
+	}
+
+	/**
+	 * Adds the sitemap index to robots.txt.
+	 *
+	 * @param string $output robots.txt output.
+	 * @param bool   $public Whether the site is public or not.
+	 * @return string robots.txt output.
+	 */
+	public function add_robots( $output, $public ) {
+		if ( $public ) {
+			$output .= 'Sitemap: ' . home_url( '/sitemap.xml' ) . "\n";
+
+		}
+
+		return $output;
 	}
 }
