@@ -6,12 +6,6 @@
  */
 class Core_Sitemaps_Posts {
 	/**
-	 * Content of the sitemap to output.
-	 *
-	 * @var array
-	 */
-	protected $content = [];
-	/**
 	 * @var Core_Sitemaps_Registry object
 	 */
 	public $registry;
@@ -53,12 +47,12 @@ class Core_Sitemaps_Posts {
 			return $template;
 		}
 
-		$this->content = $this->get_content_per_page( $paged );
+		$content = $this->get_content_per_page( 'post', $paged );
 
 		header( 'Content-type: application/xml; charset=UTF-8' );
 		echo '<?xml version="1.0" encoding="UTF-8" ?>';
 		echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
-		foreach ( $this->content as $post ) {
+		foreach ( $content as $post ) {
 			$url_data = array(
 				'loc'        => get_permalink( $post ),
 				// DATE_W3C does not contain a timezone offset, so UTC date must be used.
