@@ -5,6 +5,17 @@
  *
  */
 class Core_Sitemaps_Index {
+	/**
+	 * @var Core_Sitemaps_Registry object
+	 */
+	public $registry;
+
+	/**
+	 * Core_Sitemaps_Index constructor.
+	 */
+	public function __construct() {
+		$this->registry = Core_Sitemaps_Registry::instance();
+	}
 
 	/**
 	 *
@@ -14,17 +25,20 @@ class Core_Sitemaps_Index {
 	 * @uses add_filter()
 	 */
 	public function bootstrap() {
-		add_action( 'init', array( $this, 'url_rewrites' ), 99 );
+		add_action( 'core_sitemaps_setup_sitemaps', array( $this, 'register_sitemap' ), 99 );
 		add_filter( 'redirect_canonical', array( $this, 'redirect_canonical' ) );
-		add_action( 'template_redirect', array( $this, 'output_sitemap' ) );
+		add_action( 'template_redirect', array( $this, 'render_sitemap' ) );
+
+		// FIXME: Move this into a Core_Sitemaps class registration system.
+		$core_sitemaps_posts = new Core_Sitemaps_Posts();
+		$core_sitemaps_posts->bootstrap();
 	}
 
 	/**
 	 * Sets up rewrite rule for sitemap_index.
 	 */
-	public function url_rewrites() {
-		add_rewrite_tag( '%sitemap%','sitemap_index' );
-		add_rewrite_rule( 'sitemap\.xml$', 'index.php?sitemap=sitemap_index', 'top' );
+	public function register_sitemap() {
+		$this->registry->add_sitemap( 'sitemap_index', 'sitemap\.xml$' );
 	}
 
 	/**
@@ -44,10 +58,8 @@ class Core_Sitemaps_Index {
 	/**
 	 * Produce XML to output.
 	 *
-	 * @return string
-	 *
 	 */
-	public function output_sitemap() {
+	public function render_sitemap() {
 		$sitemap_index = get_query_var( 'sitemap' );
 
 		if ( 'sitemap_index' === $sitemap_index ) {
