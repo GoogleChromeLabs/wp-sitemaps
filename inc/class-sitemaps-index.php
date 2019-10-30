@@ -56,8 +56,14 @@ class Core_Sitemaps_Index {
 	}
 
 	/**
+	 * Get all of the available sitemaps from the registry
+	 * and add to an array.
 	 *
+	 * @todo get_registered_sitemaps() and get_sitemap_urls() are looping through teh array and
+	 * nested array to get at the value for ['route']. There is probably a better way to do
+	 * this than two methods that are almost identical.
 	 *
+	 * @return array $sitemaps_list
 	 */
 	public function get_registered_sitemaps() {
 		$sitemaps_list = array();
@@ -71,8 +77,9 @@ class Core_Sitemaps_Index {
 	}
 
 	/**
+	 * Get all of the URLs for the sitemaps and add to an array.
 	 *
-	 *
+	 * @return array $sitemaps_urls
 	 */
 	public function get_sitemap_urls() {
 		$sitemap_urls = array();
@@ -86,8 +93,11 @@ class Core_Sitemaps_Index {
 	}
 
 	/**
+	 * Add the correct xml to any given url.
 	 *
+	 * @todo This will also need to be updated with the last modified information as well.
 	 *
+	 * @return string $markup
 	 */
 	public function get_index_url_markup( $url ) {
 		$markup = '<sitemap>' . "\n";
@@ -100,6 +110,9 @@ class Core_Sitemaps_Index {
 
 	/**
 	 * Produce XML to output.
+	 *
+	 * @todo At the moment this outputs the rewrite rule for each sitemap rather than the URL.
+	 * This will need changing.
 	 *
 	 */
 	public function render_sitemap() {
