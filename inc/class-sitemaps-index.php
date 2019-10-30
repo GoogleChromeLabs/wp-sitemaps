@@ -56,17 +56,65 @@ class Core_Sitemaps_Index {
 	}
 
 	/**
+	 *
+	 *
+	 */
+	public function get_registered_sitemaps() {
+		$sitemaps_list = array();
+		$sitemaps_all = $this->registry->get_sitemaps();
+
+		foreach ( $sitemaps_all as $sitemaps ) {
+			array_push( $sitemaps_list, $sitemaps );
+		}
+
+		return $sitemaps_list;
+	}
+
+	/**
+	 *
+	 *
+	 */
+	public function get_sitemap_urls() {
+		$sitemap_urls = array();
+		$sitemaps_list = $this->get_registered_sitemaps();
+
+		foreach ( $sitemaps_list as $sitemap ) {
+			array_push( $sitemap_urls, $sitemap );
+		}
+
+		return $sitemap_urls;
+	}
+
+	/**
+	 *
+	 *
+	 */
+	public function get_index_url_markup( $url ) {
+		$markup = '<sitemap>' . "\n";
+		$markup .= '<loc>' . $url . '</loc>' . "\n";
+		$markup .= '<lastmod>2004-10-01T18:23:17+00:00</lastmod>' . "\n";
+		$markup .= '</sitemap>' . "\n";
+
+		return $markup;
+	}
+
+	/**
 	 * Produce XML to output.
 	 *
 	 */
 	public function render_sitemap() {
 		$sitemap_index = get_query_var( 'sitemap' );
+		$sitemap_urls = $this->get_sitemap_urls();
 
 		if ( 'sitemap_index' === $sitemap_index ) {
 			header( 'Content-type: application/xml; charset=UTF-8' );
 
 			echo '<?xml version="1.0" encoding="UTF-8" ?>';
 			echo '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+
+			foreach ( $sitemap_urls as $link ) {
+				echo $this->get_index_url_markup( $link['route'] );
+			}
 
 			echo '</sitemapindex>';
 			exit;
