@@ -25,7 +25,7 @@ class Core_Sitemaps_Index {
 	 * @uses add_filter()
 	 */
 	public function bootstrap() {
-		add_action( 'init', array( $this, 'url_rewrites' ), 99 );
+		add_action( 'core_sitemaps_setup_sitemaps', array( $this, 'register_sitemap' ), 99 );
 		add_filter( 'redirect_canonical', array( $this, 'redirect_canonical' ) );
 		add_action( 'template_redirect', array( $this, 'output_sitemap' ) );
 
@@ -37,7 +37,7 @@ class Core_Sitemaps_Index {
 	/**
 	 * Sets up rewrite rule for sitemap_index.
 	 */
-	public function url_rewrites() {
+	public function register_sitemap() {
 		$this->registry->add_sitemap( 'sitemap_index', 'sitemap\.xml$' );
 	}
 

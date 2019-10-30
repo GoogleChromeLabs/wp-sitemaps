@@ -27,14 +27,14 @@ class Core_Sitemaps_Posts {
 	 * Bootstrapping the filters.
 	 */
 	public function bootstrap() {
-		add_action( 'init', array( $this, 'url_rewrites' ), 99 );
+		add_action( 'core_sitemaps_setup_sitemaps', array( $this, 'register_sitemap' ), 99 );
 		add_filter( 'template_include', array( $this, 'template' ) );
 	}
 
 	/**
 	 * Sets up rewrite rule for sitemap_index.
 	 */
-	public function url_rewrites() {
+	public function register_sitemap() {
 		$this->registry->add_sitemap( 'posts', '^sitemap-posts\.xml$' );
 	}
 
