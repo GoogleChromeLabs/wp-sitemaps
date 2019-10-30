@@ -37,7 +37,7 @@ class Core_Sitemaps_Posts {
 	 *
 	 * @param string $template The template to return. Either custom XML or default.
 	 *
-	 * @return string
+	 * @return string Name of the template (empty string if no template is required).
 	 */
 	public function render_sitemap( $template ) {
 		$sitemap = get_query_var( 'sitemap' );
@@ -74,7 +74,8 @@ class Core_Sitemaps_Posts {
 			);
 		}
 		echo '</urlset>';
-		exit;
+
+		return '';
 	}
 
 	/**
