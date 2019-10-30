@@ -17,6 +17,8 @@
  * @package         Core_Sitemaps
  */
 
+const CORE_SITEMAPS_POSTS_PER_PAGE = 2000;
+
 require_once __DIR__ . '/inc/class-sitemaps-index.php';
 require_once __DIR__ . '/inc/class-sitemaps-posts.php';
 require_once __DIR__ . '/inc/class-sitemaps-registry.php';

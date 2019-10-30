@@ -80,7 +80,7 @@ class Core_Sitemaps_Posts {
 				'orderby'        => 'ID',
 				'order'          => 'ASC',
 				'post_type'      => 'post',
-				'posts_per_page' => 20 * 100,
+				'posts_per_page' => CORE_SITEMAPS_POSTS_PER_PAGE,
 				'paged'          => $page_num,
 			)
 		);
