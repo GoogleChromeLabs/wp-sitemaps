@@ -15,6 +15,7 @@ class Core_Sitemaps_Index {
 	 */
 	public function bootstrap() {
 		add_action( 'init', array( $this, 'url_rewrites' ), 99 );
+		add_filter( 'robots_txt', array( $this, 'add_robots' ), 0, 2 );
 		add_filter( 'redirect_canonical', array( $this, 'redirect_canonical' ) );
 		add_action( 'template_redirect', array( $this, 'output_sitemap' ) );
 	}
@@ -59,5 +60,36 @@ class Core_Sitemaps_Index {
 			echo '</sitemapindex>';
 			exit;
 		}
+	}
+
+	/**
+	 * Builds the URL for the sitemap index.
+	 *
+	 * @return string the sitemap index url.
+	 */
+	public function sitemap_index_url() {
+		global $wp_rewrite;
+
+		$url = home_url( '/sitemap.xml');
+
+		if ( ! $wp_rewrite->using_permalinks() ) {
+			$url = add_query_arg( 'sitemap', 'sitemap_index', home_url( '/' ) );
+		}
+
+		return $url;
+	}
+
+	/**
+	 * Adds the sitemap index to robots.txt.
+	 *
+	 * @param string $output robots.txt output.
+	 * @param bool   $public Whether the site is public or not.
+	 * @return string robots.txt output.
+	 */
+	public function add_robots( $output, $public ) {
+		if ( $public ) {
+			$output .= 'Sitemap: ' . esc_url( $this->sitemap_index_url() ) . "\n";
+		}
+		return $output;
 	}
 }
