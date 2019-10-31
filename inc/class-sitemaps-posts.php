@@ -22,7 +22,7 @@ class Core_Sitemaps_Posts {
 	 */
 	public function bootstrap() {
 		add_action( 'core_sitemaps_setup_sitemaps', array( $this, 'register_sitemap' ), 99 );
-		add_filter( 'template_redirect', array( $this, 'render_sitemap' ) );
+		add_action( 'template_redirect', array( $this, 'render_sitemap' ) );
 	}
 
 	/**
