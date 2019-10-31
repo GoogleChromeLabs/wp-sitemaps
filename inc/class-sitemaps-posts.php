@@ -12,6 +12,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	public function bootstrap() {
 		add_action( 'core_sitemaps_setup_sitemaps', array( $this, 'register_sitemap' ), 99 );
 		add_action( 'template_redirect', array( $this, 'render_sitemap' ) );
+		parent::bootstrap();
 	}
 
 	/**
