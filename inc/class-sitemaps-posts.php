@@ -4,18 +4,7 @@
  * Class Core_Sitemaps_Posts.
  * Builds the sitemap pages for Posts.
  */
-class Core_Sitemaps_Posts {
-	/**
-	 * @var Core_Sitemaps_Registry object
-	 */
-	public $registry;
-
-	/**
-	 * Core_Sitemaps_Index constructor.
-	 */
-	public function __construct() {
-		$this->registry = Core_Sitemaps_Registry::instance();
-	}
+class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 
 	/**
 	 * Bootstrapping the filters.
