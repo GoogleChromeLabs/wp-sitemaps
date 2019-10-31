@@ -63,6 +63,23 @@ class Core_Sitemaps_Index {
 	}
 
 	/**
+	 * Builds the URL for the sitemap index.
+	 *
+	 * @return string the sitemap index url.
+	 */
+	public function sitemap_index_url() {
+		global $wp_rewrite;
+
+		$url = home_url( '/sitemap.xml');
+
+		if ( ! $wp_rewrite->using_permalinks() ) {
+			$url = add_query_arg( 'sitemap', 'sitemap_index', home_url( '/' ) );
+		}
+
+		return $url;
+	}
+
+	/**
 	 * Adds the sitemap index to robots.txt.
 	 *
 	 * @param string $output robots.txt output.
@@ -71,7 +88,7 @@ class Core_Sitemaps_Index {
 	 */
 	public function add_robots( $output, $public ) {
 		if ( $public ) {
-			$output .= 'Sitemap: ' . home_url( '/sitemap.xml' ) . "\n";
+			$output .= 'Sitemap: ' . esc_url( $this->sitemap_index_url() ) . "\n";
 		}
 		return $output;
 	}
