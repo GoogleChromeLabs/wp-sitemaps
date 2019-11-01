@@ -4,18 +4,13 @@
  * Class Core_Sitemaps_Posts.
  * Builds the sitemap pages for Posts.
  */
-class Core_Sitemaps_Posts {
+class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	/**
-	 * @var Core_Sitemaps_Registry object
+	 * Post type name.
+	 *
+	 * @var string
 	 */
-	public $registry;
-
-	/**
-	 * Core_Sitemaps_Index constructor.
-	 */
-	public function __construct() {
-		$this->registry = Core_Sitemaps_Registry::instance();
-	}
+	protected $post_type = 'post';
 
 	/**
 	 * Bootstrapping the filters.
@@ -40,7 +35,7 @@ class Core_Sitemaps_Posts {
 		$paged   = get_query_var( 'paged' );
 
 		if ( 'posts' === $sitemap ) {
-			$content = $this->get_content_per_page( 'post', $paged );
+			$content = $this->get_content_per_page( $this->post_type, $paged );
 
 			header( 'Content-type: application/xml; charset=UTF-8' );
 			echo '<?xml version="1.0" encoding="UTF-8" ?>';
