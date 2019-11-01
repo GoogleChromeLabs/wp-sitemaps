@@ -56,6 +56,7 @@ class Core_Sitemaps_Registry {
 		$this->sitemaps[ $name ] = [
 			'route' => $route,
 			'args'  => $args,
+			'slug'  => $slug,
 		];
 
 		return true;

@@ -29,7 +29,7 @@ class Core_Sitemaps_Posts {
 	 * Sets up rewrite rule for sitemap_index.
 	 */
 	public function register_sitemap() {
-		$this->registry->add_sitemap( 'posts', '^sitemap-posts\.xml$' );
+		$this->registry->add_sitemap( 'posts', '^sitemap-posts\.xml$', 'sitemap-posts.xml' );
 	}
 
 	/**
