@@ -80,7 +80,11 @@ class Core_Sitemaps_Registry {
 	 * @return array List of sitemaps.
 	 */
 	public function get_sitemaps() {
-		return $this->sitemaps;
+		$total_sitemaps = count( $this->sitemaps );
+
+		if ( $total_sitemaps <= CORE_SITEMAPS_INDEX_MAX ) {
+			return $this->sitemaps;
+		}
 	}
 
 	/**
