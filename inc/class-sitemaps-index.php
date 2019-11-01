@@ -21,6 +21,8 @@ class Core_Sitemaps_Index extends Core_Sitemaps_Provider {
 		// FIXME: Move this into a Core_Sitemaps class registration system.
 		$core_sitemaps_posts = new Core_Sitemaps_Posts();
 		$core_sitemaps_posts->bootstrap();
+		$core_sitemaps_pages = new Core_Sitemaps_Pages();
+		$core_sitemaps_pages->bootstrap();
 	}
 
 	/**
