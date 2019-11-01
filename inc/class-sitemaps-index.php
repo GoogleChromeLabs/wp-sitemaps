@@ -32,6 +32,7 @@ class Core_Sitemaps_Index {
 		// FIXME: Move this into a Core_Sitemaps class registration system.
 		$core_sitemaps_posts = new Core_Sitemaps_Posts();
 		$core_sitemaps_posts->bootstrap();
+		add_filter( 'init', 'core_sitemaps_bucket_register' );
 	}
 
 	/**
