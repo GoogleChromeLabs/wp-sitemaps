@@ -5,6 +5,10 @@
  * Builds the sitemap pages for Posts.
  */
 class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
+	public function __construct() {
+		$this->post_type = 'posts';
+		parent::__construct();
+	}
 
 	/**
 	 * Bootstrapping the filters.
@@ -19,7 +23,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	 * Sets up rewrite rule for sitemap_index.
 	 */
 	public function register_sitemap() {
-		$this->registry->add_sitemap( 'posts', '^sitemap-posts\.xml$' );
+		$this->registry->add_sitemap( $this->post_type . 's', '^sitemap-posts\.xml$' );
 	}
 
 	/**
@@ -30,7 +34,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 		$paged   = get_query_var( 'paged' );
 
 		if ( 'posts' === $sitemap ) {
-			$content = $this->get_content_per_page( 'post', $paged );
+			$content = $this->get_content_per_page( $this->post_type, $paged );
 
 			header( 'Content-type: application/xml; charset=UTF-8' );
 			echo '<?xml version="1.0" encoding="UTF-8" ?>';
