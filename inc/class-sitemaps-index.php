@@ -58,7 +58,6 @@ class Core_Sitemaps_Index {
 
 	/**
 	 * Produce XML to output.
-	 *
 	 */
 	public function render_sitemap() {
 		$sitemap_index = get_query_var( 'sitemap' );
@@ -82,7 +81,7 @@ class Core_Sitemaps_Index {
 	public function sitemap_index_url() {
 		global $wp_rewrite;
 
-		$url = home_url( '/sitemap.xml');
+		$url = home_url( '/sitemap.xml' );
 
 		if ( ! $wp_rewrite->using_permalinks() ) {
 			$url = add_query_arg( 'sitemap', 'sitemap_index', home_url( '/' ) );
