@@ -4,19 +4,7 @@
  * Builds the sitemap index page that lists the links to all of the sitemaps.
  *
  */
-class Core_Sitemaps_Index {
-	/**
-	 * @var Core_Sitemaps_Registry object
-	 */
-	public $registry;
-
-	/**
-	 * Core_Sitemaps_Index constructor.
-	 */
-	public function __construct() {
-		$this->registry = Core_Sitemaps_Registry::instance();
-	}
-
+class Core_Sitemaps_Index extends Core_Sitemaps_Provider {
 	/**
 	 *
 	 * A helper function to initiate actions, hooks and other features needed.
