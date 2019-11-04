@@ -97,7 +97,7 @@ class Core_Sitemaps_Index extends Core_Sitemaps_Provider {
 	 */
 	public function get_index_url_markup( $url ) {
 		$markup = '<sitemap>' . "\n";
-		$markup .= '<loc>' . $url . '</loc>' . "\n";
+		$markup .= '<loc>' . esc_url( $url ) . '</loc>' . "\n";
 		$markup .= '<lastmod>2004-10-01T18:23:17+00:00</lastmod>' . "\n";
 		$markup .= '</sitemap>' . "\n";
 
