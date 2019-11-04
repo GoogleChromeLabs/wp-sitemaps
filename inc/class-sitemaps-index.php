@@ -6,11 +6,12 @@
  */
 class Core_Sitemaps_Index extends Core_Sitemaps_Provider {
 	/**
-	 * Post type name.
+	 * Sitemap name
+	 * Used for building sitemap URLs.
 	 *
 	 * @var string
 	 */
-	protected $post_type = 'index';
+	protected $name = 'index';
 
 	/**
 	 *
@@ -34,7 +35,7 @@ class Core_Sitemaps_Index extends Core_Sitemaps_Provider {
 	 * Sets up rewrite rule for sitemap_index.
 	 */
 	public function register_sitemap() {
-		$this->registry->add_sitemap( $this->post_type, 'sitemap\.xml$', esc_url( $this->get_sitemap_url( $this->post_type ) ) );
+		$this->registry->add_sitemap( $this->name, 'sitemap\.xml$', esc_url( $this->get_sitemap_url( $this->name ) ) );
 	}
 
 	/**
@@ -102,7 +103,7 @@ class Core_Sitemaps_Index extends Core_Sitemaps_Provider {
 	 */
 	public function add_robots( $output, $public ) {
 		if ( $public ) {
-			$output .= 'Sitemap: ' . esc_url( $this->get_sitemap_url( $this->post_type ) ) . "\n";
+			$output .= 'Sitemap: ' . esc_url( $this->get_sitemap_url( $this->name ) ) . "\n";
 		}
 		return $output;
 	}
