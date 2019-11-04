@@ -10,6 +10,7 @@
 function core_sitemaps_registration( $providers ) {
 	$providers['sitemap-index'] = new Core_Sitemaps_Index();
 	$providers['sitemap-posts'] = new Core_Sitemaps_Posts();
+	$providers['sitemap-pages'] = new Core_Sitemaps_Pages();
 
 	return $providers;
 }
