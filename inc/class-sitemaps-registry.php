@@ -23,23 +23,6 @@ class Core_Sitemaps_Registry {
 	}
 
 	/**
-	 * Returns the *Singleton* instance of this class.
-	 * FIXME: Instantiate a single class of this in a future Core_Sitemaps class.
-	 *
-	 * @staticvar Singleton $instance The *Singleton* instances of this class.
-	 *
-	 * @return self
-	 */
-	public static function instance() {
-		static $instance = null;
-		if ( null === $instance ) {
-			$instance = new self();
-		}
-
-		return $instance;
-	}
-
-	/**
 	 * Add a sitemap with route to the registry.
 	 *
 	 * @param string $name Name of the sitemap.
