@@ -34,7 +34,6 @@ class Core_Sitemaps_Index extends Core_Sitemaps_Provider {
 	 * Sets up rewrite rule for sitemap_index.
 	 */
 	public function register_sitemap() {
-		$post_type = 'index';
 		$this->registry->add_sitemap( $this->post_type, 'sitemap\.xml$', esc_url( $this->get_sitemap_url( $this->post_type ) ) );
 	}
 
