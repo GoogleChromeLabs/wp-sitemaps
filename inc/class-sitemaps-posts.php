@@ -24,7 +24,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	 * Sets up rewrite rule for sitemap_index.
 	 */
 	public function register_sitemap() {
-		$this->registry->add_sitemap( 'posts', '^sitemap-posts\.xml$', 'sitemap-posts.xml' );
+		$this->registry->add_sitemap( 'posts', '^sitemap-posts\.xml$', $this->get_sitemap_url( $post_type ) );
 	}
 
 	/**
