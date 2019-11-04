@@ -19,7 +19,8 @@ class Core_Sitemaps {
 	public function __construct() {
 		$registry = new Core_Sitemaps_Registry();
 		/**
-		 *
+		 * Provides a 'core_sitemaps_register_providers' filter which contains a associated array of
+		 * Core_Sitemap_Provider instances to register, with the key passed into it's bootstrap($key) function.
 		 */
 		$providers = apply_filters( 'core_sitemaps_register_providers', [] );
 
