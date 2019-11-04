@@ -52,43 +52,6 @@ class Core_Sitemaps_Index extends Core_Sitemaps_Provider {
 	}
 
 	/**
-	 * Get all of the available sitemaps from the registry
-	 * and add to an array.
-	 *
-	 * @todo get_registered_sitemaps() and get_sitemap_urls() are looping through teh array and
-	 * nested array to get at the value for ['route']. There is probably a better way to do
-	 * this than two methods that are almost identical.
-	 *
-	 * @return array $sitemaps_list
-	 */
-	public function get_registered_sitemaps() {
-		$sitemaps_list = array();
-		$sitemaps_all = $this->registry->get_sitemaps();
-
-		foreach ( $sitemaps_all as $sitemaps ) {
-			array_push( $sitemaps_list, $sitemaps );
-		}
-
-		return $sitemaps_list;
-	}
-
-	/**
-	 * Get all of the URLs for the sitemaps and add to an array.
-	 *
-	 * @return array $sitemaps_urls
-	 */
-	public function get_sitemap_urls() {
-		$sitemap_urls = array();
-		$sitemaps_list = $this->get_registered_sitemaps();
-
-		foreach ( $sitemaps_list as $sitemap ) {
-			array_push( $sitemap_urls, $sitemap );
-		}
-
-		return $sitemap_urls;
-	}
-
-	/**
 	 * Add the correct xml to any given url.
 	 *
 	 * @todo This will also need to be updated with the last modified information as well.
@@ -113,7 +76,7 @@ class Core_Sitemaps_Index extends Core_Sitemaps_Provider {
 	 */
 	public function render_sitemap() {
 		$sitemap_index = get_query_var( 'sitemap' );
-		$sitemap_urls = $this->get_sitemap_urls();
+		$sitemaps_urls = $this->registry->get_sitemaps();
 
 		if ( 'index' === $sitemap_index ) {
 			header( 'Content-type: application/xml; charset=UTF-8' );
@@ -121,7 +84,7 @@ class Core_Sitemaps_Index extends Core_Sitemaps_Provider {
 			echo '<?xml version="1.0" encoding="UTF-8" ?>';
 			echo '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
-			foreach ( $sitemap_urls as $link ) {
+			foreach ( $sitemaps_urls as $link ) {
 				echo $this->get_index_url_markup( $link['slug'] );
 			}
 
