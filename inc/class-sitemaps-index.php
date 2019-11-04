@@ -10,7 +10,7 @@ class Core_Sitemaps_Index extends Core_Sitemaps_Provider {
 	 *
 	 * @var string
 	 */
-	protected $post_type = 'sitemap_index';
+	protected $post_type = 'index';
 
 	/**
 	 *
@@ -34,7 +34,8 @@ class Core_Sitemaps_Index extends Core_Sitemaps_Provider {
 	 * Sets up rewrite rule for sitemap_index.
 	 */
 	public function register_sitemap() {
-		$this->registry->add_sitemap( 'sitemap_index', 'sitemap\.xml$', esc_url( $this->get_sitemap_url( $post_type ) ) );
+		$post_type = 'index';
+		$this->registry->add_sitemap( $this->post_type, 'sitemap\.xml$', esc_url( $this->get_sitemap_url( $this->post_type ) ) );
 	}
 
 	/**
@@ -115,7 +116,7 @@ class Core_Sitemaps_Index extends Core_Sitemaps_Provider {
 		$sitemap_index = get_query_var( 'sitemap' );
 		$sitemap_urls = $this->get_sitemap_urls();
 
-		if ( 'sitemap_index' === $sitemap_index ) {
+		if ( 'index' === $sitemap_index ) {
 			header( 'Content-type: application/xml; charset=UTF-8' );
 
 			echo '<?xml version="1.0" encoding="UTF-8" ?>';
@@ -139,7 +140,7 @@ class Core_Sitemaps_Index extends Core_Sitemaps_Provider {
 	 */
 	public function add_robots( $output, $public ) {
 		if ( $public ) {
-			$output .= 'Sitemap: ' . esc_url( $this->get_sitemap_url( $post_type ) ) . "\n";
+			$output .= 'Sitemap: ' . esc_url( $this->get_sitemap_url( $this->post_type ) ) . "\n";
 		}
 		return $output;
 	}

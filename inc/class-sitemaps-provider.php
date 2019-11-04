@@ -84,20 +84,20 @@ class Core_Sitemaps_Provider {
 	 *
 	 * @return string the sitemap index url.
 	 */
-	public function get_sitemap_url( $object_type ) {
+	public function get_sitemap_url( $post_type ) {
 		global $wp_rewrite;
 
-		if ( $object_type === 'sitemap_index' ) {
+		if ( $post_type === 'index' ) {
 			$url = home_url( '/sitemap.xml' );
 
 			if ( ! $wp_rewrite->using_permalinks() ) {
-				$url = add_query_arg( 'sitemap', 'sitemap_index', home_url( '/' ) );
+				$url = add_query_arg( 'sitemap', 'index', home_url( '/' ) );
 			}
 		} else {
-			$url = home_url( sprintf( '/sitemap-%1$s.xml', $object_type ) );
+			$url = home_url( sprintf( '/sitemap-%1$s.xml', $post_type ) );
 
 			if ( ! $wp_rewrite->using_permalinks() ) {
-				$url = add_query_arg( 'sitemap', $object_type, home_url( '/' ) );
+				$url = add_query_arg( 'sitemap', $post_type, home_url( '/' ) );
 			}
 		}
 
