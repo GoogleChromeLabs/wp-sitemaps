@@ -84,7 +84,10 @@ class Core_Sitemaps_Registry {
 	public function get_sitemaps() {
 		$total_sitemaps = count( $this->sitemaps );
 
-		if ( $total_sitemaps <= CORE_SITEMAPS_MAX_URLS ) {
+		if ( $total_sitemaps > CORE_SITEMAPS_MAX_URLS ) {
+			$max_sitemaps = array_slice( $this->sitemaps, 0, CORE_SITEMAPS_MAX_URLS, true );
+			return $max_sitemaps;
+		} else {
 			return $this->sitemaps;
 		}
 	}
