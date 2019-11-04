@@ -11,6 +11,12 @@
  */
 class Core_Sitemaps {
 	/**
+	 * List of registered sitemap providers.
+	 *
+	 * @var Core_Sitemaps_Provider[]
+	 */
+	protected $providers;
+	/**
 	 * Core_Sitemaps constructor.
 	 * Register the registry and bootstrap registered providers.
 	 *
@@ -22,13 +28,22 @@ class Core_Sitemaps {
 		 * Provides a 'core_sitemaps_register_providers' filter which contains a associated array of
 		 * Core_Sitemap_Provider instances to register, with the key passed into it's bootstrap($key) function.
 		 */
-		$providers = apply_filters( 'core_sitemaps_register_providers', [] );
+		$this->providers = apply_filters( 'core_sitemaps_register_providers', [] );
 
-		foreach ( $providers as $key => $provider ) {
+		foreach ( $this->providers as $key => $provider ) {
 			if ( $provider instanceof Core_Sitemaps_Provider ) {
 				$provider->set_registry( $registry );
 				$provider->bootstrap( $key );
 			}
 		}
+	}
+
+	/**
+	 * Get registered providers.
+	 *
+	 * @return Core_Sitemaps_Provider[]
+	 */
+	public function get_providers() {
+		return $this->providers;
 	}
 }
