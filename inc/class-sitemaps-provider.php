@@ -18,6 +18,14 @@ class Core_Sitemaps_Provider {
 	protected $post_type = '';
 
 	/**
+	 * Sitemap name
+	 * Used for building sitemap URLs.
+	 *
+	 * @var string
+	 */
+	protected $name = '';
+
+	/**
 	 * Core_Sitemaps_Provider constructor.
 	 */
 	public function __construct() {
@@ -77,5 +85,30 @@ class Core_Sitemaps_Provider {
 				'paged'          => $page_num,
 			)
 		);
+	}
+
+	/**
+	 * Builds the URL for the sitemaps.
+	 *
+	 * @return string the sitemap index url.
+	 */
+	public function get_sitemap_url( $name ) {
+		global $wp_rewrite;
+
+		if ( $name === 'index' ) {
+			$url = home_url( '/sitemap.xml' );
+
+			if ( ! $wp_rewrite->using_permalinks() ) {
+				$url = add_query_arg( 'sitemap', 'index', home_url( '/' ) );
+			}
+		} else {
+			$url = home_url( sprintf( '/sitemap-%1$s.xml', $name ) );
+
+			if ( ! $wp_rewrite->using_permalinks() ) {
+				$url = add_query_arg( 'sitemap', $name, home_url( '/' ) );
+			}
+		}
+
+		return $url;
 	}
 }

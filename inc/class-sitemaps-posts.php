@@ -13,6 +13,14 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	protected $post_type = 'post';
 
 	/**
+	 * Sitemap name
+	 * Used for building sitemap URLs.
+	 *
+	 * @var string
+	 */
+	protected $name = 'posts';
+
+	/**
 	 * Bootstrapping the filters.
 	 */
 	public function bootstrap() {
@@ -23,8 +31,8 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	/**
 	 * Sets up rewrite rule for sitemap_index.
 	 */
-	public function register_sitemap() {
-		$this->registry->add_sitemap( 'posts', '^sitemap-posts\.xml$' );
+	public function register_sitemap( $post_type ) {
+		$this->registry->add_sitemap( $this->name, '^sitemap-posts\.xml$', esc_url( $this->get_sitemap_url( $this->name ) ) );
 	}
 
 	/**

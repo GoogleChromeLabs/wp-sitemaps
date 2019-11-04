@@ -6,6 +6,14 @@
  */
 class Core_Sitemaps_Index extends Core_Sitemaps_Provider {
 	/**
+	 * Sitemap name
+	 * Used for building sitemap URLs.
+	 *
+	 * @var string
+	 */
+	protected $name = 'index';
+
+	/**
 	 *
 	 * A helper function to initiate actions, hooks and other features needed.
 	 *
@@ -29,7 +37,7 @@ class Core_Sitemaps_Index extends Core_Sitemaps_Provider {
 	 * Sets up rewrite rule for sitemap_index.
 	 */
 	public function register_sitemap() {
-		$this->registry->add_sitemap( 'sitemap_index', 'sitemap\.xml$' );
+		$this->registry->add_sitemap( $this->name, 'sitemap\.xml$', esc_url( $this->get_sitemap_url( $this->name ) ) );
 	}
 
 	/**
@@ -47,37 +55,45 @@ class Core_Sitemaps_Index extends Core_Sitemaps_Provider {
 	}
 
 	/**
+	 * Add the correct xml to any given url.
+	 *
+	 * @todo This will also need to be updated with the last modified information as well.
+	 *
+	 * @return string $markup
+	 */
+	public function get_index_url_markup( $url ) {
+		$markup = '<sitemap>' . "\n";
+		$markup .= '<loc>' . esc_url( $url ) . '</loc>' . "\n";
+		$markup .= '<lastmod>2004-10-01T18:23:17+00:00</lastmod>' . "\n";
+		$markup .= '</sitemap>' . "\n";
+
+		return $markup;
+	}
+
+	/**
 	 * Produce XML to output.
+	 *
+	 * @todo At the moment this outputs the rewrite rule for each sitemap rather than the URL.
+	 * This will need changing.
+	 *
 	 */
 	public function render_sitemap() {
 		$sitemap_index = get_query_var( 'sitemap' );
+		$sitemaps_urls = $this->registry->get_sitemaps();
 
-		if ( 'sitemap_index' === $sitemap_index ) {
+		if ( 'index' === $sitemap_index ) {
 			header( 'Content-type: application/xml; charset=UTF-8' );
 
 			echo '<?xml version="1.0" encoding="UTF-8" ?>';
 			echo '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
+			foreach ( $sitemaps_urls as $link ) {
+				echo $this->get_index_url_markup( $link['slug'] );
+			}
+
 			echo '</sitemapindex>';
 			exit;
 		}
-	}
-
-	/**
-	 * Builds the URL for the sitemap index.
-	 *
-	 * @return string the sitemap index url.
-	 */
-	public function sitemap_index_url() {
-		global $wp_rewrite;
-
-		$url = home_url( '/sitemap.xml' );
-
-		if ( ! $wp_rewrite->using_permalinks() ) {
-			$url = add_query_arg( 'sitemap', 'sitemap_index', home_url( '/' ) );
-		}
-
-		return $url;
 	}
 
 	/**
@@ -89,7 +105,7 @@ class Core_Sitemaps_Index extends Core_Sitemaps_Provider {
 	 */
 	public function add_robots( $output, $public ) {
 		if ( $public ) {
-			$output .= 'Sitemap: ' . esc_url( $this->sitemap_index_url() ) . "\n";
+			$output .= 'Sitemap: ' . esc_url( $this->get_sitemap_url( $this->name ) ) . "\n";
 		}
 		return $output;
 	}
