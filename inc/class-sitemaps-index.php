@@ -6,6 +6,13 @@
  */
 class Core_Sitemaps_Index extends Core_Sitemaps_Provider {
 	/**
+	 * Post type name.
+	 *
+	 * @var string
+	 */
+	protected $post_type = 'sitemap_index';
+
+	/**
 	 *
 	 * A helper function to initiate actions, hooks and other features needed.
 	 *
@@ -27,7 +34,7 @@ class Core_Sitemaps_Index extends Core_Sitemaps_Provider {
 	 * Sets up rewrite rule for sitemap_index.
 	 */
 	public function register_sitemap() {
-		$this->registry->add_sitemap( 'sitemap_index', 'sitemap\.xml$' );
+		$this->registry->add_sitemap( 'sitemap_index', 'sitemap\.xml$', $this->get_sitemap_url( $post_type ) );
 	}
 
 	/**
@@ -115,29 +122,12 @@ class Core_Sitemaps_Index extends Core_Sitemaps_Provider {
 			echo '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
 			foreach ( $sitemap_urls as $link ) {
-				echo $this->get_index_url_markup( $link['route'] );
+				echo $this->get_index_url_markup( $link['slug'] );
 			}
 
 			echo '</sitemapindex>';
 			exit;
 		}
-	}
-
-	/**
-	 * Builds the URL for the sitemap index.
-	 *
-	 * @return string the sitemap index url.
-	 */
-	public function sitemap_index_url() {
-		global $wp_rewrite;
-
-		$url = home_url( '/sitemap.xml' );
-
-		if ( ! $wp_rewrite->using_permalinks() ) {
-			$url = add_query_arg( 'sitemap', 'sitemap_index', home_url( '/' ) );
-		}
-
-		return $url;
 	}
 
 	/**
@@ -149,7 +139,7 @@ class Core_Sitemaps_Index extends Core_Sitemaps_Provider {
 	 */
 	public function add_robots( $output, $public ) {
 		if ( $public ) {
-			$output .= 'Sitemap: ' . esc_url( $this->sitemap_index_url() ) . "\n";
+			$output .= 'Sitemap: ' . esc_url( $this->get_sitemap_url( $post_type ) ) . "\n";
 		}
 		return $output;
 	}
