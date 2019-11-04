@@ -78,4 +78,29 @@ class Core_Sitemaps_Provider {
 			)
 		);
 	}
+
+	/**
+	 * Builds the URL for the sitemaps.
+	 *
+	 * @return string the sitemap index url.
+	 */
+	public function get_sitemap_url( $object_type ) {
+		global $wp_rewrite;
+
+		if ( $object_type === 'sitemap_index' ) {
+			$url = home_url( '/sitemap.xml' );
+
+			if ( ! $wp_rewrite->using_permalinks() ) {
+				$url = add_query_arg( 'sitemap', 'sitemap_index', home_url( '/' ) );
+			}
+		} else {
+			$url = home_url( sprintf( '/sitemap-%1$s.xml', $object_type ) );
+
+			if ( ! $wp_rewrite->using_permalinks() ) {
+				$url = add_query_arg( 'sitemap', $object_type, home_url( '/' ) );
+			}
+		}
+
+		return $url;
+	}
 }
