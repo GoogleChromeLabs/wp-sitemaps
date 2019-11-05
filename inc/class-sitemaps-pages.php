@@ -11,6 +11,13 @@ class Core_Sitemaps_Pages extends Core_Sitemaps_Provider {
 	 * @var string
 	 */
 	protected $post_type = 'page';
+	/**
+	 * Sitemap name
+	 * Used for building sitemap URLs.
+	 *
+	 * @var string
+	 */
+	protected $name = 'pages';
 
 	/**
 	 * Bootstrapping the filters.
@@ -24,7 +31,7 @@ class Core_Sitemaps_Pages extends Core_Sitemaps_Provider {
 	 * Sets up rewrite rule for sitemap_index.
 	 */
 	public function register_sitemap() {
-		$this->registry->add_sitemap( 'pages', '^sitemap-pages\.xml$' );
+		$this->registry->add_sitemap( $this->name, '^sitemap-pages\.xml$', esc_url( $this->get_sitemap_url( $this->name ) ) );
 	}
 
 	/**
