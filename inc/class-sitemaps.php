@@ -47,6 +47,7 @@ class Core_Sitemaps {
 
 	/**
 	 * Get registered providers.
+	 * Useful for code that wants to call a method on all of the registered providers.
 	 *
 	 * @return Core_Sitemaps_Provider[]
 	 */
