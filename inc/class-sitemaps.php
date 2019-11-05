@@ -28,7 +28,14 @@ class Core_Sitemaps {
 		 * Provides a 'core_sitemaps_register_providers' filter which contains a associated array of
 		 * Core_Sitemap_Provider instances to register, with the key passed into it's bootstrap($key) function.
 		 */
-		$this->providers = apply_filters( 'core_sitemaps_register_providers', [] );
+		$this->providers = apply_filters(
+			'core_sitemaps_register_providers',
+			[
+				'sitemap-index' => new Core_Sitemaps_Index(),
+				'sitemap-posts' => new Core_Sitemaps_Posts(),
+				'sitemap-pages' => new Core_Sitemaps_Pages(),
+			]
+		);
 
 		foreach ( $this->providers as $key => $provider ) {
 			if ( $provider instanceof Core_Sitemaps_Provider ) {
