@@ -27,17 +27,19 @@ class Core_Sitemaps_Registry {
 	 *
 	 * @param string $name Name of the sitemap.
 	 * @param string $route Regex route of the sitemap.
+	 * @param string $slug URL of the sitemap.
 	 * @param array  $args List of other arguments.
 	 *
 	 * @return bool True if the sitemap was added, false if it wasn't as it's name was already registered.
 	 */
-	public function add_sitemap( $name, $route, $args = [] ) {
+	public function add_sitemap( $name, $route, $slug, $args = [] ) {
 		if ( isset( $this->sitemaps[ $name ] ) ) {
 			return false;
 		}
 
 		$this->sitemaps[ $name ] = [
 			'route' => $route,
+			'slug'  => $slug,
 			'args'  => $args,
 		];
 
@@ -63,7 +65,14 @@ class Core_Sitemaps_Registry {
 	 * @return array List of sitemaps.
 	 */
 	public function get_sitemaps() {
-		return $this->sitemaps;
+		$total_sitemaps = count( $this->sitemaps );
+
+		if ( $total_sitemaps > CORE_SITEMAPS_MAX_URLS ) {
+			$max_sitemaps = array_slice( $this->sitemaps, 0, CORE_SITEMAPS_MAX_URLS, true );
+			return $max_sitemaps;
+		} else {
+			return $this->sitemaps;
+		}
 	}
 
 	/**
