@@ -24,6 +24,13 @@ class Core_Sitemaps {
 	 */
 	public function __construct() {
 		$registry = new Core_Sitemaps_Registry();
+
+		// Index is not a post-type thus cannot be disabled.
+		// @link https://github.com/GoogleChromeLabs/wp-sitemaps/pull/42#discussion_r342517549 reasoning.
+		$index = new Core_Sitemaps_Index();
+		$index->set_registry( $registry );
+		$index->bootstrap();
+
 		/**
 		 * Provides a 'core_sitemaps_register_providers' filter which contains a associated array of
 		 * Core_Sitemap_Provider instances to register, with the key passed into it's bootstrap($key) function.
@@ -31,7 +38,6 @@ class Core_Sitemaps {
 		$this->providers = apply_filters(
 			'core_sitemaps_register_providers',
 			[
-				'index' => new Core_Sitemaps_Index(),
 				'posts' => new Core_Sitemaps_Posts(),
 				'pages' => new Core_Sitemaps_Pages(),
 			]
