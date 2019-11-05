@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Class Core_Sitemaps_Posts.
- * Builds the sitemap pages for Posts.
+ * Class Core_Sitemaps_Pages.
+ * Builds the sitemap pages for Pages.
  */
 class Core_Sitemaps_Pages extends Core_Sitemaps_Provider {
 	/**
