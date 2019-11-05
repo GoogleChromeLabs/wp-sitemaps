@@ -1,4 +1,10 @@
 <?php
+/**
+ * Class file for the Core_Sitemaps_Provider class.
+ * This class is a base class for other sitemap providers to extend and contains shared functionality.
+ *
+ * @package Core_Sitemaps
+ */
 
 /**
  * Class Core_Sitemaps_Provider
@@ -26,10 +32,12 @@ class Core_Sitemaps_Provider {
 	protected $name = '';
 
 	/**
-	 * Core_Sitemaps_Provider constructor.
+	 * Setup a link to the registry.
+	 *
+	 * @param Core_Sitemaps_Registry $instance Registry instance.
 	 */
-	public function __construct() {
-		$this->registry = Core_Sitemaps_Registry::instance();
+	public function set_registry( $instance ) {
+		$this->registry = $instance;
 	}
 
 	/**

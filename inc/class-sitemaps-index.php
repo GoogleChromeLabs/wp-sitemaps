@@ -1,8 +1,14 @@
 <?php
 /**
+ * Class file for the Core_Sitemaps_Index class.
+ * This class generates the sitemap index.
+ *
+ * @package Core_Sitemaps
+ */
+
+/**
  * Class Core_Sitemaps_Index.
  * Builds the sitemap index page that lists the links to all of the sitemaps.
- *
  */
 class Core_Sitemaps_Index extends Core_Sitemaps_Provider {
 	/**
@@ -25,12 +31,6 @@ class Core_Sitemaps_Index extends Core_Sitemaps_Provider {
 		add_filter( 'robots_txt', array( $this, 'add_robots' ), 0, 2 );
 		add_filter( 'redirect_canonical', array( $this, 'redirect_canonical' ) );
 		add_action( 'template_redirect', array( $this, 'render_sitemap' ) );
-
-		// FIXME: Move this into a Core_Sitemaps class registration system.
-		$core_sitemaps_posts = new Core_Sitemaps_Posts();
-		$core_sitemaps_posts->bootstrap();
-		$core_sitemaps_pages = new Core_Sitemaps_Pages();
-		$core_sitemaps_pages->bootstrap();
 	}
 
 	/**
