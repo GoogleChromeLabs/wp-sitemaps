@@ -31,9 +31,9 @@ class Core_Sitemaps {
 		$this->providers = apply_filters(
 			'core_sitemaps_register_providers',
 			[
-				'sitemap-index' => new Core_Sitemaps_Index(),
-				'sitemap-posts' => new Core_Sitemaps_Posts(),
-				'sitemap-pages' => new Core_Sitemaps_Pages(),
+				'index' => new Core_Sitemaps_Index(),
+				'posts' => new Core_Sitemaps_Posts(),
+				'pages' => new Core_Sitemaps_Pages(),
 			]
 		);
 
