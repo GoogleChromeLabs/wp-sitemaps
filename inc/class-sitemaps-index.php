@@ -55,22 +55,6 @@ class Core_Sitemaps_Index extends Core_Sitemaps_Provider {
 	}
 
 	/**
-	 * Add the correct xml to any given url.
-	 *
-	 * @todo This will also need to be updated with the last modified information as well.
-	 *
-	 * @return string $markup
-	 */
-	public function get_index_url_markup( $url ) {
-		$markup = '<sitemap>' . "\n";
-		$markup .= '<loc>' . esc_url( $url ) . '</loc>' . "\n";
-		$markup .= '<lastmod>2004-10-01T18:23:17+00:00</lastmod>' . "\n";
-		$markup .= '</sitemap>' . "\n";
-
-		return $markup;
-	}
-
-	/**
 	 * Produce XML to output.
 	 *
 	 * @todo At the moment this outputs the rewrite rule for each sitemap rather than the URL.
@@ -79,19 +63,11 @@ class Core_Sitemaps_Index extends Core_Sitemaps_Provider {
 	 */
 	public function render_sitemap() {
 		$sitemap_index = get_query_var( 'sitemap' );
-		$sitemaps_urls = $this->registry->get_sitemaps();
 
 		if ( 'index' === $sitemap_index ) {
-			header( 'Content-type: application/xml; charset=UTF-8' );
-
-			echo '<?xml version="1.0" encoding="UTF-8" ?>';
-			echo '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
-
-			foreach ( $sitemaps_urls as $link ) {
-				echo $this->get_index_url_markup( $link['slug'] );
-			}
-
-			echo '</sitemapindex>';
+			$sitemaps_urls = $this->registry->get_sitemaps();
+			$renderer      = new Core_Sitemaps_Renderer();
+			$renderer->render_sitemapindex( $sitemaps_urls );
 			exit;
 		}
 	}
