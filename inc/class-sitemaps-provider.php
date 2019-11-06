@@ -45,18 +45,32 @@ class Core_Sitemaps_Provider {
 	 *
 	 * @param WP_Post[] $content List of WP_Post objects.
 	 */
-	public function render( $content ) {
+	public function render( $content, $name ) {
 		header( 'Content-type: application/xml; charset=UTF-8' );
 		echo '<?xml version="1.0" encoding="UTF-8" ?>';
 		echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 		foreach ( $content as $post ) {
-			$url_data = array(
-				'loc'        => get_permalink( $post ),
-				// DATE_W3C does not contain a timezone offset, so UTC date must be used.
-				'lastmod'    => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
-				'priority'   => '0.5',
-				'changefreq' => 'monthly',
-			);
+
+			if ( $name === 'categories' ) {
+
+				$url_data = array(
+					'loc'        => get_category_link( $post->term_id ),
+					// DATE_W3C does not contain a timezone offset, so UTC date must be used.
+					'lastmod'    => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
+					'priority'   => '0.5',
+					'changefreq' => 'monthly',
+				);
+
+			} else {
+
+				$url_data = array(
+					'loc'        => get_permalink( $post ),
+					// DATE_W3C does not contain a timezone offset, so UTC date must be used.
+					'lastmod'    => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
+					'priority'   => '0.5',
+					'changefreq' => 'monthly',
+				);
+			}
 			printf(
 				'<url>
 <loc>%1$s</loc>
@@ -70,6 +84,7 @@ class Core_Sitemaps_Provider {
 				esc_html( $url_data['priority'] )
 			);
 		}
+
 		echo '</urlset>';
 	}
 
@@ -81,18 +96,25 @@ class Core_Sitemaps_Provider {
 	 *
 	 * @return int[]|WP_Post[] Query result.
 	 */
-	public function get_content_per_page( $post_type, $page_num = 1 ) {
-		$query = new WP_Query();
+	public function get_content_per_page( $post_type, $name, $page_num = 1 ) {
+		if ( $name === 'categories' ) {
+			return $terms = get_terms( [
+				'taxonomy' => 'category'
+			] );
+		} else {
 
-		return $query->query(
-			array(
-				'orderby'        => 'ID',
-				'order'          => 'ASC',
-				'post_type'      => $post_type,
-				'posts_per_page' => CORE_SITEMAPS_POSTS_PER_PAGE,
-				'paged'          => $page_num,
-			)
-		);
+			$query = new WP_Query();
+
+			return $query->query(
+				array(
+					'orderby'        => 'ID',
+					'order'          => 'ASC',
+					'post_type'      => $post_type,
+					'posts_per_page' => CORE_SITEMAPS_POSTS_PER_PAGE,
+					'paged'          => $page_num,
+				)
+			);
+		}
 	}
 
 	/**
