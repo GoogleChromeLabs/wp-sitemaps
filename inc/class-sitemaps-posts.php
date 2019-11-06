@@ -10,7 +10,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	 *
 	 * @var string
 	 */
-	protected $post_type = 'post';
+	protected $object_type = 'post';
 
 	/**
 	 * Sitemap name
@@ -31,7 +31,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	/**
 	 * Sets up rewrite rule for sitemap_index.
 	 */
-	public function register_sitemap( $post_type ) {
+	public function register_sitemap() {
 		$this->registry->add_sitemap( $this->name, '^sitemap-posts\.xml$', esc_url( $this->get_sitemap_url( $this->name ) ) );
 	}
 
@@ -43,7 +43,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 		$paged   = get_query_var( 'paged' );
 
 		if ( 'posts' === $sitemap ) {
-			$content  = $this->get_content_per_page( $this->post_type, $paged );
+			$content  = $this->get_content_per_page( $this->object_type, $paged );
 			$renderer = new Core_Sitemaps_Renderer();
 			$renderer->render_urlset( $content );
 			exit;

@@ -10,7 +10,7 @@ class Core_Sitemaps_Pages extends Core_Sitemaps_Provider {
 	 *
 	 * @var string
 	 */
-	protected $post_type = 'page';
+	protected $object_type = 'page';
 	/**
 	 * Sitemap name
 	 * Used for building sitemap URLs.
@@ -42,7 +42,7 @@ class Core_Sitemaps_Pages extends Core_Sitemaps_Provider {
 		$paged   = get_query_var( 'paged' );
 
 		if ( 'pages' === $sitemap ) {
-			$content  = $this->get_content_per_page( $this->post_type, $paged );
+			$content  = $this->get_content_per_page( $this->object_type, $paged );
 			$renderer = new Core_Sitemaps_Renderer();
 			$renderer->render_urlset( $content );
 			exit;
