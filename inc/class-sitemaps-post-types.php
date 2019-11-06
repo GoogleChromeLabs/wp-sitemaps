@@ -4,14 +4,13 @@
  * Class Core_Sitemaps_Posts.
  * Builds the sitemap pages for Posts.
  */
-class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
+class Core_Sitemaps_Post_Types extends Core_Sitemaps_Provider {
 	/**
 	 * Post type name.
 	 *
 	 * @var string
 	 */
 	protected $post_type = 'post';
-
 	/**
 	 * Sitemap name
 	 * Used for building sitemap URLs.
@@ -31,8 +30,21 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	/**
 	 * Sets up rewrite rule for sitemap_index.
 	 */
-	public function register_sitemap( $post_type ) {
+	public function register_sitemap() {
 		$this->registry->add_sitemap( $this->name, '^sitemap-posts\.xml$', esc_url( $this->get_sitemap_url( $this->name ) ) );
+	}
+
+	/**
+	 * Return the public post types, which excludes nav_items and similar types.
+	 * Attachments are also excluded.
+	 */
+	public function get_sitemap_post_types() {
+		$post_types = get_post_types( array( 'public' => true ), 'objects' );
+		if ( isset( $post_types['attachment'] ) ) {
+			unset( $post_types['attachment'] );
+		}
+
+		return $post_types;
 	}
 
 	/**
