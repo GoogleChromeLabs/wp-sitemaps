@@ -6,14 +6,14 @@
  */
 
 /**
- * Get a list of URLs for all sitemaps.
+ * Get a list of sitemaps.
  *
- * @return array $urls A list of sitemap URLs.
+ * @return array $sitemaps A list of registered sitemap providers.
  */
 function core_sitemaps_get_sitemaps() {
 	global $core_sitemaps;
 
-	$urls = $core_sitemaps->registry->get_sitemaps();
+	$sitemaps = $core_sitemaps->registry->get_sitemaps();
 
-	return $urls;
+	return $sitemaps;
 }
