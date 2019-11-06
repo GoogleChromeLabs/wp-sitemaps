@@ -31,14 +31,14 @@ class Core_Sitemaps_Renderer {
 	 *
 	 * @param WP_Post[] $content List of WP_Post objects.
 	 */
-	public function render_urlset( $content, $object_type ) {
-		header( 'Content-type: application/xml; charset=UTF-8' );
+	public function render_urlset( $content, $object_type, $term ) {
+		// header( 'Content-type: application/xml; charset=UTF-8' );
 		$urlset = new SimpleXMLElement( '<?xml version="1.0" encoding="UTF-8" ?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>' );
 
 		foreach ( $content as $post ) {
 			$url = $urlset->addChild( 'url' );
 			if ( 'category' === $object_type ) {
-				$url->addChild( 'loc', esc_url( get_category_link( $post->term_id ) ) );
+				$url->addChild( 'loc', esc_url( get_category_link( $term->term_id ) ) );
 			} else {
 				$url->addChild( 'loc', esc_url( get_permalink( $post ) ) );
 			}

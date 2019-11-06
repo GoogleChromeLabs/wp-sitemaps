@@ -42,6 +42,28 @@ class Core_Sitemaps_Provider {
 	}
 
 	/**
+	 * Get the latest post for each term.
+	 *
+	 * @param string $term Name of the term.
+	 *
+	 * @return $content Query result.
+	 */
+	public function get_latest_post_terms( $term ) {
+		$query = new WP_Query();
+
+		$content = $query->query(
+			array(
+				'cat'            => $term->term_id,
+				'post_type'      => 'post',
+				'posts_per_page' => '1',
+				'orderby'        => 'date',
+				'order'          => 'DESC',
+			)
+		);
+		return $content;
+	}
+
+	/**
 	 * Get content for a page.
 	 *
 	 * @param string $object_type Name of the object_type.
@@ -50,22 +72,17 @@ class Core_Sitemaps_Provider {
 	 * @return int[]|WP_Post[] Query result.
 	 */
 	public function get_content_per_page( $object_type, $page_num = 1 ) {
-		if ( $object_type === 'category' ) {
-			return $terms = get_terms( [
-				'taxonomy' => 'category'
-			] );
-		} else {
-			$query = new WP_Query();
-			return $query->query(
-				array(
-					'orderby'        => 'ID',
-					'order'          => 'ASC',
-					'post_type'      => $object_type,
-					'posts_per_page' => CORE_SITEMAPS_POSTS_PER_PAGE,
-					'paged'          => $page_num,
-				)
-			);
-		}
+		$query = new WP_Query();
+
+		return $query->query(
+			array(
+				'orderby'        => 'ID',
+				'order'          => 'ASC',
+				'post_type'      => $object_type,
+				'posts_per_page' => CORE_SITEMAPS_POSTS_PER_PAGE,
+				'paged'          => $page_num,
+			)
+		);
 	}
 
 	/**

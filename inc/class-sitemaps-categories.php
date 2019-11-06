@@ -35,6 +35,15 @@ class Core_Sitemaps_Categories extends Core_Sitemaps_Provider {
 	}
 
 	/**
+	 * List the available terms.
+	 */
+	public function get_terms() {
+		return $terms = get_terms( [
+			'taxonomy' => $object_type
+		] );
+	}
+
+	/**
 	 * Produce XML to output.
 	 */
 	public function render_sitemap() {
@@ -42,9 +51,14 @@ class Core_Sitemaps_Categories extends Core_Sitemaps_Provider {
 		$paged   = get_query_var( 'paged' );
 
 		if ( 'categories' === $sitemap ) {
-			$content  = $this->get_content_per_page( $this->object_type, $paged );
-			$renderer = new Core_Sitemaps_Renderer();
-			$renderer->render_urlset( $content, $this->object_type );
+			$terms = $this->get_terms();
+
+			foreach ( $terms as $term ) {
+				$content = $this->get_latest_posts_per_terms( $term );
+				$renderer = new Core_Sitemaps_Renderer();
+				$renderer->render_urlset( $content, $this->object_type, $term );
+			}
+
 			exit;
 		}
 	}
