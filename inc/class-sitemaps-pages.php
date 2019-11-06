@@ -44,7 +44,7 @@ class Core_Sitemaps_Pages extends Core_Sitemaps_Provider {
 		if ( 'pages' === $sitemap ) {
 			$content  = $this->get_content_per_page( $this->object_type, $paged );
 			$renderer = new Core_Sitemaps_Renderer();
-			$renderer->render_urlset( $content );
+			$renderer->render_urlset( $content, $this->object_type );
 			exit;
 		}
 	}

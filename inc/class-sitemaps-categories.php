@@ -10,7 +10,7 @@ class Core_Sitemaps_Categories extends Core_Sitemaps_Provider {
 	 *
 	 * @var string
 	 */
-	protected $post_type = 'category';
+	protected $object_type = 'category';
 	/**
 	 * Sitemap name
 	 * Used for building sitemap URLs.
@@ -42,8 +42,9 @@ class Core_Sitemaps_Categories extends Core_Sitemaps_Provider {
 		$paged   = get_query_var( 'paged' );
 
 		if ( 'categories' === $sitemap ) {
-			$content = $this->get_content_per_page( $this->post_type, $this->name, $paged );
-			$this->render( $content, $this->name );
+			$content  = $this->get_content_per_page( $this->object_type, $paged );
+			$renderer = new Core_Sitemaps_Renderer();
+			$renderer->render_urlset( $content, $this->object_type );
 			exit;
 		}
 	}
