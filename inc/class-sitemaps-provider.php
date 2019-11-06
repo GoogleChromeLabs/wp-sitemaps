@@ -17,11 +17,12 @@ class Core_Sitemaps_Provider {
 	 */
 	public $registry;
 	/**
-	 * Post Type name
+	 * Object Type name
+	 * This can be a post type or term.
 	 *
 	 * @var string
 	 */
-	protected $post_type = '';
+	protected $object_type = '';
 
 	/**
 	 * Sitemap name
@@ -43,19 +44,19 @@ class Core_Sitemaps_Provider {
 	/**
 	 * Get content for a page.
 	 *
-	 * @param string $post_type Name of the post_type.
+	 * @param string $object_type Name of the object_type.
 	 * @param int    $page_num Page of results.
 	 *
 	 * @return int[]|WP_Post[] Query result.
 	 */
-	public function get_content_per_page( $post_type, $page_num = 1 ) {
+	public function get_content_per_page( $object_type, $page_num = 1 ) {
 		$query = new WP_Query();
 
 		return $query->query(
 			array(
 				'orderby'        => 'ID',
 				'order'          => 'ASC',
-				'post_type'      => $post_type,
+				'post_type'      => $object_type,
 				'posts_per_page' => CORE_SITEMAPS_POSTS_PER_PAGE,
 				'paged'          => $page_num,
 			)
