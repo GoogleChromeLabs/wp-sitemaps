@@ -1,6 +1,6 @@
 <?php
 /**
- * Rendering Sitemaps Data to XML.
+ * Rendering Sitemaps Data to XML in accorance with sitemap protocol.
  *
  * @package Core_Sitemap
  */
@@ -10,7 +10,7 @@
  */
 class Core_Sitemaps_Renderer {
 	/**
-	 * Render a sitemapindex.
+	 * Render a sitemap index.
 	 *
 	 * @param array $sitemaps List of sitemaps, see \Core_Sitemaps_Registry::$sitemaps.
 	 */
