@@ -50,9 +50,7 @@ class Core_Sitemaps_Provider {
 		echo '<?xml version="1.0" encoding="UTF-8" ?>';
 		echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 		foreach ( $content as $post ) {
-
 			if ( $name === 'categories' ) {
-
 				$url_data = array(
 					'loc'        => get_category_link( $post->term_id ),
 					// DATE_W3C does not contain a timezone offset, so UTC date must be used.
@@ -60,9 +58,7 @@ class Core_Sitemaps_Provider {
 					'priority'   => '0.5',
 					'changefreq' => 'monthly',
 				);
-
 			} else {
-
 				$url_data = array(
 					'loc'        => get_permalink( $post ),
 					// DATE_W3C does not contain a timezone offset, so UTC date must be used.
@@ -102,9 +98,7 @@ class Core_Sitemaps_Provider {
 				'taxonomy' => 'category'
 			] );
 		} else {
-
 			$query = new WP_Query();
-
 			return $query->query(
 				array(
 					'orderby'        => 'ID',
