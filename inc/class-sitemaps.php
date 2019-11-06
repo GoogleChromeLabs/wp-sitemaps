@@ -40,7 +40,7 @@ class Core_Sitemaps {
 			[
 				'posts'      => new Core_Sitemaps_Posts(),
 				'pages'      => new Core_Sitemaps_Pages(),
-				'categories' => new Core_Sitemaps_Categories();
+				'categories' => new Core_Sitemaps_Categories(),
 			]
 		);
 
