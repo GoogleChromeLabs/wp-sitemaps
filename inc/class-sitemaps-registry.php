@@ -17,8 +17,8 @@ class Core_Sitemaps_Registry {
 	/**
 	 * Add a sitemap with route to the registry.
 	 *
-	 * @param string                $name  Name of the sitemap.
-	 * @param Core_Sitemap_Provider $provider Regex route of the sitemap.
+	 * @param string                $name      Name of the sitemap.
+	 * @param Core_Sitemaps_Provider $provider Instance of a Core_Sitemaps_Provider.
 	 * @return bool True if the sitemap was added, false if it wasn't as it's name was already registered.
 	 */
 	public function add_sitemap( $name, $provider ) {

@@ -12,7 +12,8 @@
  */
 class Core_Sitemaps_Index {
 	/**
-	 * Sitemap name
+	 * Sitemap name.
+	 *
 	 * Used for building sitemap URLs.
 	 *
 	 * @var string

@@ -13,7 +13,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	protected $object_type = 'post';
 
 	/**
-	 * Sitemap name
+	 * Sitemap name.
 	 *
 	 * Used for building sitemap URLs.
 	 *
@@ -22,7 +22,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	public $name = 'posts';
 
 	/**
-	 * Sitemap route
+	 * Sitemap route.
 	 *
 	 * Regex pattern used when building the route for a sitemap.
 	 *
@@ -31,7 +31,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	public $route = '^sitemap-posts\.xml$';
 
 	/**
-	 * Sitemap slug
+	 * Sitemap slug.
 	 *
 	 * Used for building sitemap URLs.
 	 *
