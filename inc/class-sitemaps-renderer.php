@@ -24,7 +24,6 @@ class Core_Sitemaps_Renderer {
 			$sitemap->addChild( 'lastmod', '2004-10-01T18:23:17+00:00' );
 		}
 		echo $sitemap_index->asXML();
-
 	}
 
 	/**
