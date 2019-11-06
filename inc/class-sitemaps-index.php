@@ -67,7 +67,7 @@ class Core_Sitemaps_Index extends Core_Sitemaps_Provider {
 		if ( 'index' === $sitemap_index ) {
 			$sitemaps_urls = $this->registry->get_sitemaps();
 			$renderer      = new Core_Sitemaps_Renderer();
-			$renderer->render_index( $sitemaps_urls );
+			$renderer->render_sitemapindex( $sitemaps_urls );
 			exit;
 		}
 	}
