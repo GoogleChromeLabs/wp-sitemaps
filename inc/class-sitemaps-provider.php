@@ -49,8 +49,8 @@ class Core_Sitemaps_Provider {
 	 *
 	 * @return int[]|WP_Post[] Query result.
 	 */
-	public function get_content_per_page( $object_type, $name, $page_num = 1 ) {
-		if ( $name === 'categories' ) {
+	public function get_content_per_page( $object_type, $page_num = 1 ) {
+		if ( $object_type === 'category' ) {
 			return $terms = get_terms( [
 				'taxonomy' => 'category'
 			] );
