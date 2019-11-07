@@ -71,7 +71,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 
 		$url_list = array();
 
-		foreach( $users as $user ) {
+		foreach ( $users as $user ) {
 			$last_modified = get_posts( array(
 				'author'        => $user->ID,
 				'orderby'       => 'date',
@@ -97,7 +97,6 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 		 * @param int    $page_num    Page of results.
 		 */
 		return apply_filters( 'core_sitemaps_users_url_list', $url_list, $object_type, $page_num );
-
 	}
 
 	/**

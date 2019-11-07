@@ -66,7 +66,7 @@ class Core_Sitemaps_Provider {
 
 		$url_list = array();
 
-		foreach( $posts as $post ) {
+		foreach ( $posts as $post ) {
 			$url_list[] = array(
 				'loc' => get_permalink( $post ),
 				'lastmod' => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
