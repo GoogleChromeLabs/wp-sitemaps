@@ -11,7 +11,6 @@ class Core_Sitemaps_Pages extends Core_Sitemaps_Provider {
 	 * @var string
 	 */
 	protected $object_type = 'page';
-
 	/**
 	 * Sitemap name
 	 *
@@ -20,7 +19,6 @@ class Core_Sitemaps_Pages extends Core_Sitemaps_Provider {
 	 * @var string
 	 */
 	public $name = 'pages';
-
 	/**
 	 * Sitemap route.
 	 *
@@ -29,7 +27,6 @@ class Core_Sitemaps_Pages extends Core_Sitemaps_Provider {
 	 * @var string
 	 */
 	public $route = '^sitemap-pages\.xml$';
-
 	/**
 	 * Sitemap slug.
 	 *
@@ -46,10 +43,14 @@ class Core_Sitemaps_Pages extends Core_Sitemaps_Provider {
 		$sitemap = get_query_var( 'sitemap' );
 		$paged   = get_query_var( 'paged' );
 
+		if ( empty( $paged ) ) {
+			$paged = 1;
+		}
+
 		if ( 'pages' === $sitemap ) {
-			$content  = $this->get_content_per_page( $this->object_type, $paged );
+			$url_list = $this->get_url_list( $paged );
 			$renderer = new Core_Sitemaps_Renderer();
-			$renderer->render_urlset( $content );
+			$renderer->render_sitemap( $url_list );
 			exit;
 		}
 	}

@@ -29,6 +29,7 @@ require_once __DIR__ . '/inc/class-sitemaps-pages.php';
 require_once __DIR__ . '/inc/class-sitemaps-posts.php';
 require_once __DIR__ . '/inc/class-sitemaps-registry.php';
 require_once __DIR__ . '/inc/class-sitemaps-renderer.php';
+require_once __DIR__ . '/inc/class-sitemaps-users.php';
 require_once __DIR__ . '/inc/functions.php';
 
 $core_sitemaps = new Core_Sitemaps();
