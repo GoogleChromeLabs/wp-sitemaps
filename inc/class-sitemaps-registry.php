@@ -62,30 +62,4 @@ class Core_Sitemaps_Registry {
 			return $this->sitemaps;
 		}
 	}
-
-	/**
-	 * Get the URL for a specific sitemap.
-	 *
-	 * @param string $name The name of the sitemap to get a URL for.
-	 * @return string the sitemap index url.
-	 */
-	public function get_sitemap_url( $name ) {
-		global $wp_rewrite;
-
-		if ( $name === 'index' ) {
-			$url = home_url( '/sitemap.xml' );
-
-			if ( ! $wp_rewrite->using_permalinks() ) {
-				$url = add_query_arg( 'sitemap', 'index', home_url( '/' ) );
-			}
-		} else {
-			$url = home_url( sprintf( '/sitemap-%1$s.xml', $name ) );
-
-			if ( ! $wp_rewrite->using_permalinks() ) {
-				$url = add_query_arg( 'sitemap', $name, home_url( '/' ) );
-			}
-		}
-
-		return $url;
-	}
 }
