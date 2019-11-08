@@ -39,8 +39,6 @@ class Core_Sitemaps_Renderer {
 			$url = $urlset->addChild( 'url' );
 			$url->addChild( 'loc', esc_url( $url_item['loc'] ) );
 			$url->addChild( 'lastmod', esc_attr( $url_item['lastmod'] ) );
-			$url->addChild( 'priority', esc_attr( $url_item['priority'] ) );
-			$url->addChild( 'changefreq', esc_attr( $url_item['changefreq' ] ) );
 		}
 
 		echo $urlset->asXML();

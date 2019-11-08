@@ -10,14 +10,12 @@
  * Class Core_Sitemaps_Provider
  */
 class Core_Sitemaps_Provider {
-
 	/**
 	 * Post type name.
 	 *
 	 * @var string
 	 */
 	protected $object_type = '';
-
 	/**
 	 * Sitemap name
 	 *
@@ -26,7 +24,6 @@ class Core_Sitemaps_Provider {
 	 * @var string
 	 */
 	public $name = '';
-
 	/**
 	 * Sitemap route
 	 *
@@ -35,7 +32,6 @@ class Core_Sitemaps_Provider {
 	 * @var string
 	 */
 	public $route = '';
-
 	/**
 	 * Sitemap slug
 	 *
@@ -49,7 +45,8 @@ class Core_Sitemaps_Provider {
 	 * Get a URL list for a post type sitemap.
 	 *
 	 * @param string $object_type Name of the object_type.
-	 * @param int    $page_num    Page of results.
+	 * @param int    $page_num Page of results.
+	 *
 	 * @return array $url_list List of URLs for a sitemap.
 	 */
 	public function get_url_list( $object_type, $page_num = 1 ) {
@@ -68,21 +65,19 @@ class Core_Sitemaps_Provider {
 
 		foreach ( $posts as $post ) {
 			$url_list[] = array(
-				'loc' => get_permalink( $post ),
+				'loc'     => get_permalink( $post ),
 				'lastmod' => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
-				'priority' => '0.5',
-				'changefreq' => 'monthy',
 			);
 		}
 
 		/**
 		 * Filter the list of URLs for a sitemap before rendering.
 		 *
-		 * @since 0.1.0
-		 *
-		 * @param array  $url_list    List of URLs for a sitemap.
+		 * @param array  $url_list List of URLs for a sitemap.
 		 * @param string $object_type Name of the post_type.
-		 * @param int    $page_num    Page of results.
+		 * @param int    $page_num Page of results.
+		 *
+		 * @since 0.1.0
 		 */
 		return apply_filters( 'core_sitemaps_post_url_list', $url_list, $object_type, $page_num );
 	}

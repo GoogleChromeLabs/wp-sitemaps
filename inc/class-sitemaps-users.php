@@ -11,14 +11,12 @@
  * Class Core_Sitemaps_Users
  */
 class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
-
 	/**
 	 * Object type name.
 	 *
 	 * @var string
 	 */
 	protected $object_type = 'user';
-
 	/**
 	 * Sitemap name.
 	 *
@@ -27,7 +25,6 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	 * @var string
 	 */
 	public $name = 'users';
-
 	/**
 	 * Sitemap route.
 	 *
@@ -36,7 +33,6 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	 * @var string
 	 */
 	public $route = '^sitemap-users-?([0-9]+)?\.xml$';
-
 	/**
 	 * Sitemap slug.
 	 *
@@ -51,6 +47,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	 *
 	 * @param string $object_type Name of the object_type.
 	 * @param int    $page_num Page of results.
+	 *
 	 * @return array $url_list List of URLs for a sitemap.
 	 */
 	public function get_url_list( $object_type, $page_num = 1 ) {
@@ -59,7 +56,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 		) );
 
 		// We're not supporting sitemaps for author pages for attachments.
-		unset( $public_post_types['attachment'] ) ;
+		unset( $public_post_types['attachment'] );
 
 		$query = new WP_User_Query( array(
 			'has_published_posts' => array_keys( $public_post_types ),
@@ -80,21 +77,20 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 			) );
 
 			$url_list[] = array(
-				'loc' => get_author_posts_url( $user->ID ),
+				'loc'     => get_author_posts_url( $user->ID ),
 				'lastmod' => mysql2date( DATE_W3C, $last_modified[0]->post_modified_gmt, false ),
-				'priority' => '0.3',
-				'changefreq' => 'daily',
 			);
 		}
 
 		/**
 		 * Filter the list of URLs for a sitemap before rendering.
 		 *
+		 * @param array  $url_list List of URLs for a sitemap.
+		 * @param string $object_type Name of the post_type.
+		 * @param int    $page_num Page of results.
+		 *
 		 * @since 0.1.0
 		 *
-		 * @param array  $url_list    List of URLs for a sitemap.
-		 * @param string $object_type Name of the post_type.
-		 * @param int    $page_num    Page of results.
 		 */
 		return apply_filters( 'core_sitemaps_users_url_list', $url_list, $object_type, $page_num );
 	}
@@ -111,11 +107,10 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 		}
 
 		if ( 'users' === $sitemap ) {
-			$url_list  = $this->get_url_list( 'users', $paged );
+			$url_list = $this->get_url_list( 'users', $paged );
 			$renderer = new Core_Sitemaps_Renderer();
 			$renderer->render_sitemap( $url_list );
 			exit;
 		}
 	}
-
 }
