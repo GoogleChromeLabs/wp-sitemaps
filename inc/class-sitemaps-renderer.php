@@ -13,6 +13,7 @@ class Core_Sitemaps_Renderer {
 	 * Get the URL for a specific sitemap.
 	 *
 	 * @param string $name The name of the sitemap to get a URL for.
+	 *
 	 * @return string the sitemap index url.
 	 */
 	public function get_sitemap_url( $name ) {
@@ -27,6 +28,7 @@ class Core_Sitemaps_Renderer {
 		if ( ! $wp_rewrite->using_permalinks() ) {
 			$url = add_query_arg( 'sitemap', $name, home_url( '/' ) );
 		}
+
 		return $url;
 	}
 
@@ -41,7 +43,7 @@ class Core_Sitemaps_Renderer {
 
 		foreach ( $sitemaps as $link ) {
 			$sitemap = $sitemap_index->addChild( 'sitemap' );
-			$sitemap->addChild( 'loc', esc_url( $this->get_sitemap_url( $link->slug ) ) );
+			$sitemap->addChild( 'loc', esc_url( $this->get_sitemap_url( $link->name ) ) );
 			$sitemap->addChild( 'lastmod', '2004-10-01T18:23:17+00:00' );
 		}
 		echo $sitemap_index->asXML();
