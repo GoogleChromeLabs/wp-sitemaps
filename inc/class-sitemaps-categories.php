@@ -34,7 +34,7 @@ class Core_Sitemaps_Categories extends Core_Sitemaps_Provider {
 	 *
 	 * @var string
 	 */
-	public $slug = 'users';
+	public $slug = 'categories';
 
 	/**
 	 * Get a URL list for a user sitemap.
