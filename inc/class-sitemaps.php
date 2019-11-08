@@ -64,6 +64,7 @@ class Core_Sitemaps {
 		$providers = apply_filters( 'core_sitemaps_register_providers', array(
 			'posts' => new Core_Sitemaps_Posts(),
 			'pages' => new Core_Sitemaps_Pages(),
+			'categories' => new Core_Sitemaps_Categories(),
 		) );
 
 		// Register each supported provider.
@@ -84,6 +85,4 @@ class Core_Sitemaps {
 			add_action( 'template_redirect', array( $sitemap, 'render_sitemap' ) );
 		}
 	}
-
-
 }

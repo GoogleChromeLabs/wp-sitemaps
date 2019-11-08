@@ -27,24 +27,19 @@ class Core_Sitemaps_Renderer {
 	}
 
 	/**
-	 * Render a sitemap urlset.
+	 * Render a sitemap.
 	 *
-	 * @param WP_Post[] $content List of WP_Post objects.
+	 * @param array $url_list A list of URLs for a sitemap.
 	 */
-	public function render_urlset( $content, $object_type, $term ) {
-		// header( 'Content-type: application/xml; charset=UTF-8' );
+	public function render_sitemap( $url_list ) {
+		header( 'Content-type: application/xml; charset=UTF-8' );
 		$urlset = new SimpleXMLElement( '<?xml version="1.0" encoding="UTF-8" ?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>' );
-
-		foreach ( $content as $post ) {
+		foreach ( $url_list as $url_item ) {
 			$url = $urlset->addChild( 'url' );
-			if ( 'category' === $object_type ) {
-				$url->addChild( 'loc', esc_url( get_category_link( $term->term_id ) ) );
-			} else {
-				$url->addChild( 'loc', esc_url( get_permalink( $post ) ) );
-			}
-			$url->addChild( 'lastmod', mysql2date( DATE_W3C, $post->post_modified_gmt, false ) );
-			$url->addChild( 'priority', '0.5' );
-			$url->addChild( 'changefreq', 'monthly' );
+			$url->addChild( 'loc', esc_url( $url_item['loc'] ) );
+			$url->addChild( 'lastmod', esc_attr( $url_item['lastmod'] ) );
+			$url->addChild( 'priority', esc_attr( $url_item['priority'] ) );
+			$url->addChild( 'changefreq', esc_attr( $url_item['changefreq' ] ) );
 		}
 		echo $urlset->asXML();
 	}

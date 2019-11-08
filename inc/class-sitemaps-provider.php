@@ -46,46 +46,40 @@ class Core_Sitemaps_Provider {
 	public $slug = '';
 
 	/**
-	 * Get the latest post for each term.
-	 *
-	 * @param string $term Name of the term.
-	 *
-	 * @return $content Query result.
-	 */
-	public function get_latest_post_terms( $term ) {
-		$query = new WP_Query();
-
-		$content = $query->query(
-			array(
-				'cat'            => $term->term_id,
-				'post_type'      => 'post',
-				'posts_per_page' => '1',
-				'orderby'        => 'date',
-				'order'          => 'DESC',
-			)
-		);
-		return $content;
-	}
-
-	/**
-	 * Get content for a page.
+	 * Get a URL list for a post type sitemap.
 	 *
 	 * @param string $object_type Name of the object_type.
-	 * @param int    $page_num Page of results.
-	 *
-	 * @return int[]|WP_Post[] Query result.
+	 * @param int    $page_num    Page of results.
+	 * @return array $url_list List of URLs for a sitemap.
 	 */
-	public function get_content_per_page( $object_type, $page_num = 1 ) {
-		$query = new WP_Query();
-
-		return $query->query(
-			array(
-				'orderby'        => 'ID',
-				'order'          => 'ASC',
-				'post_type'      => $object_type,
-				'posts_per_page' => CORE_SITEMAPS_POSTS_PER_PAGE,
-				'paged'          => $page_num,
-			)
-		);
+	public function get_url_list( $object_type, $page_num = 1 ) {
+		$query = new WP_Query( array(
+			'orderby'        => 'ID',
+			'order'          => 'ASC',
+			'post_type'      => $object_type,
+			'posts_per_page' => CORE_SITEMAPS_POSTS_PER_PAGE,
+			'paged'          => $page_num,
+			'no_found_rows'  => true,
+		) );
+		$posts = $query->get_posts();
+		$url_list = array();
+		foreach ( $posts as $post ) {
+			$url_list[] = array(
+				'loc' => get_permalink( $post ),
+				'lastmod' => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
+				'priority' => '0.5',
+				'changefreq' => 'monthy',
+			);
+		}
+		/**
+		 * Filter the list of URLs for a sitemap before rendering.
+		 *
+		 * @since 0.1.0
+		 *
+		 * @param array  $url_list    List of URLs for a sitemap.
+		 * @param string $object_type Name of the post_type.
+		 * @param int    $page_num    Page of results.
+		 */
+		return apply_filters( 'core_sitemaps_post_url_list', $url_list, $object_type, $page_num );
 	}
 }
