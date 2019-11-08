@@ -44,13 +44,13 @@ class Core_Sitemaps_Provider {
 	/**
 	 * Get a URL list for a post type sitemap.
 	 *
-	 * @param string $object_type Name of the object_type.
-	 * @param int    $page_num Page of results.
+	 * @param int $page_num Page of results.
 	 *
 	 * @return array $url_list List of URLs for a sitemap.
 	 */
-	public function get_url_list( $object_type, $page_num = 1 ) {
-		$query = new WP_Query( array(
+	public function get_url_list( $page_num ) {
+		$object_type = $this->object_type;
+		$query       = new WP_Query( array(
 			'orderby'        => 'ID',
 			'order'          => 'ASC',
 			'post_type'      => $object_type,

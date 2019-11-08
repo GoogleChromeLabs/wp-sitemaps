@@ -45,12 +45,12 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	/**
 	 * Get a URL list for a user sitemap.
 	 *
-	 * @param string $object_type Name of the object_type.
-	 * @param int    $page_num Page of results.
+	 * @param int $page_num Page of results.
 	 *
 	 * @return array $url_list List of URLs for a sitemap.
 	 */
-	public function get_url_list( $object_type, $page_num = 1 ) {
+	public function get_url_list( $page_num ) {
+		$object_type       = $this->object_type;
 		$public_post_types = get_post_types( array(
 			'public' => true,
 		) );
@@ -107,7 +107,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 		}
 
 		if ( 'users' === $sitemap ) {
-			$url_list = $this->get_url_list( 'users', $paged );
+			$url_list = $this->get_url_list( $paged );
 			$renderer = new Core_Sitemaps_Renderer();
 			$renderer->render_sitemap( $url_list );
 			exit;

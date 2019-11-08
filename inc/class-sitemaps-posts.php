@@ -51,7 +51,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 		}
 
 		if ( 'posts' === $sitemap ) {
-			$url_list  = $this->get_url_list( $this->object_type, $paged );
+			$url_list = $this->get_url_list( $paged );
 			$renderer = new Core_Sitemaps_Renderer();
 			$renderer->render_sitemap( $url_list );
 			exit;

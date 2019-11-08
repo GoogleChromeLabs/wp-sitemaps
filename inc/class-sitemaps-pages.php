@@ -11,7 +11,6 @@ class Core_Sitemaps_Pages extends Core_Sitemaps_Provider {
 	 * @var string
 	 */
 	protected $object_type = 'page';
-
 	/**
 	 * Sitemap name
 	 *
@@ -20,7 +19,6 @@ class Core_Sitemaps_Pages extends Core_Sitemaps_Provider {
 	 * @var string
 	 */
 	public $name = 'pages';
-
 	/**
 	 * Sitemap route.
 	 *
@@ -29,7 +27,6 @@ class Core_Sitemaps_Pages extends Core_Sitemaps_Provider {
 	 * @var string
 	 */
 	public $route = '^sitemap-pages\.xml$';
-
 	/**
 	 * Sitemap slug.
 	 *
@@ -51,7 +48,7 @@ class Core_Sitemaps_Pages extends Core_Sitemaps_Provider {
 		}
 
 		if ( 'pages' === $sitemap ) {
-			$url_list  = $this->get_url_list( $this->object_type, $paged );
+			$url_list = $this->get_url_list( $paged );
 			$renderer = new Core_Sitemaps_Renderer();
 			$renderer->render_sitemap( $url_list );
 			exit;
