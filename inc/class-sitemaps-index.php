@@ -19,7 +19,12 @@ class Core_Sitemaps_Index {
 	 * @var string
 	 */
 	protected $name = 'index';
-
+	/**
+	 * Core_Sitemaps_Index constructor.
+	 */
+	public function __construct() {
+		$this->renderer = new Core_Sitemaps_Renderer();
+	}
 	/**
 	 *
 	 * A helper function to initiate actions, hooks and other features needed.
@@ -63,8 +68,7 @@ class Core_Sitemaps_Index {
 
 		if ( 'index' === $sitemap_index ) {
 			$sitemaps = core_sitemaps_get_sitemaps();
-			$renderer = new Core_Sitemaps_Renderer();
-			$renderer->render_index( $sitemaps );
+			$this->renderer->render_index( $sitemaps );
 			exit;
 		}
 	}
@@ -78,8 +82,7 @@ class Core_Sitemaps_Index {
 	 */
 	public function add_robots( $output, $public ) {
 		if ( $public ) {
-			$renderer = new Core_Sitemaps_Renderer();
-			$output .= 'Sitemap: ' . esc_url( $renderer->get_sitemap_url( $this->name ) ) . "\n";
+			$output .= 'Sitemap: ' . esc_url( $this->renderer->get_sitemap_url( $this->name ) ) . "\n";
 		}
 		return $output;
 	}
