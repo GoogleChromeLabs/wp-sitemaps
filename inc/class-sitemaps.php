@@ -11,53 +11,79 @@
  */
 class Core_Sitemaps {
 	/**
-	 * List of registered sitemap providers.
+	 * The main index of supported sitemaps.
 	 *
-	 * @var Core_Sitemaps_Provider[]
+	 * @var Core_Sitemaps_Index
 	 */
-	protected $providers;
+	public $index;
+
+	/**
+	 * The main registry of supported sitemaps.
+	 *
+	 * @var Core_Sitemaps_Registry
+	 */
+	public $registry;
+
 	/**
 	 * Core_Sitemaps constructor.
-	 * Register the registry and bootstrap registered providers.
-	 *
-	 * @uses apply_filters
 	 */
 	public function __construct() {
-		$registry = new Core_Sitemaps_Registry();
+		$this->index    = new Core_Sitemaps_Index();
+		$this->registry = new Core_Sitemaps_Registry();
+	}
 
-		// Index is not a post-type thus cannot be disabled.
-		// @link https://github.com/GoogleChromeLabs/wp-sitemaps/pull/42#discussion_r342517549 reasoning.
-		$index = new Core_Sitemaps_Index();
-		$index->set_registry( $registry );
-		$index->bootstrap();
+	/**
+	 * Initiate all sitemap functionality.
+	 *
+	 * @return void
+	 */
+	public function bootstrap() {
+		add_action( 'init', array( $this, 'setup_sitemaps_index' ) );
+		add_action( 'init', array( $this, 'register_sitemaps' ) );
+		add_action( 'init', array( $this, 'setup_sitemaps' ) );
+	}
 
+	/**
+	 * Set up the main sitemap index.
+	 */
+	public function setup_sitemaps_index() {
+		$this->index->bootstrap();
+	}
+
+	/**
+	 * Register and set up the functionality for all supported sitemaps.
+	 */
+	public function register_sitemaps() {
 		/**
-		 * Provides a 'core_sitemaps_register_providers' filter which contains a associated array of
-		 * Core_Sitemap_Provider instances to register, with the key passed into it's bootstrap($key) function.
+		 * Filters the list of registered sitemap providers.
+		 *
+		 * @since 0.1.0
+		 *
+		 * @param array $providers Array of Core_Sitemap_Provider objects.
 		 */
-		$this->providers = apply_filters(
-			'core_sitemaps_register_providers',
-			[
-				'posts' => new Core_Sitemaps_Post_Types(),
-				'pages' => new Core_Sitemaps_Pages(),
-			]
-		);
+		$providers = apply_filters( 'core_sitemaps_register_providers', array(
+			'posts' => new Core_Sitemaps_Posts(),
+			'pages' => new Core_Sitemaps_Pages(),
+		) );
 
-		foreach ( $this->providers as $key => $provider ) {
-			if ( $provider instanceof Core_Sitemaps_Provider ) {
-				$provider->set_registry( $registry );
-				$provider->bootstrap( $key );
-			}
+		// Register each supported provider.
+		foreach ( $providers as $provider ) {
+			$this->registry->add_sitemap( $provider->name, $provider );
 		}
 	}
 
 	/**
-	 * Get registered providers.
-	 * Useful for code that wants to call a method on all of the registered providers.
-	 *
-	 * @return Core_Sitemaps_Provider[]
+	 * Register and set up the functionality for all supported sitemaps.
 	 */
-	public function get_providers() {
-		return $this->providers;
+	public function setup_sitemaps() {
+		$sitemaps = $this->registry->get_sitemaps();
+
+		// Set up rewrites and rendering callbacks for each supported sitemap.
+		foreach ( $sitemaps as $sitemap ) {
+			add_rewrite_rule( $sitemap->route, 'index.php?sitemap=' . $sitemap->name, 'top' );
+			add_action( 'template_redirect', array( $sitemap, 'render_sitemap' ) );
+		}
 	}
+
+
 }
