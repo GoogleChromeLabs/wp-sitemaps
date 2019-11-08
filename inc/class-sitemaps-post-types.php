@@ -59,10 +59,14 @@ class Core_Sitemaps_Post_Types extends Core_Sitemaps_Provider {
 		$sitemap = get_query_var( 'sitemap' );
 		$paged   = get_query_var( 'paged' );
 
+		if ( empty( $paged ) ) {
+			$paged = 1;
+		}
+
 		if ( 'posts' === $sitemap ) {
-			$content  = $this->get_content_per_page( $this->object_type, $paged );
+			$url_list = $this->get_url_list( $paged );
 			$renderer = new Core_Sitemaps_Renderer();
-			$renderer->render_urlset( $content );
+			$renderer->render_sitemap( $url_list );
 			exit;
 		}
 	}
