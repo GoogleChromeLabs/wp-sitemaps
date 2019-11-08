@@ -37,7 +37,7 @@ class Core_Sitemaps_Pages extends Core_Sitemaps_Provider {
 	 *
 	 * @var string
 	 */
-	public $slug = 'page';
+	public $slug = 'pages';
 
 	/**
 	 * Produce XML to output.
