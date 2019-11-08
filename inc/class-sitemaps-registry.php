@@ -15,33 +15,22 @@ class Core_Sitemaps_Registry {
 	private $sitemaps = [];
 
 	/**
-	 * Core_Sitemaps_Registry constructor.
-	 *  Setup all registered sitemap data providers, after all are registered at priority 99.
-	 */
-	public function __construct() {
-		add_action( 'init', array( $this, 'setup_sitemaps' ), 100 );
-	}
-
-	/**
 	 * Add a sitemap with route to the registry.
 	 *
-	 * @param string $name Name of the sitemap.
-	 * @param string $route Regex route of the sitemap.
-	 * @param string $slug URL of the sitemap.
-	 * @param array  $args List of other arguments.
-	 *
+	 * @param string                $name      Name of the sitemap.
+	 * @param Core_Sitemaps_Provider $provider Instance of a Core_Sitemaps_Provider.
 	 * @return bool True if the sitemap was added, false if it wasn't as it's name was already registered.
 	 */
-	public function add_sitemap( $name, $route, $slug, $args = [] ) {
+	public function add_sitemap( $name, $provider ) {
 		if ( isset( $this->sitemaps[ $name ] ) ) {
 			return false;
 		}
 
-		$this->sitemaps[ $name ] = [
-			'route' => $route,
-			'slug'  => $slug,
-			'args'  => $args,
-		];
+		if ( ! is_a( $provider, 'Core_Sitemaps_Provider' ) ) {
+			return false;
+		}
+
+		$this->sitemaps[ $name ] = $provider;
 
 		return true;
 	}
@@ -50,7 +39,6 @@ class Core_Sitemaps_Registry {
 	 * Remove sitemap by name.
 	 *
 	 * @param string $name Sitemap name.
-	 *
 	 * @return array Remaining sitemaps.
 	 */
 	public function remove_sitemap( $name ) {
@@ -76,16 +64,28 @@ class Core_Sitemaps_Registry {
 	}
 
 	/**
-	 * Setup rewrite rules for all registered sitemaps.
+	 * Get the URL for a specific sitemap.
 	 *
-	 * @return void
+	 * @param string $name The name of the sitemap to get a URL for.
+	 * @return string the sitemap index url.
 	 */
-	public function setup_sitemaps() {
-		do_action( 'core_sitemaps_setup_sitemaps' );
+	public function get_sitemap_url( $name ) {
+		global $wp_rewrite;
 
-		foreach ( $this->sitemaps as $name => $sitemap ) {
-			add_rewrite_tag( '%sitemap%', $name );
-			add_rewrite_rule( $sitemap['route'], 'index.php?sitemap=' . $name, 'top' );
+		if ( $name === 'index' ) {
+			$url = home_url( '/sitemap.xml' );
+
+			if ( ! $wp_rewrite->using_permalinks() ) {
+				$url = add_query_arg( 'sitemap', 'index', home_url( '/' ) );
+			}
+		} else {
+			$url = home_url( sprintf( '/sitemap-%1$s.xml', $name ) );
+
+			if ( ! $wp_rewrite->using_permalinks() ) {
+				$url = add_query_arg( 'sitemap', $name, home_url( '/' ) );
+			}
 		}
+
+		return $url;
 	}
 }
