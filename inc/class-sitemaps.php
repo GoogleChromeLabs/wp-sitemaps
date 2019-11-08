@@ -47,7 +47,7 @@ class Core_Sitemaps {
 	 * Set up the main sitemap index.
 	 */
 	public function setup_sitemaps_index() {
-		$this->index->bootstrap();
+		$this->index->setup_sitemap();
 	}
 
 	/**
@@ -62,9 +62,10 @@ class Core_Sitemaps {
 		 * @param array $providers Array of Core_Sitemap_Provider objects.
 		 */
 		$providers = apply_filters( 'core_sitemaps_register_providers', array(
-			'posts' => new Core_Sitemaps_Posts(),
-			'pages' => new Core_Sitemaps_Pages(),
+			'posts'      => new Core_Sitemaps_Posts(),
+			'pages'      => new Core_Sitemaps_Pages(),
 			'categories' => new Core_Sitemaps_Categories(),
+			'users'      => new Core_Sitemaps_Users(),
 		) );
 
 		// Register each supported provider.
@@ -81,7 +82,7 @@ class Core_Sitemaps {
 
 		// Set up rewrites and rendering callbacks for each supported sitemap.
 		foreach ( $sitemaps as $sitemap ) {
-			add_rewrite_rule( $sitemap->route, 'index.php?sitemap=' . $sitemap->name, 'top' );
+			add_rewrite_rule( $sitemap->route, 'index.php?sitemap=' . $sitemap->name . '&paged=$matches[1]', 'top' );
 			add_action( 'template_redirect', array( $sitemap, 'render_sitemap' ) );
 		}
 	}
