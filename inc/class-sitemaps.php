@@ -16,7 +16,6 @@ class Core_Sitemaps {
 	 * @var Core_Sitemaps_Index
 	 */
 	public $index;
-
 	/**
 	 * The main registry of supported sitemaps.
 	 *
@@ -57,13 +56,13 @@ class Core_Sitemaps {
 		/**
 		 * Filters the list of registered sitemap providers.
 		 *
+		 * @param array $providers Array of Core_Sitemap_Provider objects.
+		 *
 		 * @since 0.1.0
 		 *
-		 * @param array $providers Array of Core_Sitemap_Provider objects.
 		 */
 		$providers = apply_filters( 'core_sitemaps_register_providers', array(
 			'posts' => new Core_Sitemaps_Posts(),
-			'pages' => new Core_Sitemaps_Pages(),
 			'users' => new Core_Sitemaps_Users(),
 		) );
 
@@ -85,6 +84,4 @@ class Core_Sitemaps {
 			add_action( 'template_redirect', array( $sitemap, 'render_sitemap' ) );
 		}
 	}
-
-
 }

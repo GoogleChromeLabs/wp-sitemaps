@@ -25,7 +25,7 @@ const CORE_SITEMAPS_MAX_URLS       = 50000;
 require_once __DIR__ . '/inc/class-sitemaps.php';
 require_once __DIR__ . '/inc/class-sitemaps-provider.php';
 require_once __DIR__ . '/inc/class-sitemaps-index.php';
-require_once __DIR__ . '/inc/class-sitemaps-post-types.php';
+require_once __DIR__ . '/inc/class-sitemaps-posts.php';
 require_once __DIR__ . '/inc/class-sitemaps-registry.php';
 require_once __DIR__ . '/inc/class-sitemaps-renderer.php';
 require_once __DIR__ . '/inc/class-sitemaps-users.php';
