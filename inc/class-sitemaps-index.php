@@ -24,7 +24,7 @@ class Core_Sitemaps_Index {
 	 *
 	 * A helper function to initiate actions, hooks and other features needed.
 	 */
-	public function bootstrap() {
+	public function setup_sitemap() {
 		// Set up rewrites.
 		add_rewrite_tag( '%sitemap%', '([^?]+)' );
 		add_rewrite_rule( '^sitemap\.xml$', 'index.php?sitemap=index', 'top' );

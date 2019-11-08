@@ -47,7 +47,7 @@ class Core_Sitemaps {
 	 * Set up the main sitemap index.
 	 */
 	public function setup_sitemaps_index() {
-		$this->index->bootstrap();
+		$this->index->setup_sitemap();
 	}
 
 	/**
