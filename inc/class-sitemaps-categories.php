@@ -44,7 +44,6 @@ class Core_Sitemaps_Categories extends Core_Sitemaps_Provider {
 	 * @return array $url_list List of URLs for a sitemap.
 	 */
 	public function get_url_list( $object_type, $page_num = 1 ) {
-
 		$terms = get_terms( [
 			'taxonomy' => 'category',
 		] );
