@@ -59,6 +59,8 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	 * Produce XML to output.
 	 */
 	public function render_sitemap() {
+		global $wp_query;
+
 		$sitemap  = get_query_var( 'sitemap' );
 		$sub_type = get_query_var( 'sub_type' );
 		$paged    = get_query_var( 'paged' );
@@ -66,10 +68,19 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 		$sub_types = $this->get_object_sub_types();
 
 		if ( ! isset( $sub_types[ $sub_type ] ) ) {
-			// FIXME: issue 404 when the object subtype isn't valid.
+			// Invalid sub type.
+			$wp_query->set_404();
+			status_header( 404 );
+
 			return;
 		}
-		// FIXME: issue 404 when the paged value is out of range.
+		if ( $this->is_pagination_out_of_range( $paged ) ) {
+			// Out of range pagination.
+			$wp_query->set_404();
+			status_header( 404 );
+
+			return;
+		}
 
 		$this->sub_type = $sub_types[ $sub_type ]->name;
 		if ( empty( $paged ) ) {

@@ -99,4 +99,16 @@ class Core_Sitemaps_Provider {
 	public function rewrite_query() {
 		return 'index.php?sitemap=' . $this->name . '&paged=$matches[1]';
 	}
+
+	/**
+	 * Is the provided pagination number outwith valid values?
+	 *
+	 * @param int $page_num Pagination number.
+	 *
+	 * @return bool True if invalid, false if within range.
+	 */
+	public function is_pagination_out_of_range( $page_num ) {
+		// FIXME: is $page_num between 1 and max?
+		return false;
+	}
 }
