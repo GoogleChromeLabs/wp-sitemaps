@@ -6,11 +6,12 @@
  */
 class Core_Sitemaps_Categories extends Core_Sitemaps_Provider {
 	/**
-	 * Post type name.
+	 * Taxonomy type name.
 	 *
 	 * @var string
 	 */
 	protected $object_type = 'category';
+
 	/**
 	 * Sitemap name
 	 * Used for building sitemap URLs.
@@ -43,7 +44,7 @@ class Core_Sitemaps_Categories extends Core_Sitemaps_Provider {
 	 * @param int    $page_num Page of results.
 	 * @return array $url_list List of URLs for a sitemap.
 	 */
-	public function get_url_list( $object_type, $page_num = 1 ) {
+	public function get_url_list( $page_num = 1 ) {
 		$terms = get_terms( [
 			'taxonomy' => 'category',
 		] );
@@ -62,8 +63,6 @@ class Core_Sitemaps_Categories extends Core_Sitemaps_Provider {
 			$url_list[] = array(
 				'loc' => get_category_link( $term->term_id ),
 				'lastmod' => mysql2date( DATE_W3C, $last_modified[0]->post_modified_gmt, false ),
-				'priority' => '0.3',
-				'changefreq' => 'daily',
 			);
 		}
 		/**
@@ -88,7 +87,7 @@ class Core_Sitemaps_Categories extends Core_Sitemaps_Provider {
 			$paged = 1;
 		}
 		if ( 'categories' === $sitemap ) {
-			$url_list  = $this->get_url_list( 'categories', $paged );
+			$url_list  = $this->get_url_list( $paged );
 			$renderer = new Core_Sitemaps_Renderer();
 			$renderer->render_sitemap( $url_list );
 			exit;
