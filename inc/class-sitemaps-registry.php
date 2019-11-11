@@ -15,33 +15,22 @@ class Core_Sitemaps_Registry {
 	private $sitemaps = [];
 
 	/**
-	 * Core_Sitemaps_Registry constructor.
-	 *  Setup all registered sitemap data providers, after all are registered at priority 99.
-	 */
-	public function __construct() {
-		add_action( 'init', array( $this, 'setup_sitemaps' ), 100 );
-	}
-
-	/**
 	 * Add a sitemap with route to the registry.
 	 *
-	 * @param string $name Name of the sitemap.
-	 * @param string $route Regex route of the sitemap.
-	 * @param string $slug URL of the sitemap.
-	 * @param array  $args List of other arguments.
-	 *
+	 * @param string                $name      Name of the sitemap.
+	 * @param Core_Sitemaps_Provider $provider Instance of a Core_Sitemaps_Provider.
 	 * @return bool True if the sitemap was added, false if it wasn't as it's name was already registered.
 	 */
-	public function add_sitemap( $name, $route, $slug, $args = [] ) {
+	public function add_sitemap( $name, $provider ) {
 		if ( isset( $this->sitemaps[ $name ] ) ) {
 			return false;
 		}
 
-		$this->sitemaps[ $name ] = [
-			'route' => $route,
-			'slug'  => $slug,
-			'args'  => $args,
-		];
+		if ( ! is_a( $provider, 'Core_Sitemaps_Provider' ) ) {
+			return false;
+		}
+
+		$this->sitemaps[ $name ] = $provider;
 
 		return true;
 	}
@@ -50,7 +39,6 @@ class Core_Sitemaps_Registry {
 	 * Remove sitemap by name.
 	 *
 	 * @param string $name Sitemap name.
-	 *
 	 * @return array Remaining sitemaps.
 	 */
 	public function remove_sitemap( $name ) {
@@ -72,20 +60,6 @@ class Core_Sitemaps_Registry {
 			return $max_sitemaps;
 		} else {
 			return $this->sitemaps;
-		}
-	}
-
-	/**
-	 * Setup rewrite rules for all registered sitemaps.
-	 *
-	 * @return void
-	 */
-	public function setup_sitemaps() {
-		do_action( 'core_sitemaps_setup_sitemaps' );
-
-		foreach ( $this->sitemaps as $name => $sitemap ) {
-			add_rewrite_tag( '%sitemap%', $name );
-			add_rewrite_rule( $sitemap['route'], 'index.php?sitemap=' . $name, 'top' );
 		}
 	}
 }

@@ -13,26 +13,28 @@ class Core_Sitemaps_Pages extends Core_Sitemaps_Provider {
 	protected $object_type = 'page';
 	/**
 	 * Sitemap name
+	 *
 	 * Used for building sitemap URLs.
 	 *
 	 * @var string
 	 */
-	protected $name = 'pages';
-
+	public $name = 'pages';
 	/**
-	 * Bootstrapping the filters.
+	 * Sitemap route.
+	 *
+	 * Regex pattern used when building the route for a sitemap.
+	 *
+	 * @var string
 	 */
-	public function bootstrap() {
-		add_action( 'core_sitemaps_setup_sitemaps', array( $this, 'register_sitemap' ), 99 );
-		add_action( 'template_redirect', array( $this, 'render_sitemap' ) );
-	}
-
+	public $route = '^sitemap-pages\.xml$';
 	/**
-	 * Sets up rewrite rule for sitemap_index.
+	 * Sitemap slug.
+	 *
+	 * Used for building sitemap URLs.
+	 *
+	 * @var string
 	 */
-	public function register_sitemap() {
-		$this->registry->add_sitemap( $this->name, '^sitemap-pages\.xml$', esc_url( $this->get_sitemap_url( $this->name ) ) );
-	}
+	public $slug = 'pages';
 
 	/**
 	 * Produce XML to output.
@@ -41,10 +43,14 @@ class Core_Sitemaps_Pages extends Core_Sitemaps_Provider {
 		$sitemap = get_query_var( 'sitemap' );
 		$paged   = get_query_var( 'paged' );
 
+		if ( empty( $paged ) ) {
+			$paged = 1;
+		}
+
 		if ( 'pages' === $sitemap ) {
-			$content  = $this->get_content_per_page( $this->object_type, $paged );
+			$url_list = $this->get_url_list( $paged );
 			$renderer = new Core_Sitemaps_Renderer();
-			$renderer->render_urlset( $content );
+			$renderer->render_sitemap( $url_list );
 			exit;
 		}
 	}

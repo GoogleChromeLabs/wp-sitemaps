@@ -11,83 +11,77 @@
  */
 class Core_Sitemaps_Provider {
 	/**
-	 * Registry instance
-	 *
-	 * @var Core_Sitemaps_Registry
-	 */
-	public $registry;
-	/**
-	 * Object Type name
-	 * This can be a post type or term.
+	 * Post type name.
 	 *
 	 * @var string
 	 */
 	protected $object_type = '';
-
 	/**
 	 * Sitemap name
+	 *
 	 * Used for building sitemap URLs.
 	 *
 	 * @var string
 	 */
-	protected $name = '';
+	public $name = '';
+	/**
+	 * Sitemap route
+	 *
+	 * Regex pattern used when building the route for a sitemap.
+	 *
+	 * @var string
+	 */
+	public $route = '';
+	/**
+	 * Sitemap slug
+	 *
+	 * Used for building sitemap URLs.
+	 *
+	 * @var string
+	 */
+	public $slug = '';
 
 	/**
-	 * Setup a link to the registry.
+	 * Get a URL list for a post type sitemap.
 	 *
-	 * @param Core_Sitemaps_Registry $instance Registry instance.
+	 * @param int $page_num Page of results.
+	 *
+	 * @return array $url_list List of URLs for a sitemap.
 	 */
-	public function set_registry( $instance ) {
-		$this->registry = $instance;
-	}
+	public function get_url_list( $page_num ) {
+		$object_type = $this->object_type;
 
-	/**
-	 * Get content for a page.
-	 *
-	 * @param string $object_type Name of the object_type.
-	 * @param int    $page_num Page of results.
-	 *
-	 * @return int[]|WP_Post[] Query result.
-	 */
-	public function get_content_per_page( $object_type, $page_num = 1 ) {
-		$query = new WP_Query();
+		$query       = new WP_Query( array(
+			'orderby'                => 'ID',
+			'order'                  => 'ASC',
+			'post_type'              => $object_type,
+			'posts_per_page'         => CORE_SITEMAPS_POSTS_PER_PAGE,
+			'paged'                  => $page_num,
+			'no_found_rows'          => true,
+			'update_post_term_cache' => false,
+			'update_post_meta_cache' => false,
+		) );
 
-		return $query->query(
-			array(
-				'orderby'                => 'ID',
-				'order'                  => 'ASC',
-				'post_type'              => $object_type,
-				'posts_per_page'         => CORE_SITEMAPS_POSTS_PER_PAGE,
-				'paged'                  => $page_num,
-				'no_found_rows'          => true,
-				'update_post_term_cache' => false,
-				'update_post_meta_cache' => false,
-			)
-		);
-	}
+		$posts = $query->get_posts();
 
-	/**
-	 * Builds the URL for the sitemaps.
-	 *
-	 * @return string the sitemap index url.
-	 */
-	public function get_sitemap_url( $name ) {
-		global $wp_rewrite;
+		$url_list = array();
 
-		if ( $name === 'index' ) {
-			$url = home_url( '/sitemap.xml' );
-
-			if ( ! $wp_rewrite->using_permalinks() ) {
-				$url = add_query_arg( 'sitemap', 'index', home_url( '/' ) );
-			}
-		} else {
-			$url = home_url( sprintf( '/sitemap-%1$s.xml', $name ) );
-
-			if ( ! $wp_rewrite->using_permalinks() ) {
-				$url = add_query_arg( 'sitemap', $name, home_url( '/' ) );
-			}
+		foreach ( $posts as $post ) {
+			$url_list[] = array(
+				'loc'     => get_permalink( $post ),
+				'lastmod' => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
+			);
 		}
 
-		return $url;
+		/**
+		 * Filter the list of URLs for a sitemap before rendering.
+		 *
+		 * @param array  $url_list List of URLs for a sitemap.
+		 * @param string $object_type Name of the post_type.
+		 * @param int    $page_num Page of results.
+		 *
+		 * @since 0.1.0
+		 */
+		return apply_filters( 'core_sitemaps_post_url_list', $url_list, $object_type, $page_num );
 	}
 }
