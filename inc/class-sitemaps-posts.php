@@ -64,11 +64,11 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 			return;
 		}
 
-		$type = $sub_types[ $sub_type ];
+		$this->sub_type = $sub_types[ $sub_type ];
 		if ( empty( $paged ) ) {
 			$paged = 1;
 		}
-		if ( $this->name === $sitemap && $type ) {
+		if ( $this->name === $sitemap ) {
 			$url_list = $this->get_url_list( $paged );
 			$renderer = new Core_Sitemaps_Renderer();
 			$renderer->render_sitemap( $url_list );
