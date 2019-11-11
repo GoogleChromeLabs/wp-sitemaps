@@ -81,4 +81,13 @@ class Core_Sitemaps_Provider {
 		 */
 		return apply_filters( 'core_sitemaps_post_url_list', $url_list, $object_type, $page_num );
 	}
+
+	/**
+	 * Query for the add_rewrite_rule.
+	 *
+	 * @return string
+	 */
+	public function rewrite_query() {
+		return 'index.php?sitemap=' . $this->name . '&paged=$matches[1]';
+	}
 }

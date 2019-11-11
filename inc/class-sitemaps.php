@@ -80,7 +80,7 @@ class Core_Sitemaps {
 
 		// Set up rewrites and rendering callbacks for each supported sitemap.
 		foreach ( $sitemaps as $sitemap ) {
-			add_rewrite_rule( $sitemap->route, 'index.php?sitemap=' . $sitemap->name . '&paged=$matches[1]', 'top' );
+			add_rewrite_rule( $sitemap->route, $sitemap->rewrite_query(), 'top' );
 			add_action( 'template_redirect', array( $sitemap, 'render_sitemap' ) );
 		}
 	}

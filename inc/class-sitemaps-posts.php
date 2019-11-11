@@ -54,8 +54,9 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	 * Produce XML to output.
 	 */
 	public function render_sitemap() {
-		$sitemap = get_query_var( 'sitemap' );
-		$paged   = get_query_var( 'paged' );
+		$sitemap  = get_query_var( 'sitemap' );
+		$sub_type = get_query_var( 'sub_type' );
+		$paged    = get_query_var( 'paged' );
 
 		if ( empty( $paged ) ) {
 			$paged = 1;
@@ -70,5 +71,14 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 				exit;
 			}
 		}
+	}
+
+	/**
+	 * Query for the add_rewrite_rule.
+	 *
+	 * @return string
+	 */
+	public function rewrite_query() {
+		return 'index.php?sitemap=' . $this->name . '&sub_type=$matches[1]&paged=$matches[2]';
 	}
 }
