@@ -1,12 +1,11 @@
 <?php
+
 /**
  * Core Sitemaps Registry
  *
  * @package Core_Sitemaps
  */
-
 class Core_Sitemaps_Registry {
-
 	/**
 	 * Registered sitemaps.
 	 *
@@ -17,8 +16,9 @@ class Core_Sitemaps_Registry {
 	/**
 	 * Add a sitemap with route to the registry.
 	 *
-	 * @param string                $name      Name of the sitemap.
+	 * @param string                 $name Name of the sitemap.
 	 * @param Core_Sitemaps_Provider $provider Instance of a Core_Sitemaps_Provider.
+	 *
 	 * @return bool True if the sitemap was added, false if it wasn't as it's name was already registered.
 	 */
 	public function add_sitemap( $name, $provider ) {
@@ -39,6 +39,7 @@ class Core_Sitemaps_Registry {
 	 * Remove sitemap by name.
 	 *
 	 * @param string $name Sitemap name.
+	 *
 	 * @return array Remaining sitemaps.
 	 */
 	public function remove_sitemap( $name ) {
@@ -57,6 +58,7 @@ class Core_Sitemaps_Registry {
 
 		if ( $total_sitemaps > CORE_SITEMAPS_MAX_URLS ) {
 			$max_sitemaps = array_slice( $this->sitemaps, 0, CORE_SITEMAPS_MAX_URLS, true );
+
 			return $max_sitemaps;
 		} else {
 			return $this->sitemaps;

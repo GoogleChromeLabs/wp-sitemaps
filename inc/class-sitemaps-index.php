@@ -61,10 +61,6 @@ class Core_Sitemaps_Index {
 
 	/**
 	 * Produce XML to output.
-	 *
-	 * @todo At the moment this outputs the rewrite rule for each sitemap rather than the URL.
-	 * This will need changing.
-	 *
 	 */
 	public function render_sitemap() {
 		$sitemap_index = get_query_var( 'sitemap' );

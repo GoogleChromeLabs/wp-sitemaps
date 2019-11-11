@@ -1,4 +1,10 @@
 <?php
+/**
+ * Class file for the Core_Sitemaps_Posts class.
+ * This class generates the sitemaps for the post object type and it's sub types, including any custom post types.
+ *
+ * @package Core_Sitemaps
+ */
 
 /**
  * Class Core_Sitemaps_Posts.
