@@ -29,6 +29,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	 * Sitemap route.
 	 *
 	 * Regex pattern used when building the route for a sitemap.
+	 * Thie first capture group is the post object sub-type, the second capture group matches the pagination.
 	 * Matches sitemap-posts-pages.xml, sitemap-posts-posts-20.xml.
 	 *
 	 * @var string
