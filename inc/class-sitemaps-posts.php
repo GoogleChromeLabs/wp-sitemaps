@@ -61,10 +61,13 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 		$sub_types = $this->get_sitemap_sub_types();
 
 		if ( ! isset( $sub_types[ $sub_type ] ) ) {
+			// FIXME: issue 404 when the object subtype isn't valid.
 			return;
 		}
 
-		$this->sub_type = $sub_types[ $sub_type ];
+		// FIXME: issue 404 when the paged value is out of range.
+
+		$this->sub_type = $sub_types[ $sub_type ]->name;
 		if ( empty( $paged ) ) {
 			$paged = 1;
 		}
