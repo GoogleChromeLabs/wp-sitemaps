@@ -39,15 +39,20 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 
 	/**
 	 * Return the public post types, which excludes nav_items and similar types.
-	 * Attachments are also excluded.
+	 * Attachments are also excluded. This includes custom post types with public = true
 	 */
-	public function get_sitemap_sub_types() {
+	public function get_object_sub_types() {
 		$post_types = get_post_types( array( 'public' => true ), 'objects' );
-		if ( isset( $post_types['attachment'] ) ) {
-			unset( $post_types['attachment'] );
-		}
+		unset( $post_types['attachment'] );
 
-		return $post_types;
+		/**
+		 * Filter the list of post object sub types available within the sitemap.
+		 *
+		 * @param array $post -types List of registered object sub types.
+		 *
+		 * @since 0.1.0
+		 */
+		return apply_filters( 'core_sitemaps_post_object_sub_types', $post_types );
 	}
 
 	/**
@@ -58,13 +63,12 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 		$sub_type = get_query_var( 'sub_type' );
 		$paged    = get_query_var( 'paged' );
 
-		$sub_types = $this->get_sitemap_sub_types();
+		$sub_types = $this->get_object_sub_types();
 
 		if ( ! isset( $sub_types[ $sub_type ] ) ) {
 			// FIXME: issue 404 when the object subtype isn't valid.
 			return;
 		}
-
 		// FIXME: issue 404 when the paged value is out of range.
 
 		$this->sub_type = $sub_types[ $sub_type ]->name;
