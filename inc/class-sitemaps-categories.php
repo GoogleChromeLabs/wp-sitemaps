@@ -74,7 +74,7 @@ class Core_Sitemaps_Categories extends Core_Sitemaps_Provider {
 		 * @param string $object_type Name of the post_type.
 		 * @param int    $page_num    Page of results.
 		 */
-		return apply_filters( 'core_sitemaps_categories_url_list', $url_list, $page_num );
+		return apply_filters( 'core_sitemaps_categories_url_list', $url_list, 'category', $page_num );
 	}
 
 	/**
