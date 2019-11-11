@@ -54,11 +54,14 @@ class Core_Sitemaps_Provider {
 
 		return $query->query(
 			array(
-				'orderby'        => 'ID',
-				'order'          => 'ASC',
-				'post_type'      => $object_type,
-				'posts_per_page' => CORE_SITEMAPS_POSTS_PER_PAGE,
-				'paged'          => $page_num,
+				'orderby'                => 'ID',
+				'order'                  => 'ASC',
+				'post_type'              => $object_type,
+				'posts_per_page'         => CORE_SITEMAPS_POSTS_PER_PAGE,
+				'paged'                  => $page_num,
+				'no_found_rows'          => true,
+				'update_post_term_cache' => false,
+				'update_post_meta_cache' => false,
 			)
 		);
 	}
