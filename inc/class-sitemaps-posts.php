@@ -27,7 +27,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	 *
 	 * @var string
 	 */
-	public $route = '^sitemap-posts-[A-z]+-?([0-9]+)?\.xml$';
+	public $route = '^sitemap-posts-([A-z]+)-?([0-9]+)?\.xml$';
 	/**
 	 * Sitemap slug.
 	 *
@@ -58,18 +58,21 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 		$sub_type = get_query_var( 'sub_type' );
 		$paged    = get_query_var( 'paged' );
 
+		$sub_types = $this->get_sitemap_sub_types();
+
+		if ( ! isset( $sub_types[ $sub_type ] ) ) {
+			return;
+		}
+
+		$type = $sub_types[ $sub_type ];
 		if ( empty( $paged ) ) {
 			$paged = 1;
 		}
-		$sub_types = $this->get_sitemap_sub_types();
-
-		foreach ( $sub_types as $type ) {
-			if ( $type->name === $sitemap ) {
-				$url_list = $this->get_url_list( $paged );
-				$renderer = new Core_Sitemaps_Renderer();
-				$renderer->render_sitemap( $url_list );
-				exit;
-			}
+		if ( $this->name === $sitemap && $type ) {
+			$url_list = $this->get_url_list( $paged );
+			$renderer = new Core_Sitemaps_Renderer();
+			$renderer->render_sitemap( $url_list );
+			exit;
 		}
 	}
 
