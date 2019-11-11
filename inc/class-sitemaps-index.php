@@ -34,7 +34,6 @@ class Core_Sitemaps_Index {
 	public function setup_sitemap() {
 		// Set up rewrites.
 		add_rewrite_tag( '%sitemap%', '([^?]+)' );
-		add_rewrite_tag( '%sub_type%', '([^?]+)' );
 		add_rewrite_rule( '^sitemap\.xml$', 'index.php?sitemap=index', 'top' );
 
 		// Add filters.
