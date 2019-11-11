@@ -95,9 +95,9 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	}
 
 	/**
-	 * Query for the add_rewrite_rule.
+	 * Query for the Posts add_rewrite_rule.
 	 *
-	 * @return string
+	 * @return string Valid add_rewrite_rule query.
 	 */
 	public function rewrite_query() {
 		return 'index.php?sitemap=' . $this->name . '&sub_type=$matches[1]&paged=$matches[2]';

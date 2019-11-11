@@ -92,9 +92,9 @@ class Core_Sitemaps_Provider {
 	}
 
 	/**
-	 * Query for the add_rewrite_rule.
+	 * Query for the add_rewrite_rule. Must match the number of Capturing Groups in the route regex.
 	 *
-	 * @return string
+	 * @return string Valid add_rewrite_rule query.
 	 */
 	public function rewrite_query() {
 		return 'index.php?sitemap=' . $this->name . '&paged=$matches[1]';
