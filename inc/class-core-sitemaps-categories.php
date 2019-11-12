@@ -27,9 +27,9 @@ class Core_Sitemaps_Categories extends Core_Sitemaps_Provider {
 	 */
 	public function get_url_list( $page_num = 1 ) {
 		$terms = get_terms(
-			[
+			array(
 				'taxonomy' => 'category',
-			]
+			)
 		);
 
 		$url_list = array();
