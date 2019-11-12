@@ -101,7 +101,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 		 *
 		 * @since 0.1.0
 		 */
-		return apply_filters( 'core_sitemaps_post_object_sub_types', $post_types );
+		return apply_filters( 'core_sitemaps_post_types', $post_types );
 	}
 
 	/**
