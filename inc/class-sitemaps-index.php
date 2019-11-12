@@ -48,7 +48,6 @@ class Core_Sitemaps_Index {
 	 * Prevent trailing slashes.
 	 *
 	 * @param string $redirect The redirect URL currently determined.
-	 *
 	 * @return bool|string $redirect
 	 */
 	public function redirect_canonical( $redirect ) {

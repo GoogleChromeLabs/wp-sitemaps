@@ -12,12 +12,6 @@
  */
 class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	/**
-	 * Post type name.
-	 *
-	 * @var string
-	 */
-	protected $object_type = 'post';
-	/**
 	 * Sitemap name.
 	 *
 	 * Used for building sitemap URLs.
@@ -43,24 +37,12 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	 * @var string
 	 */
 	public $slug = 'posts';
-
 	/**
-	 * Return the public post types, which excludes nav_items and similar types.
-	 * Attachments are also excluded. This includes custom post types with public = true
+	 * Post type name.
+	 *
+	 * @var string
 	 */
-	public function get_object_sub_types() {
-		$post_types = get_post_types( array( 'public' => true ), 'objects' );
-		unset( $post_types['attachment'] );
-
-		/**
-		 * Filter the list of post object sub types available within the sitemap.
-		 *
-		 * @param array $post -types List of registered object sub types.
-		 *
-		 * @since 0.1.0
-		 */
-		return apply_filters( 'core_sitemaps_post_object_sub_types', $post_types );
-	}
+	protected $object_type = 'post';
 
 	/**
 	 * Produce XML to output.
@@ -99,6 +81,24 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 			$renderer->render_sitemap( $url_list );
 			exit;
 		}
+	}
+
+	/**
+	 * Return the public post types, which excludes nav_items and similar types.
+	 * Attachments are also excluded. This includes custom post types with public = true
+	 */
+	public function get_object_sub_types() {
+		$post_types = get_post_types( array( 'public' => true ), 'objects' );
+		unset( $post_types['attachment'] );
+
+		/**
+		 * Filter the list of post object sub types available within the sitemap.
+		 *
+		 * @param array $post -types List of registered object sub types.
+		 *
+		 * @since 0.1.0
+		 */
+		return apply_filters( 'core_sitemaps_post_object_sub_types', $post_types );
 	}
 
 	/**
