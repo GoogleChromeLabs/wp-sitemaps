@@ -14,7 +14,6 @@ class Core_Sitemaps_Categories extends Core_Sitemaps_Provider {
 	 */
 	public function __construct() {
 		$this->object_type = 'category';
-		$this->name        = 'categories';
 		$this->route       = '^sitemap-categories-?([0-9]+)?\.xml$';
 		$this->slug        = 'categories';
 	}

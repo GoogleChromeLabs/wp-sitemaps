@@ -18,15 +18,6 @@ class Core_Sitemaps_Provider {
 	protected $object_type = '';
 
 	/**
-	 * Sitemap name
-	 *
-	 * Used for building sitemap URLs.
-	 *
-	 * @var string
-	 */
-	public $name = '';
-
-	/**
 	 * Sitemap route
 	 *
 	 * Regex pattern used when building the route for a sitemap.
