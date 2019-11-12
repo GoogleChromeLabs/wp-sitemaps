@@ -16,6 +16,14 @@ class Core_Sitemaps_Provider {
 	 * @var string
 	 */
 	protected $object_type = '';
+
+	/**
+	 * Sub type name.
+	 *
+	 * @var string
+	 */
+	protected $sub_type = '';
+
 	/**
 	 * Sitemap name
 	 *
@@ -24,6 +32,7 @@ class Core_Sitemaps_Provider {
 	 * @var string
 	 */
 	public $name = '';
+
 	/**
 	 * Sitemap route
 	 *
@@ -32,6 +41,7 @@ class Core_Sitemaps_Provider {
 	 * @var string
 	 */
 	public $route = '';
+
 	/**
 	 * Sitemap slug
 	 *
@@ -49,18 +59,22 @@ class Core_Sitemaps_Provider {
 	 * @return array $url_list List of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num ) {
-		$object_type = $this->object_type;
-		$query       = new WP_Query( array(
+		$type = $this->sub_type;
+
+		if ( empty( $type ) ) {
+			$type = $this->object_type;
+		}
+
+		$query = new WP_Query( array(
 			'orderby'        => 'ID',
 			'order'          => 'ASC',
-			'post_type'      => $object_type,
+			'post_type'      => $type,
 			'posts_per_page' => CORE_SITEMAPS_POSTS_PER_PAGE,
 			'paged'          => $page_num,
 			'no_found_rows'  => true,
 		) );
 
 		$posts = $query->get_posts();
-
 		$url_list = array();
 
 		foreach ( $posts as $post ) {
@@ -74,11 +88,20 @@ class Core_Sitemaps_Provider {
 		 * Filter the list of URLs for a sitemap before rendering.
 		 *
 		 * @param array  $url_list List of URLs for a sitemap.
-		 * @param string $object_type Name of the post_type.
+		 * @param string $type     Name of the post_type.
 		 * @param int    $page_num Page of results.
 		 *
 		 * @since 0.1.0
 		 */
-		return apply_filters( 'core_sitemaps_post_url_list', $url_list, $object_type, $page_num );
+		return apply_filters( 'core_sitemaps_post_url_list', $url_list, $type, $page_num );
+	}
+
+	/**
+	 * Query for the add_rewrite_rule. Must match the number of Capturing Groups in the route regex.
+	 *
+	 * @return string Valid add_rewrite_rule query.
+	 */
+	public function rewrite_query() {
+		return 'index.php?sitemap=' . $this->name . '&paged=$matches[1]';
 	}
 }
