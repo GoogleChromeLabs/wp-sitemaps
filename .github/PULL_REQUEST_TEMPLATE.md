@@ -12,6 +12,7 @@ Please select the relevant options:
 
 - [ ] Bug fix (non-breaking change which fixes an issue)
 - [ ] New feature (non-breaking change which adds functionality)
+- [ ] Enhancement (change which improves an existing feature. E.g., performance improvement, docs update, etc.)
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
 
 ### Steps to test
