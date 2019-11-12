@@ -57,14 +57,14 @@ class Core_Sitemaps {
 		/**
 		 * Filters the list of registered sitemap providers.
 		 *
-		 * @param array $providers Array of Core_Sitemap_Provider objects.
-		 *
 		 * @since 0.1.0
 		 *
+		 * @param array $providers Array of Core_Sitemap_Provider objects.
 		 */
 		$providers = apply_filters( 'core_sitemaps_register_providers', array(
-			'posts' => new Core_Sitemaps_Posts(),
-			'users' => new Core_Sitemaps_Users(),
+			'posts'      => new Core_Sitemaps_Posts(),
+			'categories' => new Core_Sitemaps_Categories(),
+			'users'      => new Core_Sitemaps_Users(),
 		) );
 
 		// Register each supported provider.
