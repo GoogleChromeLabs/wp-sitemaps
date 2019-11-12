@@ -41,6 +41,7 @@ class Core_Sitemaps {
 		add_action( 'init', array( $this, 'setup_sitemaps_index' ) );
 		add_action( 'init', array( $this, 'register_sitemaps' ) );
 		add_action( 'init', array( $this, 'setup_sitemaps' ) );
+		add_action( 'plugins_loaded', array( $this, 'maybe_flush_rewrites' ) );
 	}
 
 	/**
@@ -57,9 +58,9 @@ class Core_Sitemaps {
 		/**
 		 * Filters the list of registered sitemap providers.
 		 *
+		 * @param array $providers Array of Core_Sitemap_Provider objects.
 		 * @since 0.1.0
 		 *
-		 * @param array $providers Array of Core_Sitemap_Provider objects.
 		 */
 		$providers = apply_filters( 'core_sitemaps_register_providers', array(
 			'posts'      => new Core_Sitemaps_Posts(),
@@ -84,6 +85,15 @@ class Core_Sitemaps {
 		foreach ( $sitemaps as $sitemap ) {
 			add_rewrite_rule( $sitemap->route, 'index.php?sitemap=' . $sitemap->name . '&paged=$matches[1]', 'top' );
 			add_action( 'template_redirect', array( $sitemap, 'render_sitemap' ) );
+		}
+	}
+
+	/**
+	 * Flush rewrite rules if developers updated them.
+	 */
+	public function maybe_flush_rewrites() {
+		if ( update_option( 'core_sitemaps_rewrite_version', CORE_SITEMAPS_REWRITE_VERSION ) ) {
+			flush_rewrite_rules( false );
 		}
 	}
 }
