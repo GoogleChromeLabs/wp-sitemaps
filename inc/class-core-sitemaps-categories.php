@@ -53,10 +53,10 @@ class Core_Sitemaps_Categories extends Core_Sitemaps_Provider {
 		/**
 		 * Filter the list of URLs for a sitemap before rendering.
 		 *
+		 * @since 0.1.0
 		 * @param array  $url_list    List of URLs for a sitemap.
 		 * @param string $object_type Name of the post_type.
 		 * @param int    $page_num    Page of results.
-		 * @since 0.1.0
 		 */
 		return apply_filters( 'core_sitemaps_categories_url_list', $url_list, 'category', $page_num );
 	}
