@@ -43,7 +43,7 @@ class Core_Sitemaps_Renderer {
 
 		foreach ( $sitemaps as $link ) {
 			$sitemap = $sitemap_index->addChild( 'sitemap' );
-			$sitemap->addChild( 'loc', esc_url( $this->get_sitemap_url( $link->slug ) ) );
+			$sitemap->addChild( 'loc', esc_url( $this->get_sitemap_url( $link->name ) ) );
 			$sitemap->addChild( 'lastmod', '2004-10-01T18:23:17+00:00' );
 		}
 		// All output is escaped within the addChild method calls.

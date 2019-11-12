@@ -18,6 +18,15 @@ class Core_Sitemaps_Provider {
 	protected $object_type = '';
 
 	/**
+	 * Sitemap name
+	 *
+	 * Used for building sitemap URLs.
+	 *
+	 * @var string
+	 */
+	public $name = '';
+
+	/**
 	 * Sitemap route
 	 *
 	 * Regex pattern used when building the route for a sitemap.
@@ -69,11 +78,11 @@ class Core_Sitemaps_Provider {
 		/**
 		 * Filter the list of URLs for a sitemap before rendering.
 		 *
-		 * @param array  $url_list    List of URLs for a sitemap.
+		 * @since 0.1.0
 		 * @param string $object_type Name of the post_type.
 		 * @param int    $page_num    Page of results.
 		 *
-		 * @since 0.1.0
+		 * @param array  $url_list    List of URLs for a sitemap.
 		 */
 		return apply_filters( 'core_sitemaps_post_url_list', $url_list, $object_type, $page_num );
 	}

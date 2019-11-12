@@ -15,6 +15,7 @@ class Core_Sitemaps_Pages extends Core_Sitemaps_Provider {
 	 */
 	public function __construct() {
 		$this->object_type = 'page';
+		$this->name        = 'pages';
 		$this->route       = '^sitemap-pages\.xml$';
 		$this->slug        = 'pages';
 	}

@@ -57,8 +57,8 @@ class Core_Sitemaps {
 		/**
 		 * Filters the list of registered sitemap providers.
 		 *
-		 * @param array $providers Array of Core_Sitemap_Provider objects.
 		 * @since 0.1.0
+		 * @param array $providers Array of Core_Sitemap_Provider objects.
 		 */
 		$providers = apply_filters(
 			'core_sitemaps_register_providers',
@@ -72,7 +72,7 @@ class Core_Sitemaps {
 
 		// Register each supported provider.
 		foreach ( $providers as $provider ) {
-			$this->registry->add_sitemap( $provider->slug, $provider );
+			$this->registry->add_sitemap( $provider->name, $provider );
 		}
 	}
 
@@ -85,7 +85,7 @@ class Core_Sitemaps {
 			if ( ! $sitemap instanceof Core_Sitemaps_Provider ) {
 				return;
 			}
-			add_rewrite_rule( $sitemap->route, 'index.php?sitemap=' . $sitemap->slug . '&paged=$matches[1]', 'top' );
+			add_rewrite_rule( $sitemap->route, 'index.php?sitemap=' . $sitemap->name . '&paged=$matches[1]', 'top' );
 			add_action( 'template_redirect', array( $sitemap, 'render_sitemap' ) );
 		}
 	}

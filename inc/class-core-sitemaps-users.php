@@ -16,6 +16,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	 */
 	public function __construct() {
 		$this->object_type = 'user';
+		$this->name        = 'users';
 		$this->route       = '^sitemap-users-?([0-9]+)?\.xml$';
 		$this->slug        = 'users';
 	}
@@ -69,11 +70,11 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 		/**
 		 * Filter the list of URLs for a sitemap before rendering.
 		 *
-		 * @param array  $url_list    List of URLs for a sitemap.
+		 * @since 0.1.0
 		 * @param string $object_type Name of the post_type.
 		 * @param int    $page_num    Page of results.
 		 *
-		 * @since 0.1.0
+		 * @param array  $url_list    List of URLs for a sitemap.
 		 */
 		return apply_filters( 'core_sitemaps_users_url_list', $url_list, $object_type, $page_num );
 	}
