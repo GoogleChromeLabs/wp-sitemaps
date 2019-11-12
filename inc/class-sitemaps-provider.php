@@ -16,12 +16,14 @@ class Core_Sitemaps_Provider {
 	 * @var string
 	 */
 	protected $object_type = '';
+
 	/**
 	 * Sub type name.
 	 *
 	 * @var string
 	 */
 	protected $sub_type = '';
+
 	/**
 	 * Sitemap name
 	 *
@@ -30,6 +32,7 @@ class Core_Sitemaps_Provider {
 	 * @var string
 	 */
 	public $name = '';
+
 	/**
 	 * Sitemap route
 	 *
@@ -38,6 +41,7 @@ class Core_Sitemaps_Provider {
 	 * @var string
 	 */
 	public $route = '';
+
 	/**
 	 * Sitemap slug
 	 *
@@ -98,17 +102,5 @@ class Core_Sitemaps_Provider {
 	 */
 	public function rewrite_query() {
 		return 'index.php?sitemap=' . $this->name . '&paged=$matches[1]';
-	}
-
-	/**
-	 * Is the provided pagination number outwith valid values?
-	 *
-	 * @param int $page_num Pagination number.
-	 *
-	 * @return bool True if invalid, false if within range.
-	 */
-	public function is_pagination_out_of_range( $page_num ) {
-		// FIXME: is $page_num between 1 and max?
-		return false;
 	}
 }

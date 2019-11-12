@@ -66,13 +66,6 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 
 			return;
 		}
-		if ( $this->is_pagination_out_of_range( $paged ) ) {
-			// Out of range pagination.
-			$wp_query->set_404();
-			status_header( 404 );
-
-			return;
-		}
 
 		$this->sub_type = $sub_types[ $sub_type ]->name;
 		if ( empty( $paged ) ) {
