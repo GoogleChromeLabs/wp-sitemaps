@@ -27,8 +27,7 @@
       "@setup"
     ],
     "setup": [
-      "@composer run-script --list",
-      "@local:flush"
+      "@composer run-script --list"
     ],
     "local:flush": [
       "wp @local rewrite flush"
