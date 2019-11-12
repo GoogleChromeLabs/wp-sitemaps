@@ -11,6 +11,13 @@
  */
 class Core_Sitemaps {
 	/**
+	 * Core Sitemaps bucket class.
+	 *
+	 * @var Core_Sitemaps_Buckets
+	 */
+	public $buckets;
+
+	/**
 	 * The main index of supported sitemaps.
 	 *
 	 * @var Core_Sitemaps_Index
@@ -28,6 +35,7 @@ class Core_Sitemaps {
 	 * Core_Sitemaps constructor.
 	 */
 	public function __construct() {
+		$this->buckets  = new Core_Sitemaps_Buckets();
 		$this->index    = new Core_Sitemaps_Index();
 		$this->registry = new Core_Sitemaps_Registry();
 	}
@@ -38,16 +46,10 @@ class Core_Sitemaps {
 	 * @return void
 	 */
 	public function bootstrap() {
-		add_action( 'init', array( $this, 'setup_sitemaps_index' ) );
+		add_action( 'init', array( $this->buckets, 'register_bucket_post_type' ) );
+		add_action( 'init', array( $this->index, 'setup_sitemap' ) );
 		add_action( 'init', array( $this, 'register_sitemaps' ) );
 		add_action( 'init', array( $this, 'setup_sitemaps' ) );
-	}
-
-	/**
-	 * Set up the main sitemap index.
-	 */
-	public function setup_sitemaps_index() {
-		$this->index->setup_sitemap();
 	}
 
 	/**

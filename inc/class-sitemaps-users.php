@@ -50,36 +50,44 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	 * @return array $url_list List of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num ) {
-		$object_type       = $this->object_type;
-		$public_post_types = get_post_types( array(
-			'public' => true,
-		) );
+		$object_type = $this->object_type;
+		$url_list    = array();
 
-		// We're not supporting sitemaps for author pages for attachments.
-		unset( $public_post_types['attachment'] );
+		$bucket = core_sitemaps_get_bucket( $object_type, '', $page_num );
 
-		$query = new WP_User_Query( array(
-			'has_published_posts' => array_keys( $public_post_types ),
-			'number'              => CORE_SITEMAPS_POSTS_PER_PAGE,
-			'paged'               => absint( $page_num ),
-		) );
-
-		$users = $query->get_results();
-
-		$url_list = array();
-
-		foreach ( $users as $user ) {
-			$last_modified = get_posts( array(
-				'author'        => $user->ID,
-				'orderby'       => 'date',
-				'numberposts'   => 1,
-				'no_found_rows' => true,
+		if ( ! empty( $bucket ) ) {
+			$url_list = json_decode( $bucket->post_content, true );
+		} else {
+			$public_post_types = get_post_types( array(
+				'public' => true,
 			) );
 
-			$url_list[] = array(
-				'loc'     => get_author_posts_url( $user->ID ),
-				'lastmod' => mysql2date( DATE_W3C, $last_modified[0]->post_modified_gmt, false ),
-			);
+			// We're not supporting sitemaps for author pages for attachments.
+			unset( $public_post_types['attachment'] );
+
+			$query = new WP_User_Query( array(
+				'has_published_posts' => array_keys( $public_post_types ),
+				'number'              => CORE_SITEMAPS_POSTS_PER_PAGE,
+				'paged'               => absint( $page_num ),
+			) );
+
+			$users = $query->get_results();
+
+			foreach ( $users as $user ) {
+				$last_modified = get_posts( array(
+					'author'        => $user->ID,
+					'orderby'       => 'date',
+					'numberposts'   => 1,
+					'no_found_rows' => true,
+				) );
+
+				$url_list[ $user->ID ] = array(
+					'loc'     => get_author_posts_url( $user->ID ),
+					'lastmod' => mysql2date( DATE_W3C, $last_modified[0]->post_modified_gmt, false ),
+				);
+			}
+
+			core_sitemaps_save_bucket( $object_type, '', $page_num, $url_list );
 		}
 
 		/**
