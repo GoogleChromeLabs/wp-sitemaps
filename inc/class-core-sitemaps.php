@@ -57,16 +57,18 @@ class Core_Sitemaps {
 		/**
 		 * Filters the list of registered sitemap providers.
 		 *
-		 * @since 0.1.0
-		 *
 		 * @param array $providers Array of Core_Sitemap_Provider objects.
+		 * @since 0.1.0
 		 */
-		$providers = apply_filters( 'core_sitemaps_register_providers', array(
-			'posts'      => new Core_Sitemaps_Posts(),
-			'pages'      => new Core_Sitemaps_Pages(),
-			'categories' => new Core_Sitemaps_Categories(),
-			'users'      => new Core_Sitemaps_Users(),
-		) );
+		$providers = apply_filters(
+			'core_sitemaps_register_providers',
+			array(
+				'posts'      => new Core_Sitemaps_Posts(),
+				'pages'      => new Core_Sitemaps_Pages(),
+				'categories' => new Core_Sitemaps_Categories(),
+				'users'      => new Core_Sitemaps_Users(),
+			)
+		);
 
 		// Register each supported provider.
 		foreach ( $providers as $provider ) {
@@ -78,10 +80,11 @@ class Core_Sitemaps {
 	 * Register and set up the functionality for all supported sitemaps.
 	 */
 	public function setup_sitemaps() {
-		$sitemaps = $this->registry->get_sitemaps();
-
 		// Set up rewrites and rendering callbacks for each supported sitemap.
-		foreach ( $sitemaps as $sitemap ) {
+		foreach ( $this->registry->get_sitemaps() as $sitemap ) {
+			if ( ! $sitemap instanceof Core_Sitemaps_Provider ) {
+				return;
+			}
 			add_rewrite_rule( $sitemap->route, 'index.php?sitemap=' . $sitemap->name . '&paged=$matches[1]', 'top' );
 			add_action( 'template_redirect', array( $sitemap, 'render_sitemap' ) );
 		}
