@@ -87,7 +87,7 @@ class Core_Sitemaps_Provider {
 		 * Filter the list of URLs for a sitemap before rendering.
 		 *
 		 * @param array  $url_list List of URLs for a sitemap.
-		 * @param string $type Name of the post_type.
+		 * @param string $type     Name of the post_type.
 		 * @param int    $page_num Page of results.
 		 *
 		 * @since 0.1.0
