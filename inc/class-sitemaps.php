@@ -16,6 +16,7 @@ class Core_Sitemaps {
 	 * @var Core_Sitemaps_Index
 	 */
 	public $index;
+
 	/**
 	 * The main registry of supported sitemaps.
 	 *
