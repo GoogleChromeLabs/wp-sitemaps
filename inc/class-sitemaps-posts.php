@@ -19,6 +19,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	 * @var string
 	 */
 	public $name = 'posts';
+
 	/**
 	 * Sitemap route.
 	 *
@@ -29,6 +30,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	 * @var string
 	 */
 	public $route = '^sitemap-posts-([A-z]+)-?([0-9]+)?\.xml$';
+
 	/**
 	 * Sitemap slug.
 	 *
@@ -37,6 +39,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	 * @var string
 	 */
 	public $slug = 'posts';
+
 	/**
 	 * Post type name.
 	 *
