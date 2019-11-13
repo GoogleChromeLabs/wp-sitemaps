@@ -1,8 +1,8 @@
 <?php
 /**
- * Class SampleTest
+ * Class Sample_Test
  *
- * @package Core_Sitemaps
+ * @package   Core_Sitemaps
  * @copyright 2019 The Core Sitemaps Contributors
  * @license   GNU General Public License, version 2
  * @link      https://github.com/GoogleChromeLabs/wp-sitemaps
@@ -10,11 +10,12 @@
 
 namespace Core_Sitemaps\Tests\PHPUnit;
 
+use WP_UnitTestCase;
+
 /**
  * Sample test case.
  */
-class SampleTest extends WP_UnitTestCase {
-
+class Sample_Test extends WP_UnitTestCase {
 	/**
 	 * A single example test.
 	 */

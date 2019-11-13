@@ -2,7 +2,7 @@
 /**
  * WordPress PHPUnit bootstrap file.
  *
- * @package Core_Sitemaps
+ * @package   Core_Sitemaps
  * @copyright 2019 The Core Sitemaps Contributors
  * @license   GNU General Public License, version 2
  * @link      https://github.com/GoogleChromeLabs/wp-sitemaps
@@ -13,6 +13,11 @@ require_once $core_sitemaps_root_dir . '/vendor/autoload.php';
 
 $core_sitemaps_tests_dir = getenv( 'WP_PHPUNIT__DIR' );
 
+/**
+ * Include is dynamically defined.
+ *
+ * @noinspection PhpIncludeInspection
+ */
 require_once $core_sitemaps_tests_dir . '/includes/functions.php';
 
 /**
@@ -37,9 +42,12 @@ function core_sitemaps_remove_automated_checks() {
 /**
  * Load any plugins we might need.
  */
-tests_add_filter( 'muplugins_loaded', function () use ( $core_sitemaps_root_dir ) {
-	core_sitemaps_remove_automated_checks();
-} );
+tests_add_filter(
+	'muplugins_loaded',
+	static function () {
+		core_sitemaps_remove_automated_checks();
+	}
+);
 
 /**
  * Hardcode timezone for tests.
@@ -48,10 +56,18 @@ tests_add_filter( 'muplugins_loaded', function () use ( $core_sitemaps_root_dir 
  *
  * @return string New timezone.
  */
-tests_add_filter( 'pre_option_timezone_string', function ( $_ ) {
-	return 'UTC';
-} );
+tests_add_filter(
+	'pre_option_timezone_string',
+	static function () {
+		return 'UTC';
+	}
+);
 
+/**
+ * Include is dynamically defined.
+ *
+ * @noinspection PhpIncludeInspection
+ */
 require $core_sitemaps_tests_dir . '/includes/bootstrap.php';
 
 require_once $core_sitemaps_root_dir . '/tests/phpunit/class-test-case.php';
