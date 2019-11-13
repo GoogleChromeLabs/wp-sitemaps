@@ -14,7 +14,7 @@ class Core_Sitemaps_Registry {
 	 *
 	 * @var array Array of registered sitemaps.
 	 */
-	private $sitemaps = [];
+	private $sitemaps = array();
 
 	/**
 	 * Add a sitemap with route to the registry.
