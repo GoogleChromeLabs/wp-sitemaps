@@ -17,9 +17,9 @@ Please select the relevant options:
 
 ### Steps to test
 Describe the tests required to verify your changes.
-Provide instructions so the PR Tester can check functionality and also list any relevant details and / or dependancies required for your tests.
+Provide instructions so the PR Tester can check functionality and also list any relevant details and / or dependencies required for your tests.
 
-### Acceptance criteris
+### Acceptance criteria
 - [ ] My code follows WordPress coding standards.
 - [ ] I have performed a self-review of my own code.
 - [ ] If the changes are visual, I have cross browser / device tested.

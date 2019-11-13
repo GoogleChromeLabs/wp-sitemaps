@@ -53,16 +53,17 @@ class Core_Sitemaps_Provider {
 	 */
 	public function get_url_list( $page_num ) {
 		$object_type = $this->object_type;
-		$query       = new WP_Query(
-			array(
-				'orderby'        => 'ID',
-				'order'          => 'ASC',
-				'post_type'      => $object_type,
-				'posts_per_page' => CORE_SITEMAPS_POSTS_PER_PAGE,
-				'paged'          => $page_num,
-				'no_found_rows'  => true,
-			)
-		);
+
+		$query       = new WP_Query( array(
+			'orderby'                => 'ID',
+			'order'                  => 'ASC',
+			'post_type'              => $object_type,
+			'posts_per_page'         => CORE_SITEMAPS_POSTS_PER_PAGE,
+			'paged'                  => $page_num,
+			'no_found_rows'          => true,
+			'update_post_term_cache' => false,
+			'update_post_meta_cache' => false,
+		) );
 
 		$posts = $query->get_posts();
 
