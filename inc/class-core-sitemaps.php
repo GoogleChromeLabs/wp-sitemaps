@@ -82,6 +82,7 @@ class Core_Sitemaps {
 	 * Register and set up the functionality for all supported sitemaps.
 	 */
 	public function setup_sitemaps() {
+		add_rewrite_tag( '%sub_type%', '([^?]+)' );
 		// Set up rewrites and rendering callbacks for each supported sitemap.
 		foreach ( $this->registry->get_sitemaps() as $sitemap ) {
 			if ( ! $sitemap instanceof Core_Sitemaps_Provider ) {
