@@ -32,9 +32,9 @@ require_once __DIR__ . '/inc/class-core-sitemaps-provider.php';
 require_once __DIR__ . '/inc/class-core-sitemaps-index.php';
 require_once __DIR__ . '/inc/class-core-sitemaps-pages.php';
 require_once __DIR__ . '/inc/class-core-sitemaps-posts.php';
-require_once __DIR__ . '/inc/class-core-sitemaps-categories.php';
 require_once __DIR__ . '/inc/class-core-sitemaps-registry.php';
 require_once __DIR__ . '/inc/class-core-sitemaps-renderer.php';
+require_once __DIR__ . '/inc/class-core-sitemaps-taxonomies.php';
 require_once __DIR__ . '/inc/class-core-sitemaps-users.php';
 require_once __DIR__ . '/inc/functions.php';
 
