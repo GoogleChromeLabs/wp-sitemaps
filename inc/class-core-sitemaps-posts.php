@@ -65,8 +65,8 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 		 * Filter the list of post object sub types available within the sitemap.
 		 *
 		 * @since 0.1.0
-		 * @param array $post_types List of registered object sub types.
 		 *
+		 * @param array $post_types List of registered object sub types.
 		 */
 		return apply_filters( 'core_sitemaps_post_types', $post_types );
 	}
