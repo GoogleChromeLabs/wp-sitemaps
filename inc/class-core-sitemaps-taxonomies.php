@@ -1,4 +1,9 @@
 <?php
+/**
+ * Taxonomies sitemap.
+ *
+ * @package Core_Sitemaps
+ */
 
 /**
  * Class Core_Sitemaps_Taxonomies.
@@ -20,9 +25,9 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	public function render_sitemap() {
 		global $wp_query;
 
-		$sitemap   = get_query_var( 'sitemap' );
-		$sub_type  = get_query_var( 'sub_type' );
-		$paged     = get_query_var( 'paged' );
+		$sitemap  = get_query_var( 'sitemap' );
+		$sub_type = get_query_var( 'sub_type' );
+		$paged    = get_query_var( 'paged' );
 
 		$sub_types = $this->get_object_sub_types();
 
@@ -51,13 +56,13 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	/**
 	 * Get a URL list for a taxonomy sitemap.
 	 *
-	 * @param array     $terms List of all the terms available.
-	 * @param int       $page_num Page of results.
-	 * @return array    $url_list List of URLs for a sitemap.
+	 * @param int $page_num Page of results.
+	 *
+	 * @return array $url_list List of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num = 1 ) {
 
-		$type = $this->sub_type; // Find the query_var for sub_type
+		$type = $this->sub_type; // Find the query_var for sub_type.
 		if ( empty( $type ) ) {
 			$type = $this->object_type; // If empty set to object_type instead.
 		}
@@ -73,32 +78,34 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 
 				$taxonomy_terms = get_terms(
 					array(
-					    'fields'       => 'ids',
-					    'taxonomy'     => $taxonomy->name,
-					    'orderby'      => 'term_order',
-					    'hide_empty'   => true,
+						'fields'     => 'ids',
+						'taxonomy'   => $taxonomy->name,
+						'orderby'    => 'term_order',
+						'hide_empty' => true,
 					)
 				);
 
 				// Loop through the terms and get the latest post stored in each.
 				foreach ( $taxonomy_terms as $term ) {
 
-					$last_modified = get_posts( array(
-						'tax_query' => array(
-		        			array(
-		            			'taxonomy' => $taxonomy->name,
-		            			'field'    => 'term_id',
-		            			'terms'    => $term,
-		            		),
-		        		),
-						'posts_per_page' => '1',
-						'orderby'        => 'date',
-						'order'          => 'DESC',
-					) );
+					$last_modified = get_posts(
+						array(
+							'tax_query'      => array(
+								array(
+									'taxonomy' => $taxonomy->name,
+									'field'    => 'term_id',
+									'terms'    => $term,
+								),
+							),
+							'posts_per_page' => '1',
+							'orderby'        => 'date',
+							'order'          => 'DESC',
+						)
+					);
 
 					// Extract the data needed for each term URL in an array.
 					$url_list[] = array(
-						'loc' => get_term_link( $term ),
+						'loc'     => get_term_link( $term ),
 						'lastmod' => mysql2date( DATE_W3C, $last_modified[0]->post_modified_gmt, false ),
 					);
 				}
