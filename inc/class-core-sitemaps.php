@@ -41,7 +41,7 @@ class Core_Sitemaps {
 		add_action( 'init', array( $this, 'setup_sitemaps_index' ) );
 		add_action( 'init', array( $this, 'register_sitemaps' ) );
 		add_action( 'init', array( $this, 'setup_sitemaps' ) );
-		add_action( 'plugins_loaded', array( $this, 'maybe_flush_rewrites' ) );
+		add_action( 'wp_loaded', array( $this, 'maybe_flush_rewrites' ) );
 	}
 
 	/**
