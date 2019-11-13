@@ -41,6 +41,7 @@ class Core_Sitemaps {
 		add_action( 'init', array( $this, 'setup_sitemaps_index' ) );
 		add_action( 'init', array( $this, 'register_sitemaps' ) );
 		add_action( 'init', array( $this, 'setup_sitemaps' ) );
+		add_action( 'wp_loaded', array( $this, 'maybe_flush_rewrites' ) );
 	}
 
 	/**
@@ -61,16 +62,18 @@ class Core_Sitemaps {
 		 *
 		 * @param array $providers Array of Core_Sitemap_Provider objects.
 		 */
-		$providers = apply_filters( 'core_sitemaps_register_providers', array(
-			'posts'      => new Core_Sitemaps_Posts(),
-			'pages'      => new Core_Sitemaps_Pages(),
-			'categories' => new Core_Sitemaps_Categories(),
-			'users'      => new Core_Sitemaps_Users(),
-		) );
+		$providers = apply_filters(
+			'core_sitemaps_register_providers',
+			array(
+				'posts'      => new Core_Sitemaps_Posts(),
+				'categories' => new Core_Sitemaps_Categories(),
+				'users'      => new Core_Sitemaps_Users(),
+			)
+		);
 
 		// Register each supported provider.
 		foreach ( $providers as $provider ) {
-			$this->registry->add_sitemap( $provider->name, $provider );
+			$this->registry->add_sitemap( $provider->slug, $provider );
 		}
 	}
 
@@ -78,12 +81,23 @@ class Core_Sitemaps {
 	 * Register and set up the functionality for all supported sitemaps.
 	 */
 	public function setup_sitemaps() {
-		$sitemaps = $this->registry->get_sitemaps();
-
+		add_rewrite_tag( '%sub_type%', '([^?]+)' );
 		// Set up rewrites and rendering callbacks for each supported sitemap.
-		foreach ( $sitemaps as $sitemap ) {
-			add_rewrite_rule( $sitemap->route, 'index.php?sitemap=' . $sitemap->name . '&paged=$matches[1]', 'top' );
+		foreach ( $this->registry->get_sitemaps() as $sitemap ) {
+			if ( ! $sitemap instanceof Core_Sitemaps_Provider ) {
+				return;
+			}
+			add_rewrite_rule( $sitemap->route, $sitemap->rewrite_query(), 'top' );
 			add_action( 'template_redirect', array( $sitemap, 'render_sitemap' ) );
+		}
+	}
+
+	/**
+	 * Flush rewrite rules if developers updated them.
+	 */
+	public function maybe_flush_rewrites() {
+		if ( update_option( 'core_sitemaps_rewrite_version', CORE_SITEMAPS_REWRITE_VERSION ) ) {
+			flush_rewrite_rules( false );
 		}
 	}
 }
