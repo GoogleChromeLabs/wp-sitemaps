@@ -1,58 +1,32 @@
 <?php
 
 /**
- * Class Core_Sitemaps_Categories.
- * Builds the sitemap pages for Categories.
+ * Class Core_Sitemaps_Taxonomies.
+ * Builds the sitemap pages for Taxonomies.
  */
-class Core_Sitemaps_Categories extends Core_Sitemaps_Provider {
+class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	/**
-	 * Post type name.
-	 *
-	 * @var string
+	 * Core_Sitemaps_Taxonomies constructor.
 	 */
-	protected $object_type = 'taxonomy';
+	public function __construct() {
+		$this->object_type = 'taxonomy';
+		$this->route       = '^sitemap-taxonomies-([A-z]+)-?([0-9]+)?\.xml$';
+		$this->slug        = 'taxonomies';
+	}
 
 	/**
-	 * Sub type name.
+	 * Get a URL list for a taxonomy sitemap.
 	 *
-	 * @var string
-	 */
-	protected $sub_type = '';
-
-	/**
-	 * Sitemap name
-	 * Used for building sitemap URLs.
-	 *
-	 * @var string
-	 */
-	public $name = 'taxonomies';
-
-	/**
-	 * Sitemap route.
-	 *
-	 * Regex pattern used when building the route for a sitemap.
-	 *
-	 * @var string
-	 */
-	public $route = '^sitemap-taxonomies-([A-z]+)-?([0-9]+)?\.xml$';
-
-	/**
-	 * Sitemap slug.
-	 *
-	 * Used for building sitemap URLs.
-	 *
-	 * @var string
-	 */
-	public $slug = 'taxonomies';
-
-	/**
-	 * Get a URL list for a user sitemap.
-	 *
-	 * @param string $object_type Name of the object_type.
-	 * @param int    $page_num Page of results.
-	 * @return array $url_list List of URLs for a sitemap.
+	 * @param array     $terms List of all the terms available.
+	 * @param int       $page_num Page of results.
+	 * @return array    $url_list List of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num = 1 ) {
+
+		$type = $this->sub_type;
+		if ( empty( $type ) ) {
+			$type = $this->object_type;
+		}
 
 		$terms = $this->get_object_sub_types();
 
@@ -93,6 +67,7 @@ class Core_Sitemaps_Categories extends Core_Sitemaps_Provider {
 		$sitemap   = get_query_var( 'sitemap' );
 		$sub_type  = get_query_var( 'sub_type' );
 		$paged     = get_query_var( 'paged' );
+
 		$sub_types = $this->get_object_sub_types();
 
 		if ( ! isset( $sub_types[ $sub_type ] ) ) {
@@ -108,7 +83,7 @@ class Core_Sitemaps_Categories extends Core_Sitemaps_Provider {
 			$paged = 1;
 		}
 
-		if ( $this->name === $sitemap ) {
+		if ( $this->slug === $sitemap ) {
 			$url_list = $this->get_url_list( $paged );
 			$renderer = new Core_Sitemaps_Renderer();
 			$renderer->render_sitemap( $url_list );
@@ -125,9 +100,9 @@ class Core_Sitemaps_Categories extends Core_Sitemaps_Provider {
 		$taxonomy_types = get_taxonomies( array( 'public' => true ), 'objects' );
 
 		/**
-		 * Filter the list of post object sub types available within the sitemap.
+		 * Filter the list of taxonomy object sub types available within the sitemap.
 		 *
-		 * @param array $post_types List of registered object sub types.
+		 * @param array $taxonomy_types List of registered object sub types.
 		 *
 		 * @since 0.1.0
 		 */
@@ -135,12 +110,12 @@ class Core_Sitemaps_Categories extends Core_Sitemaps_Provider {
 	}
 
 	/**
-	 * Query for the Posts add_rewrite_rule.
+	 * Query for the Taxonomies add_rewrite_rule.
 	 *
 	 * @return string Valid add_rewrite_rule query.
 	 */
 	public function rewrite_query() {
-		return 'index.php?sitemap=' . $this->name . '&sub_type=$matches[1]&paged=$matches[2]';
+		return 'index.php?sitemap=' . $this->slug . '&sub_type=$matches[1]&paged=$matches[2]';
 	}
 
 }

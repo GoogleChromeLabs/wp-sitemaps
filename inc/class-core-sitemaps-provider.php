@@ -18,6 +18,13 @@ class Core_Sitemaps_Provider {
 	protected $object_type = '';
 
 	/**
+	 * Sub type name.
+	 *
+	 * @var string
+	 */
+	protected $sub_type = '';
+
+	/**
 	 * Sitemap route
 	 *
 	 * Regex pattern used when building the route for a sitemap.
@@ -43,7 +50,10 @@ class Core_Sitemaps_Provider {
 	 * @return array $url_list List of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num ) {
-		$object_type = $this->object_type;
+		$type = $this->sub_type;
+		if ( empty( $type ) ) {
+			$type = $this->object_type;
+		}
 
 		$query = new WP_Query(
 			array(
@@ -79,5 +89,14 @@ class Core_Sitemaps_Provider {
 		 * @param array  $url_list    List of URLs for a sitemap.
 		 */
 		return apply_filters( 'core_sitemaps_post_url_list', $url_list, $type, $page_num );
+	}
+
+	/**
+	 * Query for the add_rewrite_rule. Must match the number of Capturing Groups in the route regex.
+	 *
+	 * @return string Valid add_rewrite_rule query.
+	 */
+	public function rewrite_query() {
+		return 'index.php?sitemap=' . $this->slug . '&paged=$matches[1]';
 	}
 }

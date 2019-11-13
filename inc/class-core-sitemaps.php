@@ -67,7 +67,7 @@ class Core_Sitemaps {
 			array(
 				'posts'      => new Core_Sitemaps_Posts(),
 				'pages'      => new Core_Sitemaps_Pages(),
-				'categories' => new Core_Sitemaps_Categories(),
+				'taxonomies' => new Core_Sitemaps_Taxonomies(),
 				'users'      => new Core_Sitemaps_Users(),
 			)
 		);
@@ -87,7 +87,7 @@ class Core_Sitemaps {
 			if ( ! $sitemap instanceof Core_Sitemaps_Provider ) {
 				return;
 			}
-			add_rewrite_rule( $sitemap->route, 'index.php?sitemap=' . $sitemap->slug . '&paged=$matches[1]', 'top' );
+			add_rewrite_rule( $sitemap->route, $sitemap->rewrite_query(), 'top' );
 			add_action( 'template_redirect', array( $sitemap, 'render_sitemap' ) );
 		}
 	}
