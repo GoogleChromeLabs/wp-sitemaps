@@ -25,7 +25,7 @@
 
 const CORE_SITEMAPS_POSTS_PER_PAGE  = 2000;
 const CORE_SITEMAPS_MAX_URLS        = 50000;
-const CORE_SITEMAPS_REWRITE_VERSION = '2019111201';
+const CORE_SITEMAPS_REWRITE_VERSION = '2019-11-13a';
 
 require_once __DIR__ . '/inc/class-core-sitemaps.php';
 require_once __DIR__ . '/inc/class-core-sitemaps-provider.php';
