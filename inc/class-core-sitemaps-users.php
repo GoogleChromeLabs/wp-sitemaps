@@ -12,35 +12,14 @@
  */
 class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	/**
-	 * Object type name.
-	 *
-	 * @var string
+	 * Core_Sitemaps_Users constructor.
 	 */
-	protected $object_type = 'user';
-	/**
-	 * Sitemap name.
-	 *
-	 * Used for building sitemap URLs.
-	 *
-	 * @var string
-	 */
-	public $name = 'users';
-	/**
-	 * Sitemap route.
-	 *
-	 * Regex pattern used when building the route for a sitemap.
-	 *
-	 * @var string
-	 */
-	public $route = '^sitemap-users-?([0-9]+)?\.xml$';
-	/**
-	 * Sitemap slug.
-	 *
-	 * Used for building sitemap URLs.
-	 *
-	 * @var string
-	 */
-	public $slug = 'users';
+	public function __construct() {
+		$this->object_type = 'user';
+		$this->name        = 'users';
+		$this->route       = '^sitemap-users-?([0-9]+)?\.xml$';
+		$this->slug        = 'users';
+	}
 
 	/**
 	 * Get a URL list for a user sitemap.
@@ -51,30 +30,36 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	 */
 	public function get_url_list( $page_num ) {
 		$object_type       = $this->object_type;
-		$public_post_types = get_post_types( array(
-			'public' => true,
-		) );
+		$public_post_types = get_post_types(
+			array(
+				'public' => true,
+			)
+		);
 
 		// We're not supporting sitemaps for author pages for attachments.
 		unset( $public_post_types['attachment'] );
 
-		$query = new WP_User_Query( array(
-			'has_published_posts' => array_keys( $public_post_types ),
-			'number'              => CORE_SITEMAPS_POSTS_PER_PAGE,
-			'paged'               => absint( $page_num ),
-		) );
+		$query = new WP_User_Query(
+			array(
+				'has_published_posts' => array_keys( $public_post_types ),
+				'number'              => CORE_SITEMAPS_POSTS_PER_PAGE,
+				'paged'               => absint( $page_num ),
+			)
+		);
 
 		$users = $query->get_results();
 
 		$url_list = array();
 
 		foreach ( $users as $user ) {
-			$last_modified = get_posts( array(
-				'author'        => $user->ID,
-				'orderby'       => 'date',
-				'numberposts'   => 1,
-				'no_found_rows' => true,
-			) );
+			$last_modified = get_posts(
+				array(
+					'author'        => $user->ID,
+					'orderby'       => 'date',
+					'numberposts'   => 1,
+					'no_found_rows' => true,
+				)
+			);
 
 			$url_list[] = array(
 				'loc'     => get_author_posts_url( $user->ID ),
@@ -85,18 +70,20 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 		/**
 		 * Filter the list of URLs for a sitemap before rendering.
 		 *
-		 * @param array  $url_list List of URLs for a sitemap.
-		 * @param string $object_type Name of the post_type.
-		 * @param int    $page_num Page of results.
-		 *
 		 * @since 0.1.0
 		 *
+		 * @param string $object_type Name of the post_type.
+		 * @param int    $page_num    Page of results.
+		 *
+		 * @param array  $url_list    List of URLs for a sitemap.
 		 */
 		return apply_filters( 'core_sitemaps_users_url_list', $url_list, $object_type, $page_num );
 	}
 
 	/**
 	 * Produce XML to output.
+	 *
+	 * @noinspection PhpUnused
 	 */
 	public function render_sitemap() {
 		$sitemap = get_query_var( 'sitemap' );
