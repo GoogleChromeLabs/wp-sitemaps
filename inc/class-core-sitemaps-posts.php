@@ -1,7 +1,6 @@
 <?php
 /**
- * Class file for the Core_Sitemaps_Posts class.
- * This class generates the sitemaps for the post object type and it's sub types, including any custom post types.
+ * Posts sitemap.
  *
  * @package Core_Sitemaps
  */
@@ -16,17 +15,9 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	 */
 	public function __construct() {
 		$this->object_type = 'post';
-		$this->name        = 'posts';
 		$this->route       = '^sitemap-posts-([A-z]+)-?([0-9]+)?\.xml$';
 		$this->slug        = 'posts';
 	}
-
-	/**
-	 * Post type name.
-	 *
-	 * @var string
-	 */
-	protected $object_type = 'post';
 
 	/**
 	 * Produce XML to output.
