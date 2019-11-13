@@ -73,7 +73,7 @@ class Core_Sitemaps {
 
 		// Register each supported provider.
 		foreach ( $providers as $provider ) {
-			$this->registry->add_sitemap( $provider->name, $provider );
+			$this->registry->add_sitemap( $provider->slug, $provider );
 		}
 	}
 
@@ -86,7 +86,7 @@ class Core_Sitemaps {
 			if ( ! $sitemap instanceof Core_Sitemaps_Provider ) {
 				return;
 			}
-			add_rewrite_rule( $sitemap->route, 'index.php?sitemap=' . $sitemap->name . '&paged=$matches[1]', 'top' );
+			add_rewrite_rule( $sitemap->route, 'index.php?sitemap=' . $sitemap->slug . '&paged=$matches[1]', 'top' );
 			add_action( 'template_redirect', array( $sitemap, 'render_sitemap' ) );
 		}
 	}

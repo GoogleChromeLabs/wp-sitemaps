@@ -15,7 +15,6 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	 */
 	public function __construct() {
 		$this->object_type = 'post';
-		$this->name        = 'posts';
 		$this->route       = '^sitemap-posts\.xml$';
 		$this->slug        = 'posts';
 	}
