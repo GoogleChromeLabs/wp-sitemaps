@@ -84,7 +84,7 @@ class Core_Sitemaps_Provider {
 		 *
 		 * @since 0.1.0
 		 *
-		 * @param array $url_list List of URLs for a sitemap.
+		 * @param array  $url_list List of URLs for a sitemap.
 		 * @param string $type     Name of the post_type.
 		 * @param int    $page_num Page of results.
 		 */
