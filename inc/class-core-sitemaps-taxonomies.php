@@ -61,7 +61,6 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	 * @return array $url_list List of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num = 1 ) {
-
 		$type = $this->sub_type; // Find the query_var for sub_type.
 		if ( empty( $type ) ) {
 			$type = $this->object_type; // If empty set to object_type instead.
@@ -75,7 +74,6 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		foreach ( $taxonomies as $taxonomy ) {
 			// if the query_var matches a taxonomy name, get the terms for that tax.
 			if ( $type === $taxonomy->name ) {
-
 				$taxonomy_terms = get_terms(
 					array(
 						'fields'     => 'ids',
@@ -87,7 +85,6 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 
 				// Loop through the terms and get the latest post stored in each.
 				foreach ( $taxonomy_terms as $term ) {
-
 					$last_modified = get_posts(
 						array(
 							'tax_query'      => array(
@@ -128,7 +125,6 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	 * Return all public, registered taxonomies.
 	 */
 	public function get_object_sub_types() {
-
 		$taxonomy_types = get_taxonomies( array( 'public' => true ), 'objects' );
 
 		/**
