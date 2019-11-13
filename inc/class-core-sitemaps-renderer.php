@@ -1,6 +1,6 @@
 <?php
 /**
- * Rendering Sitemaps Data to XML in accorance with sitemap protocol.
+ * Rendering Sitemaps Data to XML in accordance with sitemap protocol.
  *
  * @package Core_Sitemap
  */
@@ -43,9 +43,11 @@ class Core_Sitemaps_Renderer {
 
 		foreach ( $sitemaps as $link ) {
 			$sitemap = $sitemap_index->addChild( 'sitemap' );
-			$sitemap->addChild( 'loc', esc_url( $this->get_sitemap_url( $link->name ) ) );
+			$sitemap->addChild( 'loc', esc_url( $this->get_sitemap_url( $link->slug ) ) );
 			$sitemap->addChild( 'lastmod', '2004-10-01T18:23:17+00:00' );
 		}
+		// All output is escaped within the addChild method calls.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo $sitemap_index->asXML();
 	}
 
@@ -64,6 +66,8 @@ class Core_Sitemaps_Renderer {
 			$url->addChild( 'lastmod', esc_attr( $url_item['lastmod'] ) );
 		}
 
+		// All output is escaped within the addChild method calls.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo $urlset->asXML();
 	}
 }
