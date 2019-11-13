@@ -63,14 +63,19 @@ class Core_Sitemaps_Provider {
 		if ( empty( $type ) ) {
 			$type = $this->object_type;
 		}
-		$query = new WP_Query( array(
-			'orderby'        => 'ID',
-			'order'          => 'ASC',
-			'post_type'      => $type,
-			'posts_per_page' => CORE_SITEMAPS_POSTS_PER_PAGE,
-			'paged'          => $page_num,
-			'no_found_rows'  => true,
-		) );
+
+		$query = new WP_Query(
+			array(
+				'orderby'                => 'ID',
+				'order'                  => 'ASC',
+				'post_type'              => $type,
+				'posts_per_page'         => CORE_SITEMAPS_POSTS_PER_PAGE,
+				'paged'                  => $page_num,
+				'no_found_rows'          => true,
+				'update_post_term_cache' => false,
+				'update_post_meta_cache' => false,
+			)
+		);
 
 		$posts = $query->get_posts();
 
@@ -86,11 +91,11 @@ class Core_Sitemaps_Provider {
 		/**
 		 * Filter the list of URLs for a sitemap before rendering.
 		 *
-		 * @param array  $url_list List of URLs for a sitemap.
+		 * @since 0.1.0
+		 *
+		 * @param array $url_list List of URLs for a sitemap.
 		 * @param string $type     Name of the post_type.
 		 * @param int    $page_num Page of results.
-		 *
-		 * @since 0.1.0
 		 */
 		return apply_filters( 'core_sitemaps_post_url_list', $url_list, $type, $page_num );
 	}

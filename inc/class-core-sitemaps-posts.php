@@ -12,33 +12,14 @@
  */
 class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	/**
-	 * Sitemap name.
-	 *
-	 * Used for building sitemap URLs.
-	 *
-	 * @var string
+	 * Core_Sitemaps_Posts constructor.
 	 */
-	public $name = 'posts';
-
-	/**
-	 * Sitemap route.
-	 *
-	 * Regex pattern used when building the route for a sitemap.
-	 * Thie first capture group is the post object sub-type, the second capture group matches the pagination.
-	 * Matches sitemap-posts-pages.xml, sitemap-posts-posts-20.xml.
-	 *
-	 * @var string
-	 */
-	public $route = '^sitemap-posts-([A-z]+)-?([0-9]+)?\.xml$';
-
-	/**
-	 * Sitemap slug.
-	 *
-	 * Used for building sitemap URLs.
-	 *
-	 * @var string
-	 */
-	public $slug = 'posts';
+	public function __construct() {
+		$this->object_type = 'post';
+		$this->name        = 'posts';
+		$this->route       = '^sitemap-posts-([A-z]+)-?([0-9]+)?\.xml$';
+		$this->slug        = 'posts';
+	}
 
 	/**
 	 * Post type name.
@@ -49,6 +30,8 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 
 	/**
 	 * Produce XML to output.
+	 *
+	 * @noinspection PhpUnused
 	 */
 	public function render_sitemap() {
 		global $wp_query;

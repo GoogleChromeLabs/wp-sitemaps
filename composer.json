@@ -29,6 +29,9 @@
     "setup": [
       "@composer run-script --list"
     ],
+    "local:flush": [
+      "wp @local rewrite flush"
+    ],
     "local:tests": [
       "@test:phpcs",
       "@local:phpunit"
@@ -46,6 +49,7 @@
   },
   "scripts-descriptions": {
     "setup": "Sets up the development environment.",
+    "local:flush": "Flush rewrite rules (local)",
     "local:phpunit": "Run PHPUnit tests (local)",
     "test:phpunit": "Run PHPUnit tests.",
     "test:phpcs": "Runs the PHP code sniffer."
@@ -53,7 +57,8 @@
   "require": {
     "php": ">=5.6.0",
     "composer/installers": "~1.0",
-    "oomphinc/composer-installers-extender": "^1.1"
+    "oomphinc/composer-installers-extender": "^1.1",
+    "ext-simplexml": "*"
   },
   "require-dev": {
     "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",

@@ -21,6 +21,13 @@ class Core_Sitemaps_Index {
 	protected $name = 'index';
 
 	/**
+	 * Renderer class.
+	 *
+	 * @var Core_Sitemaps_Renderer
+	 */
+	protected $renderer;
+
+	/**
 	 * Core_Sitemaps_Index constructor.
 	 */
 	public function __construct() {
