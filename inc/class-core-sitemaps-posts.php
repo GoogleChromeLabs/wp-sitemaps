@@ -85,7 +85,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	 *
 	 * @return array List of sub-types.
 	 */
-	public function get_sitemap_names() {
+	public function get_sitemap_slugs() {
 		$sub_types               = $this->get_object_sub_types();
 		$sitemaps[ $this->slug ] = array();
 		foreach ( $sub_types as $sub_type ) {

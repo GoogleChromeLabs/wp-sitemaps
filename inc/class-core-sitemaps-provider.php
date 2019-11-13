@@ -105,7 +105,7 @@ class Core_Sitemaps_Provider {
 	 *
 	 * @return array sitemap name
 	 */
-	public function get_sitemap_names() {
+	public function get_sitemap_slugs() {
 		return array( $this->slug => true );
 	}
 }
