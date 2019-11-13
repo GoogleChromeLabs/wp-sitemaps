@@ -15,50 +15,6 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	}
 
 	/**
-	 * Get a URL list for a taxonomy sitemap.
-	 *
-	 * @param array     $terms List of all the terms available.
-	 * @param int       $page_num Page of results.
-	 * @return array    $url_list List of URLs for a sitemap.
-	 */
-	public function get_url_list( $page_num = 1 ) {
-
-		$type = $this->sub_type;
-		if ( empty( $type ) ) {
-			$type = $this->object_type;
-		}
-
-		$terms = $this->get_object_sub_types();
-
-		$url_list = array();
-
-		foreach ( $terms as $term ) {
-			$last_modified = get_posts( array(
-				'taxonomy'       => $term->term_id,
-				'post_type'      => 'post',
-				'posts_per_page' => '1',
-				'orderby'        => 'date',
-				'order'          => 'DESC',
-			) );
-
-			$url_list[] = array(
-				'loc' => get_term_link( $term->term_id ),
-				'lastmod' => mysql2date( DATE_W3C, $last_modified[0]->post_modified_gmt, false ),
-			);
-		}
-		/**
-		 * Filter the list of URLs for a sitemap before rendering.
-		 *
-		 * @since 0.1.0
-		 *
-		 * @param array  $url_list    List of URLs for a sitemap.
-		 * @param string $type.       Name of the taxonomy_type.
-		 * @param int    $page_num    Page of results.
-		 */
-		return apply_filters( 'core_sitemaps_taxonomies_url_list', $url_list, $type, $page_num );
-	}
-
-	/**
 	 * Produce XML to output.
 	 */
 	public function render_sitemap() {
@@ -90,6 +46,75 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 
 			exit;
 		}
+	}
+
+	/**
+	 * Get a URL list for a taxonomy sitemap.
+	 *
+	 * @param array     $terms List of all the terms available.
+	 * @param int       $page_num Page of results.
+	 * @return array    $url_list List of URLs for a sitemap.
+	 */
+	public function get_url_list( $page_num = 1 ) {
+
+		$type = $this->sub_type; // Find the query_var for sub_type
+		if ( empty( $type ) ) {
+			$type = $this->object_type; // If empty set to object_type instead.
+		}
+
+		// Get all of the taxonomies that are registered.
+		$taxonomies = $this->get_object_sub_types();
+
+		$url_list = array();
+
+		foreach ( $taxonomies as $taxonomy ) {
+			// if the query_var matches a taxonomy name, get the terms for that tax.
+			if ( $type === $taxonomy->name ) {
+
+				$taxonomy_terms = get_terms(
+					array(
+					    'fields'       => 'ids',
+					    'taxonomy'     => $taxonomy->name,
+					    'orderby'      => 'term_order',
+					    'hide_empty'   => true,
+					)
+				);
+
+				// Loop through the terms and get the latest post stored in each.
+				foreach ( $taxonomy_terms as $term ) {
+
+					$last_modified = get_posts( array(
+						'tax_query' => array(
+		        			array(
+		            			'taxonomy' => $taxonomy->name,
+		            			'field'    => 'term_id',
+		            			'terms'    => $term,
+		            		),
+		        		),
+						'posts_per_page' => '1',
+						'orderby'        => 'date',
+						'order'          => 'DESC',
+					) );
+
+					// Extract the data needed for each term URL in an array.
+					$url_list[] = array(
+						'loc' => get_term_link( $term ),
+						'lastmod' => mysql2date( DATE_W3C, $last_modified[0]->post_modified_gmt, false ),
+					);
+				}
+			}
+		}
+
+		/**
+		 * Filter the list of URLs for a sitemap before rendering.
+		 *
+		 * @since 0.1.0
+		 *
+		 * @param array  $url_list    List of URLs for a sitemap.
+		 * @param string $type.       Name of the taxonomy_type.
+		 * @param int    $page_num    Page of results.
+		 */
+		return apply_filters( 'core_sitemaps_taxonomies_url_list', $url_list, $type, $page_num );
 	}
 
 	/**
