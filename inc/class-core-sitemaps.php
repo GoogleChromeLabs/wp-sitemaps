@@ -58,6 +58,7 @@ class Core_Sitemaps {
 		 * Filters the list of registered sitemap providers.
 		 *
 		 * @since 0.1.0
+		 *
 		 * @param array $providers Array of Core_Sitemap_Provider objects.
 		 */
 		$providers = apply_filters(
