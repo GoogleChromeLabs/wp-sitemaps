@@ -19,12 +19,21 @@ class Core_Sitemaps_Index {
 	 * @var string
 	 */
 	protected $name = 'index';
+
+	/**
+	 * Renderer class.
+	 *
+	 * @var Core_Sitemaps_Renderer
+	 */
+	protected $renderer;
+
 	/**
 	 * Core_Sitemaps_Index constructor.
 	 */
 	public function __construct() {
 		$this->renderer = new Core_Sitemaps_Renderer();
 	}
+
 	/**
 	 *
 	 * A helper function to initiate actions, hooks and other features needed.
@@ -61,7 +70,6 @@ class Core_Sitemaps_Index {
 	 *
 	 * @todo At the moment this outputs the rewrite rule for each sitemap rather than the URL.
 	 * This will need changing.
-	 *
 	 */
 	public function render_sitemap() {
 		$sitemap_index = get_query_var( 'sitemap' );
@@ -84,6 +92,7 @@ class Core_Sitemaps_Index {
 		if ( $public ) {
 			$output .= 'Sitemap: ' . esc_url( $this->renderer->get_sitemap_url( $this->name ) ) . "\n";
 		}
+
 		return $output;
 	}
 }

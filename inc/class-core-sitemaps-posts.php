@@ -1,4 +1,9 @@
 <?php
+/**
+ * Posts sitemap.
+ *
+ * @package Core_Sitemaps
+ */
 
 /**
  * Class Core_Sitemaps_Posts.
@@ -6,41 +11,18 @@
  */
 class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	/**
-	 * Post type name.
-	 *
-	 * @var string
+	 * Core_Sitemaps_Posts constructor.
 	 */
-	protected $object_type = 'post';
-
-	/**
-	 * Sitemap name.
-	 *
-	 * Used for building sitemap URLs.
-	 *
-	 * @var string
-	 */
-	public $name = 'posts';
-
-	/**
-	 * Sitemap route.
-	 *
-	 * Regex pattern used when building the route for a sitemap.
-	 *
-	 * @var string
-	 */
-	public $route = '^sitemap-posts\.xml$';
-
-	/**
-	 * Sitemap slug.
-	 *
-	 * Used for building sitemap URLs.
-	 *
-	 * @var string
-	 */
-	public $slug = 'posts';
+	public function __construct() {
+		$this->object_type = 'post';
+		$this->route       = '^sitemap-posts\.xml$';
+		$this->slug        = 'posts';
+	}
 
 	/**
 	 * Produce XML to output.
+	 *
+	 * @noinspection PhpUnused
 	 */
 	public function render_sitemap() {
 		$sitemap = get_query_var( 'sitemap' );

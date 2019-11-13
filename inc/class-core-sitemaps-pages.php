@@ -1,4 +1,9 @@
 <?php
+/**
+ * Pages sitemap.
+ *
+ * @package Core_Sitemaps
+ */
 
 /**
  * Class Core_Sitemaps_Pages.
@@ -6,38 +11,18 @@
  */
 class Core_Sitemaps_Pages extends Core_Sitemaps_Provider {
 	/**
-	 * Post type name.
-	 *
-	 * @var string
+	 * Core_Sitemaps_Pages constructor.
 	 */
-	protected $object_type = 'page';
-	/**
-	 * Sitemap name
-	 *
-	 * Used for building sitemap URLs.
-	 *
-	 * @var string
-	 */
-	public $name = 'pages';
-	/**
-	 * Sitemap route.
-	 *
-	 * Regex pattern used when building the route for a sitemap.
-	 *
-	 * @var string
-	 */
-	public $route = '^sitemap-pages\.xml$';
-	/**
-	 * Sitemap slug.
-	 *
-	 * Used for building sitemap URLs.
-	 *
-	 * @var string
-	 */
-	public $slug = 'pages';
+	public function __construct() {
+		$this->object_type = 'page';
+		$this->route       = '^sitemap-pages\.xml$';
+		$this->slug        = 'pages';
+	}
 
 	/**
 	 * Produce XML to output.
+	 *
+	 * @noinspection PhpUnused
 	 */
 	public function render_sitemap() {
 		$sitemap = get_query_var( 'sitemap' );

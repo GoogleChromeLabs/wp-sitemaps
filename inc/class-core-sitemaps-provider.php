@@ -16,14 +16,7 @@ class Core_Sitemaps_Provider {
 	 * @var string
 	 */
 	protected $object_type = '';
-	/**
-	 * Sitemap name
-	 *
-	 * Used for building sitemap URLs.
-	 *
-	 * @var string
-	 */
-	public $name = '';
+
 	/**
 	 * Sitemap route
 	 *
@@ -32,6 +25,7 @@ class Core_Sitemaps_Provider {
 	 * @var string
 	 */
 	public $route = '';
+
 	/**
 	 * Sitemap slug
 	 *
@@ -50,14 +44,19 @@ class Core_Sitemaps_Provider {
 	 */
 	public function get_url_list( $page_num ) {
 		$object_type = $this->object_type;
-		$query       = new WP_Query( array(
-			'orderby'        => 'ID',
-			'order'          => 'ASC',
-			'post_type'      => $object_type,
-			'posts_per_page' => CORE_SITEMAPS_POSTS_PER_PAGE,
-			'paged'          => $page_num,
-			'no_found_rows'  => true,
-		) );
+
+		$query = new WP_Query(
+			array(
+				'orderby'                => 'ID',
+				'order'                  => 'ASC',
+				'post_type'              => $object_type,
+				'posts_per_page'         => CORE_SITEMAPS_POSTS_PER_PAGE,
+				'paged'                  => $page_num,
+				'no_found_rows'          => true,
+				'update_post_term_cache' => false,
+				'update_post_meta_cache' => false,
+			)
+		);
 
 		$posts = $query->get_posts();
 
@@ -73,11 +72,11 @@ class Core_Sitemaps_Provider {
 		/**
 		 * Filter the list of URLs for a sitemap before rendering.
 		 *
-		 * @param array  $url_list List of URLs for a sitemap.
-		 * @param string $object_type Name of the post_type.
-		 * @param int    $page_num Page of results.
-		 *
 		 * @since 0.1.0
+		 *
+		 * @param string $object_type Name of the post_type.
+		 * @param int    $page_num    Page of results.
+		 * @param array  $url_list    List of URLs for a sitemap.
 		 */
 		return apply_filters( 'core_sitemaps_post_url_list', $url_list, $object_type, $page_num );
 	}
