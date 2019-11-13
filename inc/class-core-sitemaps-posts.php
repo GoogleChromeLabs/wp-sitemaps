@@ -65,8 +65,8 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 		 * Filter the list of post object sub types available within the sitemap.
 		 *
 		 * @since 0.1.0
-		 * @param array $post_types List of registered object sub types.
 		 *
+		 * @param array $post_types List of registered object sub types.
 		 */
 		return apply_filters( 'core_sitemaps_post_types', $post_types );
 	}
@@ -78,5 +78,20 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	 */
 	public function rewrite_query() {
 		return 'index.php?sitemap=' . $this->slug . '&sub_type=$matches[1]&paged=$matches[2]';
+	}
+
+	/**
+	 * Get all sub-types belong to the object type.
+	 *
+	 * @return array List of sub-types.
+	 */
+	public function get_sitemap_names() {
+		$sub_types               = $this->get_object_sub_types();
+		$sitemaps[ $this->slug ] = array();
+		foreach ( $sub_types as $sub_type ) {
+			$sitemaps[ $this->slug ][ $sub_type->name ] = true;
+		}
+
+		return $sitemaps;
 	}
 }

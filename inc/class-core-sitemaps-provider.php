@@ -84,7 +84,7 @@ class Core_Sitemaps_Provider {
 		 *
 		 * @since 0.1.0
 		 *
-		 * @param array $url_list List of URLs for a sitemap.
+		 * @param array  $url_list List of URLs for a sitemap.
 		 * @param string $type     Name of the post_type.
 		 * @param int    $page_num Page of results.
 		 */
@@ -98,5 +98,14 @@ class Core_Sitemaps_Provider {
 	 */
 	public function rewrite_query() {
 		return 'index.php?sitemap=' . $this->slug . '&paged=$matches[1]';
+	}
+
+	/**
+	 * By default a single sitemap slug is made available.
+	 *
+	 * @return array sitemap name
+	 */
+	public function get_sitemap_names() {
+		return array( $this->slug => true );
 	}
 }

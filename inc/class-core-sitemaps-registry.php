@@ -19,22 +19,47 @@ class Core_Sitemaps_Registry {
 	/**
 	 * Add a sitemap with route to the registry.
 	 *
-	 * @param string                 $name     Name of the sitemap.
+	 * @param array                  $names    Names of the provider's sitemaps.
 	 * @param Core_Sitemaps_Provider $provider Instance of a Core_Sitemaps_Provider.
 	 * @return bool True if the sitemap was added, false if it wasn't as it's name was already registered.
 	 */
-	public function add_sitemap( $name, $provider ) {
-		if ( isset( $this->sitemaps[ $name ] ) ) {
-			return false;
-		}
-
+	public function add_sitemap( $names, $provider ) {
 		if ( ! $provider instanceof Core_Sitemaps_Provider ) {
 			return false;
 		}
 
-		$this->sitemaps[ $name ] = $provider;
+		// Take multi-dimensional array of names and add the provider as the value for all.
+		array_walk_recursive(
+			$names,
+			static function ( &$value, &$key, &$provider ) {
+				$value = $provider;
+			},
+			$provider
+		);
 
-		return true;
+		// Add one or more sitemaps per provider.
+		foreach ( $names as $object_name => $maybe_provider ) {
+			if ( $maybe_provider instanceof Core_Sitemaps_Provider ) {
+				if ( isset( $this->sitemaps[ $object_name ] ) ) {
+					return false;
+				}
+				$this->sitemaps[ $object_name ] = $maybe_provider;
+
+				return true;
+			}
+
+			foreach ( array_keys( $maybe_provider ) as $sub_name ) {
+				if ( isset( $this->sitemaps[ $object_name ][ $sub_name ] ) ) {
+					return false;
+				}
+			}
+			$this->sitemaps = array_merge( $this->sitemaps, $names );
+
+			return true;
+		}
+
+		// We shouldn't get to here.
+		return false;
 	}
 
 	/**

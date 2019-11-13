@@ -41,10 +41,17 @@ class Core_Sitemaps_Renderer {
 		header( 'Content-type: application/xml; charset=UTF-8' );
 		$sitemap_index = new SimpleXMLElement( '<?xml version="1.0" encoding="UTF-8" ?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></sitemapindex>' );
 
-		foreach ( $sitemaps as $link ) {
-			$sitemap = $sitemap_index->addChild( 'sitemap' );
-			$sitemap->addChild( 'loc', esc_url( $this->get_sitemap_url( $link->slug ) ) );
-			$sitemap->addChild( 'lastmod', '2004-10-01T18:23:17+00:00' );
+		foreach ( $sitemaps as $slug => $sub_types ) {
+			// Create a loopable list, even with one provider.
+			if ( $sub_types instanceof Core_Sitemaps_Provider ) {
+				$sub_types = array( '' => $sub_types );
+			}
+			foreach ( $sub_types as $sub_slug => $provider ) {
+				$sitemap = $sitemap_index->addChild( 'sitemap' );
+				$name    = implode( '-', array_filter( array( $slug, $sub_slug ) ) );
+				$sitemap->addChild( 'loc', esc_url( $this->get_sitemap_url( $name ) ) );
+				$sitemap->addChild( 'lastmod', '2004-10-01T18:23:17+00:00' );
+			}
 		}
 		// All output is escaped within the addChild method calls.
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
