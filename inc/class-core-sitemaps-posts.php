@@ -45,7 +45,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 		if ( empty( $paged ) ) {
 			$paged = 1;
 		}
-		if ( $this->name === $sitemap ) {
+		if ( $this->slug === $sitemap ) {
 			$url_list = $this->get_url_list( $paged );
 			$renderer = new Core_Sitemaps_Renderer();
 			$renderer->render_sitemap( $url_list );
@@ -64,9 +64,9 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 		/**
 		 * Filter the list of post object sub types available within the sitemap.
 		 *
+		 * @since 0.1.0
 		 * @param array $post_types List of registered object sub types.
 		 *
-		 * @since 0.1.0
 		 */
 		return apply_filters( 'core_sitemaps_post_types', $post_types );
 	}
@@ -77,6 +77,6 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	 * @return string Valid add_rewrite_rule query.
 	 */
 	public function rewrite_query() {
-		return 'index.php?sitemap=' . $this->name . '&sub_type=$matches[1]&paged=$matches[2]';
+		return 'index.php?sitemap=' . $this->slug . '&sub_type=$matches[1]&paged=$matches[2]';
 	}
 }

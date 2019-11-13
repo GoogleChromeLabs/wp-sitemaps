@@ -25,15 +25,6 @@ class Core_Sitemaps_Provider {
 	protected $sub_type = '';
 
 	/**
-	 * Sitemap name
-	 *
-	 * Used for building sitemap URLs.
-	 *
-	 * @var string
-	 */
-	public $name = '';
-
-	/**
 	 * Sitemap route
 	 *
 	 * Regex pattern used when building the route for a sitemap.
@@ -106,6 +97,6 @@ class Core_Sitemaps_Provider {
 	 * @return string Valid add_rewrite_rule query.
 	 */
 	public function rewrite_query() {
-		return 'index.php?sitemap=' . $this->name . '&paged=$matches[1]';
+		return 'index.php?sitemap=' . $this->slug . '&paged=$matches[1]';
 	}
 }
