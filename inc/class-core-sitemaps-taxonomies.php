@@ -64,7 +64,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	public function get_url_list( $page_num = 1 ) {
 		$type = $this->sub_type; // Find the query_var for sub_type.
 		if ( empty( $type ) ) {
-			$type = $this->object_type; // If empty set to object_type instead.
+			return;
 		}
 
 		// Get all of the taxonomies that are registered.
