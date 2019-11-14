@@ -66,7 +66,7 @@ class Core_Sitemaps {
 			'core_sitemaps_register_providers',
 			array(
 				'posts'      => new Core_Sitemaps_Posts(),
-				'categories' => new Core_Sitemaps_Categories(),
+				'taxonomies' => new Core_Sitemaps_Taxonomies(),
 				'users'      => new Core_Sitemaps_Users(),
 			)
 		);
