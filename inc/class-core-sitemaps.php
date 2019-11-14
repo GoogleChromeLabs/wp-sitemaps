@@ -66,7 +66,6 @@ class Core_Sitemaps {
 			'core_sitemaps_register_providers',
 			array(
 				'posts'      => new Core_Sitemaps_Posts(),
-				'pages'      => new Core_Sitemaps_Pages(),
 				'categories' => new Core_Sitemaps_Categories(),
 				'users'      => new Core_Sitemaps_Users(),
 			)
@@ -82,12 +81,13 @@ class Core_Sitemaps {
 	 * Register and set up the functionality for all supported sitemaps.
 	 */
 	public function setup_sitemaps() {
+		add_rewrite_tag( '%sub_type%', '([^?]+)' );
 		// Set up rewrites and rendering callbacks for each supported sitemap.
 		foreach ( $this->registry->get_sitemaps() as $sitemap ) {
 			if ( ! $sitemap instanceof Core_Sitemaps_Provider ) {
 				return;
 			}
-			add_rewrite_rule( $sitemap->route, 'index.php?sitemap=' . $sitemap->slug . '&paged=$matches[1]', 'top' );
+			add_rewrite_rule( $sitemap->route, $sitemap->rewrite_query(), 'top' );
 			add_action( 'template_redirect', array( $sitemap, 'render_sitemap' ) );
 		}
 	}
