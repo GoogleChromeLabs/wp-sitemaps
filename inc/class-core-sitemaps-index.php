@@ -13,7 +13,6 @@
 class Core_Sitemaps_Index {
 	/**
 	 * Sitemap name.
-	 *
 	 * Used for building sitemap URLs.
 	 *
 	 * @var string
@@ -35,7 +34,6 @@ class Core_Sitemaps_Index {
 	}
 
 	/**
-	 *
 	 * A helper function to initiate actions, hooks and other features needed.
 	 */
 	public function setup_sitemap() {
@@ -67,9 +65,6 @@ class Core_Sitemaps_Index {
 
 	/**
 	 * Produce XML to output.
-	 *
-	 * @todo At the moment this outputs the rewrite rule for each sitemap rather than the URL.
-	 * This will need changing.
 	 */
 	public function render_sitemap() {
 		$sitemap_index = get_query_var( 'sitemap' );

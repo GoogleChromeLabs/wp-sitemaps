@@ -59,7 +59,7 @@ class Core_Sitemaps_Provider {
 			array(
 				'orderby'                => 'ID',
 				'order'                  => 'ASC',
-				'post_type'              => $object_type,
+				'post_type'              => $type,
 				'posts_per_page'         => CORE_SITEMAPS_POSTS_PER_PAGE,
 				'paged'                  => $page_num,
 				'no_found_rows'          => true,
@@ -84,9 +84,9 @@ class Core_Sitemaps_Provider {
 		 *
 		 * @since 0.1.0
 		 *
-		 * @param string $object_type Name of the post_type.
-		 * @param int    $page_num    Page of results.
-		 * @param array  $url_list    List of URLs for a sitemap.
+		 * @param array  $url_list List of URLs for a sitemap.
+		 * @param string $type     Name of the post_type.
+		 * @param int    $page_num Page of results.
 		 */
 		return apply_filters( 'core_sitemaps_post_url_list', $url_list, $type, $page_num );
 	}
