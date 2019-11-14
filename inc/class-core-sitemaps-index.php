@@ -13,7 +13,6 @@
 class Core_Sitemaps_Index {
 	/**
 	 * Sitemap name.
-	 *
 	 * Used for building sitemap URLs.
 	 *
 	 * @var string
@@ -35,7 +34,6 @@ class Core_Sitemaps_Index {
 	}
 
 	/**
-	 *
 	 * A helper function to initiate actions, hooks and other features needed.
 	 */
 	public function setup_sitemap() {
@@ -83,7 +81,6 @@ class Core_Sitemaps_Index {
 	 *
 	 * @param string $output robots.txt output.
 	 * @param bool   $public Whether the site is public or not.
-	 *
 	 * @return string robots.txt output.
 	 */
 	public function add_robots( $output, $public ) {
