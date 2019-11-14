@@ -88,16 +88,19 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 				foreach ( $taxonomy_terms as $term ) {
 					$last_modified = get_posts(
 						array(
-							'tax_query'      => array(
+							'tax_query'              => array(
 								array(
 									'taxonomy' => $taxonomy->name,
 									'field'    => 'term_id',
 									'terms'    => $term,
 								),
 							),
-							'posts_per_page' => '1',
-							'orderby'        => 'date',
-							'order'          => 'DESC',
+							'posts_per_page'         => '1',
+							'orderby'                => 'date',
+							'order'                  => 'DESC',
+							'no_found_rows'          => true,
+							'update_post_term_cache' => false,
+							'update_post_meta_cache' => false,
 						)
 					);
 
