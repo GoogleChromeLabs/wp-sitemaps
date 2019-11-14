@@ -61,7 +61,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	 *
 	 * @return array $url_list List of URLs for a sitemap.
 	 */
-	public function get_url_list( $page_num = 1 ) {
+	public function get_url_list( $page_num ) {
 		$type = $this->sub_type; // Find the query_var for sub_type.
 		if ( empty( $type ) ) {
 			return;
@@ -75,17 +75,20 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		foreach ( $taxonomies as $taxonomy ) {
 			// if the query_var matches a taxonomy name, get the terms for that tax.
 			if ( $type === $taxonomy->name ) {
-				$taxonomy_terms = get_terms(
-					array(
-						'fields'     => 'ids',
-						'taxonomy'   => $taxonomy->name,
-						'orderby'    => 'term_order',
-						'hide_empty' => true,
-					)
+
+				$args = array(
+					'fields'     => 'ids',
+					'taxonomy'   => $taxonomy->name,
+					'orderby'    => 'term_order',
+					'number'     => CORE_SITEMAPS_POSTS_PER_PAGE,
+					'paged'      => absint( $page_num ),
+					'hide_empty' => true,
 				);
 
+				$taxonomy_terms = new WP_Term_Query( $args );
+
 				// Loop through the terms and get the latest post stored in each.
-				foreach ( $taxonomy_terms as $term ) {
+				foreach ( $taxonomy_terms->terms as $term ) {
 					$last_modified = get_posts(
 						array(
 							'tax_query'              => array(
