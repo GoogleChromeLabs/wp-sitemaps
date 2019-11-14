@@ -37,7 +37,6 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		}
 
 		if ( $this->slug === $sitemap ) {
-
 			if ( ! isset( $sub_types[ $sub_type ] ) ) {
 				// Invalid sub type.
 				$wp_query->set_404();
@@ -75,7 +74,6 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		foreach ( $taxonomies as $taxonomy ) {
 			// if the query_var matches a taxonomy name, get the terms for that tax.
 			if ( $type === $taxonomy->name ) {
-
 				$args = array(
 					'fields'     => 'ids',
 					'taxonomy'   => $taxonomy->name,
