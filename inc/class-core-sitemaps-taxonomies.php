@@ -71,47 +71,42 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 
 		$url_list = array();
 
-		foreach ( $taxonomies as $taxonomy ) {
-			// if the query_var matches a taxonomy name, get the terms for that tax.
-			if ( $type === $taxonomy->name ) {
-				$args = array(
-					'fields'     => 'ids',
-					'taxonomy'   => $taxonomy->name,
-					'orderby'    => 'term_order',
-					'number'     => CORE_SITEMAPS_POSTS_PER_PAGE,
-					'paged'      => absint( $page_num ),
-					'hide_empty' => true,
-				);
+		$args = array(
+			'fields'     => 'ids',
+			'taxonomy'   => $type,
+			'orderby'    => 'term_order',
+			'number'     => CORE_SITEMAPS_POSTS_PER_PAGE,
+			'paged'      => absint( $page_num ),
+			'hide_empty' => true,
+		);
 
-				$taxonomy_terms = new WP_Term_Query( $args );
+		$taxonomy_terms = new WP_Term_Query( $args );
 
-				// Loop through the terms and get the latest post stored in each.
-				foreach ( $taxonomy_terms->terms as $term ) {
-					$last_modified = get_posts(
+		// Loop through the terms and get the latest post stored in each.
+		foreach ( $taxonomy_terms->terms as $term ) {
+			$last_modified = get_posts(
+				array(
+					'tax_query'              => array(
 						array(
-							'tax_query'              => array(
-								array(
-									'taxonomy' => $taxonomy->name,
-									'field'    => 'term_id',
-									'terms'    => $term,
-								),
-							),
-							'posts_per_page'         => '1',
-							'orderby'                => 'date',
-							'order'                  => 'DESC',
-							'no_found_rows'          => true,
-							'update_post_term_cache' => false,
-							'update_post_meta_cache' => false,
-						)
-					);
+							'taxonomy' => $type,
+							'field'    => 'term_id',
+							'terms'    => $term,
+						),
+					),
+					'posts_per_page'         => '1',
+					'orderby'                => 'date',
+					'order'                  => 'DESC',
+					'no_found_rows'          => true,
+					'update_post_term_cache' => false,
+					'update_post_meta_cache' => false,
+				)
+			);
 
-					// Extract the data needed for each term URL in an array.
-					$url_list[] = array(
-						'loc'     => get_term_link( $term ),
-						'lastmod' => mysql2date( DATE_W3C, $last_modified[0]->post_modified_gmt, false ),
-					);
-				}
-			}
+			// Extract the data needed for each term URL in an array.
+			$url_list[] = array(
+				'loc'     => get_term_link( $term ),
+				'lastmod' => mysql2date( DATE_W3C, $last_modified[0]->post_modified_gmt, false ),
+			);
 		}
 
 		/**
