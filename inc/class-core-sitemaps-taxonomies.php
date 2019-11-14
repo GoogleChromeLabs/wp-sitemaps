@@ -61,13 +61,12 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	 * @return array $url_list List of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num ) {
-		$type = $this->sub_type; // Find the query_var for sub_type.
+		// Find the query_var for sub_type.
+		$type = $this->sub_type;
+
 		if ( empty( $type ) ) {
 			return;
 		}
-
-		// Get all of the taxonomies that are registered.
-		$taxonomies = $this->get_object_sub_types();
 
 		$url_list = array();
 
