@@ -31,22 +31,23 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 		$sub_type = get_query_var( 'sub_type' );
 		$paged    = get_query_var( 'paged' );
 
-		$sub_types = $this->get_object_sub_types();
-
-		if ( ! isset( $sub_types[ $sub_type ] ) ) {
-			// Invalid sub type.
-			$wp_query->set_404();
-			status_header( 404 );
-
-			return;
-		}
-
-		$this->sub_type = $sub_types[ $sub_type ]->name;
-
-		if ( empty( $paged ) ) {
-			$paged = 1;
-		}
 		if ( $this->slug === $sitemap ) {
+			if ( empty( $paged ) ) {
+				$paged = 1;
+			}
+
+			$sub_types = $this->get_object_sub_types();
+
+			if ( ! isset( $sub_types[ $sub_type ] ) ) {
+				// Invalid sub type.
+				$wp_query->set_404();
+				status_header( 404 );
+
+				return;
+			}
+
+			$this->sub_type = $sub_types[ $sub_type ]->name;
+
 			$url_list = $this->get_url_list( $paged );
 			$renderer = new Core_Sitemaps_Renderer();
 			$renderer->render_sitemap( $url_list );
