@@ -25,8 +25,6 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	 * @noinspection PhpUnused
 	 */
 	public function render_sitemap() {
-		global $wp_query;
-
 		$sitemap  = get_query_var( 'sitemap' );
 		$sub_type = get_query_var( 'sub_type' );
 		$paged    = get_query_var( 'paged' );
@@ -38,10 +36,9 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 
 			$sub_types = $this->get_object_sub_types();
 
-			if ( ! isset( $sub_types[ $sub_type ] ) || $paged > $this->max_num_pages( $sub_type ) ) {
-				// Invalid sub type or out of range pagination.
-				$wp_query->set_404();
-				status_header( 404 );
+			if ( ! isset( $sub_types[ $sub_type ] ) ) {
+				// Force empty result set.
+				$paged = CORE_SITEMAPS_MAX_URLS + 1;
 			}
 
 			$this->sub_type = $sub_types[ $sub_type ]->name;

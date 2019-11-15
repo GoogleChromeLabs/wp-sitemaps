@@ -23,24 +23,21 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	 * Produce XML to output.
 	 */
 	public function render_sitemap() {
-		global $wp_query;
-
 		$sitemap  = get_query_var( 'sitemap' );
 		$sub_type = get_query_var( 'sub_type' );
 		$paged    = get_query_var( 'paged' );
 
-		$sub_types = $this->get_object_sub_types();
-
-		$this->sub_type = $sub_types[ $sub_type ]->name;
-		if ( empty( $paged ) ) {
-			$paged = 1;
-		}
-
 		if ( $this->slug === $sitemap ) {
-			if ( ! isset( $sub_types[ $sub_type ] ) || $paged > $this->max_num_pages( $sub_type ) ) {
-				// Invalid sub type or out of range pagination.
-				$wp_query->set_404();
-				status_header( 404 );
+			$sub_types = $this->get_object_sub_types();
+
+			$this->sub_type = $sub_types[ $sub_type ]->name;
+			if ( empty( $paged ) ) {
+				$paged = 1;
+			}
+
+			if ( ! isset( $sub_types[ $sub_type ] ) ) {
+				// Force empty result set.
+				$paged = CORE_SITEMAPS_MAX_URLS + 1;
 			}
 
 			$url_list = $this->get_url_list( $paged );
