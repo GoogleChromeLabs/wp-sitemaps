@@ -26,6 +26,7 @@ class Core_Sitemaps_Provider {
 
 	/**
 	 * Sitemap route
+	 *
 	 * Regex pattern used when building the route for a sitemap.
 	 *
 	 * @var string
@@ -34,6 +35,7 @@ class Core_Sitemaps_Provider {
 
 	/**
 	 * Sitemap slug
+	 *
 	 * Used for building sitemap URLs.
 	 *
 	 * @var string
@@ -77,6 +79,7 @@ class Core_Sitemaps_Provider {
 		 * Filter the list of URLs for a sitemap before rendering.
 		 *
 		 * @since 0.1.0
+		 *
 		 * @param array  $url_list List of URLs for a sitemap.
 		 * @param string $type     Name of the post_type.
 		 * @param int    $page_num Page of results.
@@ -100,6 +103,7 @@ class Core_Sitemaps_Provider {
 	 */
 	public function get_queried_type() {
 		$type = $this->sub_type;
+
 		if ( empty( $type ) ) {
 			$type = $this->object_type;
 		}
@@ -110,21 +114,24 @@ class Core_Sitemaps_Provider {
 	/**
 	 * Query for determining the number of pages.
 	 *
-	 * @param string $type Object Type.
+	 * @param string $type Optional. Object type. Default is null.
 	 * @return int Total number of pages.
 	 */
 	public function max_num_pages( $type = null ) {
 		if ( empty( $type ) ) {
 			$type = $this->get_queried_type();
 		}
+
 		$query = new WP_Query(
 			array(
-				'fields'         => 'ids',
-				'orderby'        => 'ID',
-				'order'          => 'ASC',
-				'post_type'      => $type,
-				'posts_per_page' => CORE_SITEMAPS_POSTS_PER_PAGE,
-				'paged'          => 1,
+				'fields'                 => 'ids',
+				'orderby'                => 'ID',
+				'order'                  => 'ASC',
+				'post_type'              => $type,
+				'posts_per_page'         => CORE_SITEMAPS_POSTS_PER_PAGE,
+				'paged'                  => 1,
+				'update_post_term_cache' => false,
+				'update_post_meta_cache' => false,
 			)
 		);
 
@@ -151,13 +158,14 @@ class Core_Sitemaps_Provider {
 	}
 
 	/**
-	 * Stub a fake object type, to get the name of.
-	 * This attempts compatibility with object types such as post, category, user.
-	 * This must support providers for multiple sub-types, so a list is returned.
+	 * Return the list of supported object sub-types exposed by the provider.
+	 *
+	 * By default this is the sub_type as specified in the class property.
 	 *
 	 * @return array List of object types.
 	 */
 	public function get_object_sub_types() {
+		// FIXME: fix this hack.
 		$c       = new stdClass();
 		$c->name = $this->sub_type;
 

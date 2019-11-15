@@ -106,6 +106,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		 * Filter the list of URLs for a sitemap before rendering.
 		 *
 		 * @since 0.1.0
+		 *
 		 * @param array  $url_list List of URLs for a sitemap.
 		 * @param string $type     Name of the taxonomy_type.
 		 * @param int    $page_num Page of results.
@@ -123,6 +124,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		 * Filter the list of taxonomy object sub types available within the sitemap.
 		 *
 		 * @since 0.1.0
+		 *
 		 * @param array $taxonomy_types List of registered object sub types.
 		 */
 		return apply_filters( 'core_sitemaps_taxonomies', $taxonomy_types );
@@ -147,6 +149,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		if ( empty( $type ) ) {
 			$type = $this->get_queried_type();
 		}
+
 		$args = array(
 			'fields'     => 'ids',
 			'taxonomy'   => $type,

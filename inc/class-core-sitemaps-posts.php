@@ -39,8 +39,10 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 			if ( ! isset( $sub_types[ $sub_type ] ) ) {
 				// Force empty result set.
 				$paged = CORE_SITEMAPS_MAX_URLS + 1;
+				// TODO does not deal with the problem.
 			}
 
+			// TODO doesn't work if the if statement doesn't match.
 			$this->sub_type = $sub_types[ $sub_type ]->name;
 
 			$url_list = $this->get_url_list( $paged );

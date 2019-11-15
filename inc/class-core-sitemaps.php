@@ -1,6 +1,7 @@
 <?php
 /**
  * Class file for the Core_Sitemaps class.
+ *
  * This is the main class integrating all other classes.
  *
  * @package Core_Sitemaps
@@ -59,6 +60,7 @@ class Core_Sitemaps {
 		 * Filters the list of registered sitemap providers.
 		 *
 		 * @since 0.1.0
+		 *
 		 * @param array $providers Array of Core_Sitemap_Provider objects.
 		 */
 		$providers = apply_filters(

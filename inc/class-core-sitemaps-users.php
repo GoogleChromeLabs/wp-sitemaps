@@ -1,6 +1,7 @@
 <?php
 /**
  * The Core_Sitemaps_Users sitemap provider.
+ *
  * This class extends Core_Sitemaps_Provider to support sitemaps for user pages in WordPress.
  *
  * @package Core_Sitemaps
@@ -68,6 +69,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 		 * Filter the list of URLs for a sitemap before rendering.
 		 *
 		 * @since 0.1.0
+		 *
 		 * @param string $object_type Name of the post_type.
 		 * @param int    $page_num    Page of results.
 		 * @param array  $url_list    List of URLs for a sitemap.
@@ -102,6 +104,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	 * @return int Total page count.
 	 */
 	public function max_num_pages( $type = null ) {
+		// FIXME Can we abstract the functionality here that gets a list of authors with public posts since it's also being used in get_url_list()?
 		$public_post_types = get_post_types(
 			array(
 				'public' => true,
