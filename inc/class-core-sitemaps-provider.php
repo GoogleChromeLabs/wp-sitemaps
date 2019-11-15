@@ -47,7 +47,7 @@ class Core_Sitemaps_Provider {
 	 * @return array $url_list List of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num ) {
-		$type = $this->get_active_type();
+		$type = $this->get_queried_type();
 
 		$query = new WP_Query(
 			array(
@@ -93,24 +93,12 @@ class Core_Sitemaps_Provider {
 		return 'index.php?sitemap=' . $this->slug . '&paged=$matches[1]';
 	}
 
-	public function get_sitemaps() {
-		$sitemaps = [];
-
-		$query = $this->index_query();
-
-		$total = isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
-		for ( $i = 1; $i <= $total; $i ++ ) {
-			$slug       = implode( '-', array_filter( array( $this->slug, $this->sub_type, (string) $i ) ) );
-			$sitemaps[] = $slug;
-		}
-
-		return $sitemaps;
-	}
-
 	/**
-	 * @return string
+	 * Return object type being queried.
+	 *
+	 * @return string Name of the object type.
 	 */
-	public function get_active_type() {
+	public function get_queried_type() {
 		$type = $this->sub_type;
 		if ( empty( $type ) ) {
 			$type = $this->object_type;
@@ -120,12 +108,14 @@ class Core_Sitemaps_Provider {
 	}
 
 	/**
-	 * @param string $type
-	 * @return WP_Query
+	 * Query for determining the number of pages.
+	 *
+	 * @param string $type Object Type.
+	 * @return int Total number of pages.
 	 */
-	public function index_query( $type = '' ) {
+	public function max_num_pages( $type = null ) {
 		if ( empty( $type ) ) {
-			$type = $this->get_active_type();
+			$type = $this->get_queried_type();
 		}
 		$query = new WP_Query(
 			array(
@@ -137,6 +127,39 @@ class Core_Sitemaps_Provider {
 			)
 		);
 
-		return $query;
+		return isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
+	}
+
+	/**
+	 * List of sitemaps exposed by this provider.
+	 *
+	 * @return array List of sitemaps.
+	 */
+	public function get_sitemaps() {
+		$sitemaps = array();
+
+		foreach ( $this->get_object_sub_types() as $type ) {
+			$total = $this->max_num_pages( $type->name );
+			for ( $i = 1; $i <= $total; $i ++ ) {
+				$slug       = implode( '-', array_filter( array( $this->slug, $type->name, (string) $i ) ) );
+				$sitemaps[] = $slug;
+			}
+		}
+
+		return $sitemaps;
+	}
+
+	/**
+	 * Stub a fake object type, to get the name of.
+	 * This attempts compatibility with object types such as post, category, user.
+	 * This must support providers for multiple sub-types, so a list is returned.
+	 *
+	 * @return array List of object types.
+	 */
+	public function get_object_sub_types() {
+		$c       = new stdClass();
+		$c->name = $this->sub_type;
+
+		return array( $c );
 	}
 }

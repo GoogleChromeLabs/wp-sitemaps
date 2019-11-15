@@ -82,20 +82,4 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	public function rewrite_query() {
 		return 'index.php?sitemap=' . $this->slug . '&sub_type=$matches[1]&paged=$matches[2]';
 	}
-
-	public function get_sitemaps() {
-		$sitemaps = array();
-
-		foreach ( $this->get_object_sub_types() as $type ) {
-			$query = $this->index_query( $type->name );
-
-			$total = isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
-			for ( $i = 1; $i <= $total; $i ++ ) {
-				$slug       = implode( '-', array_filter( array( $this->slug, $type->name, (string) $i ) ) );
-				$sitemaps[] = $slug;
-			}
-		}
-
-		return $sitemaps;
-	}
 }

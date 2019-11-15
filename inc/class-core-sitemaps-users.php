@@ -96,7 +96,13 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 		}
 	}
 
-	public function index_query() {
+	/**
+	 * Return max number of pages available for the object type.
+	 *
+	 * @param string $type Name of the object type.
+	 * @return int Total page count.
+	 */
+	public function max_num_pages( $type = null ) {
 		$public_post_types = get_post_types(
 			array(
 				'public' => true,
@@ -114,6 +120,6 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 			)
 		);
 
-		return $query;
+		return isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
 	}
 }

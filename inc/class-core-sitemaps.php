@@ -75,7 +75,6 @@ class Core_Sitemaps {
 			$sitemaps = $provider->get_sitemaps();
 			foreach ( $sitemaps as $sitemap ) {
 				$this->registry->add_sitemap( $sitemap, $provider );
-
 			}
 		}
 	}

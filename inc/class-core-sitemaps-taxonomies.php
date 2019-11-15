@@ -142,29 +142,15 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		return 'index.php?sitemap=' . $this->slug . '&sub_type=$matches[1]&paged=$matches[2]';
 	}
 
-	public function get_sitemaps() {
-		$sitemaps = array();
-
-		foreach ( $this->get_object_sub_types() as $type ) {
-			$query = $this->index_query( $type->name );
-
-			$total = isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
-			for ( $i = 1; $i <= $total; $i ++ ) {
-				$slug       = implode( '-', array_filter( array( $this->slug, $type->name, (string) $i ) ) );
-				$sitemaps[] = $slug;
-			}
-		}
-
-		return $sitemaps;
-	}
-
 	/**
-	 * @param string $type
-	 * @return WP_Term_Query
+	 * Sitemap Index query for determining the number of pages.
+	 *
+	 * @param string $type Taxonomy name.
+	 * @return int Total number of pages.
 	 */
-	public function index_query( $type = '' ) {
+	public function max_num_pages( $type = '' ) {
 		if ( empty( $type ) ) {
-			$type = $this->get_active_type();
+			$type = $this->get_queried_type();
 		}
 		$args = array(
 			'fields'     => 'ids',
@@ -177,6 +163,6 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 
 		$query = new WP_Term_Query( $args );
 
-		return $query;
+		return isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
 	}
 }
