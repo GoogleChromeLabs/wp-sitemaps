@@ -38,12 +38,11 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 
 			$sub_types = $this->get_object_sub_types();
 
-			if ( ! isset( $sub_types[ $sub_type ] ) ) {
-				// Invalid sub type.
+			if ( ! isset( $sub_types[ $sub_type ] ) || $paged > $this->max_num_pages( $sub_type ) ) {
+				// Invalid sub type or out of range pagination.
 				$wp_query->set_404();
 				status_header( 404 );
 
-				return;
 			}
 
 			$this->sub_type = $sub_types[ $sub_type ]->name;
