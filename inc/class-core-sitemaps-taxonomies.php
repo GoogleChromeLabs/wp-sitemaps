@@ -160,7 +160,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 
 	/**
 	 * @param string $type
-	 * @return WP_Query
+	 * @return WP_Term_Query
 	 */
 	public function index_query( $type = '' ) {
 		if ( empty( $type ) ) {
