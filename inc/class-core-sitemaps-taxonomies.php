@@ -37,12 +37,10 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		}
 
 		if ( $this->slug === $sitemap ) {
-			if ( ! isset( $sub_types[ $sub_type ] ) ) {
-				// Invalid sub type.
+			if ( ! isset( $sub_types[ $sub_type ] ) || $paged > $this->max_num_pages( $sub_type ) ) {
+				// Invalid sub type or out of range pagination.
 				$wp_query->set_404();
 				status_header( 404 );
-
-				return;
 			}
 
 			$url_list = $this->get_url_list( $paged );
