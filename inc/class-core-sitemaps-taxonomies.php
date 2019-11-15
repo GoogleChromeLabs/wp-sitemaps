@@ -64,7 +64,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		$type = $this->sub_type;
 
 		if ( empty( $type ) ) {
-			return;
+			return array();
 		}
 
 		$url_list = array();
