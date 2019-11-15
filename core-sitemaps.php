@@ -12,7 +12,6 @@
  * @copyright       2019 The Core Sitemaps Contributors
  * @license         GNU General Public License, version 2
  * @link            https://github.com/GoogleChromeLabs/wp-sitemaps
- *
  * Plugin Name:     Core Sitemaps
  * Plugin URI:      https://github.com/GoogleChromeLabs/wp-sitemaps
  * Description:     A feature plugin to integrate basic XML Sitemaps in WordPress Core
@@ -25,7 +24,7 @@
 
 const CORE_SITEMAPS_POSTS_PER_PAGE  = 2000;
 const CORE_SITEMAPS_MAX_URLS        = 50000;
-const CORE_SITEMAPS_REWRITE_VERSION = '20191113c';
+const CORE_SITEMAPS_REWRITE_VERSION = '2019-11-15a';
 
 require_once __DIR__ . '/inc/class-core-sitemaps.php';
 require_once __DIR__ . '/inc/class-core-sitemaps-provider.php';
