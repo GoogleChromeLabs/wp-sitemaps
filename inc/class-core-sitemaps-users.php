@@ -114,6 +114,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 
 		$query = new WP_User_Query(
 			array(
+				'fields'              => 'ids',
 				'has_published_posts' => array_keys( $public_post_types ),
 				'number'              => CORE_SITEMAPS_POSTS_PER_PAGE,
 				'paged'               => 1,

@@ -119,6 +119,7 @@ class Core_Sitemaps_Provider {
 		}
 		$query = new WP_Query(
 			array(
+				'fields'         => 'ids',
 				'orderby'        => 'ID',
 				'order'          => 'ASC',
 				'post_type'      => $type,
