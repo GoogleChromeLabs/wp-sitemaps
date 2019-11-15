@@ -112,7 +112,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		 *
 		 * @since 0.1.0
 		 * @param array  $url_list List of URLs for a sitemap.
-		 * @param string $type     .       Name of the taxonomy_type.
+		 * @param string $type     Name of the taxonomy_type.
 		 * @param int    $page_num Page of results.
 		 */
 		return apply_filters( 'core_sitemaps_taxonomies_url_list', $url_list, $type, $page_num );
