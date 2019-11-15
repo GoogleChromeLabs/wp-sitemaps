@@ -1,7 +1,6 @@
 <?php
 /**
  * The Core_Sitemaps_Users sitemap provider.
- *
  * This class extends Core_Sitemaps_Provider to support sitemaps for user pages in WordPress.
  *
  * @package Core_Sitemaps
@@ -24,7 +23,6 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	 * Get a URL list for a user sitemap.
 	 *
 	 * @param int $page_num Page of results.
-	 *
 	 * @return array $url_list List of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num ) {
@@ -70,10 +68,8 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 		 * Filter the list of URLs for a sitemap before rendering.
 		 *
 		 * @since 0.1.0
-		 *
 		 * @param string $object_type Name of the post_type.
 		 * @param int    $page_num    Page of results.
-		 *
 		 * @param array  $url_list    List of URLs for a sitemap.
 		 */
 		return apply_filters( 'core_sitemaps_users_url_list', $url_list, $object_type, $page_num );
@@ -98,5 +94,26 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 			$renderer->render_sitemap( $url_list );
 			exit;
 		}
+	}
+
+	public function index_query() {
+		$public_post_types = get_post_types(
+			array(
+				'public' => true,
+			)
+		);
+
+		// We're not supporting sitemaps for author pages for attachments.
+		unset( $public_post_types['attachment'] );
+
+		$query = new WP_User_Query(
+			array(
+				'has_published_posts' => array_keys( $public_post_types ),
+				'number'              => CORE_SITEMAPS_POSTS_PER_PAGE,
+				'paged'               => 1,
+			)
+		);
+
+		return $query;
 	}
 }

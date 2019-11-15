@@ -59,7 +59,6 @@ class Core_Sitemaps {
 		 * Filters the list of registered sitemap providers.
 		 *
 		 * @since 0.1.0
-		 *
 		 * @param array $providers Array of Core_Sitemap_Provider objects.
 		 */
 		$providers = apply_filters(
@@ -73,7 +72,11 @@ class Core_Sitemaps {
 
 		// Register each supported provider.
 		foreach ( $providers as $provider ) {
-			$this->registry->add_sitemap( $provider->slug, $provider );
+			$sitemaps = $provider->get_sitemaps();
+			foreach ( $sitemaps as $sitemap ) {
+				$this->registry->add_sitemap( $sitemap, $provider );
+
+			}
 		}
 	}
 

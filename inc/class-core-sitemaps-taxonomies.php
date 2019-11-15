@@ -57,7 +57,6 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	 * Get a URL list for a taxonomy sitemap.
 	 *
 	 * @param int $page_num Page of results.
-	 *
 	 * @return array $url_list List of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num ) {
@@ -112,10 +111,9 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		 * Filter the list of URLs for a sitemap before rendering.
 		 *
 		 * @since 0.1.0
-		 *
-		 * @param array  $url_list    List of URLs for a sitemap.
-		 * @param string $type.       Name of the taxonomy_type.
-		 * @param int    $page_num    Page of results.
+		 * @param array  $url_list List of URLs for a sitemap.
+		 * @param string $type     .       Name of the taxonomy_type.
+		 * @param int    $page_num Page of results.
 		 */
 		return apply_filters( 'core_sitemaps_taxonomies_url_list', $url_list, $type, $page_num );
 	}
@@ -129,9 +127,8 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		/**
 		 * Filter the list of taxonomy object sub types available within the sitemap.
 		 *
-		 * @param array $taxonomy_types List of registered object sub types.
-		 *
 		 * @since 0.1.0
+		 * @param array $taxonomy_types List of registered object sub types.
 		 */
 		return apply_filters( 'core_sitemaps_taxonomies', $taxonomy_types );
 	}
@@ -145,4 +142,41 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		return 'index.php?sitemap=' . $this->slug . '&sub_type=$matches[1]&paged=$matches[2]';
 	}
 
+	public function get_sitemaps() {
+		$sitemaps = array();
+
+		foreach ( $this->get_object_sub_types() as $type ) {
+			$query = $this->index_query( $type->name );
+
+			$total = isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
+			for ( $i = 1; $i <= $total; $i ++ ) {
+				$slug       = implode( '-', array_filter( array( $this->slug, $type->name, (string) $i ) ) );
+				$sitemaps[] = $slug;
+			}
+		}
+
+		return $sitemaps;
+	}
+
+	/**
+	 * @param string $type
+	 * @return WP_Query
+	 */
+	public function index_query( $type = '' ) {
+		if ( empty( $type ) ) {
+			$type = $this->get_active_type();
+		}
+		$args = array(
+			'fields'     => 'ids',
+			'taxonomy'   => $type,
+			'orderby'    => 'term_order',
+			'number'     => CORE_SITEMAPS_POSTS_PER_PAGE,
+			'paged'      => 1,
+			'hide_empty' => true,
+		);
+
+		$query = new WP_Term_Query( $args );
+
+		return $query;
+	}
 }
