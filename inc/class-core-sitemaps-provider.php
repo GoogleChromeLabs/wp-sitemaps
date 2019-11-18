@@ -146,10 +146,20 @@ class Core_Sitemaps_Provider {
 	public function get_sitemaps() {
 		$sitemaps = array();
 
-		foreach ( $this->get_object_sub_types() as $type ) {
-			$total = $this->max_num_pages( $type->name );
+		$sitemap_types = $this->get_object_sub_types();
+
+		foreach ( $sitemap_types as $type ) {
+			// Handle object names as strings.
+			$name = $type;
+
+			// Handle lists of post-objects.
+			if ( isset( $type->name ) ) {
+				$name = $type->name;
+			}
+
+			$total = $this->max_num_pages( $name );
 			for ( $i = 1; $i <= $total; $i ++ ) {
-				$slug       = implode( '-', array_filter( array( $this->slug, $type->name, (string) $i ) ) );
+				$slug       = implode( '-', array_filter( array( $this->slug, $name, (string) $i ) ) );
 				$sitemaps[] = $slug;
 			}
 		}
@@ -162,13 +172,20 @@ class Core_Sitemaps_Provider {
 	 *
 	 * By default this is the sub_type as specified in the class property.
 	 *
-	 * @return array List of object types.
+	 * @return array List: containing object types or false if there are no subtypes.
 	 */
 	public function get_object_sub_types() {
-		// FIXME: fix this hack.
-		$c       = new stdClass();
-		$c->name = $this->sub_type;
+		if ( ! empty( $this->sub_type ) ) {
+			return array( $this->sub_type );
+		}
 
-		return array( $c );
+		/**
+		 * To prevent complexity in code calling this function, such as `get_sitemaps()` in this class,
+		 * an iterable type is returned. The value false was chosen as it passes empty() checks and
+		 * as semantically this provider does not provide sub-types.
+		 *
+		 * @link https://github.com/GoogleChromeLabs/wp-sitemaps/pull/72#discussion_r347496750
+		 */
+		return array( false );
 	}
 }
