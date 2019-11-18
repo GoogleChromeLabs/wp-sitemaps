@@ -1,4 +1,11 @@
 <?php
+/**
+ * Styling of rendered sitemap data.
+ * Created a s php file so that that escaping and i18n can be applied correctly.
+ *
+ * @package Core_Sitemap
+ */
+
 return <<<XSL
 <?xml version="1.0" encoding="UTF-8"?>
 	<xsl:stylesheet version="2.0"
