@@ -75,6 +75,13 @@ class Core_Sitemaps_Renderer {
 		// All output is escaped within the addChild method calls.
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo $sitemap_index->asXML();
+
+		/**
+		 * Filter the URL for the sitemap stylesheet'.
+		 *
+		 * @param string $stylesheet Full XML-Stylesheet declaration with URL.
+		 */
+		return apply_filters( 'core_sitemaps_stylesheet', $this->stylesheet );
 	}
 
 	/**
@@ -83,9 +90,6 @@ class Core_Sitemaps_Renderer {
 	 * @param array $url_list A list of URLs for a sitemap.
 	 */
 	public function render_sitemap( $url_list ) {
-
-		$sitemap_xsl = 'http://one.wordpress.test/wp-content/plugins/core-sitemaps/inc/sitemap.xsl';
-
 		header( 'Content-type: application/xml; charset=UTF-8' );
 		$urlset = new SimpleXMLElement( '<?xml version="1.0" encoding="UTF-8" ?>' . $this->stylesheet . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>' );
 
