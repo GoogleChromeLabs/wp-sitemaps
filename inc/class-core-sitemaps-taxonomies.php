@@ -23,26 +23,21 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	 * Produce XML to output.
 	 */
 	public function render_sitemap() {
-		global $wp_query;
-
 		$sitemap  = get_query_var( 'sitemap' );
 		$sub_type = get_query_var( 'sub_type' );
 		$paged    = get_query_var( 'paged' );
 
-		$sub_types = $this->get_object_sub_types();
-
-		$this->sub_type = $sub_types[ $sub_type ]->name;
-		if ( empty( $paged ) ) {
-			$paged = 1;
-		}
-
 		if ( $this->slug === $sitemap ) {
-			if ( ! isset( $sub_types[ $sub_type ] ) ) {
-				// Invalid sub type.
-				$wp_query->set_404();
-				status_header( 404 );
+			$sub_types = $this->get_object_sub_types();
 
-				return;
+			$this->sub_type = $sub_types[ $sub_type ]->name;
+			if ( empty( $paged ) ) {
+				$paged = 1;
+			}
+
+			if ( ! isset( $sub_types[ $sub_type ] ) ) {
+				// Force empty result set.
+				$paged = CORE_SITEMAPS_MAX_URLS + 1;
 			}
 
 			$url_list = $this->get_url_list( $paged );
@@ -57,7 +52,6 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	 * Get a URL list for a taxonomy sitemap.
 	 *
 	 * @param int $page_num Page of results.
-	 *
 	 * @return array $url_list List of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num ) {
@@ -65,7 +59,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		$type = $this->sub_type;
 
 		if ( empty( $type ) ) {
-			return;
+			return array();
 		}
 
 		$url_list = array();
@@ -113,9 +107,9 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		 *
 		 * @since 0.1.0
 		 *
-		 * @param array  $url_list    List of URLs for a sitemap.
-		 * @param string $type.       Name of the taxonomy_type.
-		 * @param int    $page_num    Page of results.
+		 * @param array  $url_list List of URLs for a sitemap.
+		 * @param string $type     Name of the taxonomy_type.
+		 * @param int    $page_num Page of results.
 		 */
 		return apply_filters( 'core_sitemaps_taxonomies_url_list', $url_list, $type, $page_num );
 	}
@@ -129,9 +123,9 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		/**
 		 * Filter the list of taxonomy object sub types available within the sitemap.
 		 *
-		 * @param array $taxonomy_types List of registered object sub types.
-		 *
 		 * @since 0.1.0
+		 *
+		 * @param array $taxonomy_types List of registered object sub types.
 		 */
 		return apply_filters( 'core_sitemaps_taxonomies', $taxonomy_types );
 	}
@@ -145,4 +139,28 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		return 'index.php?sitemap=' . $this->slug . '&sub_type=$matches[1]&paged=$matches[2]';
 	}
 
+	/**
+	 * Sitemap Index query for determining the number of pages.
+	 *
+	 * @param string $type Taxonomy name.
+	 * @return int Total number of pages.
+	 */
+	public function max_num_pages( $type = '' ) {
+		if ( empty( $type ) ) {
+			$type = $this->get_queried_type();
+		}
+
+		$args = array(
+			'fields'     => 'ids',
+			'taxonomy'   => $type,
+			'orderby'    => 'term_order',
+			'number'     => CORE_SITEMAPS_POSTS_PER_PAGE,
+			'paged'      => 1,
+			'hide_empty' => true,
+		);
+
+		$query = new WP_Term_Query( $args );
+
+		return isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
+	}
 }

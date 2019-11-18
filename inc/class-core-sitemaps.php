@@ -1,6 +1,7 @@
 <?php
 /**
  * Class file for the Core_Sitemaps class.
+ *
  * This is the main class integrating all other classes.
  *
  * @package Core_Sitemaps
@@ -74,7 +75,10 @@ class Core_Sitemaps {
 
 		// Register each supported provider.
 		foreach ( $providers as $provider ) {
-			$this->registry->add_sitemap( $provider->slug, $provider );
+			$sitemaps = $provider->get_sitemaps();
+			foreach ( $sitemaps as $sitemap ) {
+				$this->registry->add_sitemap( $sitemap, $provider );
+			}
 		}
 	}
 
