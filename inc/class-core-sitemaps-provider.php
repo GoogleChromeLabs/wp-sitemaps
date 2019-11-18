@@ -146,10 +146,24 @@ class Core_Sitemaps_Provider {
 	public function get_sitemaps() {
 		$sitemaps = array();
 
-		foreach ( $this->get_object_sub_types() as $type ) {
-			$total = $this->max_num_pages( $type->name );
+		$sitemap_types = $this->get_object_sub_types();
+		if ( empty( $sitemap_types ) ) {
+			// By default, providers without sub-types are processed based on their object_type.
+			$sitemap_types = array( $this->object_type );
+		}
+
+		foreach ( $sitemap_types as $type ) {
+			// Handle object names as strings.
+			$name = $type;
+
+			// Handle lists of post-objects.
+			if ( isset( $type->name ) ) {
+				$name = $type->name;
+			}
+
+			$total = $this->max_num_pages( $name );
 			for ( $i = 1; $i <= $total; $i ++ ) {
-				$slug       = implode( '-', array_filter( array( $this->slug, $type->name, (string) $i ) ) );
+				$slug       = implode( '-', array_filter( array( $this->slug, $name, (string) $i ) ) );
 				$sitemaps[] = $slug;
 			}
 		}
@@ -162,13 +176,13 @@ class Core_Sitemaps_Provider {
 	 *
 	 * By default this is the sub_type as specified in the class property.
 	 *
-	 * @return array List of object types.
+	 * @return array List of object types, or empty if there are no subtypes.
 	 */
 	public function get_object_sub_types() {
-		// FIXME: fix this hack.
-		$c       = new stdClass();
-		$c->name = $this->sub_type;
+		if ( ! empty( $this->sub_type ) ) {
+			return array( $this->sub_type );
+		}
 
-		return array( $c );
+		return array();
 	}
 }
