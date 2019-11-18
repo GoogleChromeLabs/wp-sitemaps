@@ -1,7 +1,7 @@
 <?php
 /**
  * Styling of rendered sitemap data.
- * Created a s php file so that that escaping and i18n can be applied correctly.
+ * @todo Created a php file so that that escaping and i18n can be applied correctly. Still do that.
  *
  * @package Core_Sitemap
  */
