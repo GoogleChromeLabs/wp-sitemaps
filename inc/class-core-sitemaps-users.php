@@ -27,23 +27,8 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	 * @return array $url_list List of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num ) {
-		$object_type       = $this->object_type;
-		$public_post_types = get_post_types(
-			array(
-				'public' => true,
-			)
-		);
-
-		// We're not supporting sitemaps for author pages for attachments.
-		unset( $public_post_types['attachment'] );
-
-		$query = new WP_User_Query(
-			array(
-				'has_published_posts' => array_keys( $public_post_types ),
-				'number'              => CORE_SITEMAPS_POSTS_PER_PAGE,
-				'paged'               => absint( $page_num ),
-			)
-		);
+		$object_type = $this->object_type;
+		$query       = $this->get_public_post_authors_query( $page_num );
 
 		$users = $query->get_results();
 
@@ -100,11 +85,25 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	/**
 	 * Return max number of pages available for the object type.
 	 *
-	 * @param string $type Name of the object type.
+	 * @see \Core_Sitemaps_Provider::max_num_pages
+	 * @param string $type Optional. Name of the object type. Default is null.
 	 * @return int Total page count.
 	 */
 	public function max_num_pages( $type = null ) {
-		// FIXME Can we abstract the functionality here that gets a list of authors with public posts since it's also being used in get_url_list()?
+		$query = $this->get_public_post_authors_query();
+
+		return isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
+	}
+
+	/**
+	 * Return a query for authors with public posts.
+	 *
+	 * Implementation must support `$query->max_num_pages`.
+	 *
+	 * @param integer $page_num Optional. Default is 1. Page of query results to return.
+	 * @return WP_User_Query
+	 */
+	public function get_public_post_authors_query( $page_num = null ) {
 		$public_post_types = get_post_types(
 			array(
 				'public' => true,
@@ -114,15 +113,18 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 		// We're not supporting sitemaps for author pages for attachments.
 		unset( $public_post_types['attachment'] );
 
+		if ( null === $page_num ) {
+			$page_num = 1;
+		}
+
 		$query = new WP_User_Query(
 			array(
-				'fields'              => 'ids',
 				'has_published_posts' => array_keys( $public_post_types ),
 				'number'              => CORE_SITEMAPS_POSTS_PER_PAGE,
-				'paged'               => 1,
+				'paged'               => absint( $page_num ),
 			)
 		);
 
-		return isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
+		return $query;
 	}
 }
