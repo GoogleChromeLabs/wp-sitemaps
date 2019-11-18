@@ -74,13 +74,14 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 			'number'                 => CORE_SITEMAPS_POSTS_PER_PAGE,
 			'offset'                 => $offset,
 			'hide_empty'             => true,
+
 			/*
 			 * Limits aren't included in queries when hierarchical is set to true (by default).
 			 *
 			 * @link: https://github.com/WordPress/WordPress/blob/5.3/wp-includes/class-wp-term-query.php#L558-L567
 			 */
 			'hierarchical'           => false,
-			'update_term_meta_cache' => false
+			'update_term_meta_cache' => false,
 		);
 
 		$taxonomy_terms = new WP_Term_Query( $args );
