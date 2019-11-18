@@ -68,6 +68,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		$offset = ( $page_num - 1 ) * CORE_SITEMAPS_POSTS_PER_PAGE;
 
 		$args = array(
+			'fields'                 => 'ids',
 			'taxonomy'               => $type,
 			'orderby'                => 'term_order',
 			'number'                 => CORE_SITEMAPS_POSTS_PER_PAGE,
