@@ -53,8 +53,6 @@ class Core_Sitemaps_Renderer {
 	 * @return string the sitemap stylesheet url.
 	 */
 	public function get_sitemap_stylesheet_url() {
-		home_url( 'sitemap.xsl' );
-
 		return plugin_dir_url( __FILE__ ) . 'sitemap.xsl';
 	}
 
