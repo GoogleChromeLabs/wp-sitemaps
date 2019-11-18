@@ -147,10 +147,6 @@ class Core_Sitemaps_Provider {
 		$sitemaps = array();
 
 		$sitemap_types = $this->get_object_sub_types();
-		if ( empty( $sitemap_types ) ) {
-			// By default, providers without sub-types are processed based on their object_type.
-			$sitemap_types = array( $this->object_type );
-		}
 
 		foreach ( $sitemap_types as $type ) {
 			// Handle object names as strings.
@@ -176,13 +172,13 @@ class Core_Sitemaps_Provider {
 	 *
 	 * By default this is the sub_type as specified in the class property.
 	 *
-	 * @return array List of object types, or empty if there are no subtypes.
+	 * @return array List: containing object types or false if there are no subtypes.
 	 */
 	public function get_object_sub_types() {
 		if ( ! empty( $this->sub_type ) ) {
 			return array( $this->sub_type );
 		}
 
-		return array();
+		return array( false );
 	}
 }
