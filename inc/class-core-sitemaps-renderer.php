@@ -10,6 +10,21 @@
  */
 class Core_Sitemaps_Renderer {
 	/**
+	 * XSL stylesheet for styling a sitemap for web browsers.
+	 *
+	 * @var string
+	 */
+	protected $stylesheet = '';
+
+	/**
+	 * Core_Sitemaps_Renderer constructor.
+	 */
+	public function __construct() {
+		$stylesheet_url   = $this->get_sitemap_stylesheet_url();
+		$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . esc_url( $stylesheet_url ) . '" ?>';
+	}
+
+	/**
 	 * Get the URL for a specific sitemap.
 	 *
 	 * @param string $name The name of the sitemap to get a URL for.
@@ -30,6 +45,17 @@ class Core_Sitemaps_Renderer {
 		}
 
 		return $url;
+	}
+
+	/**
+	 * Get the URL for the sitemap stylesheet.
+	 *
+	 * @return string the sitemap stylesheet url.
+	 */
+	public function get_sitemap_stylesheet_url() {
+		home_url( 'sitemap.xsl' );
+
+		return plugin_dir_url( __FILE__ ) . 'sitemap.xsl';
 	}
 
 	/**
@@ -57,8 +83,11 @@ class Core_Sitemaps_Renderer {
 	 * @param array $url_list A list of URLs for a sitemap.
 	 */
 	public function render_sitemap( $url_list ) {
+
+		$sitemap_xsl = 'http://one.wordpress.test/wp-content/plugins/core-sitemaps/inc/sitemap.xsl';
+
 		header( 'Content-type: application/xml; charset=UTF-8' );
-		$urlset = new SimpleXMLElement( '<?xml version="1.0" encoding="UTF-8" ?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>' );
+		$urlset = new SimpleXMLElement( '<?xml version="1.0" encoding="UTF-8" ?>' . $this->stylesheet . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>' );
 
 		foreach ( $url_list as $url_item ) {
 			$url = $urlset->addChild( 'url' );
@@ -69,5 +98,12 @@ class Core_Sitemaps_Renderer {
 		// All output is escaped within the addChild method calls.
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo $urlset->asXML();
+
+		/**
+		 * Filter the URL for the sitemap stylesheet'.
+		 *
+		 * @param string $stylesheet Full XML-Stylesheet declaration with URL.
+		 */
+		return apply_filters( 'core_sitemaps_stylesheet', $this->stylesheet );
 	}
 }
