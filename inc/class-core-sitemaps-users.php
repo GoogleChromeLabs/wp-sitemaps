@@ -103,7 +103,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	 * @param integer $page_num Optional. Default is 1. Page of query results to return.
 	 * @return WP_User_Query
 	 */
-	public function get_public_post_authors_query( $page_num = null ) {
+	public function get_public_post_authors_query( $page_num = 1 ) {
 		$public_post_types = get_post_types(
 			array(
 				'public' => true,
@@ -112,10 +112,6 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 
 		// We're not supporting sitemaps for author pages for attachments.
 		unset( $public_post_types['attachment'] );
-
-		if ( null === $page_num ) {
-			$page_num = 1;
-		}
 
 		$query = new WP_User_Query(
 			array(
