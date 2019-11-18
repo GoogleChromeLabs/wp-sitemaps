@@ -179,6 +179,13 @@ class Core_Sitemaps_Provider {
 			return array( $this->sub_type );
 		}
 
+		/**
+		 * To prevent complexity in code calling this function, such as `get_sitemaps()` in this class,
+		 * an iterable type is returned. The value false was chosen as it passes empty() checks and
+		 * as semantically this provider does not provide sub-types.
+		 *
+		 * @link https://github.com/GoogleChromeLabs/wp-sitemaps/pull/72#discussion_r347496750
+		 */
 		return array( false );
 	}
 }
