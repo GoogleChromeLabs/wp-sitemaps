@@ -46,14 +46,10 @@ class Core_Sitemaps_Provider {
 	 * Get a URL list for a post type sitemap.
 	 *
 	 * @param int $page_num Page of results.
-	 *
 	 * @return array $url_list List of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num ) {
-		$type = $this->sub_type;
-		if ( empty( $type ) ) {
-			$type = $this->object_type;
-		}
+		$type = $this->get_queried_type();
 
 		$query = new WP_Query(
 			array(
@@ -98,5 +94,98 @@ class Core_Sitemaps_Provider {
 	 */
 	public function rewrite_query() {
 		return 'index.php?sitemap=' . $this->slug . '&paged=$matches[1]';
+	}
+
+	/**
+	 * Return object type being queried.
+	 *
+	 * @return string Name of the object type.
+	 */
+	public function get_queried_type() {
+		$type = $this->sub_type;
+
+		if ( empty( $type ) ) {
+			$type = $this->object_type;
+		}
+
+		return $type;
+	}
+
+	/**
+	 * Query for determining the number of pages.
+	 *
+	 * @param string $type Optional. Object type. Default is null.
+	 * @return int Total number of pages.
+	 */
+	public function max_num_pages( $type = null ) {
+		if ( empty( $type ) ) {
+			$type = $this->get_queried_type();
+		}
+
+		$query = new WP_Query(
+			array(
+				'fields'                 => 'ids',
+				'orderby'                => 'ID',
+				'order'                  => 'ASC',
+				'post_type'              => $type,
+				'posts_per_page'         => CORE_SITEMAPS_POSTS_PER_PAGE,
+				'paged'                  => 1,
+				'update_post_term_cache' => false,
+				'update_post_meta_cache' => false,
+			)
+		);
+
+		return isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
+	}
+
+	/**
+	 * List of sitemaps exposed by this provider.
+	 *
+	 * @return array List of sitemaps.
+	 */
+	public function get_sitemaps() {
+		$sitemaps = array();
+
+		$sitemap_types = $this->get_object_sub_types();
+
+		foreach ( $sitemap_types as $type ) {
+			// Handle object names as strings.
+			$name = $type;
+
+			// Handle lists of post-objects.
+			if ( isset( $type->name ) ) {
+				$name = $type->name;
+			}
+
+			$total = $this->max_num_pages( $name );
+			for ( $i = 1; $i <= $total; $i ++ ) {
+				$slug       = implode( '-', array_filter( array( $this->slug, $name, (string) $i ) ) );
+				$sitemaps[] = $slug;
+			}
+		}
+
+		return $sitemaps;
+	}
+
+	/**
+	 * Return the list of supported object sub-types exposed by the provider.
+	 *
+	 * By default this is the sub_type as specified in the class property.
+	 *
+	 * @return array List: containing object types or false if there are no subtypes.
+	 */
+	public function get_object_sub_types() {
+		if ( ! empty( $this->sub_type ) ) {
+			return array( $this->sub_type );
+		}
+
+		/**
+		 * To prevent complexity in code calling this function, such as `get_sitemaps()` in this class,
+		 * an iterable type is returned. The value false was chosen as it passes empty() checks and
+		 * as semantically this provider does not provide sub-types.
+		 *
+		 * @link https://github.com/GoogleChromeLabs/wp-sitemaps/pull/72#discussion_r347496750
+		 */
+		return array( false );
 	}
 }

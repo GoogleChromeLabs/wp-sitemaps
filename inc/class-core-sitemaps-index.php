@@ -71,7 +71,7 @@ class Core_Sitemaps_Index {
 
 		if ( 'index' === $sitemap_index ) {
 			$sitemaps = core_sitemaps_get_sitemaps();
-			$this->renderer->render_index( $sitemaps );
+			$this->renderer->render_index( array_keys( $sitemaps ) );
 			exit;
 		}
 	}

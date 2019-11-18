@@ -13,7 +13,6 @@ class Core_Sitemaps_Renderer {
 	 * Get the URL for a specific sitemap.
 	 *
 	 * @param string $name The name of the sitemap to get a URL for.
-	 *
 	 * @return string the sitemap index url.
 	 */
 	public function get_sitemap_url( $name ) {
@@ -41,9 +40,9 @@ class Core_Sitemaps_Renderer {
 		header( 'Content-type: application/xml; charset=UTF-8' );
 		$sitemap_index = new SimpleXMLElement( '<?xml version="1.0" encoding="UTF-8" ?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></sitemapindex>' );
 
-		foreach ( $sitemaps as $link ) {
+		foreach ( $sitemaps as $slug ) {
 			$sitemap = $sitemap_index->addChild( 'sitemap' );
-			$sitemap->addChild( 'loc', esc_url( $this->get_sitemap_url( $link->slug ) ) );
+			$sitemap->addChild( 'loc', esc_url( $this->get_sitemap_url( $slug ) ) );
 			$sitemap->addChild( 'lastmod', '2004-10-01T18:23:17+00:00' );
 		}
 		// All output is escaped within the addChild method calls.
@@ -57,8 +56,15 @@ class Core_Sitemaps_Renderer {
 	 * @param array $url_list A list of URLs for a sitemap.
 	 */
 	public function render_sitemap( $url_list ) {
+		global $wp_query;
+
 		header( 'Content-type: application/xml; charset=UTF-8' );
 		$urlset = new SimpleXMLElement( '<?xml version="1.0" encoding="UTF-8" ?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>' );
+
+		if ( empty( $url_list ) ) {
+			$wp_query->set_404();
+			status_header( 404 );
+		}
 
 		foreach ( $url_list as $url_item ) {
 			$url = $urlset->addChild( 'url' );
