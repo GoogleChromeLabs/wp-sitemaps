@@ -33,7 +33,7 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 
 		$this->assertEquals( core_sitemaps_get_max_urls(), CORE_SITEMAPS_MAX_URLS, 'Can not confirm max URL number.' );
 		$this->assertEquals( core_sitemaps_get_max_urls( 'posts' ), 300, 'Can not confirm max URL number for posts.' );
-		$this->assertEquals( core_sitemaps_get_max_urls( 'taxonomies'), 50, 'Can not confirm max URL number for taxonomies.' );
+		$this->assertEquals( core_sitemaps_get_max_urls( 'taxonomies' ), 50, 'Can not confirm max URL number for taxonomies.' );
 		$this->assertEquals( core_sitemaps_get_max_urls( 'users' ), 1, 'Can not confirm max URL number for users.' );
 
 		// Clean up.
@@ -43,9 +43,9 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	/**
 	 * Callback function for testing the `core_sitemaps_max_urls` filter.
 	 *
-	 * This filter is documented in core-sitemaps/inc/functions.php.
-	 *
-	 * @see core_sitemaps_get_max_urls().
+	 * @param int    $max_urls The maximum number of URLs included in a sitemap. Default 2000.
+	 * @param string $type     Optional. The type of sitemap to be filtered. Default ''.
+	 * @return int The maximum number of URLs.
 	 */
 	public function filter_max_url_value( $max_urls, $type ) {
 		switch ( $type ) {
