@@ -63,26 +63,6 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	}
 
 	/**
-	 * Produce XML to output.
-	 *
-	 * @noinspection PhpUnused
-	 */
-	public function render_sitemap() {
-		$sitemap = get_query_var( 'sitemap' );
-		$paged   = get_query_var( 'paged' );
-
-		if ( 'users' === $sitemap ) {
-			if ( empty( $paged ) ) {
-				$paged = 1;
-			}
-			$url_list = $this->get_url_list( $paged );
-			$renderer = new Core_Sitemaps_Renderer();
-			$renderer->render_sitemap( $url_list );
-			exit;
-		}
-	}
-
-	/**
 	 * Return max number of pages available for the object type.
 	 *
 	 * @see \Core_Sitemaps_Provider::max_num_pages
