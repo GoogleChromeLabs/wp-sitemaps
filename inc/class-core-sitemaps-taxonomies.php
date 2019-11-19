@@ -65,13 +65,13 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		$url_list = array();
 
 		// Offset by how many terms should be included in previous pages.
-		$offset = ( $page_num - 1 ) * CORE_SITEMAPS_POSTS_PER_PAGE;
+		$offset = ( $page_num - 1 ) * CORE_SITEMAPS_MAX_URLS;
 
 		$args = array(
 			'fields'                 => 'ids',
 			'taxonomy'               => $type,
 			'orderby'                => 'term_order',
-			'number'                 => CORE_SITEMAPS_POSTS_PER_PAGE,
+			'number'                 => CORE_SITEMAPS_MAX_URLS,
 			'offset'                 => $offset,
 			'hide_empty'             => true,
 
@@ -167,7 +167,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 			'fields'     => 'ids',
 			'taxonomy'   => $type,
 			'orderby'    => 'term_order',
-			'number'     => CORE_SITEMAPS_POSTS_PER_PAGE,
+			'number'     => CORE_SITEMAPS_MAX_URLS,
 			'paged'      => 1,
 			'hide_empty' => true,
 		);
