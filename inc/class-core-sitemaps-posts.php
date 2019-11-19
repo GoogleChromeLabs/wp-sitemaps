@@ -41,7 +41,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 			} else {
 				// $this->sub_type remains empty and is handled by get_url_list().
 				// Force a super large page number so the result set will be empty.
-				$paged = CORE_SITEMAPS_MAX_URLS + 1;
+				$paged = CORE_SITEMAPS_MAX_SITEMAPS + 1;
 			}
 
 			$url_list = $this->get_url_list( $paged );

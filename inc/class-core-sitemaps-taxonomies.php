@@ -37,7 +37,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 
 			if ( ! isset( $sub_types[ $sub_type ] ) ) {
 				// Force empty result set.
-				$paged = CORE_SITEMAPS_MAX_URLS + 1;
+				$paged = CORE_SITEMAPS_MAX_SITEMAPS + 1;
 			}
 
 			$url_list = $this->get_url_list( $paged );
