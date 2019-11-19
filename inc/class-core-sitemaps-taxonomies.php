@@ -163,17 +163,8 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 			$type = $this->get_queried_type();
 		}
 
-		$args = array(
-			'fields'     => 'ids',
-			'taxonomy'   => $type,
-			'orderby'    => 'term_order',
-			'number'     => core_sitemaps_get_max_urls( $this->slug ),
-			'paged'      => 1,
-			'hide_empty' => true,
-		);
+		$term_count = wp_count_terms( $type, array( 'hide_empty' => true ) );
 
-		$query = new WP_Term_Query( $args );
-
-		return isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
+		return ceil( $term_count / core_sitemaps_get_max_urls( $this->slug ) );
 	}
 }
