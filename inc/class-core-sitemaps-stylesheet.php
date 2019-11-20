@@ -17,19 +17,23 @@ class Core_Sitemaps_Stylesheet {
 	 * @return string $xsl XSL file.
 	 */
 	public function render_stylesheet() {
-		header( 'Content-type: application/xml; charset=UTF-8' );
+		$stylesheet_query = get_query_var( 'stylesheet' );
 
-		$xsl = $this->stylesheet_xsl();
-		// All output is escaped stylesheet_xsl.
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		echo $xsl;
+		if ( 'xsl' === $stylesheet_query ) {
+			header( 'Content-type: application/xml; charset=UTF-8' );
 
-		/**
-		 * Filter the content of the sitemap stylesheet.
-		 *
-		 * @param string $xsl Full content for the xml stylesheet.
-		 */
-		return apply_filters( 'core_sitemaps_stylesheet_content', $xsl );
+			$xsl = $this->stylesheet_xsl();
+			// All output is escaped in stylesheet_xsl() below.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $xsl;
+
+			/**
+			 * Filter the content of the sitemap stylesheet.
+			 *
+			 * @param string $xsl Full content for the xml stylesheet.
+			 */
+			return apply_filters( 'core_sitemaps_stylesheet_content', $xsl );
+		}
 	}
 
 	/**
@@ -37,7 +41,7 @@ class Core_Sitemaps_Stylesheet {
 	 *
 	 * @return string $xsl_content The full XSL content.
 	 */
-	public static function stylesheet_xsl() {
+	public function stylesheet_xsl() {
 		$css   = $this->stylesheet_xsl_css();
 		$title = esc_html( 'XML Sitemap', 'core-sitemaps' );
 
