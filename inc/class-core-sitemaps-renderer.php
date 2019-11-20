@@ -52,7 +52,8 @@ class Core_Sitemaps_Renderer {
 	 * @return string the sitemap stylesheet url.
 	 */
 	public function get_sitemap_stylesheet_url() {
-		$sitemap_url = home_url( '/sitemap.xsl' );
+		$sitemap_url = home_url( 'sitemap.xsl' );
+
 		/**
 		 * Filter the URL for the sitemap stylesheet'.
 		 *
