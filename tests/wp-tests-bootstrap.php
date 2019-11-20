@@ -40,7 +40,7 @@ function core_sitemaps_remove_automated_checks() {
 }
 
 /**
- * Load any plugins we might need.
+ * Remove automated checks during test load.
  */
 tests_add_filter(
 	'muplugins_loaded',
@@ -50,11 +50,17 @@ tests_add_filter(
 );
 
 /**
- * Hardcode timezone for tests.
- *
- * @param bool $_ Not used.
- *
- * @return string New timezone.
+ * Load any plugins we might need.
+ */
+tests_add_filter(
+	'muplugins_loaded',
+	static function () {
+		require dirname( dirname( __FILE__ ) ) . '/core-sitemaps.php';
+	}
+);
+
+/**
+ * Hard code timezone for tests.
  */
 tests_add_filter(
 	'pre_option_timezone_string',

@@ -23,9 +23,14 @@
  * Version:         0.1.0
  */
 
-const CORE_SITEMAPS_POSTS_PER_PAGE  = 2000;
-const CORE_SITEMAPS_MAX_URLS        = 50000;
+// The limit for how many sitemaps to include in an index.
+const CORE_SITEMAPS_MAX_SITEMAPS    = 50000;
 const CORE_SITEMAPS_REWRITE_VERSION = '2019-11-15a';
+
+// Limit the number of URLs included in as sitemap.
+if ( ! defined( 'CORE_SITEMAPS_MAX_URLS' ) ) {
+	define( 'CORE_SITEMAPS_MAX_URLS', 2000 );
+}
 
 require_once __DIR__ . '/inc/class-core-sitemaps.php';
 require_once __DIR__ . '/inc/class-core-sitemaps-provider.php';
