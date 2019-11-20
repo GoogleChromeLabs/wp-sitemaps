@@ -101,7 +101,11 @@ class Core_Sitemaps {
 	 * Provide rewrite for the xsl stylesheet.
 	 */
 	public function xsl_stylesheet_rewrite() {
-		add_rewrite_rule( 'sitemap.xsl', 'sitemap.xsl.php', 'top' );
+		add_rewrite_tag( '%stylesheet%', '([^?]+)' );
+		add_rewrite_rule( '^sitemap\.xsl$', 'index.php?stylesheet=xsl', 'top' );
+
+		$stylesheet = new Core_Sitemaps_Stylesheet();
+		add_action( 'template_redirect', array( $stylesheet, 'render_stylesheet' ) );
 	}
 
 	/**
