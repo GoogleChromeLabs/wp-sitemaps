@@ -37,7 +37,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 
 			if ( ! isset( $sub_types[ $sub_type ] ) ) {
 				// Force empty result set.
-				$paged = CORE_SITEMAPS_MAX_URLS + 1;
+				$paged = CORE_SITEMAPS_MAX_SITEMAPS + 1;
 			}
 
 			$url_list = $this->get_url_list( $paged );
@@ -65,13 +65,13 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		$url_list = array();
 
 		// Offset by how many terms should be included in previous pages.
-		$offset = ( $page_num - 1 ) * CORE_SITEMAPS_POSTS_PER_PAGE;
+		$offset = ( $page_num - 1 ) * core_sitemaps_get_max_urls( $this->slug );
 
 		$args = array(
 			'fields'                 => 'ids',
 			'taxonomy'               => $type,
 			'orderby'                => 'term_order',
-			'number'                 => CORE_SITEMAPS_POSTS_PER_PAGE,
+			'number'                 => core_sitemaps_get_max_urls( $this->slug ),
 			'offset'                 => $offset,
 			'hide_empty'             => true,
 
@@ -167,7 +167,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 			'fields'     => 'ids',
 			'taxonomy'   => $type,
 			'orderby'    => 'term_order',
-			'number'     => CORE_SITEMAPS_POSTS_PER_PAGE,
+			'number'     => core_sitemaps_get_max_urls( $this->slug ),
 			'paged'      => 1,
 			'hide_empty' => true,
 		);
