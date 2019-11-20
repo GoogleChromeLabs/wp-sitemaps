@@ -1,8 +1,11 @@
 <?php
 /**
- * The Core_Sitemaps_Users sitemap provider.
+ * The Core_Sitemaps_Stylesheet sitemap provider.
  *
- * This class extends Core_Sitemaps_Provider to support sitemaps for user pages in WordPress.
+ * This class provides the XSL stylesheets to style all sitemaps.
+ * @todo
+ * - Needs escaping and making translatable.
+ * - Need to make this filterable too?
  *
  * @package Core_Sitemaps
  */
@@ -11,7 +14,11 @@
  * Class Core_Sitemaps_Users
  */
 class Core_Sitemaps_Stylesheet {
-
+	/**
+	 * Renders the xsl stylesheet.
+	 *
+	 * @return string $xsl XSL file.
+	 */
 	public function render_stylesheet() {
 		header( 'Content-type: application/xml; charset=UTF-8' );
 
@@ -22,12 +29,11 @@ class Core_Sitemaps_Stylesheet {
 	}
 
 	/**
-	 * Returns the xsl for all sitemaps.
+	 * Returns the escaped xsl for all sitemaps.
 	 *
-	 * @return string $xsl content.
+	 * @return string XSL content.
 	 */
 	public static function stylesheet_xsl() {
-
 		return <<<XSL
 		<?xml version="1.0" encoding="UTF-8"?>
 			<xsl:stylesheet version="2.0"
@@ -113,6 +119,5 @@ class Core_Sitemaps_Stylesheet {
 			</xsl:template>
 			</xsl:stylesheet>\n
 XSL;
-
 	}
 }
