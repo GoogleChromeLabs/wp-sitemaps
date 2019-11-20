@@ -52,7 +52,13 @@ class Core_Sitemaps_Renderer {
 	 * @return string the sitemap stylesheet url.
 	 */
 	public function get_sitemap_stylesheet_url() {
-		return plugin_dir_url( __FILE__ ) . 'sitemap.xsl';
+		$sitemap_url = plugin_dir_url( __FILE__ ) . 'sitemap.xsl';
+		/**
+		 * Filter the URL for the sitemap stylesheet'.
+		 *
+		 * @param string $stylesheet Full XML-Stylesheet declaration with URL.
+		 */
+		return apply_filters( 'core_sitemaps_stylesheet', $sitemap_url );
 	}
 
 	/**
@@ -72,13 +78,6 @@ class Core_Sitemaps_Renderer {
 		// All output is escaped within the addChild method calls.
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo $sitemap_index->asXML();
-
-		/**
-		 * Filter the URL for the sitemap stylesheet'.
-		 *
-		 * @param string $stylesheet Full XML-Stylesheet declaration with URL.
-		 */
-		return apply_filters( 'core_sitemaps_stylesheet', $this->stylesheet );
 	}
 
 	/**
@@ -106,12 +105,5 @@ class Core_Sitemaps_Renderer {
 		// All output is escaped within the addChild method calls.
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo $urlset->asXML();
-
-		/**
-		 * Filter the URL for the sitemap stylesheet'.
-		 *
-		 * @param string $stylesheet Full XML-Stylesheet declaration with URL.
-		 */
-		return apply_filters( 'core_sitemaps_stylesheet', $this->stylesheet );
 	}
 }
