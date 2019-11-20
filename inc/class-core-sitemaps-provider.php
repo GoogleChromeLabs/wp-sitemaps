@@ -59,7 +59,7 @@ class Core_Sitemaps_Provider {
 
 			$sub_types = $this->get_object_sub_types();
 
-			// Make sure the current sub type parameter is
+			// Only set the current object sub-type if it's supported.
 			if ( isset( $sub_types[ $sub_type ] ) ) {
 				$this->sub_type = $sub_types[ $sub_type ]->name;
 			}
