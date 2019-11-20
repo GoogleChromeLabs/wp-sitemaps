@@ -23,9 +23,6 @@ class Core_Sitemaps_Stylesheet {
 			header( 'Content-type: application/xml; charset=UTF-8' );
 
 			$xsl = $this->stylesheet_xsl();
-			// All output is escaped in stylesheet_xsl() below.
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			echo $xsl;
 
 			/**
 			 * Filter the content of the sitemap stylesheet.
