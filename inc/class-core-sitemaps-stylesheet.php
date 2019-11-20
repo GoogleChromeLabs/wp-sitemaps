@@ -118,9 +118,6 @@ class Core_Sitemaps_Stylesheet {
 	 * The CSS to be included in sitemap xsl stylesheets;
 	 * factored out for uniformity.
 	 *
-	 * @access public
-	 * @since 4.8.0
-	 *
 	 * @return string The CSS.
 	 */
 	public static function stylesheet_xsl_css() {
