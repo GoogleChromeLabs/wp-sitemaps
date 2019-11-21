@@ -110,7 +110,7 @@ class Core_Sitemaps {
 	}
 
 	/**
-	 * Provide rewrite for the xsl stylesheet.
+	 * Provide rewrite for the sitemap index xsl stylesheet.
 	 */
 	public function index_xsl_stylesheet_rewrite() {
 		add_rewrite_tag( '%stylesheet%', '([^?]+)' );

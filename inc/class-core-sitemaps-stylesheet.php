@@ -12,7 +12,7 @@
  */
 class Core_Sitemaps_Stylesheet {
 	/**
-	 * Renders the xsl stylesheet.
+	 * Renders the xsl stylesheet depending on whether its the sitemap index or not.
 	 *
 	 * @return string $xsl XSL file.
 	 */
@@ -35,7 +35,7 @@ class Core_Sitemaps_Stylesheet {
 	}
 
 	/**
-	 * Returns the escaped xsl for all sitemaps.
+	 * Returns the escaped xsl for all sitemaps, except index.
 	 *
 	 */
 	public function stylesheet_xsl() {
@@ -114,7 +114,7 @@ XSL;
 
 
 	/**
-	 * Returns the escaped xsl for all sitemaps.
+	 * Returns the escaped xsl for the index sitemaps.
 	 *
 	 */
 	public function stylesheet_index_xsl() {
@@ -184,7 +184,7 @@ XSL;
 XSL;
 
 		/**
-		 * Filter the content of the sitemap stylesheet.
+		 * Filter the content of the sitemap index stylesheet.
 		 *
 		 * @param string $xsl Full content for the xml stylesheet.
 		 */

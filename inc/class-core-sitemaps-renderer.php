@@ -72,9 +72,9 @@ class Core_Sitemaps_Renderer {
 	}
 
 	/**
-	 * Get the URL for the sitemap stylesheet.
+	 * Get the URL for the sitemap index stylesheet.
 	 *
-	 * @return string the sitemap stylesheet url.
+	 * @return string the sitemap index stylesheet url.
 	 */
 	public function get_sitemap_index_stylesheet_url() {
 		$sitemap_url = home_url( 'sitemap-index.xsl' );
