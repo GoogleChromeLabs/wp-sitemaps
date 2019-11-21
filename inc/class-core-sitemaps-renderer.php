@@ -117,11 +117,6 @@ class Core_Sitemaps_Renderer {
 		header( 'Content-type: application/xml; charset=UTF-8' );
 		$urlset = new SimpleXMLElement( '<?xml version="1.0" encoding="UTF-8" ?>' . $this->stylesheet . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>' );
 
-		if ( empty( $url_list ) ) {
-			$wp_query->set_404();
-			status_header( 404 );
-		}
-
 		foreach ( $url_list as $url_item ) {
 			$url = $urlset->addChild( 'url' );
 			$url->addChild( 'loc', esc_url( $url_item['loc'] ) );
