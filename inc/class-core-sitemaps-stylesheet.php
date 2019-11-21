@@ -23,10 +23,12 @@ class Core_Sitemaps_Stylesheet {
 			header( 'Content-type: application/xml; charset=UTF-8' );
 
 			if ( 'xsl' === $stylesheet_query ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- All content escaped below.
 				echo $this->stylesheet_xsl();
 			}
 
-			if ( 'indexxsl' === $stylesheet_query ) {
+			if ( 'index' === $stylesheet_query ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- All content escaped below.
 				echo $this->stylesheet_index_xsl();
 			}
 
@@ -188,7 +190,7 @@ XSL;
 		 *
 		 * @param string $xsl Full content for the xml stylesheet.
 		 */
-		return apply_filters( 'core_sitemaps_stylesheet_content', $xsl_content );
+		return apply_filters( 'core_sitemaps_index_stylesheet_content', $xsl_content );
 	}
 
 	/**
