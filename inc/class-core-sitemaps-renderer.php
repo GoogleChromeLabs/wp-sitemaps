@@ -17,11 +17,20 @@ class Core_Sitemaps_Renderer {
 	protected $stylesheet = '';
 
 	/**
+	 * XSL stylesheet for styling a sitemap for web browsers.
+	 *
+	 * @var string
+	 */
+	protected $stylesheet_index = '';
+
+	/**
 	 * Core_Sitemaps_Renderer constructor.
 	 */
 	public function __construct() {
 		$stylesheet_url   = $this->get_sitemap_stylesheet_url();
+		$stylesheet_index_url   = $this->get_sitemap_index_stylesheet_url();
 		$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . esc_url( $stylesheet_url ) . '" ?>';
+		$this->stylesheet_index = '<?xml-stylesheet type="text/xsl" href="' . esc_url( $stylesheet_index_url ) . '" ?>';
 	}
 
 	/**
@@ -63,13 +72,29 @@ class Core_Sitemaps_Renderer {
 	}
 
 	/**
+	 * Get the URL for the sitemap stylesheet.
+	 *
+	 * @return string the sitemap stylesheet url.
+	 */
+	public function get_sitemap_index_stylesheet_url() {
+		$sitemap_url = home_url( 'sitemap-index.xsl' );
+
+		/**
+		 * Filter the URL for the sitemap stylesheet'.
+		 *
+		 * @param string $stylesheet Full XML-Stylesheet declaration with URL.
+		 */
+		return apply_filters( 'core_sitemaps_stylesheet_index_url', $sitemap_url );
+	}
+
+	/**
 	 * Render a sitemap index.
 	 *
 	 * @param array $sitemaps List of sitemaps, see \Core_Sitemaps_Registry::$sitemaps.
 	 */
 	public function render_index( $sitemaps ) {
 		header( 'Content-type: application/xml; charset=UTF-8' );
-		$sitemap_index = new SimpleXMLElement( '<?xml version="1.0" encoding="UTF-8" ?>' . $this->stylesheet . '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></sitemapindex>' );
+		$sitemap_index = new SimpleXMLElement( '<?xml version="1.0" encoding="UTF-8" ?>' . $this->stylesheet_index . '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></sitemapindex>' );
 
 		foreach ( $sitemaps as $slug ) {
 			$sitemap = $sitemap_index->addChild( 'sitemap' );
