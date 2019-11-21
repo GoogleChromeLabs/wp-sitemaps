@@ -23,8 +23,7 @@ class Core_Sitemaps_Stylesheet {
 		if ( 'xsl' === $stylesheet_query ) {
 			header( 'Content-type: application/xml; charset=UTF-8' );
 
-			$xsl = $this->stylesheet_xsl();
-			return $xsl;
+			echo $this->stylesheet_xsl();
 			exit;
 		}
 	}
