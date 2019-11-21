@@ -113,8 +113,7 @@ class Core_Sitemaps {
 	 * Provide rewrite for the sitemap index xsl stylesheet.
 	 */
 	public function index_xsl_stylesheet_rewrite() {
-		add_rewrite_tag( '%stylesheet%', '([^?]+)' );
-		add_rewrite_rule( '^sitemap-index\.xsl$', 'index.php?stylesheet=indexxsl', 'top' );
+		add_rewrite_rule( '^sitemap-index\.xsl$', 'index.php?stylesheet=index', 'top' );
 
 		$stylesheet = new Core_Sitemaps_Stylesheet();
 		add_action( 'template_redirect', array( $stylesheet, 'render_stylesheet' ) );
