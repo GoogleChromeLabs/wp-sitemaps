@@ -96,13 +96,6 @@ class Core_Sitemaps_Renderer {
 		header( 'Content-type: application/xml; charset=UTF-8' );
 		$sitemap_index = new SimpleXMLElement( '<?xml version="1.0" encoding="UTF-8" ?>' . $this->stylesheet_index . '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></sitemapindex>' );
 
-		// Show a URL for the homepage as well if the reading settings are set to display latest posts.
-		if ( 'posts' === get_option( 'show_on_front' ) ) {
-			$sitemap = $sitemap_index->addChild( 'sitemap' );
-			$sitemap->addChild( 'loc', home_url() );
-			$sitemap->addChild( 'lastmod', '2004-10-01T18:23:17+00:00' );
-		}
-
 		foreach ( $sitemaps as $slug ) {
 			$sitemap = $sitemap_index->addChild( 'sitemap' );
 			$sitemap->addChild( 'loc', esc_url( $this->get_sitemap_url( $slug ) ) );
@@ -121,9 +114,17 @@ class Core_Sitemaps_Renderer {
 	 */
 	public function render_sitemap( $url_list ) {
 		global $wp_query;
+		$sub_type = get_query_var( 'sub_type' );
 
 		header( 'Content-type: application/xml; charset=UTF-8' );
 		$urlset = new SimpleXMLElement( '<?xml version="1.0" encoding="UTF-8" ?>' . $this->stylesheet . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>' );
+
+		// Show a URL for the homepage in the pages sitemap if the reading settings are set to display latest posts.
+		if ( 'page' === $sub_type && 'posts' === get_option( 'show_on_front' ) ) {
+			$url = $urlset->addChild( 'url' );
+			$url->addChild( 'loc', home_url() );
+			$url->addChild( 'lastmod', '2004-10-01T18:23:17+00:00' );
+		}
 
 		foreach ( $url_list as $url_item ) {
 			$url = $urlset->addChild( 'url' );
