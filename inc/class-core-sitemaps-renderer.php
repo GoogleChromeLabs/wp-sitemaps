@@ -96,7 +96,7 @@ class Core_Sitemaps_Renderer {
 		header( 'Content-type: application/xml; charset=UTF-8' );
 		$sitemap_index = new SimpleXMLElement( '<?xml version="1.0" encoding="UTF-8" ?>' . $this->stylesheet_index . '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></sitemapindex>' );
 
-		if ( 'posts' == get_option('show_on_front') ) {
+		if ( 'posts' === get_option( 'show_on_front' ) ) {
 			$sitemap = $sitemap_index->addChild( 'sitemap' );
 			$sitemap->addChild( 'loc', home_url() );
 			$sitemap->addChild( 'lastmod', '2004-10-01T18:23:17+00:00' );
