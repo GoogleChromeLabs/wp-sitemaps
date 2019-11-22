@@ -111,6 +111,27 @@ class Core_Sitemaps_Provider {
 			);
 		}
 
+		// Show a URL for the homepage in the pages sitemap if the reading settings are set to display latest posts.
+		if ( 'page' === $type && 'posts' === get_option( 'show_on_front' ) ) {
+			$last_modified = get_posts(
+				array(
+					'post_type'              => 'post',
+					'posts_per_page'         => '1',
+					'orderby'                => 'date',
+					'order'                  => 'DESC',
+					'no_found_rows'          => true,
+					'update_post_term_cache' => false,
+					'update_post_meta_cache' => false,
+				)
+			);
+
+			// Extract the data needed for home URL to add to the array.
+			$url_list[] = array(
+				'loc'     => home_url(),
+				'lastmod' => mysql2date( DATE_W3C, $last_modified[0]->post_modified_gmt, false ),
+			);
+		}
+
 		/**
 		 * Filter the list of URLs for a sitemap before rendering.
 		 *
