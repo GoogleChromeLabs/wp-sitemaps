@@ -42,6 +42,7 @@ class Core_Sitemaps {
 		add_action( 'init', array( $this, 'setup_sitemaps_index' ) );
 		add_action( 'init', array( $this, 'register_sitemaps' ) );
 		add_action( 'init', array( $this, 'setup_sitemaps' ) );
+		add_action( 'init', array( $this, 'xsl_stylesheet_rewrites' ) );
 		add_action( 'wp_loaded', array( $this, 'maybe_flush_rewrites' ) );
 	}
 
@@ -94,6 +95,18 @@ class Core_Sitemaps {
 			add_rewrite_rule( $sitemap->route, $sitemap->rewrite_query(), 'top' );
 			add_action( 'template_redirect', array( $sitemap, 'render_sitemap' ) );
 		}
+	}
+
+	/**
+	 * Provide rewrite for the xsl stylesheet.
+	 */
+	public function xsl_stylesheet_rewrites() {
+		add_rewrite_tag( '%stylesheet%', '([^?]+)' );
+		add_rewrite_rule( '^sitemap\.xsl$', 'index.php?stylesheet=xsl', 'top' );
+		add_rewrite_rule( '^sitemap-index\.xsl$', 'index.php?stylesheet=index', 'top' );
+
+		$stylesheet = new Core_Sitemaps_Stylesheet();
+		add_action( 'template_redirect', array( $stylesheet, 'render_stylesheet' ) );
 	}
 
 	/**

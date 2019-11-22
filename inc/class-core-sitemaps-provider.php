@@ -43,6 +43,42 @@ class Core_Sitemaps_Provider {
 	public $slug = '';
 
 	/**
+	 * Print the XML to output for a sitemap.
+	 */
+	public function render_sitemap() {
+		global $wp_query;
+
+		$sitemap  = sanitize_text_field( get_query_var( 'sitemap' ) );
+		$sub_type = sanitize_text_field( get_query_var( 'sub_type' ) );
+		$paged    = absint( get_query_var( 'paged' ) );
+
+		if ( $this->slug === $sitemap ) {
+			if ( empty( $paged ) ) {
+				$paged = 1;
+			}
+
+			$sub_types = $this->get_object_sub_types();
+
+			// Only set the current object sub-type if it's supported.
+			if ( isset( $sub_types[ $sub_type ] ) ) {
+				$this->sub_type = $sub_types[ $sub_type ]->name;
+			}
+
+			$url_list = $this->get_url_list( $paged );
+
+			// Force a 404 and bail early if no URLs are present.
+			if ( empty( $url_list ) ) {
+				$wp_query->set_404();
+				return;
+			}
+
+			$renderer = new Core_Sitemaps_Renderer();
+			$renderer->render_sitemap( $url_list );
+			exit;
+		}
+	}
+
+	/**
 	 * Get a URL list for a post type sitemap.
 	 *
 	 * @param int $page_num Page of results.
