@@ -74,11 +74,8 @@ class Core_Sitemaps {
 		);
 
 		// Register each supported provider.
-		foreach ( $providers as $provider ) {
-			$sitemaps = $provider->get_sitemaps();
-			foreach ( $sitemaps as $sitemap ) {
-				$this->registry->add_sitemap( $sitemap, $provider );
-			}
+		foreach ( $providers as $name => $provider ) {
+			$this->registry->add_sitemap( $name, $provider );
 		}
 	}
 

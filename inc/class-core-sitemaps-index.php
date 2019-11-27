@@ -70,8 +70,16 @@ class Core_Sitemaps_Index {
 		$sitemap_index = get_query_var( 'sitemap' );
 
 		if ( 'index' === $sitemap_index ) {
-			$sitemaps = core_sitemaps_get_sitemaps();
-			$this->renderer->render_index( array_keys( $sitemaps ) );
+			$providers = core_sitemaps_get_sitemaps();
+
+			$sitemaps = array();
+
+			// Build up the list of sitemap pages.
+			foreach( $providers as $provider ) {
+				$sitemaps = array_merge( $sitemaps, $provider->get_sitemap_entries() );
+			}
+
+			$this->renderer->render_index( $sitemaps );
 			exit;
 		}
 	}
