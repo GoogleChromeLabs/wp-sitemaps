@@ -90,10 +90,11 @@ class Core_Sitemaps_Provider {
 	/**
 	 * Get a URL list for a post type sitemap.
 	 *
-	 * @param int $page_num Page of results.
+	 * @param int    $page_num Page of results.
+	 * @param string $type     Optional. Post type name. Default ''.
 	 * @return array $url_list List of URLs for a sitemap.
 	 */
-	public function get_url_list( $page_num, $type = null ) {
+	public function get_url_list( $page_num, $type = '' ) {
 		if ( ! $type ) {
 			$type = $this->get_queried_type();
 		}
@@ -295,9 +296,12 @@ class Core_Sitemaps_Provider {
 
 		$times = wp_list_pluck( $list, 'lastmod' );
 
-		usort( $times, function( $a, $b ) {
-			return strtotime( $b ) - strtotime( $a );
-		} );
+		usort(
+			$times,
+			function( $a, $b ) {
+				return strtotime( $b ) - strtotime( $a );
+			}
+		);
 
 		$suffix = implode( '_', array_filter( array( $type, $subtype, (string) $page ) ) );
 

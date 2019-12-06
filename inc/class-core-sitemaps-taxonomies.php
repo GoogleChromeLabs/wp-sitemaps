@@ -22,13 +22,14 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	/**
 	 * Get a URL list for a taxonomy sitemap.
 	 *
-	 * @param int $page_num Page of results.
+	 * @param int    $page_num Page of results.
+	 * @param string $type     Optional. Taxonomy type name. Default ''.
 	 * @return array $url_list List of URLs for a sitemap.
 	 */
-	public function get_url_list( $page_num, $type = null ) {
+	public function get_url_list( $page_num, $type = '' ) {
 		// Find the query_var for sub_type.
-		if ( empty( $type ) ) {
-			$type = $this->sub_type;
+		if ( ! $type ) {
+			$type = $this->get_queried_type();
 		}
 
 		if ( empty( $type ) ) {
