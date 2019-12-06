@@ -43,6 +43,15 @@ class Core_Sitemaps_Provider {
 	public $slug = '';
 
 	/**
+	 * Set up relevant rewrite rules, actions, and filters.
+	 */
+	public function setup() {
+		add_rewrite_rule( $this->route, $this->rewrite_query(), 'top' );
+		add_action( 'template_redirect', array( $this, 'render_sitemap' ) );
+		add_action( 'core_sitemaps_calculate_lastmod', array( $this, 'calculate_sitemap_lastmod' ), 10, 3 );
+	}
+
+	/**
 	 * Print the XML to output for a sitemap.
 	 */
 	public function render_sitemap() {
@@ -84,8 +93,10 @@ class Core_Sitemaps_Provider {
 	 * @param int $page_num Page of results.
 	 * @return array $url_list List of URLs for a sitemap.
 	 */
-	public function get_url_list( $page_num ) {
-		$type = $this->get_queried_type();
+	public function get_url_list( $page_num, $type = null ) {
+		if ( ! $type ) {
+			$type = $this->get_queried_type();
+		}
 
 		$query = new WP_Query(
 			array(
@@ -245,12 +256,52 @@ class Core_Sitemaps_Provider {
 	/**
 	 * Get the last modified date for a sitemap page.
 	 *
+	 * This will be overridden in provider subclasses.
+	 *
 	 * @param string $name The name of the sitemap.
 	 * @param int    $page The page of the sitemap being returned.
 	 * @return string The GMT date of the most recently changed date.
 	 */
 	public function get_sitemap_lastmod( $name, $page ) {
-		return '0000-00-00 00:00Z GMT';
+		$type = implode( '_', array_filter( array( $this->slug, $name, (string) $page ) ) );
+
+		// Check for an option.
+		$lastmod = get_option( "core_sitemaps_lasmod_$type", '' );
+
+		// If blank, schedule a job.
+		if ( empty( $lastmod ) && ! wp_doing_cron() ) {
+			wp_schedule_single_event( time() + 500, 'core_sitemaps_calculate_lastmod', array( $this->slug, $name, $page ) );
+		}
+
+		return $lastmod;
+	}
+
+	/**
+	 * Calculate lastmod date for a sitemap page.
+	 *
+	 * Calculated value is saved to the database as an option.
+	 *
+	 * @param string $type    The object type of the page: posts, taxonomies, users, etc.
+	 * @param string $subtype The object subtype if applicable, e.g., post type, taxonomy type.
+	 * @param int    $page    The page number.
+	 */
+	public function calculate_sitemap_lastmod( $type, $subtype, $page ) {
+		// @todo: clean up the verbiage around type/subtype/slug/object/etc.
+		if ( $type !== $this->slug ) {
+			return;
+		}
+
+		$list = $this->get_url_list( $page, $subtype );
+
+		$times = wp_list_pluck( $list, 'lastmod' );
+
+		usort( $times, function( $a, $b ) {
+			return strtotime( $b ) - strtotime( $a );
+		} );
+
+		$suffix = implode( '_', array_filter( array( $type, $subtype, (string) $page ) ) );
+
+		update_option( "core_sitemaps_lasmod_$suffix", $times[0] );
 	}
 
 	/**

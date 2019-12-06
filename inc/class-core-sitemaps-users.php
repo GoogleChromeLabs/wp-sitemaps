@@ -26,7 +26,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	 * @param int $page_num Page of results.
 	 * @return array $url_list List of URLs for a sitemap.
 	 */
-	public function get_url_list( $page_num ) {
+	public function get_url_list( $page_num, $type = null ) {
 		$object_type = $this->object_type;
 		$query       = $this->get_public_post_authors_query( $page_num );
 

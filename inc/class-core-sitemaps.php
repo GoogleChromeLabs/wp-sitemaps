@@ -89,8 +89,8 @@ class Core_Sitemaps {
 			if ( ! $sitemap instanceof Core_Sitemaps_Provider ) {
 				return;
 			}
-			add_rewrite_rule( $sitemap->route, $sitemap->rewrite_query(), 'top' );
-			add_action( 'template_redirect', array( $sitemap, 'render_sitemap' ) );
+
+			$sitemap->setup();
 		}
 	}
 
