@@ -279,7 +279,12 @@ class Core_Sitemaps_Provider {
 
 		// If blank, schedule a job.
 		if ( empty( $lastmod ) && ! wp_doing_cron() ) {
-			wp_schedule_single_event( time() + 500, 'core_sitemaps_calculate_lastmod', array( $this->slug, $name, $page ) );
+			$event_args = array( $this->slug, $name, $page );
+
+			// Don't schedule a duplicate job.
+			if ( ! wp_next_scheduled( 'core_sitemaps_calculate_lastmod', $event_args ) ) {
+				wp_schedule_single_event( time() + 500, 'core_sitemaps_calculate_lastmod', $event_args );
+			}
 		}
 
 		return $lastmod;
