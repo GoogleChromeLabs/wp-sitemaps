@@ -300,7 +300,6 @@ class Core_Sitemaps_Provider {
 	 * @param int    $page    The page number.
 	 */
 	public function calculate_sitemap_lastmod( $type, $subtype, $page ) {
-		// @todo: clean up the verbiage around type/subtype/slug/object/etc.
 		if ( $type !== $this->slug ) {
 			return;
 		}
