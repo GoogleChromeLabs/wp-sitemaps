@@ -283,7 +283,7 @@ class Core_Sitemaps_Provider {
 
 			// Don't schedule a duplicate job.
 			if ( ! wp_next_scheduled( 'core_sitemaps_calculate_lastmod', $event_args ) ) {
-				wp_schedule_single_event( time() + 500, 'core_sitemaps_calculate_lastmod', $event_args );
+				wp_schedule_single_event( time(), 'core_sitemaps_calculate_lastmod', $event_args );
 			}
 		}
 
@@ -340,7 +340,7 @@ class Core_Sitemaps_Provider {
 			$total = $this->max_num_pages( $name );
 
 			for ( $page = 1; $page <= $total; $page ++ ) {
-				wp_schedule_single_event( time() + 500, 'core_sitemaps_calculate_lastmod', array( $this->slug, $name, $page ) );
+				wp_schedule_single_event( time(), 'core_sitemaps_calculate_lastmod', array( $this->slug, $name, $page ) );
 			}
 		}
 	}
