@@ -46,9 +46,17 @@ class Core_Sitemaps_Provider {
 	 * Set up relevant rewrite rules, actions, and filters.
 	 */
 	public function setup() {
+		// Set up rewrite rules and rendering callback.
 		add_rewrite_rule( $this->route, $this->rewrite_query(), 'top' );
 		add_action( 'template_redirect', array( $this, 'render_sitemap' ) );
+
+		// Set up async tasks related to calculating lastmod data.
 		add_action( 'core_sitemaps_calculate_lastmod', array( $this, 'calculate_sitemap_lastmod' ), 10, 3 );
+		add_action( 'core_sitemaps_update_lastmod_' . $this->slug, array( $this, 'update_lastmod_values' ) );
+
+		if ( ! wp_next_scheduled( 'core_sitemaps_update_lastmod_' . $this->slug ) && ! wp_installing() ) {
+			wp_schedule_event( time(), 'twicedaily', 'core_sitemaps_update_lastmod_' . $this->slug );
+		}
 	}
 
 	/**
@@ -306,6 +314,31 @@ class Core_Sitemaps_Provider {
 		$suffix = implode( '_', array_filter( array( $type, $subtype, (string) $page ) ) );
 
 		update_option( "core_sitemaps_lasmod_$suffix", $times[0] );
+	}
+
+	/**
+	 * Schedules asynchronous tasks to update lastmod entries for all sitemap pages.
+	 *
+	 * @return void
+	 */
+	public function update_lastmod_values() {
+		$sitemap_types = $this->get_object_sub_types();
+
+		foreach ( $sitemap_types as $type ) {
+			// Handle object names as strings.
+			$name = $type;
+
+			// Handle lists of post-objects.
+			if ( isset( $type->name ) ) {
+				$name = $type->name;
+			}
+
+			$total = $this->max_num_pages( $name );
+
+			for ( $page = 1; $page <= $total; $page ++ ) {
+				wp_schedule_single_event( time() + 500, 'core_sitemaps_calculate_lastmod', array( $this->slug, $name, $page ) );
+			}
+		}
 	}
 
 	/**
