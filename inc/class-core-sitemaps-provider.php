@@ -322,8 +322,6 @@ class Core_Sitemaps_Provider {
 
 	/**
 	 * Schedules asynchronous tasks to update lastmod entries for all sitemap pages.
-	 *
-	 * @return void
 	 */
 	public function update_lastmod_values() {
 		$sitemap_types = $this->get_object_sub_types();
