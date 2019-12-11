@@ -316,20 +316,16 @@ class Core_Sitemaps_Provider {
 			return;
 		}
 
-		$list = $this->get_url_list( $page, $subtype );
+		// Get the list of URLs from this page and sort it by lastmod date.
+		$url_list    = $this->get_url_list( $page, $subtype );
+		$sorted_list = wp_list_sort( $url_list, 'lastmod', 'DESC' );
 
-		$times = wp_list_pluck( $list, 'lastmod' );
-
-		usort(
-			$times,
-			function( $a, $b ) {
-				return strtotime( $b ) - strtotime( $a );
-			}
-		);
+		// Use the most recent lastmod value as the lastmod value for the sitemap page.
+		$lastmod = reset( $sorted_list )['lastmod'];
 
 		$suffix = implode( '_', array_filter( array( $type, $subtype, (string) $page ) ) );
 
-		update_option( "core_sitemaps_lastmod_$suffix", $times[0] );
+		update_option( "core_sitemaps_lastmod_$suffix", $lastmod );
 	}
 
 	/**
