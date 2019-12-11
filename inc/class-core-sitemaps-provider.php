@@ -207,6 +207,31 @@ class Core_Sitemaps_Provider {
 	}
 
 	/**
+	 * Get data about each sitemap type.
+	 *
+	 * @return array List of sitemap types including object subtype name and number of pages.
+	 */
+	public function get_sitemap_type_data() {
+		$sitemap_data = array();
+
+		$sitemap_types = $this->get_object_sub_types();
+
+		foreach ( $sitemap_types as $type ) {
+			// Handle lists of post-objects.
+			if ( isset( $type->name ) ) {
+				$type = $type->name;
+			}
+
+			$sitemap_data[] = array(
+				'name'   => $type,
+				'pages' => $this->max_num_pages( $type ),
+			);
+		}
+
+		return $sitemap_data;
+	}
+
+	/**
 	 * List of sitemap pages exposed by this provider.
 	 *
 	 * The returned data is used to populate the sitemap entries of the index.
@@ -216,22 +241,13 @@ class Core_Sitemaps_Provider {
 	public function get_sitemap_entries() {
 		$sitemaps = array();
 
-		$sitemap_types = $this->get_object_sub_types();
+		$sitemap_types = $this->get_sitemap_type_data();
 
 		foreach ( $sitemap_types as $type ) {
-			// Handle object names as strings.
-			$name = $type;
 
-			// Handle lists of post-objects.
-			if ( isset( $type->name ) ) {
-				$name = $type->name;
-			}
-
-			$total = $this->max_num_pages( $name );
-
-			for ( $page = 1; $page <= $total; $page ++ ) {
-				$loc        = $this->get_sitemap_url( $name, $page );
-				$lastmod    = $this->get_sitemap_lastmod( $name, $page );
+			for ( $page = 1; $page <= $type['pages']; $page ++ ) {
+				$loc        = $this->get_sitemap_url( $type['name'], $page );
+				$lastmod    = $this->get_sitemap_lastmod( $type['name'], $page );
 				$sitemaps[] = array(
 					'loc'     => $loc,
 					'lastmod' => $lastmod,
@@ -332,21 +348,11 @@ class Core_Sitemaps_Provider {
 	 * Schedules asynchronous tasks to update lastmod entries for all sitemap pages.
 	 */
 	public function update_lastmod_values() {
-		$sitemap_types = $this->get_object_sub_types();
+		$sitemap_types = $this->get_sitemap_type_data();
 
 		foreach ( $sitemap_types as $type ) {
-			// Handle object names as strings.
-			$name = $type;
-
-			// Handle lists of post-objects.
-			if ( isset( $type->name ) ) {
-				$name = $type->name;
-			}
-
-			$total = $this->max_num_pages( $name );
-
-			for ( $page = 1; $page <= $total; $page ++ ) {
-				wp_schedule_single_event( time(), 'core_sitemaps_calculate_lastmod', array( $this->slug, $name, $page ) );
+			for ( $page = 1; $page <= $type['pages']; $page ++ ) {
+				wp_schedule_single_event( time(), 'core_sitemaps_calculate_lastmod', array( $this->slug, $type['name'], $page ) );
 			}
 		}
 	}
