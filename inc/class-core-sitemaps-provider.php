@@ -244,7 +244,6 @@ class Core_Sitemaps_Provider {
 		$sitemap_types = $this->get_sitemap_type_data();
 
 		foreach ( $sitemap_types as $type ) {
-
 			for ( $page = 1; $page <= $type['pages']; $page ++ ) {
 				$loc        = $this->get_sitemap_url( $type['name'], $page );
 				$lastmod    = $this->get_sitemap_lastmod( $type['name'], $page );
