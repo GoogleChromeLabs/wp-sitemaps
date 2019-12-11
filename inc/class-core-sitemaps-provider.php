@@ -275,7 +275,7 @@ class Core_Sitemaps_Provider {
 		$type = implode( '_', array_filter( array( $this->slug, $name, (string) $page ) ) );
 
 		// Check for an option.
-		$lastmod = get_option( "core_sitemaps_lasmod_$type", '' );
+		$lastmod = get_option( "core_sitemaps_lastmod_$type", '' );
 
 		// If blank, schedule a job.
 		if ( empty( $lastmod ) && ! wp_doing_cron() ) {
@@ -317,7 +317,7 @@ class Core_Sitemaps_Provider {
 
 		$suffix = implode( '_', array_filter( array( $type, $subtype, (string) $page ) ) );
 
-		update_option( "core_sitemaps_lasmod_$suffix", $times[0] );
+		update_option( "core_sitemaps_lastmod_$suffix", $times[0] );
 	}
 
 	/**
