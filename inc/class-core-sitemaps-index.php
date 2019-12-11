@@ -74,7 +74,6 @@ class Core_Sitemaps_Index {
 
 			$sitemaps = array();
 
-			// Build up the list of sitemap pages.
 			foreach ( $providers as $provider ) {
 				$sitemaps = array_merge( $sitemaps, $provider->get_sitemap_entries() );
 			}
