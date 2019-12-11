@@ -55,7 +55,19 @@ class Core_Sitemaps_Provider {
 		add_action( 'core_sitemaps_update_lastmod_' . $this->slug, array( $this, 'update_lastmod_values' ) );
 
 		if ( ! wp_next_scheduled( 'core_sitemaps_update_lastmod_' . $this->slug ) && ! wp_installing() ) {
-			wp_schedule_event( time(), 'twicedaily', 'core_sitemaps_update_lastmod_' . $this->slug );
+
+			/**
+			 * Filter the recurrence value for updating sitemap lastmod values.
+			 *
+			 * @since 0.1.0
+			 *
+			 * @param string $recurrence How often the event should subsequently recur. Default 'twicedaily'.
+			 *                           See wp_get_schedules() for accepted values.
+			 * @param string $type       The object type being handled by this event, e.g. posts, taxonomies, users.
+			 */
+			$lastmod_recurrence = apply_filters( 'core_sitemaps_lastmod_recurrence', 'twicedaily', $this->slug );
+
+			wp_schedule_event( time(), $lastmod_recurrence, 'core_sitemaps_update_lastmod_' . $this->slug );
 		}
 	}
 
