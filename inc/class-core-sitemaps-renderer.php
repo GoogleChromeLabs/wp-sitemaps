@@ -91,9 +91,6 @@ class Core_Sitemaps_Renderer {
 	 * @param array $url_list A list of URLs for a sitemap.
 	 */
 	public function render_sitemap( $url_list ) {
-		global $wp_query;
-		$sub_type = get_query_var( 'sub_type' );
-
 		header( 'Content-type: application/xml; charset=UTF-8' );
 		$urlset = new SimpleXMLElement( '<?xml version="1.0" encoding="UTF-8" ?>' . $this->stylesheet . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>' );
 
