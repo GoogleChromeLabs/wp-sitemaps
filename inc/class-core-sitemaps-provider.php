@@ -136,15 +136,12 @@ class Core_Sitemaps_Provider {
 
 		$url_list = array();
 
-		foreach ( $posts as $post ) {
-			$url_list[] = array(
-				'loc'     => get_permalink( $post ),
-				'lastmod' => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
-			);
-		}
-
-		// Show a URL for the homepage in the pages sitemap if the reading settings are set to display latest posts.
-		if ( 'page' === $type && 'posts' === get_option( 'show_on_front' ) ) {
+		/*
+		 * Add a URL for the homepage in the pages sitemap.
+		 * Shows only on the first page if the reading settings are set to display latest posts.
+		 */
+		if ( 'page' === $type && 1 === $page_num && 'posts' === get_option( 'show_on_front' ) ) {
+			// Assumes the homepage last modified date is the same as the most recent post.
 			$last_modified = get_posts(
 				array(
 					'post_type'              => 'post',
@@ -161,6 +158,13 @@ class Core_Sitemaps_Provider {
 			$url_list[] = array(
 				'loc'     => home_url(),
 				'lastmod' => mysql2date( DATE_W3C, $last_modified[0]->post_modified_gmt, false ),
+			);
+		}
+
+		foreach ( $posts as $post ) {
+			$url_list[] = array(
+				'loc'     => get_permalink( $post ),
+				'lastmod' => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
 			);
 		}
 
