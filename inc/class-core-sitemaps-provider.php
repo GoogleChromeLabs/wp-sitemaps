@@ -207,7 +207,7 @@ class Core_Sitemaps_Provider {
 	 * @param string $type Optional. Object type. Default is null.
 	 * @return int Total number of pages.
 	 */
-	public function max_num_pages( $type = null ) {
+	public function max_num_pages( $type = '' ) {
 		if ( empty( $type ) ) {
 			$type = $this->get_queried_type();
 		}
