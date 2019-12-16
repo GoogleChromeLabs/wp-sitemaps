@@ -51,4 +51,24 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 				return $max_urls;
 		}
 	}
+
+	/**
+	 * Test core_sitemaps_get_sitemaps default functionality
+	 */
+	public function test_core_sitemaps_get_sitemaps() {
+		$sitemaps = core_sitemaps_get_sitemaps();
+
+		$expected = array(
+			'posts'      => 'Core_Sitemaps_Posts',
+			'taxonomies' => 'Core_Sitemaps_Taxonomies',
+			'users'      => 'Core_Sitemaps_Users',
+		);
+
+		$this->assertEquals( array_keys( $expected ), array_keys( $sitemaps ), 'Unable to confirm default sitemap types are registered.' );
+
+		foreach( $expected as $name => $provider ) {
+			$this->assertTrue( is_a( $sitemaps[ $name ], $provider ), "Default $name sitemap is not a $provider object." );
+		}
+
+	}
 }
