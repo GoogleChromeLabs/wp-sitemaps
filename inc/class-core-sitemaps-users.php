@@ -67,7 +67,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	 * @param string $type Optional. Name of the object type. Default is null.
 	 * @return int Total page count.
 	 */
-	public function max_num_pages( $type = null ) {
+	public function max_num_pages( $type = '' ) {
 		$query = $this->get_public_post_authors_query();
 
 		$total_users = $query->get_total();
