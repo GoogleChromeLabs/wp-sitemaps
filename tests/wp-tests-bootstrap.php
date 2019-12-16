@@ -75,5 +75,3 @@ tests_add_filter(
  * @noinspection PhpIncludeInspection
  */
 require $core_sitemaps_tests_dir . '/includes/bootstrap.php';
-
-require_once $core_sitemaps_root_dir . '/tests/phpunit/class-test-case.php';
