@@ -17,14 +17,6 @@ use WP_UnitTestCase;
  */
 class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	/**
-	 * A single example test.
-	 */
-	public function test_sample() {
-		// Replace this with some actual testing code.
-		$this->assertTrue( true );
-	}
-
-	/**
 	 * Test getting the correct number of URLs for a sitemap.
 	 */
 	public function test_core_sitemaps_get_max_urls() {
