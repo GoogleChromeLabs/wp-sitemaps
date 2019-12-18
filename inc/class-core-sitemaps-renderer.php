@@ -79,6 +79,7 @@ class Core_Sitemaps_Renderer {
 			$sitemap->addChild( 'loc', esc_url( $entry['loc'] ) );
 			$sitemap->addChild( 'lastmod', esc_html( $entry['lastmod'] ) );
 		}
+
 		// All output is escaped within the addChild method calls.
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo $sitemap_index->asXML();
@@ -90,8 +91,6 @@ class Core_Sitemaps_Renderer {
 	 * @param array $url_list A list of URLs for a sitemap.
 	 */
 	public function render_sitemap( $url_list ) {
-		global $wp_query;
-
 		header( 'Content-type: application/xml; charset=UTF-8' );
 		$urlset = new SimpleXMLElement( '<?xml version="1.0" encoding="UTF-8" ?>' . $this->stylesheet . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>' );
 
