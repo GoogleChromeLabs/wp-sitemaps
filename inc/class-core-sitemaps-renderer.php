@@ -72,6 +72,21 @@ class Core_Sitemaps_Renderer {
 	 */
 	public function render_index( $sitemaps ) {
 		header( 'Content-type: application/xml; charset=UTF-8' );
+
+		$index_xml = $this->get_sitemap_index_xml( $sitemaps );
+
+		if ( ! empty( $index_xml ) ) {
+			echo $index_xml;
+		}
+	}
+
+	/**
+	 * Get XML for a sitemap index.
+	 *
+	 * @param array $sitemaps List of sitemap entries including loc and lastmod data.
+	 * @return string|false A well-formed XML string for a sitemap index. False on error.
+	 */
+	public function get_sitemap_index_xml( $sitemaps ) {
 		$sitemap_index = new SimpleXMLElement( '<?xml version="1.0" encoding="UTF-8" ?>' . $this->stylesheet_index . '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></sitemapindex>' );
 
 		foreach ( $sitemaps as $entry ) {
@@ -82,7 +97,7 @@ class Core_Sitemaps_Renderer {
 
 		// All output is escaped within the addChild method calls.
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		echo $sitemap_index->asXML();
+		return $sitemap_index->asXML();
 	}
 
 	/**
@@ -92,6 +107,21 @@ class Core_Sitemaps_Renderer {
 	 */
 	public function render_sitemap( $url_list ) {
 		header( 'Content-type: application/xml; charset=UTF-8' );
+
+		$sitemap_xml = $this->get_sitemap_xml( $url_list );
+
+		if ( ! empty( $sitemap_xml ) ) {
+			echo $sitemap_xml;
+		}
+	}
+
+	/**
+	 * Get XML for a sitemap.
+	 *
+	 * @param array $url_list A list of URLs for a sitemap.
+	 * @return string|false A well-formed XML string for a sitemap index. False on error.
+	 */
+	public function get_sitemap_xml( $url_list ) {
 		$urlset = new SimpleXMLElement( '<?xml version="1.0" encoding="UTF-8" ?>' . $this->stylesheet . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>' );
 
 		foreach ( $url_list as $url_item ) {
@@ -102,6 +132,6 @@ class Core_Sitemaps_Renderer {
 
 		// All output is escaped within the addChild method calls.
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		echo $urlset->asXML();
+		return $urlset->asXML();
 	}
 }
