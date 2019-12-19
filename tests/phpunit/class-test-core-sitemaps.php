@@ -69,6 +69,47 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		foreach( $expected as $name => $provider ) {
 			$this->assertTrue( is_a( $sitemaps[ $name ], $provider ), "Default $name sitemap is not a $provider object." );
 		}
+	}
 
+	public function test_core_sitemaps_index_xml() {
+		$entries = array(
+			array(
+				'loc' => 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-post-1.xml',
+				'lastmod' => '2019-11-01T12:00:00+00:00'
+			),
+			array(
+				'loc' => 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-page-1.xml',
+				'lastmod' => '2019-11-01T12:00:10+00:00'
+			),
+			array(
+				'loc' => 'http://' . WP_TESTS_DOMAIN . '/sitemap-taxonomies-category-1.xml',
+				'lastmod' => '2019-11-01T12:00:20+00:00'
+			),
+			array(
+				'loc' => 'http://' . WP_TESTS_DOMAIN . '/sitemap-taxonomies-post_tag-1.xml',
+				'lastmod' => '2019-11-01T12:00:30+00:00'
+			),
+			array(
+				'loc' => 'http://' . WP_TESTS_DOMAIN . '/sitemap-users-1.xml',
+				'lastmod' => '2019-11-01T12:00:40+00:00'
+			),
+		);
+
+		$renderer = new Core_Sitemaps_Renderer;
+
+		$xml = $renderer->get_sitemap_index_xml( $entries );
+
+		$expected = '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL .
+		'<?xml-stylesheet type="text/xsl" href="http://' . WP_TESTS_DOMAIN . '/sitemap-index.xsl" ?>' . PHP_EOL .
+		'<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' .
+		'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/sitemap-posts-post-1.xml</loc><lastmod>2019-11-01T12:00:00+00:00</lastmod></sitemap>' .
+		'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/sitemap-posts-page-1.xml</loc><lastmod>2019-11-01T12:00:10+00:00</lastmod></sitemap>' .
+		'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/sitemap-taxonomies-category-1.xml</loc><lastmod>2019-11-01T12:00:20+00:00</lastmod></sitemap>' .
+		'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/sitemap-taxonomies-post_tag-1.xml</loc><lastmod>2019-11-01T12:00:30+00:00</lastmod></sitemap>' .
+		'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/sitemap-users-1.xml</loc><lastmod>2019-11-01T12:00:40+00:00</lastmod></sitemap>' .
+		'</sitemapindex>' . PHP_EOL;
+
+
+		$this->assertSame( $expected, $xml, 'Sitemap index markup incorrect.' );
 	}
 }
