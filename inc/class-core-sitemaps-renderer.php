@@ -76,6 +76,8 @@ class Core_Sitemaps_Renderer {
 		$index_xml = $this->get_sitemap_index_xml( $sitemaps );
 
 		if ( ! empty( $index_xml ) ) {
+			// All output is escaped within get_sitemap_index_xml().
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo $index_xml;
 		}
 	}
@@ -95,8 +97,6 @@ class Core_Sitemaps_Renderer {
 			$sitemap->addChild( 'lastmod', esc_html( $entry['lastmod'] ) );
 		}
 
-		// All output is escaped within the addChild method calls.
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		return $sitemap_index->asXML();
 	}
 
@@ -111,6 +111,8 @@ class Core_Sitemaps_Renderer {
 		$sitemap_xml = $this->get_sitemap_xml( $url_list );
 
 		if ( ! empty( $sitemap_xml ) ) {
+			// All output is escaped within get_sitemap_xml().
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo $sitemap_xml;
 		}
 	}
@@ -130,8 +132,6 @@ class Core_Sitemaps_Renderer {
 			$url->addChild( 'lastmod', esc_attr( $url_item['lastmod'] ) );
 		}
 
-		// All output is escaped within the addChild method calls.
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		return $urlset->asXML();
 	}
 }
