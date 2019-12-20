@@ -17,14 +17,6 @@ use WP_UnitTestCase;
  */
 class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	/**
-	 * A single example test.
-	 */
-	public function test_sample() {
-		// Replace this with some actual testing code.
-		$this->assertTrue( true );
-	}
-
-	/**
 	 * Test getting the correct number of URLs for a sitemap.
 	 */
 	public function test_core_sitemaps_get_max_urls() {
@@ -59,4 +51,113 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 				return $max_urls;
 		}
 	}
+
+	/**
+	 * Test core_sitemaps_get_sitemaps default functionality
+	 */
+	public function test_core_sitemaps_get_sitemaps() {
+		$sitemaps = core_sitemaps_get_sitemaps();
+
+		$expected = array(
+			'posts'      => 'Core_Sitemaps_Posts',
+			'taxonomies' => 'Core_Sitemaps_Taxonomies',
+			'users'      => 'Core_Sitemaps_Users',
+		);
+
+		$this->assertEquals( array_keys( $expected ), array_keys( $sitemaps ), 'Unable to confirm default sitemap types are registered.' );
+
+		foreach ( $expected as $name => $provider ) {
+			$this->assertTrue( is_a( $sitemaps[ $name ], $provider ), "Default $name sitemap is not a $provider object." );
+		}
+	}
+
+	/**
+	 * Test XML output for the sitemap index renderer.
+	 */
+	public function test_core_sitemaps_index_xml() {
+		$entries = array(
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-post-1.xml',
+				'lastmod' => '2019-11-01T12:00:00+00:00',
+			),
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-page-1.xml',
+				'lastmod' => '2019-11-01T12:00:10+00:00',
+			),
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/sitemap-taxonomies-category-1.xml',
+				'lastmod' => '2019-11-01T12:00:20+00:00',
+			),
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/sitemap-taxonomies-post_tag-1.xml',
+				'lastmod' => '2019-11-01T12:00:30+00:00',
+			),
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/sitemap-users-1.xml',
+				'lastmod' => '2019-11-01T12:00:40+00:00',
+			),
+		);
+
+		$renderer = new Core_Sitemaps_Renderer();
+
+		$xml = $renderer->get_sitemap_index_xml( $entries );
+
+		$expected = '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL .
+		'<?xml-stylesheet type="text/xsl" href="http://' . WP_TESTS_DOMAIN . '/sitemap-index.xsl" ?>' . PHP_EOL .
+		'<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' .
+		'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/sitemap-posts-post-1.xml</loc><lastmod>2019-11-01T12:00:00+00:00</lastmod></sitemap>' .
+		'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/sitemap-posts-page-1.xml</loc><lastmod>2019-11-01T12:00:10+00:00</lastmod></sitemap>' .
+		'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/sitemap-taxonomies-category-1.xml</loc><lastmod>2019-11-01T12:00:20+00:00</lastmod></sitemap>' .
+		'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/sitemap-taxonomies-post_tag-1.xml</loc><lastmod>2019-11-01T12:00:30+00:00</lastmod></sitemap>' .
+		'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/sitemap-users-1.xml</loc><lastmod>2019-11-01T12:00:40+00:00</lastmod></sitemap>' .
+		'</sitemapindex>' . PHP_EOL;
+
+		$this->assertSame( $expected, $xml, 'Sitemap index markup incorrect.' );
+	}
+
+	/**
+	 * Test XML output for the sitemap page renderer.
+	 */
+	public function test_core_sitemaps_xml() {
+		$url_list = array(
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/2019/10/post-1',
+				'lastmod' => '2019-11-01T12:00:00+00:00',
+			),
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/2019/10/post-2',
+				'lastmod' => '2019-11-01T12:00:10+00:00',
+			),
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/2019/10/post-3',
+				'lastmod' => '2019-11-01T12:00:20+00:00',
+			),
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/2019/10/post-4',
+				'lastmod' => '2019-11-01T12:00:30+00:00',
+			),
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/2019/10/post-5',
+				'lastmod' => '2019-11-01T12:00:40+00:00',
+			),
+		);
+
+		$renderer = new Core_Sitemaps_Renderer();
+
+		$xml = $renderer->get_sitemap_xml( $url_list );
+
+		$expected = '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL .
+		'<?xml-stylesheet type="text/xsl" href="http://' . WP_TESTS_DOMAIN . '/sitemap.xsl" ?>' . PHP_EOL .
+		'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' .
+		'<url><loc>http://' . WP_TESTS_DOMAIN . '/2019/10/post-1</loc><lastmod>2019-11-01T12:00:00+00:00</lastmod></url>' .
+		'<url><loc>http://' . WP_TESTS_DOMAIN . '/2019/10/post-2</loc><lastmod>2019-11-01T12:00:10+00:00</lastmod></url>' .
+		'<url><loc>http://' . WP_TESTS_DOMAIN . '/2019/10/post-3</loc><lastmod>2019-11-01T12:00:20+00:00</lastmod></url>' .
+		'<url><loc>http://' . WP_TESTS_DOMAIN . '/2019/10/post-4</loc><lastmod>2019-11-01T12:00:30+00:00</lastmod></url>' .
+		'<url><loc>http://' . WP_TESTS_DOMAIN . '/2019/10/post-5</loc><lastmod>2019-11-01T12:00:40+00:00</lastmod></url>' .
+		'</urlset>' . PHP_EOL;
+
+		$this->assertSame( $expected, $xml, 'Sitemap page markup incorrect.' );
+	}
+
+
 }
