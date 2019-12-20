@@ -16,6 +16,47 @@ use WP_UnitTestCase;
  * @group sitemaps
  */
 class Core_Sitemaps_Tests extends WP_UnitTestCase {
+
+	/**
+	 * List of user IDs.
+	 *
+	 * @var array
+	 */
+	public static $users;
+
+	/**
+	 * List of term IDs.
+	 *
+	 * @var array
+	 */
+	public static $terms;
+
+	/**
+	 * List of post type post IDs.
+	 *
+	 * @var array
+	 */
+	public static $posts;
+
+	/**
+	 * List of post type page IDs.
+	 *
+	 * @var array
+	 */
+	public static $pages;
+
+	/**
+	 * Set up fixtures.
+	 *
+	 * @param WP_UnitTest_Factory $factory A WP_UnitTest_Factory object.
+	 */
+	public static function wpSetUpBeforeClass( $factory ) {
+		self::$users = $factory->user->create_many( 10 );
+		self::$terms = $factory->term->create_many( 10 );
+		self::$posts = $factory->post->create_many( 10 );
+		self::$pages = $factory->post->create_many( 10, array( 'post_type' => 'page' ) );
+	}
+
 	/**
 	 * Test getting the correct number of URLs for a sitemap.
 	 */
@@ -159,5 +200,85 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		$this->assertSame( $expected, $xml, 'Sitemap page markup incorrect.' );
 	}
 
+	/**
+	 * Tests getting a URL list for post type post.
+	 */
+	public function test_get_url_list_post() {
+		$providers = core_sitemaps_get_sitemaps();
 
+		$post_list = $providers['posts']->get_url_list( 1, 'post' );
+
+		$expected = $this->_get_expected_url_list( 'post', self::$posts );
+
+		$this->assertEquals( $expected, $post_list );
+	}
+
+	/**
+	 * Tests getting a URL list for post type page.
+	 */
+	public function test_get_url_list_page() {
+		// Short circuit the show on front option.
+		add_filter( 'pre_option_show_on_front', '__return_true' );
+
+		$providers = core_sitemaps_get_sitemaps();
+
+		$post_list = $providers['posts']->get_url_list( 1, 'page' );
+
+		$expected = $this->_get_expected_url_list( 'page', self::$pages );
+
+		$this->assertEquals( $expected, $post_list );
+
+		// Clean up.
+		remove_filter( 'pre_option_show_on_front', '__return_true' );
+	}
+
+	/**
+	 * Tests getting a URL list for post type page with included home page.
+	 */
+	public function test_get_url_list_page_with_home() {
+		$providers = core_sitemaps_get_sitemaps();
+
+		$post_list = $providers['posts']->get_url_list( 1, 'page' );
+
+		$expected = $this->_get_expected_url_list( 'page', self::$pages );
+
+		// Add the homepage to the front of the URL list.
+		array_unshift(
+			$expected,
+			array(
+				'loc'     => home_url(),
+				'lastmod' => end( $expected )['lastmod'],
+			)
+		);
+
+		$this->assertEquals( $expected, $post_list );
+	}
+
+	/**
+	 * Helper function for building an expected url list.
+	 *
+	 * @param string $type An object sub type, e.g., post type.
+	 * @param array  $ids  An array of object IDs.
+	 * @return array A formed URL list including 'loc' and 'lastmod' values.
+	 */
+	public function _get_expected_url_list( $type, $ids ) {
+		$posts = get_posts(
+			array(
+				'include'   => $ids,
+				'orderby'   => 'ID',
+				'order'     => 'ASC',
+				'post_type' => $type,
+			)
+		);
+
+		return array_map(
+			function ( $post ) {
+				return array(
+					'loc'     => get_permalink( $post ),
+					'lastmod' => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
+				);
+			},
+			$posts
+		);
+	}
 }
