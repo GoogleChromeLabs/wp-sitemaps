@@ -300,6 +300,30 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Test sitemap index entries with public and private custom post types.
+	 *
+	 * @return void
+	 */
+	public function test_get_sitemap_entries_custom_post_types() {
+		// Register and create a public post type post.
+		register_post_type( 'public_cpt', array( 'public' => true ) );
+		$this->factory->post->create( array( 'post_type' => 'public_cpt' ) );
+
+		// Register and create a private post type post.
+		register_post_type( 'private_cpt', array( 'public' => false ) );
+		$this->factory->post->create( array( 'post_type' => 'private_cpt' ) );
+
+		$entries = wp_list_pluck( $this->_get_sitemap_entries(), 'loc' );
+
+		$this->assertTrue( in_array( 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-public_cpt-1.xml', $entries, true ), 'Public CPTs are not in the index.' );
+		$this->assertFalse( in_array( 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-private_cpt-1.xml', $entries, true ), 'Private CPTs are visible in the index.' );
+
+		// Clean up.
+		unregister_post_type( 'public_cpt' );
+		unregister_post_type( 'private_cpt' );
+	}
+
+	/**
 	 * Tests getting a URL list for post type post.
 	 */
 	public function test_get_url_list_post() {
