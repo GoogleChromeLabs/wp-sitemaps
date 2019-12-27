@@ -335,6 +335,9 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	 * Tests getting a URL list for post type page with included home page.
 	 */
 	public function test_get_url_list_page_with_home() {
+		// Create a new post to confirm the home page lastmod date.
+		$new_post = $this->factory->post->create_and_get();
+
 		$providers = core_sitemaps_get_sitemaps();
 
 		$post_list = $providers['posts']->get_url_list( 1, 'page' );
@@ -346,7 +349,7 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 			$expected,
 			array(
 				'loc'     => home_url(),
-				'lastmod' => end( $expected )['lastmod'],
+				'lastmod' => mysql2date( DATE_W3C, $new_post->post_modified_gmt, false ),
 			)
 		);
 
