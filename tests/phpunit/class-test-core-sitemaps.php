@@ -357,6 +357,28 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Tests getting a URL list for a custom post type.
+	 */
+	public function test_get_url_list_cpt() {
+		$post_type = 'custom_type';
+
+		register_post_type( $post_type );
+
+		$ids = $this->factory->post->create_many( 10, array( 'post_type' => $post_type ) );
+
+		$providers = core_sitemaps_get_sitemaps();
+
+		$post_list = $providers['posts']->get_url_list( 1, $post_type );
+
+		$expected = $this->_get_expected_url_list( $post_type, $ids );
+
+		$this->assertEquals( $expected, $post_list );
+
+		// Clean up.
+		unregister_post_type( $post_type );
+	}
+
+	/**
 	 * Helper function for building an expected url list.
 	 *
 	 * @param string $type An object sub type, e.g., post type.
