@@ -119,6 +119,13 @@ class Core_Sitemaps_Provider {
 			$type = $this->get_queried_type();
 		}
 
+		// Return an empty array if the type is not public.
+		$public_types = get_post_types( array( 'public' => true ) );
+
+		if ( ! in_array( $type, $public_types, true ) ) {
+			return array();
+		}
+
 		$query = new WP_Query(
 			array(
 				'orderby'                => 'ID',

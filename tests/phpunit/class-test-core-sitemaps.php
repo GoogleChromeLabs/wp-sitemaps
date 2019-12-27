@@ -362,7 +362,8 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	public function test_get_url_list_cpt() {
 		$post_type = 'custom_type';
 
-		register_post_type( $post_type );
+		// Registered post types are private unless explicitly set to public.
+		register_post_type( $post_type, array( 'public' => true ) );
 
 		$ids = $this->factory->post->create_many( 10, array( 'post_type' => $post_type ) );
 
@@ -372,7 +373,28 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 
 		$expected = $this->_get_expected_url_list( $post_type, $ids );
 
-		$this->assertEquals( $expected, $post_list );
+		$this->assertEquals( $expected, $post_list, 'Custom post type posts are not visible.' );
+
+		// Clean up.
+		unregister_post_type( $post_type );
+	}
+
+	/**
+	 * Tests getting a URL list for a private custom post type.
+	 */
+	public function test_get_url_list_cpt_private() {
+		$post_type = 'private_type';
+
+		// Create a private post type for testing against data leaking.
+		register_post_type( $post_type, array( 'public' => false ) );
+
+		$this->factory->post->create_many( 10, array( 'post_type' => $post_type ) );
+
+		$providers = core_sitemaps_get_sitemaps();
+
+		$post_list = $providers['posts']->get_url_list( 1, $post_type );
+
+		$this->assertEmpty( $post_list, 'Private post types may be returned by the post provider.' );
 
 		// Clean up.
 		unregister_post_type( $post_type );
