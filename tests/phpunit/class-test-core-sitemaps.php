@@ -301,8 +301,6 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 
 	/**
 	 * Test sitemap index entries with public and private custom post types.
-	 *
-	 * @return void
 	 */
 	public function test_get_sitemap_entries_custom_post_types() {
 		// Register and create a public post type post.
