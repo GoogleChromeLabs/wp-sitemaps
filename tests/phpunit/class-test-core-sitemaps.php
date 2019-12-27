@@ -217,6 +217,89 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Helper function to get all sitemap entries data.
+	 *
+	 * @return array A list of sitemap entires.
+	 */
+	public function _get_sitemap_entries() {
+		$entries   = array();
+
+		$providers = core_sitemaps_get_sitemaps();
+
+		foreach ( $providers as $provider ) {
+			$entries = array_merge( $entries, $provider->get_sitemap_entries() );
+		}
+
+		return $entries;
+	}
+
+	/**
+	 * Test default sitemap entries.
+	 */
+	public function test_get_sitemap_entries() {
+		$entries = $this->_get_sitemap_entries();
+
+		$expected = array(
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sub_type=post&paged=1',
+				'lastmod' => '',
+			),
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sub_type=page&paged=1',
+				'lastmod' => '',
+			),
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sub_type=category&paged=1',
+				'lastmod' => '',
+			),
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sub_type=post_tag&paged=1',
+				'lastmod' => '',
+			),
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=users&paged=1',
+				'lastmod' => '',
+			),
+		);
+
+		$this->assertSame( $expected, $entries );
+	}
+
+	/**
+	 * Test default sitemap entries with permalinks on.
+	 */
+	public function test_get_sitemap_entries_post_with_permalinks() {
+		$this->set_permalink_structure( '/%year%/%postname%/' );
+
+		$entries = $this->_get_sitemap_entries();
+
+		$expected = array(
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-post-1.xml',
+				'lastmod' => '',
+			),
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-page-1.xml',
+				'lastmod' => '',
+			),
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/sitemap-taxonomies-category-1.xml',
+				'lastmod' => '',
+			),
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/sitemap-taxonomies-post_tag-1.xml',
+				'lastmod' => '',
+			),
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/sitemap-users-1.xml',
+				'lastmod' => '',
+			),
+		);
+
+		$this->assertSame( $expected, $entries );
+	}
+
+	/**
 	 * Tests getting a URL list for post type post.
 	 */
 	public function test_get_url_list_post() {
