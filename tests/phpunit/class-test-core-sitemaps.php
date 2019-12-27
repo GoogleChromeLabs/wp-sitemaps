@@ -25,11 +25,18 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	public static $users;
 
 	/**
-	 * List of term IDs.
+	 * List of post_tag IDs.
 	 *
 	 * @var array
 	 */
-	public static $terms;
+	public static $post_tags;
+
+	/**
+	 * List of category IDs.
+	 *
+	 * @var array
+	 */
+	public static $cats;
 
 	/**
 	 * List of post type post IDs.
@@ -51,10 +58,19 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	 * @param WP_UnitTest_Factory $factory A WP_UnitTest_Factory object.
 	 */
 	public static function wpSetUpBeforeClass( $factory ) {
-		self::$users = $factory->user->create_many( 10 );
-		self::$terms = $factory->term->create_many( 10 );
-		self::$posts = $factory->post->create_many( 10 );
-		self::$pages = $factory->post->create_many( 10, array( 'post_type' => 'page' ) );
+		self::$users     = $factory->user->create_many( 10 );
+		self::$post_tags = $factory->term->create_many( 10 );
+		self::$cats      = $factory->term->create_many( 10, array( 'taxonomy'  => 'category' ) );
+		self::$pages     = $factory->post->create_many( 10, array( 'post_type' => 'page' ) );
+
+		// Create a set of posts pre-assigned to tags and authors.
+		self::$posts = $factory->post->create_many(
+			10,
+			array(
+				'tags_input' => self::$post_tags,
+				'post_author' => reset( self::$users ),
+			)
+		);
 	}
 
 	/**
