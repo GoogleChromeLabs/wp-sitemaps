@@ -119,10 +119,10 @@ class Core_Sitemaps_Provider {
 			$type = $this->get_queried_type();
 		}
 
-		// Return an empty array if the type is not public.
-		$public_types = get_post_types( array( 'public' => true ) );
+		// Return an empty array if the type is not supported.
+		$supported_types = $this->get_object_sub_types();
 
-		if ( ! in_array( $type, $public_types, true ) ) {
+		if ( ! isset( $supported_types[ $type ] ) ) {
 			return array();
 		}
 
