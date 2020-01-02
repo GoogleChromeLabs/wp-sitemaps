@@ -453,16 +453,15 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 			function ( $id ) use ( $taxonomy, $post ) {
 				return array(
 					'loc'     => get_term_link( $id, $taxonomy ),
-					'lastmod' => mysql2date( DATE_W3C, $post->post_modified_gmt, false )
+					'lastmod' => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
 				);
 			},
 			$terms
 		);
 
-		$tax_provider = new Core_Sitemaps_Taxonomies;
+		$tax_provider = new Core_Sitemaps_Taxonomies();
 
 		$post_list = $tax_provider->get_url_list( 1, $taxonomy );
-
 
 		$this->assertEquals( $expected, $post_list, 'Custom taxonomy term links are not visible.' );
 
@@ -487,7 +486,7 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		// Create a test post applied to all test terms.
 		$this->factory->post->create( array( 'tax_input' => array( $taxonomy => $terms ) ) );
 
-		$tax_provider = new Core_Sitemaps_Taxonomies;
+		$tax_provider = new Core_Sitemaps_Taxonomies();
 
 		$post_list = $tax_provider->get_url_list( 1, $taxonomy );
 
