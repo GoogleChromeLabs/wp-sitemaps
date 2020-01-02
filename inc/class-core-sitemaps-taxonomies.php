@@ -32,7 +32,13 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 			$type = $this->get_queried_type();
 		}
 
+		// Bail early if we don't have a taxonomy type.
 		if ( empty( $type ) ) {
+			return array();
+		}
+
+		// Bail early if the queried taxonomy is not a supported type.
+		if ( ! in_array( $type, $this->get_object_sub_types() ) ) {
 			return array();
 		}
 
@@ -105,14 +111,14 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	 * Return all public, registered taxonomies.
 	 */
 	public function get_object_sub_types() {
-		$taxonomy_types = get_taxonomies( array( 'public' => true ), 'objects' );
+		$taxonomy_types = get_taxonomies( array( 'public' => true ) );
 
 		/**
 		 * Filter the list of taxonomy object sub types available within the sitemap.
 		 *
 		 * @since 0.1.0
 		 *
-		 * @param array $taxonomy_types List of registered object sub types.
+		 * @param array $taxonomy_types List of registered taxonomy type names.
 		 */
 		return apply_filters( 'core_sitemaps_taxonomies', $taxonomy_types );
 	}

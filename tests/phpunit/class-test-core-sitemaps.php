@@ -53,6 +53,13 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	public static $pages;
 
 	/**
+	 * Editor ID for use in some tests.
+	 *
+	 * @var int
+	 */
+	public static $editor_id;
+
+	/**
 	 * Set up fixtures.
 	 *
 	 * @param WP_UnitTest_Factory $factory A WP_UnitTest_Factory object.
@@ -71,6 +78,9 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 				'post_author' => reset( self::$users ),
 			)
 		);
+
+		// Create a user with an editor role to complete some tests.
+		self::$editor_id  = $factory->user->create( array( 'role' => 'editor' ) );
 	}
 
 	/**
@@ -420,6 +430,71 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 
 		// Clean up.
 		unregister_post_type( $post_type );
+	}
+
+	/**
+	 * Test getting a URL list for a custom taxonomy via
+	 * Core_Sitemaps_Taxonomies::get_url_list().
+	 */
+	public function test_get_url_list_custom_taxonomy() {
+		wp_set_current_user( self::$editor_id );
+
+		// Create a custom taxonomy for this test.
+		$taxonomy = 'test_taxonomy';
+		register_taxonomy( $taxonomy, 'post' );
+
+		// Create test terms in the custom taxonomy.
+		$terms = $this->factory->term->create_many( 10, array( 'taxonomy'  => $taxonomy ) );
+
+		// Create a test post applied to all test terms.
+		$post = $this->factory->post->create_and_get( array( 'tax_input' => array( $taxonomy => $terms ) ) );
+
+		$expected = array_map(
+			function ( $id ) use ( $taxonomy, $post ) {
+				return array(
+					'loc'     => get_term_link( $id, $taxonomy ),
+					'lastmod' => mysql2date( DATE_W3C, $post->post_modified_gmt, false )
+				);
+			},
+			$terms
+		);
+
+		$tax_provider = new Core_Sitemaps_Taxonomies;
+
+		$post_list = $tax_provider->get_url_list( 1, $taxonomy );
+
+
+		$this->assertEquals( $expected, $post_list, 'Custom taxonomy term links are not visible.' );
+
+		// Clean up.
+		unregister_taxonomy_for_object_type( $taxonomy, 'post' );
+	}
+
+	/**
+	 * Test getting a URL list for a private custom taxonomy via
+	 * Core_Sitemaps_Taxonomies::get_url_list().
+	 */
+	public function test_get_url_list_custom_taxonomy_private() {
+		wp_set_current_user( self::$editor_id );
+
+		// Create a custom taxonomy for this test.
+		$taxonomy = 'private_taxonomy';
+		register_taxonomy( $taxonomy, 'post', array( 'public' => false ) );
+
+		// Create test terms in the custom taxonomy.
+		$terms = $this->factory->term->create_many( 10, array( 'taxonomy'  => $taxonomy ) );
+
+		// Create a test post applied to all test terms.
+		$this->factory->post->create( array( 'tax_input' => array( $taxonomy => $terms ) ) );
+
+		$tax_provider = new Core_Sitemaps_Taxonomies;
+
+		$post_list = $tax_provider->get_url_list( 1, $taxonomy );
+
+		$this->assertEmpty( $post_list, 'Private taxonomy term links are visible.' );
+
+		// Clean up.
+		unregister_taxonomy_for_object_type( $taxonomy, 'post' );
 	}
 
 	/**
