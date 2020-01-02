@@ -433,6 +433,53 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Test getting a URL list for default taxonomies via
+	 * Core_Sitemaps_Taxonomies::get_url_list().
+	 */
+	public function test_get_url_list_taxonomies() {
+		// Add the default category to the list of categories we're testing.
+		$categories = array_merge( array( 1 ), self::$cats );
+
+		// Create a test post to calculate update times.
+		$post = $this->factory->post->create_and_get(
+			array(
+				'tags_input' => self::$post_tags,
+				'post_category' => $categories,
+			)
+		);
+
+		$tax_provider = new Core_Sitemaps_Taxonomies();
+
+		$cat_list  = $tax_provider->get_url_list( 1, 'category' );
+
+		$expected_cats = array_map(
+			function ( $id ) use ( $post ) {
+				return array(
+					'loc'     => get_term_link( $id, 'category' ),
+					'lastmod' => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
+				);
+			},
+			$categories
+		);
+
+		$this->assertSame( $expected_cats, $cat_list, 'Category URL list does not match.' );
+
+		$tag_list = $tax_provider->get_url_list( 1, 'post_tag' );
+
+		$expected_tags = array_map(
+			function ( $id ) use ( $post ) {
+				return array(
+					'loc'     => get_term_link( $id, 'post_tag' ),
+					'lastmod' => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
+				);
+			},
+			self::$post_tags
+		);
+
+		$this->assertSame( $expected_tags, $tag_list, 'Post Tags URL list does not match.' );
+	}
+
+	/**
 	 * Test getting a URL list for a custom taxonomy via
 	 * Core_Sitemaps_Taxonomies::get_url_list().
 	 */
