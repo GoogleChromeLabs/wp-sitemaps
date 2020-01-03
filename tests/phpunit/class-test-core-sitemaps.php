@@ -332,6 +332,40 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Test sitemap index entries with public and private taxonomies.
+	 */
+	public function test_get_sitemap_entries_custom_taxonomies() {
+		wp_set_current_user( self::$editor_id );
+
+		// Create a custom public and private taxonomies for this test.
+		register_taxonomy( 'public_taxonomy', 'post' );
+		register_taxonomy( 'private_taxonomy', 'post', array( 'public' => false ) );
+
+		// Create test terms in the custom taxonomy.
+		$public_term  = $this->factory->term->create( array( 'taxonomy'  => 'public_taxonomy' ) );
+		$private_term = $this->factory->term->create( array( 'taxonomy'  => 'private_taxonomy' ) );
+
+		// Create a test post applied to all test terms.
+		$this->factory->post->create_and_get(
+			array(
+				'tax_input' => array(
+					'public_taxonomy'  => array( $public_term ),
+					'private_taxonomy' => array( $private_term ),
+				),
+			)
+		);
+
+		$entries = wp_list_pluck( $this->_get_sitemap_entries(), 'loc' );
+
+		$this->assertTrue( in_array( 'http://' . WP_TESTS_DOMAIN . '/sitemap-taxonomies-' . 'public_taxonomy' . '-1.xml', $entries, true ), 'Public Taxonomies are not in the index.' );
+		$this->assertFalse( in_array( 'http://' . WP_TESTS_DOMAIN . '/sitemap-taxonomies-' . 'private_taxonomy' . '-1.xml', $entries, true ), 'Private Taxonomies are visible in the index.' );
+
+		// Clean up.
+		unregister_taxonomy_for_object_type( 'public_taxonomy', 'post' );
+		unregister_taxonomy_for_object_type( 'private_taxonomy', 'post' );
+	}
+
+	/**
 	 * Tests getting a URL list for post type post.
 	 */
 	public function test_get_url_list_post() {
