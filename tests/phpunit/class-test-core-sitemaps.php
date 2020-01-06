@@ -90,13 +90,18 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		// Apply a filter to test filterable values.
 		add_filter( 'core_sitemaps_max_urls', array( $this, 'filter_max_url_value' ), 10, 2 );
 
-		$this->assertEquals( core_sitemaps_get_max_urls(), CORE_SITEMAPS_MAX_URLS, 'Can not confirm max URL number.' );
-		$this->assertEquals( core_sitemaps_get_max_urls( 'posts' ), 300, 'Can not confirm max URL number for posts.' );
-		$this->assertEquals( core_sitemaps_get_max_urls( 'taxonomies' ), 50, 'Can not confirm max URL number for taxonomies.' );
-		$this->assertEquals( core_sitemaps_get_max_urls( 'users' ), 1, 'Can not confirm max URL number for users.' );
+		$expected_null = core_sitemaps_get_max_urls();
+		$expected_posts = core_sitemaps_get_max_urls( 'posts' );
+		$expected_taxonomies = core_sitemaps_get_max_urls( 'taxonomies' );
+		$expected_users = core_sitemaps_get_max_urls( 'users' );
 
 		// Clean up.
 		remove_filter( 'core_sitemaps_max_urls', array( $this, 'filter_max_url_value' ) );
+
+		$this->assertEquals( $expected_null, CORE_SITEMAPS_MAX_URLS, 'Can not confirm max URL number.' );
+		$this->assertEquals( $expected_posts, 300, 'Can not confirm max URL number for posts.' );
+		$this->assertEquals( $expected_taxonomies, 50, 'Can not confirm max URL number for taxonomies.' );
+		$this->assertEquals( $expected_users, 1, 'Can not confirm max URL number for users.' );
 	}
 
 	/**
@@ -227,17 +232,46 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Test robots.txt output.
+	 */
+	public function test_robots_text() {
+		// Get the text added to the default robots text output.
+		$robots_text = apply_filters( 'robots_txt', '', true );
+		$sitemap_string = 'Sitemap: http://' . WP_TESTS_DOMAIN . '/?sitemap=index';
+
+		$this->assertNotFalse( strpos( $robots_text, $sitemap_string ), 'Sitemap URL not included in robots text.' );
+	}
+
+	/**
+	 * Test robots.txt output with permalinks set.
+	 */
+	public function test_robots_text_with_permalinks() {
+		// Set permalinks for testing.
+		$this->set_permalink_structure( '/%year%/%postname%/' );
+
+		// Get the text added to the default robots text output.
+		$robots_text = apply_filters( 'robots_txt', '', true );
+		$sitemap_string = 'Sitemap: http://' . WP_TESTS_DOMAIN . '/sitemap.xml';
+
+		// Clean up permalinks.
+		$this->set_permalink_structure();
+
+		$this->assertNotFalse( strpos( $robots_text, $sitemap_string ), 'Sitemap URL not included in robots text.' );
+	}
+
+	/**
 	 * Helper function to get all sitemap entries data.
 	 *
 	 * @return array A list of sitemap entires.
 	 */
 	public function _get_sitemap_entries() {
-		$entries   = array();
+		$entries = array();
 
 		$providers = core_sitemaps_get_sitemaps();
 
 		foreach ( $providers as $provider ) {
-			$entries = array_merge( $entries, $provider->get_sitemap_entries() );
+			// Using `array_push` is more efficient than `array_merge` in the loop.
+			array_push( $entries, ...$provider->get_sitemap_entries() );
 		}
 
 		return $entries;
@@ -315,20 +349,20 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	public function test_get_sitemap_entries_custom_post_types() {
 		// Register and create a public post type post.
 		register_post_type( 'public_cpt', array( 'public' => true ) );
-		$this->factory->post->create( array( 'post_type' => 'public_cpt' ) );
+		self::factory()->post->create( array( 'post_type' => 'public_cpt' ) );
 
 		// Register and create a private post type post.
 		register_post_type( 'private_cpt', array( 'public' => false ) );
-		$this->factory->post->create( array( 'post_type' => 'private_cpt' ) );
+		self::factory()->post->create( array( 'post_type' => 'private_cpt' ) );
 
 		$entries = wp_list_pluck( $this->_get_sitemap_entries(), 'loc' );
-
-		$this->assertTrue( in_array( 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-public_cpt-1.xml', $entries, true ), 'Public CPTs are not in the index.' );
-		$this->assertFalse( in_array( 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-private_cpt-1.xml', $entries, true ), 'Private CPTs are visible in the index.' );
 
 		// Clean up.
 		unregister_post_type( 'public_cpt' );
 		unregister_post_type( 'private_cpt' );
+
+		$this->assertContains( 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-public_cpt-1.xml', $entries, 'Public CPTs are not in the index.' );
+		$this->assertNotContains( 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-private_cpt-1.xml', $entries, 'Private CPTs are visible in the index.' );
 	}
 
 	/**
@@ -391,10 +425,10 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 
 		$expected = $this->_get_expected_url_list( 'page', self::$pages );
 
-		$this->assertEquals( $expected, $post_list );
-
 		// Clean up.
 		remove_filter( 'pre_option_show_on_front', '__return_true' );
+
+		$this->assertEquals( $expected, $post_list );
 	}
 
 	/**
@@ -402,7 +436,7 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	 */
 	public function test_get_url_list_page_with_home() {
 		// Create a new post to confirm the home page lastmod date.
-		$new_post = $this->factory->post->create_and_get();
+		$new_post = self::factory()->post->create_and_get();
 
 		$providers = core_sitemaps_get_sitemaps();
 
@@ -431,7 +465,7 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		// Registered post types are private unless explicitly set to public.
 		register_post_type( $post_type, array( 'public' => true ) );
 
-		$ids = $this->factory->post->create_many( 10, array( 'post_type' => $post_type ) );
+		$ids = self::factory()->post->create_many( 10, array( 'post_type' => $post_type ) );
 
 		$providers = core_sitemaps_get_sitemaps();
 
@@ -439,10 +473,10 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 
 		$expected = $this->_get_expected_url_list( $post_type, $ids );
 
-		$this->assertEquals( $expected, $post_list, 'Custom post type posts are not visible.' );
-
 		// Clean up.
 		unregister_post_type( $post_type );
+
+		$this->assertEquals( $expected, $post_list, 'Custom post type posts are not visible.' );
 	}
 
 	/**
@@ -454,16 +488,16 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		// Create a private post type for testing against data leaking.
 		register_post_type( $post_type, array( 'public' => false ) );
 
-		$this->factory->post->create_many( 10, array( 'post_type' => $post_type ) );
+		self::factory()->post->create_many( 10, array( 'post_type' => $post_type ) );
 
 		$providers = core_sitemaps_get_sitemaps();
 
 		$post_list = $providers['posts']->get_url_list( 1, $post_type );
 
-		$this->assertEmpty( $post_list, 'Private post types may be returned by the post provider.' );
-
 		// Clean up.
 		unregister_post_type( $post_type );
+
+		$this->assertEmpty( $post_list, 'Private post types may be returned by the post provider.' );
 	}
 
 	/**
@@ -604,4 +638,5 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 			$posts
 		);
 	}
+
 }

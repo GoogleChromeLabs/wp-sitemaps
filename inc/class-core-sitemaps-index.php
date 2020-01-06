@@ -75,12 +75,30 @@ class Core_Sitemaps_Index {
 			$sitemaps = array();
 
 			foreach ( $providers as $provider ) {
-				$sitemaps = array_merge( $sitemaps, $provider->get_sitemap_entries() );
+				// Using array_push is more efficient than array_merge in a loop.
+				$sitemaps = array_push( $sitemaps, ...$provider->get_sitemap_entries() );
 			}
 
 			$this->renderer->render_index( $sitemaps );
 			exit;
 		}
+	}
+
+	/**
+	 * Builds the URL for the sitemap index.
+	 *
+	 * @return string the sitemap index url.
+	 */
+	public function get_index_url() {
+		global $wp_rewrite;
+
+		$url = home_url( '/sitemap.xml' );
+
+		if ( ! $wp_rewrite->using_permalinks() ) {
+			$url = add_query_arg( 'sitemap', 'index', home_url( '/' ) );
+		}
+
+		return $url;
 	}
 
 	/**
@@ -92,7 +110,7 @@ class Core_Sitemaps_Index {
 	 */
 	public function add_robots( $output, $public ) {
 		if ( $public ) {
-			$output .= 'Sitemap: ' . esc_url( $this->renderer->get_sitemap_url( $this->name ) ) . "\n";
+			$output .= 'Sitemap: ' . esc_url( $this->get_index_url() ) . "\n";
 		}
 
 		return $output;
