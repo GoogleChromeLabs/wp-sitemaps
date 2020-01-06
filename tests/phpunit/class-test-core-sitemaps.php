@@ -342,11 +342,11 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		register_taxonomy( 'private_taxonomy', 'post', array( 'public' => false ) );
 
 		// Create test terms in the custom taxonomy.
-		$public_term  = $this->factory->term->create( array( 'taxonomy'  => 'public_taxonomy' ) );
-		$private_term = $this->factory->term->create( array( 'taxonomy'  => 'private_taxonomy' ) );
+		$public_term  = self::factory()->term->create( array( 'taxonomy'  => 'public_taxonomy' ) );
+		$private_term = self::factory()->term->create( array( 'taxonomy'  => 'private_taxonomy' ) );
 
 		// Create a test post applied to all test terms.
-		$this->factory->post->create_and_get(
+		self::factory()->post->create_and_get(
 			array(
 				'tax_input' => array(
 					'public_taxonomy'  => array( $public_term ),
@@ -475,7 +475,7 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		$categories = array_merge( array( 1 ), self::$cats );
 
 		// Create a test post to calculate update times.
-		$post = $this->factory->post->create_and_get(
+		$post = self::factory()->post->create_and_get(
 			array(
 				'tags_input' => self::$post_tags,
 				'post_category' => $categories,
@@ -525,10 +525,10 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		register_taxonomy( $taxonomy, 'post' );
 
 		// Create test terms in the custom taxonomy.
-		$terms = $this->factory->term->create_many( 10, array( 'taxonomy'  => $taxonomy ) );
+		$terms = self::factory()->term->create_many( 10, array( 'taxonomy'  => $taxonomy ) );
 
 		// Create a test post applied to all test terms.
-		$post = $this->factory->post->create_and_get( array( 'tax_input' => array( $taxonomy => $terms ) ) );
+		$post = self::factory()->post->create_and_get( array( 'tax_input' => array( $taxonomy => $terms ) ) );
 
 		$expected = array_map(
 			function ( $id ) use ( $taxonomy, $post ) {
@@ -562,10 +562,10 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		register_taxonomy( $taxonomy, 'post', array( 'public' => false ) );
 
 		// Create test terms in the custom taxonomy.
-		$terms = $this->factory->term->create_many( 10, array( 'taxonomy'  => $taxonomy ) );
+		$terms = self::factory()->term->create_many( 10, array( 'taxonomy'  => $taxonomy ) );
 
 		// Create a test post applied to all test terms.
-		$this->factory->post->create( array( 'tax_input' => array( $taxonomy => $terms ) ) );
+		self::factory()->post->create( array( 'tax_input' => array( $taxonomy => $terms ) ) );
 
 		$tax_provider = new Core_Sitemaps_Taxonomies();
 
