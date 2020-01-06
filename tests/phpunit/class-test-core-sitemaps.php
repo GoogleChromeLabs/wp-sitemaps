@@ -357,12 +357,12 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 
 		$entries = wp_list_pluck( $this->_get_sitemap_entries(), 'loc' );
 
-		$this->assertTrue( in_array( 'http://' . WP_TESTS_DOMAIN . '/sitemap-taxonomies-public_taxonomy-1.xml', $entries, true ), 'Public Taxonomies are not in the index.' );
-		$this->assertFalse( in_array( 'http://' . WP_TESTS_DOMAIN . '/sitemap-taxonomies-private_taxonomy-1.xml', $entries, true ), 'Private Taxonomies are visible in the index.' );
-
 		// Clean up.
 		unregister_taxonomy_for_object_type( 'public_taxonomy', 'post' );
 		unregister_taxonomy_for_object_type( 'private_taxonomy', 'post' );
+
+		$this->assertTrue( in_array( 'http://' . WP_TESTS_DOMAIN . '/sitemap-taxonomies-public_taxonomy-1.xml', $entries, true ), 'Public Taxonomies are not in the index.' );
+		$this->assertFalse( in_array( 'http://' . WP_TESTS_DOMAIN . '/sitemap-taxonomies-private_taxonomy-1.xml', $entries, true ), 'Private Taxonomies are visible in the index.' );
 	}
 
 	/**
@@ -544,10 +544,10 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 
 		$post_list = $tax_provider->get_url_list( 1, $taxonomy );
 
-		$this->assertEquals( $expected, $post_list, 'Custom taxonomy term links are not visible.' );
-
 		// Clean up.
 		unregister_taxonomy_for_object_type( $taxonomy, 'post' );
+
+		$this->assertEquals( $expected, $post_list, 'Custom taxonomy term links are not visible.' );
 	}
 
 	/**
@@ -571,10 +571,10 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 
 		$post_list = $tax_provider->get_url_list( 1, $taxonomy );
 
-		$this->assertEmpty( $post_list, 'Private taxonomy term links are visible.' );
-
 		// Clean up.
 		unregister_taxonomy_for_object_type( $taxonomy, 'post' );
+
+		$this->assertEmpty( $post_list, 'Private taxonomy term links are visible.' );
 	}
 
 	/**
