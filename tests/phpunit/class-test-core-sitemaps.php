@@ -588,7 +588,7 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		// Create a set of posts for each user and generate the expected URL list data.
 		$expected = array_map(
 			function ( $user_id ) {
-				$post = $this->factory->post->create_and_get( array( 'post_author' => $user_id ) );
+				$post = self::factory()->post->create_and_get( array( 'post_author' => $user_id ) );
 
 				return array(
 					'loc'      => get_author_posts_url( $user_id ),
