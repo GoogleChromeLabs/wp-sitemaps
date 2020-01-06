@@ -16,6 +16,63 @@ use WP_UnitTestCase;
  * @group sitemaps
  */
 class Core_Sitemaps_Tests extends WP_UnitTestCase {
+
+	/**
+	 * List of user IDs.
+	 *
+	 * @var array
+	 */
+	public static $users;
+
+	/**
+	 * List of post_tag IDs.
+	 *
+	 * @var array
+	 */
+	public static $post_tags;
+
+	/**
+	 * List of category IDs.
+	 *
+	 * @var array
+	 */
+	public static $cats;
+
+	/**
+	 * List of post type post IDs.
+	 *
+	 * @var array
+	 */
+	public static $posts;
+
+	/**
+	 * List of post type page IDs.
+	 *
+	 * @var array
+	 */
+	public static $pages;
+
+	/**
+	 * Set up fixtures.
+	 *
+	 * @param WP_UnitTest_Factory $factory A WP_UnitTest_Factory object.
+	 */
+	public static function wpSetUpBeforeClass( $factory ) {
+		self::$users     = $factory->user->create_many( 10 );
+		self::$post_tags = $factory->term->create_many( 10 );
+		self::$cats      = $factory->term->create_many( 10, array( 'taxonomy'  => 'category' ) );
+		self::$pages     = $factory->post->create_many( 10, array( 'post_type' => 'page' ) );
+
+		// Create a set of posts pre-assigned to tags and authors.
+		self::$posts = $factory->post->create_many(
+			10,
+			array(
+				'tags_input' => self::$post_tags,
+				'post_author' => reset( self::$users ),
+			)
+		);
+	}
+
 	/**
 	 * Test getting the correct number of URLs for a sitemap.
 	 */
@@ -23,13 +80,18 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		// Apply a filter to test filterable values.
 		add_filter( 'core_sitemaps_max_urls', array( $this, 'filter_max_url_value' ), 10, 2 );
 
-		$this->assertEquals( core_sitemaps_get_max_urls(), CORE_SITEMAPS_MAX_URLS, 'Can not confirm max URL number.' );
-		$this->assertEquals( core_sitemaps_get_max_urls( 'posts' ), 300, 'Can not confirm max URL number for posts.' );
-		$this->assertEquals( core_sitemaps_get_max_urls( 'taxonomies' ), 50, 'Can not confirm max URL number for taxonomies.' );
-		$this->assertEquals( core_sitemaps_get_max_urls( 'users' ), 1, 'Can not confirm max URL number for users.' );
+		$expected_null = core_sitemaps_get_max_urls();
+		$expected_posts = core_sitemaps_get_max_urls( 'posts' );
+		$expected_taxonomies = core_sitemaps_get_max_urls( 'taxonomies' );
+		$expected_users = core_sitemaps_get_max_urls( 'users' );
 
 		// Clean up.
 		remove_filter( 'core_sitemaps_max_urls', array( $this, 'filter_max_url_value' ) );
+
+		$this->assertEquals( $expected_null, CORE_SITEMAPS_MAX_URLS, 'Can not confirm max URL number.' );
+		$this->assertEquals( $expected_posts, 300, 'Can not confirm max URL number for posts.' );
+		$this->assertEquals( $expected_taxonomies, 50, 'Can not confirm max URL number for taxonomies.' );
+		$this->assertEquals( $expected_users, 1, 'Can not confirm max URL number for users.' );
 	}
 
 	/**
@@ -186,4 +248,240 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 
 		$this->assertNotFalse( strpos( $robots_text, $sitemap_string ), 'Sitemap URL not included in robots text.' );
 	}
+
+	/**
+	 * Helper function to get all sitemap entries data.
+	 *
+	 * @return array A list of sitemap entires.
+	 */
+	public function _get_sitemap_entries() {
+		$entries = array();
+
+		$providers = core_sitemaps_get_sitemaps();
+
+		foreach ( $providers as $provider ) {
+			// Using `array_push` is more efficient than `array_merge` in the loop.
+			array_push( $entries, ...$provider->get_sitemap_entries() );
+		}
+
+		return $entries;
+	}
+
+	/**
+	 * Test default sitemap entries.
+	 */
+	public function test_get_sitemap_entries() {
+		$entries = $this->_get_sitemap_entries();
+
+		$expected = array(
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sub_type=post&paged=1',
+				'lastmod' => '',
+			),
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sub_type=page&paged=1',
+				'lastmod' => '',
+			),
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sub_type=category&paged=1',
+				'lastmod' => '',
+			),
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sub_type=post_tag&paged=1',
+				'lastmod' => '',
+			),
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=users&paged=1',
+				'lastmod' => '',
+			),
+		);
+
+		$this->assertSame( $expected, $entries );
+	}
+
+	/**
+	 * Test default sitemap entries with permalinks on.
+	 */
+	public function test_get_sitemap_entries_post_with_permalinks() {
+		$this->set_permalink_structure( '/%year%/%postname%/' );
+
+		$entries = $this->_get_sitemap_entries();
+
+		$expected = array(
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-post-1.xml',
+				'lastmod' => '',
+			),
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-page-1.xml',
+				'lastmod' => '',
+			),
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/sitemap-taxonomies-category-1.xml',
+				'lastmod' => '',
+			),
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/sitemap-taxonomies-post_tag-1.xml',
+				'lastmod' => '',
+			),
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/sitemap-users-1.xml',
+				'lastmod' => '',
+			),
+		);
+
+		$this->assertSame( $expected, $entries );
+	}
+
+	/**
+	 * Test sitemap index entries with public and private custom post types.
+	 */
+	public function test_get_sitemap_entries_custom_post_types() {
+		// Register and create a public post type post.
+		register_post_type( 'public_cpt', array( 'public' => true ) );
+		self::factory()->post->create( array( 'post_type' => 'public_cpt' ) );
+
+		// Register and create a private post type post.
+		register_post_type( 'private_cpt', array( 'public' => false ) );
+		self::factory()->post->create( array( 'post_type' => 'private_cpt' ) );
+
+		$entries = wp_list_pluck( $this->_get_sitemap_entries(), 'loc' );
+
+		// Clean up.
+		unregister_post_type( 'public_cpt' );
+		unregister_post_type( 'private_cpt' );
+
+		$this->assertContains( 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-public_cpt-1.xml', $entries, 'Public CPTs are not in the index.' );
+		$this->assertNotContains( 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-private_cpt-1.xml', $entries, 'Private CPTs are visible in the index.' );
+	}
+
+	/**
+	 * Tests getting a URL list for post type post.
+	 */
+	public function test_get_url_list_post() {
+		$providers = core_sitemaps_get_sitemaps();
+
+		$post_list = $providers['posts']->get_url_list( 1, 'post' );
+
+		$expected = $this->_get_expected_url_list( 'post', self::$posts );
+
+		$this->assertEquals( $expected, $post_list );
+	}
+
+	/**
+	 * Tests getting a URL list for post type page.
+	 */
+	public function test_get_url_list_page() {
+		// Short circuit the show on front option.
+		add_filter( 'pre_option_show_on_front', '__return_true' );
+
+		$providers = core_sitemaps_get_sitemaps();
+
+		$post_list = $providers['posts']->get_url_list( 1, 'page' );
+
+		$expected = $this->_get_expected_url_list( 'page', self::$pages );
+
+		// Clean up.
+		remove_filter( 'pre_option_show_on_front', '__return_true' );
+
+		$this->assertEquals( $expected, $post_list );
+	}
+
+	/**
+	 * Tests getting a URL list for post type page with included home page.
+	 */
+	public function test_get_url_list_page_with_home() {
+		// Create a new post to confirm the home page lastmod date.
+		$new_post = self::factory()->post->create_and_get();
+
+		$providers = core_sitemaps_get_sitemaps();
+
+		$post_list = $providers['posts']->get_url_list( 1, 'page' );
+
+		$expected = $this->_get_expected_url_list( 'page', self::$pages );
+
+		// Add the homepage to the front of the URL list.
+		array_unshift(
+			$expected,
+			array(
+				'loc'     => home_url(),
+				'lastmod' => mysql2date( DATE_W3C, $new_post->post_modified_gmt, false ),
+			)
+		);
+
+		$this->assertEquals( $expected, $post_list );
+	}
+
+	/**
+	 * Tests getting a URL list for a custom post type.
+	 */
+	public function test_get_url_list_cpt() {
+		$post_type = 'custom_type';
+
+		// Registered post types are private unless explicitly set to public.
+		register_post_type( $post_type, array( 'public' => true ) );
+
+		$ids = self::factory()->post->create_many( 10, array( 'post_type' => $post_type ) );
+
+		$providers = core_sitemaps_get_sitemaps();
+
+		$post_list = $providers['posts']->get_url_list( 1, $post_type );
+
+		$expected = $this->_get_expected_url_list( $post_type, $ids );
+
+		// Clean up.
+		unregister_post_type( $post_type );
+
+		$this->assertEquals( $expected, $post_list, 'Custom post type posts are not visible.' );
+	}
+
+	/**
+	 * Tests getting a URL list for a private custom post type.
+	 */
+	public function test_get_url_list_cpt_private() {
+		$post_type = 'private_type';
+
+		// Create a private post type for testing against data leaking.
+		register_post_type( $post_type, array( 'public' => false ) );
+
+		self::factory()->post->create_many( 10, array( 'post_type' => $post_type ) );
+
+		$providers = core_sitemaps_get_sitemaps();
+
+		$post_list = $providers['posts']->get_url_list( 1, $post_type );
+
+		// Clean up.
+		unregister_post_type( $post_type );
+
+		$this->assertEmpty( $post_list, 'Private post types may be returned by the post provider.' );
+	}
+
+	/**
+	 * Helper function for building an expected url list.
+	 *
+	 * @param string $type An object sub type, e.g., post type.
+	 * @param array  $ids  An array of object IDs.
+	 * @return array A formed URL list including 'loc' and 'lastmod' values.
+	 */
+	public function _get_expected_url_list( $type, $ids ) {
+		$posts = get_posts(
+			array(
+				'include'   => $ids,
+				'orderby'   => 'ID',
+				'order'     => 'ASC',
+				'post_type' => $type,
+			)
+		);
+
+		return array_map(
+			function ( $post ) {
+				return array(
+					'loc'     => get_permalink( $post ),
+					'lastmod' => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
+				);
+			},
+			$posts
+		);
+	}
+
 }

@@ -119,6 +119,13 @@ class Core_Sitemaps_Provider {
 			$type = $this->get_queried_type();
 		}
 
+		// Return an empty array if the type is not supported.
+		$supported_types = $this->get_object_sub_types();
+
+		if ( ! isset( $supported_types[ $type ] ) ) {
+			return array();
+		}
+
 		$query = new WP_Query(
 			array(
 				'orderby'                => 'ID',
