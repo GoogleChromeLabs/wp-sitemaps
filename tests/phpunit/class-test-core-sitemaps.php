@@ -313,8 +313,8 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 
 		$entries = wp_list_pluck( $this->_get_sitemap_entries(), 'loc' );
 
-		$this->assertTrue( in_array( 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-public_cpt-1.xml', $entries, true ), 'Public CPTs are not in the index.' );
-		$this->assertFalse( in_array( 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-private_cpt-1.xml', $entries, true ), 'Private CPTs are visible in the index.' );
+		$this->assertContains( 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-public_cpt-1.xml', $entries, 'Public CPTs are not in the index.' );
+		$this->assertNotContains( 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-private_cpt-1.xml', $entries, 'Private CPTs are visible in the index.' );
 
 		// Clean up.
 		unregister_post_type( 'public_cpt' );
