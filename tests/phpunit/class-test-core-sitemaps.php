@@ -217,6 +217,34 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Test robots.txt output.
+	 */
+	public function test_robots_text() {
+		// Get the text added to the default robots text output.
+		$robots_text = apply_filters( 'robots_txt', '', true );
+		$sitemap_string = 'Sitemap: http://' . WP_TESTS_DOMAIN . '/?sitemap=index';
+
+		$this->assertNotFalse( strpos( $robots_text, $sitemap_string ), 'Sitemap URL not included in robots text.' );
+	}
+
+	/**
+	 * Test robots.txt output with permalinks set.
+	 */
+	public function test_robots_text_with_permalinks() {
+		// Set permalinks for testing.
+		$this->set_permalink_structure( '/%year%/%postname%/' );
+
+		// Get the text added to the default robots text output.
+		$robots_text = apply_filters( 'robots_txt', '', true );
+		$sitemap_string = 'Sitemap: http://' . WP_TESTS_DOMAIN . '/sitemap.xml';
+
+		// Clean up permalinks.
+		$this->set_permalink_structure();
+
+		$this->assertNotFalse( strpos( $robots_text, $sitemap_string ), 'Sitemap URL not included in robots text.' );
+	}
+
+	/**
 	 * Helper function to get all sitemap entries data.
 	 *
 	 * @return array A list of sitemap entires.
@@ -450,4 +478,5 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 			$posts
 		);
 	}
+
 }
