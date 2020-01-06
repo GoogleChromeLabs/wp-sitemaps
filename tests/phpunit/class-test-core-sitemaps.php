@@ -80,13 +80,18 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		// Apply a filter to test filterable values.
 		add_filter( 'core_sitemaps_max_urls', array( $this, 'filter_max_url_value' ), 10, 2 );
 
-		$this->assertEquals( core_sitemaps_get_max_urls(), CORE_SITEMAPS_MAX_URLS, 'Can not confirm max URL number.' );
-		$this->assertEquals( core_sitemaps_get_max_urls( 'posts' ), 300, 'Can not confirm max URL number for posts.' );
-		$this->assertEquals( core_sitemaps_get_max_urls( 'taxonomies' ), 50, 'Can not confirm max URL number for taxonomies.' );
-		$this->assertEquals( core_sitemaps_get_max_urls( 'users' ), 1, 'Can not confirm max URL number for users.' );
+		$expected_null = core_sitemaps_get_max_urls();
+		$expected_posts = core_sitemaps_get_max_urls( 'posts' );
+		$expected_taxonomies = core_sitemaps_get_max_urls( 'taxonomies' );
+		$expected_users = core_sitemaps_get_max_urls( 'users' );
 
 		// Clean up.
 		remove_filter( 'core_sitemaps_max_urls', array( $this, 'filter_max_url_value' ) );
+
+		$this->assertEquals( $expected_null, CORE_SITEMAPS_MAX_URLS, 'Can not confirm max URL number.' );
+		$this->assertEquals( $expected_posts, 300, 'Can not confirm max URL number for posts.' );
+		$this->assertEquals( $expected_taxonomies, 50, 'Can not confirm max URL number for taxonomies.' );
+		$this->assertEquals( $expected_users, 1, 'Can not confirm max URL number for users.' );
 	}
 
 	/**
@@ -342,12 +347,12 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 
 		$entries = wp_list_pluck( $this->_get_sitemap_entries(), 'loc' );
 
-		$this->assertContains( 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-public_cpt-1.xml', $entries, 'Public CPTs are not in the index.' );
-		$this->assertNotContains( 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-private_cpt-1.xml', $entries, 'Private CPTs are visible in the index.' );
-
 		// Clean up.
 		unregister_post_type( 'public_cpt' );
 		unregister_post_type( 'private_cpt' );
+
+		$this->assertContains( 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-public_cpt-1.xml', $entries, 'Public CPTs are not in the index.' );
+		$this->assertNotContains( 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-private_cpt-1.xml', $entries, 'Private CPTs are visible in the index.' );
 	}
 
 	/**
@@ -376,10 +381,10 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 
 		$expected = $this->_get_expected_url_list( 'page', self::$pages );
 
-		$this->assertEquals( $expected, $post_list );
-
 		// Clean up.
 		remove_filter( 'pre_option_show_on_front', '__return_true' );
+
+		$this->assertEquals( $expected, $post_list );
 	}
 
 	/**
@@ -424,10 +429,10 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 
 		$expected = $this->_get_expected_url_list( $post_type, $ids );
 
-		$this->assertEquals( $expected, $post_list, 'Custom post type posts are not visible.' );
-
 		// Clean up.
 		unregister_post_type( $post_type );
+
+		$this->assertEquals( $expected, $post_list, 'Custom post type posts are not visible.' );
 	}
 
 	/**
@@ -445,10 +450,10 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 
 		$post_list = $providers['posts']->get_url_list( 1, $post_type );
 
-		$this->assertEmpty( $post_list, 'Private post types may be returned by the post provider.' );
-
 		// Clean up.
 		unregister_post_type( $post_type );
+
+		$this->assertEmpty( $post_list, 'Private post types may be returned by the post provider.' );
 	}
 
 	/**
