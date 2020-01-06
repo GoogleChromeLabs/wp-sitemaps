@@ -305,11 +305,11 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	public function test_get_sitemap_entries_custom_post_types() {
 		// Register and create a public post type post.
 		register_post_type( 'public_cpt', array( 'public' => true ) );
-		$this->factory->post->create( array( 'post_type' => 'public_cpt' ) );
+		self::factory()->post->create( array( 'post_type' => 'public_cpt' ) );
 
 		// Register and create a private post type post.
 		register_post_type( 'private_cpt', array( 'public' => false ) );
-		$this->factory->post->create( array( 'post_type' => 'private_cpt' ) );
+		self::factory()->post->create( array( 'post_type' => 'private_cpt' ) );
 
 		$entries = wp_list_pluck( $this->_get_sitemap_entries(), 'loc' );
 
@@ -358,7 +358,7 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	 */
 	public function test_get_url_list_page_with_home() {
 		// Create a new post to confirm the home page lastmod date.
-		$new_post = $this->factory->post->create_and_get();
+		$new_post = self::factory()->post->create_and_get();
 
 		$providers = core_sitemaps_get_sitemaps();
 
@@ -387,7 +387,7 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		// Registered post types are private unless explicitly set to public.
 		register_post_type( $post_type, array( 'public' => true ) );
 
-		$ids = $this->factory->post->create_many( 10, array( 'post_type' => $post_type ) );
+		$ids = self::factory()->post->create_many( 10, array( 'post_type' => $post_type ) );
 
 		$providers = core_sitemaps_get_sitemaps();
 
@@ -410,7 +410,7 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		// Create a private post type for testing against data leaking.
 		register_post_type( $post_type, array( 'public' => false ) );
 
-		$this->factory->post->create_many( 10, array( 'post_type' => $post_type ) );
+		self::factory()->post->create_many( 10, array( 'post_type' => $post_type ) );
 
 		$providers = core_sitemaps_get_sitemaps();
 
