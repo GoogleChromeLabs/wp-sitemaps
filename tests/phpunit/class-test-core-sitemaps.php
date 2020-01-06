@@ -222,12 +222,13 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	 * @return array A list of sitemap entires.
 	 */
 	public function _get_sitemap_entries() {
-		$entries   = array();
+		$entries = array();
 
 		$providers = core_sitemaps_get_sitemaps();
 
 		foreach ( $providers as $provider ) {
-			$entries = array_merge( $entries, $provider->get_sitemap_entries() );
+			// Using `array_push` is more efficient than `array_merge` in the loop.
+			array_push( $entries, ...$provider->get_sitemap_entries() );
 		}
 
 		return $entries;
