@@ -167,7 +167,7 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		$robots_text = apply_filters( 'robots_txt', '', true );
 		$sitemap_string = 'Sitemap: http://' . WP_TESTS_DOMAIN . '/?sitemap=index';
 
-		$this->assertTrue( false !== strpos( $robots_text, $sitemap_string ), 'Sitemap URL not included in robots text.' );
+		$this->assertNotFalse( strpos( $robots_text, $sitemap_string ), 'Sitemap URL not included in robots text.' );
 	}
 
 	/**
@@ -181,7 +181,7 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		$robots_text = apply_filters( 'robots_txt', '', true );
 		$sitemap_string = 'Sitemap: http://' . WP_TESTS_DOMAIN . '/sitemap.xml';
 
-		$this->assertTrue( false !== strpos( $robots_text, $sitemap_string ), 'Sitemap URL not included in robots text.' );
+		$this->assertNotFalse( strpos( $robots_text, $sitemap_string ), 'Sitemap URL not included in robots text.' );
 
 		// Clean up permalinks.
 		$this->set_permalink_structure();
