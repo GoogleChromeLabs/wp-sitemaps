@@ -612,6 +612,34 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Test getting a URL list for a users sitemap page via
+	 * Core_Sitemaps_Users::get_url_list().
+	 */
+	public function test_get_url_list_users() {
+		// Set up the user to an editor to assign posts to other users.
+		wp_set_current_user( self::$editor_id );
+
+		// Create a set of posts for each user and generate the expected URL list data.
+		$expected = array_map(
+			function ( $user_id ) {
+				$post = self::factory()->post->create_and_get( array( 'post_author' => $user_id ) );
+
+				return array(
+					'loc'      => get_author_posts_url( $user_id ),
+					'lastmod' => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
+				);
+			},
+			self::$users
+		);
+
+		$user_provider = new Core_Sitemaps_Users();
+
+		$url_list = $user_provider->get_url_list( 1 );
+
+		$this->assertSame( $expected, $url_list );
+	}
+
+	/**
 	 * Helper function for building an expected url list.
 	 *
 	 * @param string $type An object sub type, e.g., post type.
