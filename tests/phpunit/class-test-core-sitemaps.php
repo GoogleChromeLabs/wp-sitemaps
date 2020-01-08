@@ -340,6 +340,9 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 			),
 		);
 
+		// Clean up permalinks.
+		$this->set_permalink_structure();
+
 		$this->assertSame( $expected, $entries );
 	}
 
@@ -361,8 +364,8 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		unregister_post_type( 'public_cpt' );
 		unregister_post_type( 'private_cpt' );
 
-		$this->assertContains( 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-public_cpt-1.xml', $entries, 'Public CPTs are not in the index.' );
-		$this->assertNotContains( 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-private_cpt-1.xml', $entries, 'Private CPTs are visible in the index.' );
+		$this->assertContains( 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sub_type=public_cpt&paged=1', $entries, 'Public CPTs are not in the index.' );
+		$this->assertNotContains( 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sub_type=private_cpt&paged=1', $entries, 'Private CPTs are visible in the index.' );
 	}
 
 	/**
@@ -395,8 +398,8 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		unregister_taxonomy_for_object_type( 'public_taxonomy', 'post' );
 		unregister_taxonomy_for_object_type( 'private_taxonomy', 'post' );
 
-		$this->assertTrue( in_array( 'http://' . WP_TESTS_DOMAIN . '/sitemap-taxonomies-public_taxonomy-1.xml', $entries, true ), 'Public Taxonomies are not in the index.' );
-		$this->assertFalse( in_array( 'http://' . WP_TESTS_DOMAIN . '/sitemap-taxonomies-private_taxonomy-1.xml', $entries, true ), 'Private Taxonomies are visible in the index.' );
+		$this->assertTrue( in_array( 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sub_type=public_taxonomy&paged=1', $entries, true ), 'Public Taxonomies are not in the index.' );
+		$this->assertFalse( in_array( 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sub_type=private_taxonomy&paged=1', $entries, true ), 'Private Taxonomies are visible in the index.' );
 	}
 
 	/**
