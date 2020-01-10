@@ -128,8 +128,15 @@ class Core_Sitemaps_Renderer {
 
 		foreach ( $url_list as $url_item ) {
 			$url = $urlset->addChild( 'url' );
-			$url->addChild( 'loc', esc_url( $url_item['loc'] ) );
-			$url->addChild( 'lastmod', esc_attr( $url_item['lastmod'] ) );
+
+			// Add each attribute as a child node to the URL entry.
+			foreach ( $url_item as $attr => $value ) {
+				if ( 'url' === $attr ) {
+					$url->addChild( $attr, esc_url( $value ) );
+				} else {
+					$url->addChild( $attr, esc_attr( $value ) );
+				}
+			}
 		}
 
 		return $urlset->asXML();

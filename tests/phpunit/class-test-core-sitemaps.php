@@ -232,6 +232,90 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Ensure extra attributes added to URL lists are included in rendered XML.
+	 */
+	public function test_core_sitemaps_xml_extra_atts() {
+		$url_list = array(
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/2019/10/post-1',
+				'lastmod' => '2019-11-01T12:00:00+00:00',
+				'string'  => 'value',
+				'number'  => 200,
+			),
+		);
+
+		$renderer = new Core_Sitemaps_Renderer();
+
+		$xml = $renderer->get_sitemap_xml( $url_list );
+
+		$this->assertContains( '<string>value</string>', $xml, 'Extra string attributes are not being rendered in XML.' );
+		$this->assertContains( '<number>200</number>', $xml, 'Extra number attributes are not being rendered in XML.' );
+	}
+
+	/**
+	 * Ensure URL lists can have attributes added via filters.
+	 *
+	 * @dataProvider _url_list_providers
+	 *
+	 * @param string $type     The object type to test.
+	 * @param string $sub_type The object subtype to use when getting a URL list.
+	 */
+	public function test_add_attributes_to_url_list( $type, $sub_type ) {
+		add_filter( 'core_sitemaps_' . $type . '_url_list', array( $this, '_add_attributes_to_url_list' ) );
+
+		$providers = core_sitemaps_get_sitemaps();
+
+		$post_list = $providers[ $type ]->get_url_list( 1, $sub_type );
+
+		remove_filter( 'core_sitemaps_' . $type . '_url_list', array( $this, '_add_attributes_to_url_list' ) );
+
+		foreach ( $post_list as $entry ) {
+			$this->assertEquals( 'value', $entry['extra'], 'Could not add attributes to url lists for ' . $type . '.' );
+		}
+	}
+
+	/**
+	 * Data provider for `test_add_attributes_to_url_list()`.
+	 *
+	 * @return array A list of object types and sub types.
+	 */
+	public function _url_list_providers() {
+		return array(
+			array(
+				'posts',
+				'post',
+			),
+			array(
+				'taxonomies',
+				'post_tag',
+			),
+			array(
+				'users',
+				'',
+			),
+		);
+	}
+
+	/**
+	 * Filter callback to add an extra value to URL lists.
+	 *
+	 * @param array $url_list A URL list from a sitemap provider.
+	 * @return array The filtered URL list.
+	 */
+	public function _add_attributes_to_url_list( $url_list ) {
+		$entries = array_map(
+			function ( $entry ) {
+				$entry['extra'] = 'value';
+
+				return $entry;
+			},
+			$url_list
+		);
+
+		return $entries;
+	}
+
+	/**
 	 * Test robots.txt output.
 	 */
 	public function test_robots_text() {
@@ -669,5 +753,4 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 			$posts
 		);
 	}
-
 }

@@ -181,7 +181,7 @@ class Core_Sitemaps_Provider {
 		 * @param string $type     Name of the post_type.
 		 * @param int    $page_num Page of results.
 		 */
-		return apply_filters( 'core_sitemaps_post_url_list', $url_list, $type, $page_num );
+		return apply_filters( 'core_sitemaps_posts_url_list', $url_list, $type, $page_num );
 	}
 
 	/**
