@@ -77,6 +77,13 @@ class Core_Sitemaps {
 		foreach ( $providers as $name => $provider ) {
 			$this->registry->add_sitemap( $name, $provider );
 		}
+
+		/**
+		 * Fires after core sitemaps are registered.
+		 *
+		 * @since 0.1.0
+		 */
+		do_action( 'core_sitemaps_register' );
 	}
 
 	/**
