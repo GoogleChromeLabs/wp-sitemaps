@@ -76,7 +76,7 @@ class Core_Sitemaps_Index {
 
 			foreach ( $providers as $provider ) {
 				// Using array_push is more efficient than array_merge in a loop.
-				$sitemaps = array_push( $sitemaps, ...$provider->get_sitemap_entries() );
+				array_push( $sitemaps, ...$provider->get_sitemap_entries() );
 			}
 
 			$this->renderer->render_index( $sitemaps );
