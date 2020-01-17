@@ -13,9 +13,20 @@
 function core_sitemaps_get_sitemaps() {
 	global $core_sitemaps;
 
-	$sitemaps = $core_sitemaps->registry->get_sitemaps();
+	return $core_sitemaps->registry->get_sitemaps();
+}
 
-	return $sitemaps;
+/**
+ * Register a new sitemap provider.
+ *
+ * @param string                 $name     Unique name for the sitemap provider.
+ * @param Core_Sitemaps_Provider $provider The `Core_Sitemaps_Provider` instance implementing the sitemap.
+ * @return bool Returns true if the sitemap was added. False on failure.
+ */
+function core_sitemaps_register_sitemap( $name, $provider ) {
+	global $core_sitemaps;
+
+	return $core_sitemaps->registry->add_sitemap( $name, $provider );
 }
 
 /**
