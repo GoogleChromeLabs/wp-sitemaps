@@ -196,6 +196,18 @@ class Core_Sitemaps_Provider {
 	}
 
 	/**
+	 * Set the object sub_type.
+	 *
+	 * @param string $sub_type The name of the object subtype.
+	 * @return bool Returns true on success.
+	 */
+	public function set_sub_type( $sub_type ) {
+		$this->sub_type = $sub_type;
+
+		return true;
+	}
+
+	/**
 	 * Get data about each sitemap type.
 	 *
 	 * @return array List of sitemap types including object subtype name and number of pages.

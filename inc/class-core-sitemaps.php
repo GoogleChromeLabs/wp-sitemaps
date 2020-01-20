@@ -201,16 +201,20 @@ class Core_Sitemaps {
 			$sub_types = $provider->get_object_sub_types();
 
 			// Only set the current object sub-type if it's supported.
-			$sub_type = isset( $sub_types[ $sub_type ] ) ? $sub_type : '';
+			if ( isset( $sub_types[ $sub_type ] ) ) {
+				$provider->set_sub_type( $sub_types[ $sub_type ]->name );
+			}
 
 			$url_list = $provider->get_url_list( $paged, $sub_type );
+
+			// Force a 404 and bail early if no URLs are present.
+			if ( empty( $url_list ) ) {
+				$wp_query->set_404();
+				return;
+			}
 
 			$this->renderer->render_sitemap( $url_list );
 			exit;
 		}
-
-		// If this is reached, an invalid sitemap URL was requested.
-		$wp_query->set_404();
-		return;
 	}
 }
