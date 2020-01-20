@@ -38,11 +38,14 @@ class Core_Sitemaps {
 	 *
 	 * @return void
 	 */
-	public function bootstrap() {
-		add_action( 'init', array( $this, 'setup_sitemaps_index' ) );
-		add_action( 'init', array( $this, 'register_sitemaps' ) );
-		add_action( 'init', array( $this, 'setup_sitemaps' ) );
-		add_action( 'init', array( $this, 'xsl_stylesheet_rewrites' ) );
+	public function init() {
+		// These will all fire on the init hook.
+		$this->setup_sitemaps_index();
+		$this->register_sitemaps();
+
+		// Add additional action callbacks.
+		add_action( 'core_sitemaps_init', array( $this, 'xsl_stylesheet_rewrites' ) );
+		add_action( 'core_sitemaps_init', array( $this, 'setup_sitemaps' ) );
 		add_action( 'wp_loaded', array( $this, 'maybe_flush_rewrites' ) );
 	}
 
@@ -77,13 +80,6 @@ class Core_Sitemaps {
 		foreach ( $providers as $name => $provider ) {
 			$this->registry->add_sitemap( $name, $provider );
 		}
-
-		/**
-		 * Fires after core sitemaps are registered.
-		 *
-		 * @since 0.1.0
-		 */
-		do_action( 'core_sitemaps_register' );
 	}
 
 	/**

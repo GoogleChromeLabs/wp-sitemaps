@@ -43,7 +43,5 @@ require_once __DIR__ . '/inc/class-core-sitemaps-taxonomies.php';
 require_once __DIR__ . '/inc/class-core-sitemaps-users.php';
 require_once __DIR__ . '/inc/functions.php';
 
-global $core_sitemaps;
-
-$core_sitemaps = new Core_Sitemaps();
-$core_sitemaps->bootstrap();
+// Boot the sitemaps system.
+add_action( 'init', 'core_sitemaps_get_server' );
