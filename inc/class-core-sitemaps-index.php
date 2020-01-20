@@ -20,33 +20,12 @@ class Core_Sitemaps_Index {
 	protected $name = 'index';
 
 	/**
-	 * Renderer class.
-	 *
-	 * @var Core_Sitemaps_Renderer
-	 */
-	protected $renderer;
-
-	/**
-	 * Core_Sitemaps_Index constructor.
-	 */
-	public function __construct() {
-		$this->renderer = new Core_Sitemaps_Renderer();
-	}
-
-	/**
 	 * A helper function to initiate actions, hooks and other features needed.
 	 */
 	public function setup_sitemap() {
-		// Set up rewrites.
-		add_rewrite_tag( '%sitemap%', '([^?]+)' );
-		add_rewrite_rule( '^sitemap\.xml$', 'index.php?sitemap=index', 'top' );
-
 		// Add filters.
 		add_filter( 'robots_txt', array( $this, 'add_robots' ), 0, 2 );
 		add_filter( 'redirect_canonical', array( $this, 'redirect_canonical' ) );
-
-		// Add actions.
-		add_action( 'template_redirect', array( $this, 'render_sitemap' ) );
 	}
 
 	/**
@@ -61,27 +40,6 @@ class Core_Sitemaps_Index {
 		}
 
 		return $redirect;
-	}
-
-	/**
-	 * Produce XML to output.
-	 */
-	public function render_sitemap() {
-		$sitemap_index = get_query_var( 'sitemap' );
-
-		if ( 'index' === $sitemap_index ) {
-			$providers = core_sitemaps_get_sitemaps();
-
-			$sitemaps = array();
-
-			foreach ( $providers as $provider ) {
-				// Using array_push is more efficient than array_merge in a loop.
-				array_push( $sitemaps, ...$provider->get_sitemap_entries() );
-			}
-
-			$this->renderer->render_index( $sitemaps );
-			exit;
-		}
 	}
 
 	/**
