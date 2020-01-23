@@ -9,6 +9,9 @@
  */
 
 use WP_UnitTestCase;
+use Core_Sitemaps_Test_Provider;
+
+require_once( __DIR__ . '/inc/class-core-sitemaps-test-provider.php' );
 
 /**
  * Core sitemaps test cases.
@@ -60,6 +63,13 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	public static $editor_id;
 
 	/**
+	 * Test sitemap provider.
+	 *
+	 * @var Core_Sitemaps_Test_Provider
+	 */
+	public static $test_provider;
+
+	/**
 	 * Set up fixtures.
 	 *
 	 * @param WP_UnitTest_Factory $factory A WP_UnitTest_Factory object.
@@ -81,6 +91,8 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 
 		// Create a user with an editor role to complete some tests.
 		self::$editor_id  = $factory->user->create( array( 'role' => 'editor' ) );
+
+		self::$test_provider = new Core_Sitemaps_Test_Provider();
 	}
 
 	/**
@@ -752,5 +764,16 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 			},
 			$posts
 		);
+	}
+
+	/**
+	 * Test functionality that adds a new sitemap provider to the registry.
+	 */
+	public function test_register_sitemap_provider() {
+		core_sitemaps_register_sitemap( 'test_sitemap', self::$test_provider );
+
+		$sitemaps = core_sitemaps_get_sitemaps();
+
+		$this->assertEquals( $sitemaps['test_sitemap'], self::$test_provider, 'Can not confirm sitemap registration is working.' );
 	}
 }
