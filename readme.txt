@@ -1,5 +1,5 @@
 === Core Sitemaps ===
-Contributors: joemcgill,
+Contributors: joemcgill, pacifika, kburgoine, swissspidy, tweetythierry,
 Tags: seo, sitemaps
 Requires at least: 5.2.0
 Tested up to: 5.2.3
