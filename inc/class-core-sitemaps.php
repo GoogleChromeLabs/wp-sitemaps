@@ -52,7 +52,6 @@ class Core_Sitemaps {
 		$this->register_sitemaps();
 
 		// Add additional action callbacks.
-		add_action( 'core_sitemaps_init', array( $this, 'xsl_stylesheet_rewrites' ) );
 		add_action( 'core_sitemaps_init', array( $this, 'setup_sitemaps' ) );
 		add_action( 'core_sitemaps_init', array( $this, 'register_rewrites' ) );
 		add_action( 'core_sitemaps_init', array( $this, 'register_xsl_rewrites' ) );
