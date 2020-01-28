@@ -356,6 +356,17 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Test robots.txt output with line feed prefix.
+	 */
+	public function test_robots_text_prefixed_with_line_feed() {
+		// Get the text added to the default robots text output.
+		$robots_text = apply_filters( 'robots_txt', '', true );
+		$sitemap_string = "\nSitemap: ";
+
+		$this->assertNotFalse( strpos( $robots_text, $sitemap_string ), 'Sitemap URL not prefixed with "\n".' );
+	}
+
+	/**
 	 * Helper function to get all sitemap entries data.
 	 *
 	 * @return array A list of sitemap entires.
