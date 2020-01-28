@@ -8,19 +8,21 @@
 /**
  * Core Sitemaps Plugin.
  *
- * @package         Core_Sitemaps
- * @copyright       2019 The Core Sitemaps Contributors
- * @license         GNU General Public License, version 2
- * @link            https://github.com/GoogleChromeLabs/wp-sitemaps
+ * @package   Core_Sitemaps
+ * @copyright 2019 The Core Sitemaps Contributors
+ * @license   GNU General Public License, version 2
+ * @link      https://github.com/GoogleChromeLabs/wp-sitemaps
  *
- * Plugin Name:     Core Sitemaps
- * Plugin URI:      https://github.com/GoogleChromeLabs/wp-sitemaps
- * Description:     A feature plugin to integrate basic XML Sitemaps in WordPress Core
- * Author:          Core Sitemaps Plugin Contributors
- * Author URI:      https://github.com/GoogleChromeLabs/wp-sitemaps/graphs/contributors
- * Text Domain:     core-sitemaps
- * Domain Path:     /languages
- * Version:         0.1.0
+ * Plugin Name:       Core Sitemaps
+ * Plugin URI:        https://github.com/GoogleChromeLabs/wp-sitemaps
+ * Description:       A feature plugin to integrate basic XML Sitemaps in WordPress Core
+ * Author:            Core Sitemaps Plugin Contributors
+ * Author URI:        https://github.com/GoogleChromeLabs/wp-sitemaps/graphs/contributors
+ * Text Domain:       core-sitemaps
+ * Domain Path:       /languages
+ * Requires at least: 5.2
+ * Requires PHP:      5.6
+ * Version:           0.1.0
  */
 
 // The limit for how many sitemaps to include in an index.
