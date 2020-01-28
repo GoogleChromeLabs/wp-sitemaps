@@ -46,10 +46,6 @@ class Core_Sitemaps_Provider {
 	 * Set up relevant rewrite rules, actions, and filters.
 	 */
 	public function setup() {
-		// Set up rewrite rules and rendering callback.
-		add_rewrite_rule( $this->route, $this->rewrite_query(), 'top' );
-		add_action( 'template_redirect', array( $this, 'render_sitemap' ) );
-
 		// Set up async tasks related to calculating lastmod data.
 		add_action( 'core_sitemaps_calculate_lastmod', array( $this, 'calculate_sitemap_lastmod' ), 10, 3 );
 		add_action( 'core_sitemaps_update_lastmod_' . $this->slug, array( $this, 'update_lastmod_values' ) );
@@ -68,42 +64,6 @@ class Core_Sitemaps_Provider {
 			$lastmod_recurrence = apply_filters( 'core_sitemaps_lastmod_recurrence', 'twicedaily', $this->slug );
 
 			wp_schedule_event( time(), $lastmod_recurrence, 'core_sitemaps_update_lastmod_' . $this->slug );
-		}
-	}
-
-	/**
-	 * Print the XML to output for a sitemap.
-	 */
-	public function render_sitemap() {
-		global $wp_query;
-
-		$sitemap  = sanitize_text_field( get_query_var( 'sitemap' ) );
-		$sub_type = sanitize_text_field( get_query_var( 'sub_type' ) );
-		$paged    = absint( get_query_var( 'paged' ) );
-
-		if ( $this->slug === $sitemap ) {
-			if ( empty( $paged ) ) {
-				$paged = 1;
-			}
-
-			$sub_types = $this->get_object_sub_types();
-
-			// Only set the current object sub-type if it's supported.
-			if ( isset( $sub_types[ $sub_type ] ) ) {
-				$this->sub_type = $sub_types[ $sub_type ]->name;
-			}
-
-			$url_list = $this->get_url_list( $paged );
-
-			// Force a 404 and bail early if no URLs are present.
-			if ( empty( $url_list ) ) {
-				$wp_query->set_404();
-				return;
-			}
-
-			$renderer = new Core_Sitemaps_Renderer();
-			$renderer->render_sitemap( $url_list );
-			exit;
 		}
 	}
 
@@ -233,6 +193,18 @@ class Core_Sitemaps_Provider {
 		);
 
 		return isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
+	}
+
+	/**
+	 * Set the object sub_type.
+	 *
+	 * @param string $sub_type The name of the object subtype.
+	 * @return bool Returns true on success.
+	 */
+	public function set_sub_type( $sub_type ) {
+		$this->sub_type = $sub_type;
+
+		return true;
 	}
 
 	/**
