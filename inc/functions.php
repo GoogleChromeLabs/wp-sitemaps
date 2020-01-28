@@ -6,12 +6,45 @@
  */
 
 /**
+ * Retrieves the current Sitemaps server instance.
+ *
+ * @return Core_Sitemaps Core_Sitemaps instance.
+ */
+function core_sitemaps_get_server() {
+	/**
+	 * Global Core Sitemaps instance.
+	 *
+	 * @var Core_Sitemaps $core_sitemaps
+	 */
+	global $core_sitemaps;
+
+	// If there isn't a global instance, set and bootstrap the sitemaps system.
+	if ( empty( $core_sitemaps ) ) {
+		$core_sitemaps = new Core_Sitemaps();
+		$core_sitemaps->init();
+
+		/**
+		 * Fires when initializing the Core_Sitemaps object.
+		 *
+		 * Additional sitemaps should be registered on this hook.
+		 *
+		 * @since 0.1.0
+		 *
+		 * @param core_sitemaps $core_sitemaps Server object.
+		 */
+		do_action( 'core_sitemaps_init', $core_sitemaps );
+	}
+
+	return $core_sitemaps;
+}
+
+/**
  * Get a list of sitemaps.
  *
  * @return array $sitemaps A list of registered sitemap providers.
  */
 function core_sitemaps_get_sitemaps() {
-	global $core_sitemaps;
+	$core_sitemaps = core_sitemaps_get_server();
 
 	return $core_sitemaps->registry->get_sitemaps();
 }
@@ -24,7 +57,7 @@ function core_sitemaps_get_sitemaps() {
  * @return bool Returns true if the sitemap was added. False on failure.
  */
 function core_sitemaps_register_sitemap( $name, $provider ) {
-	global $core_sitemaps;
+	$core_sitemaps = core_sitemaps_get_server();
 
 	return $core_sitemaps->registry->add_sitemap( $name, $provider );
 }
