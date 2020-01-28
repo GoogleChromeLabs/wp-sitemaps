@@ -110,7 +110,7 @@ class Core_Sitemaps_Index {
 	 */
 	public function add_robots( $output, $public ) {
 		if ( $public ) {
-			$output .= 'Sitemap: ' . esc_url( $this->get_index_url() ) . "\n";
+			$output .= "\nSitemap: " . esc_url( $this->get_index_url() ) . "\n";
 		}
 
 		return $output;
