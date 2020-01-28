@@ -1,8 +1,9 @@
 === Core Sitemaps ===
 Contributors: joemcgill,
 Tags: seo, sitemaps
-Requires at least: 5.2.0
-Tested up to: 5.2.3
+Requires at least: 5.2
+Tested up to: 5.4
+Requires PHP: 5.6
 Stable tag: 0.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
