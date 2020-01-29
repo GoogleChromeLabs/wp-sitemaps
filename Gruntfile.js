@@ -36,21 +36,11 @@ module.exports = function( grunt ) {
 				src: [ '*.php', '**/*.php', '!\.git/**/*', '!bin/**/*', '!node_modules/**/*', '!tests/**/*' ]
 			}
 		},
-
-		wp_readme_to_markdown: {
-			your_target: {
-				files: {
-					'README.md': 'readme.txt'
-				}
-			},
-		},
 	} );
 
 	grunt.loadNpmTasks( 'grunt-wp-i18n' );
-	grunt.loadNpmTasks( 'grunt-wp-readme-to-markdown' );
-	grunt.registerTask( 'default', [ 'i18n','readme' ] );
+	grunt.registerTask( 'default', [ 'i18n' ] );
 	grunt.registerTask( 'i18n', [ 'addtextdomain' ] );
-	grunt.registerTask( 'readme', [ 'wp_readme_to_markdown' ] );
 
 	grunt.util.linefeed = '\n';
 

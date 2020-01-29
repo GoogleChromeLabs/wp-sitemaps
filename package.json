@@ -2,10 +2,9 @@
   "name": "core-sitemaps",
   "version": "0.1.0",
   "main": "Gruntfile.js",
-  "author": "YOUR NAME HERE",
+  "author": "WordPress.org contributors",
   "devDependencies": {
     "grunt": "^1.0.4",
-    "grunt-wp-i18n": "^1.0.3",
-    "grunt-wp-readme-to-markdown": "~1.0.0"
+    "grunt-wp-i18n": "^1.0.3"
   }
 }
