@@ -147,6 +147,6 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 
 		$term_count = wp_count_terms( $type, array( 'hide_empty' => true ) );
 
-		return ceil( $term_count / core_sitemaps_get_max_urls( $this->slug ) );
+		return (int) ceil( $term_count / core_sitemaps_get_max_urls( $this->slug ) );
 	}
 }
