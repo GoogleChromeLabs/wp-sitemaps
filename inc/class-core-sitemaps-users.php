@@ -72,7 +72,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 
 		$total_users = $query->get_total();
 
-		return ceil( $total_users / core_sitemaps_get_max_urls( $this->slug ) );
+		return (int) ceil( $total_users / core_sitemaps_get_max_urls( $this->slug ) );
 	}
 
 	/**
