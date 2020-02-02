@@ -99,7 +99,11 @@ class Core_Sitemaps_Provider {
 			)
 		);
 
-		/** @var array<int, \WP_Post> $posts Returns an array of posts. */
+		/**
+		 * Returns an array of posts.
+		 *
+		 * @var array<int, \WP_Post> $posts
+		 */
 		$posts = $query->get_posts();
 
 		$url_list = array();
