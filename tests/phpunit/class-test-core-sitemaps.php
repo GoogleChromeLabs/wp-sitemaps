@@ -803,9 +803,13 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	public function test_filter_sitemaps_stylesheet_content() {
 		add_filter( 'core_sitemaps_stylesheet_content', '__return_empty_string' );
 
-		$this->assertSame( '', self::$test_stylesheet->stylesheet_xsl(), 'Could not filter stylesheet content' );
+		$content = self::$test_stylesheet->stylesheet_xsl();
 
 		remove_filter( 'core_sitemaps_stylesheet_content', '__return_empty_string' );
+
+		$this->assertSame( '', $content, 'Could not filter stylesheet content' );
+
+
 	}
 
 	/**
@@ -814,9 +818,11 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	public function test_filter_sitemaps_index_stylesheet_content() {
 		add_filter( 'core_sitemaps_index_stylesheet_content', '__return_empty_string' );
 
-		$this->assertSame( '', self::$test_stylesheet->stylesheet_index_xsl(), 'Could not filter sitemap index stylesheet content' );
+		$content = self::$test_stylesheet->stylesheet_index_xsl();
 
 		remove_filter( 'core_sitemaps_index_stylesheet_content', '__return_empty_string' );
+
+		$this->assertSame( '', $content, 'Could not filter sitemap index stylesheet content' );
 	}
 
 	/**
@@ -825,8 +831,10 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	public function test_filter_sitemaps_stylesheet_css() {
 		add_filter( 'core_sitemaps_stylesheet_css', '__return_empty_string' );
 
-		$this->assertSame( '', self::$test_stylesheet->stylesheet_xsl_css(), 'Could not filter sitemap stylesheet CSS' );
+		$css = self::$test_stylesheet->stylesheet_xsl_css();
 
 		remove_filter( 'core_sitemaps_stylesheet_css', '__return_empty_string' );
+
+		$this->assertSame( '', $css, 'Could not filter sitemap stylesheet CSS' );
 	}
 }
