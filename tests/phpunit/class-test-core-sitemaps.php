@@ -9,6 +9,7 @@
  */
 
 use WP_UnitTestCase;
+use Core_Sitemaps_Stylesheet;
 use Core_Sitemaps_Test_Provider;
 
 require_once( __DIR__ . '/inc/class-core-sitemaps-test-provider.php' );
@@ -63,6 +64,13 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	public static $editor_id;
 
 	/**
+	 * Test sitemap stylesheet generator.
+	 *
+	 * @var Core_Sitemaps_Stylesheet
+	 */
+	public static $test_stylesheet;
+
+	/**
 	 * Test sitemap provider.
 	 *
 	 * @var Core_Sitemaps_Test_Provider
@@ -93,6 +101,7 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		self::$editor_id  = $factory->user->create( array( 'role' => 'editor' ) );
 
 		self::$test_provider = new Core_Sitemaps_Test_Provider();
+		self::$test_stylesheet = new Core_Sitemaps_Stylesheet();
 	}
 
 	/**
@@ -786,5 +795,38 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		$sitemaps = core_sitemaps_get_sitemaps();
 
 		$this->assertEquals( $sitemaps['test_sitemap'], self::$test_provider, 'Can not confirm sitemap registration is working.' );
+	}
+
+	/**
+	 * Test that stylesheet content can be filtered.
+	 */
+	public function test_filter_sitemaps_stylesheet_content() {
+		add_filter( 'core_sitemaps_stylesheet_content', '__return_empty_string' );
+
+		$this->assertSame( '', self::$test_stylesheet->stylesheet_xsl(), 'Could not filter stylesheet content' );
+
+		remove_filter( 'core_sitemaps_stylesheet_content', '__return_empty_string' );
+	}
+
+	/**
+	 * Test that sitemap index stylesheet content can be filtered.
+	 */
+	public function test_filter_sitemaps_index_stylesheet_content() {
+		add_filter( 'core_sitemaps_index_stylesheet_content', '__return_empty_string' );
+
+		$this->assertSame( '', self::$test_stylesheet->stylesheet_index_xsl(), 'Could not filter sitemap index stylesheet content' );
+
+		remove_filter( 'core_sitemaps_index_stylesheet_content', '__return_empty_string' );
+	}
+
+	/**
+	 * Test that sitemap stylesheet CSS can be filtered.
+	 */
+	public function test_filter_sitemaps_stylesheet_css() {
+		add_filter( 'core_sitemaps_stylesheet_css', '__return_empty_string' );
+
+		$this->assertSame( '', self::$test_stylesheet->stylesheet_xsl_css(), 'Could not filter sitemap stylesheet CSS' );
+
+		remove_filter( 'core_sitemaps_stylesheet_css', '__return_empty_string' );
 	}
 }
