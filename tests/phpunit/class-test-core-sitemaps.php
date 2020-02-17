@@ -337,6 +337,31 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Test ability to filter object subtypes.
+	 */
+	public function test_remove_object_subtypes() {
+		$providers = core_sitemaps_get_sitemaps();
+
+		/*
+		 * An array of provider types and the filter suffix name.
+		 * Note that Core_Sitemaps_Users does not support subtypes and isn't filterable.
+		 */
+		$objects = array(
+			'posts' => 'post_types',
+			'taxonomies' => 'taxonomies',
+		);
+
+		foreach ( $objects as $type => $suffix ) {
+			// Return an empty array to show that the list of subtypes is filterable.
+			add_filter( 'core_sitemaps_' . $suffix, '__return_empty_array' );
+			$subtypes = $providers[$type]->get_object_sub_types();
+			remove_filter( 'core_sitemaps_' . $suffix, '__return_empty_array' );
+
+			$this->assertEquals( array(), $subtypes, 'Could not filter ' . $type . ' subtypes.' );
+		}
+	}
+
+	/**
 	 * Test robots.txt output.
 	 */
 	public function test_robots_text() {
