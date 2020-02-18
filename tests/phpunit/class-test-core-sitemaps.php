@@ -354,7 +354,7 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		foreach ( $objects as $type => $suffix ) {
 			// Return an empty array to show that the list of subtypes is filterable.
 			add_filter( 'core_sitemaps_' . $suffix, '__return_empty_array' );
-			$subtypes = $providers[$type]->get_object_sub_types();
+			$subtypes = $providers[ $type ]->get_object_sub_types();
 			remove_filter( 'core_sitemaps_' . $suffix, '__return_empty_array' );
 
 			$this->assertEquals( array(), $subtypes, 'Could not filter ' . $type . ' subtypes.' );
@@ -833,8 +833,6 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		remove_filter( 'core_sitemaps_stylesheet_content', '__return_empty_string' );
 
 		$this->assertSame( '', $content, 'Could not filter stylesheet content' );
-
-
 	}
 
 	/**
