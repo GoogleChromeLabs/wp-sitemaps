@@ -16,7 +16,7 @@ class Core_Sitemaps_Test_Provider extends Core_Sitemaps_Provider {
 	 */
 	public function __construct() {
 		$this->object_type = 'test';
-		$this->route       = '^sitemap-test-([A-z]+)-?([0-9]+)?\.xml$';
+		$this->route       = sprintf( '^%s-test-([A-z]+)-?([0-9]+)?\.xml$', core_sitemaps_filename_prefix() );
 		$this->slug        = 'test';
 	}
 

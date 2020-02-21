@@ -50,6 +50,20 @@ function core_sitemaps_get_sitemaps() {
 }
 
 /**
+ * Retrieves the prefix for the sitemap filename.
+ *
+ * @return string Prefix.
+ */
+function core_sitemaps_filename_prefix() {
+	/**
+	 * Filters the sitemaps filename prefix.
+	 *
+	 * @param string $prefix filename prefix. Default 'wp-sitemap'.
+	 */
+	return apply_filters( 'core_sitemaps_filename_prefix', 'wp-sitemap' );
+}
+
+/**
  * Register a new sitemap provider.
  *
  * @param string                 $name     Unique name for the sitemap provider.
