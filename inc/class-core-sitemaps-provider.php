@@ -275,7 +275,7 @@ class Core_Sitemaps_Provider {
 
 		$basename = sprintf(
 			'/%1$s-%2$s.xml',
-			core_sitemaps_filename_prefix(),
+			core_sitemaps_sitemap_prefix(),
 			// Accounts for cases where name is not included, ex: sitemaps-users-1.xml.
 			implode( '-', array_filter( array( $this->slug, $name, (string) $page ) ) )
 		);

@@ -50,17 +50,17 @@ function core_sitemaps_get_sitemaps() {
 }
 
 /**
- * Retrieves the prefix for the sitemap filename.
+ * Retrieves the prefix for the sitemap.
  *
  * @return string Prefix.
  */
-function core_sitemaps_filename_prefix() {
+function core_sitemaps_sitemap_prefix() {
 	/**
-	 * Filters the sitemaps filename prefix.
+	 * Filters the sitemap prefix.
 	 *
-	 * @param string $prefix filename prefix. Default 'wp-sitemap'.
+	 * @param string $prefix sitemap prefix. Default 'wp-sitemap'.
 	 */
-	return apply_filters( 'core_sitemaps_filename_prefix', 'wp-sitemap' );
+	return apply_filters( 'core_sitemaps_sitemap_prefix', 'wp-sitemap' );
 }
 
 /**

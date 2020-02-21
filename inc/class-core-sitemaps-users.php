@@ -16,7 +16,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	 */
 	public function __construct() {
 		$this->object_type = 'user';
-		$this->route       = sprintf( '^%s-users-?([0-9]+)?\.xml$', core_sitemaps_filename_prefix() );
+		$this->route       = sprintf( '^%s-users-?([0-9]+)?\.xml$', core_sitemaps_sitemap_prefix() );
 		$this->slug        = 'users';
 	}
 
