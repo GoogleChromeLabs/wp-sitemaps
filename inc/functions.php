@@ -1,8 +1,13 @@
 <?php
 /**
- * Core sitemap public functions.
+ * Sitemaps: Public functions
  *
- * @package Core_Sitemaps
+ * This file cocntains a variety of public functions developers can use to interact with
+ * the XML Sitemaps API.
+ *
+ * @package WordPress
+ * @subpackage Sitemaps
+ * @since x.x.x
  */
 
 /**

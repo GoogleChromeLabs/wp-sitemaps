@@ -1,8 +1,12 @@
 <?php
 /**
- * Core Sitemaps Registry
+ * Sitemaps: Core_Sitemaps_Registry class
  *
- * @package Core_Sitemaps
+ * This class handles registration sitemaps.
+ *
+ * @package WordPress
+ * @subpackage Sitemaps
+ * @since x.x.x
  */
 
 /**
