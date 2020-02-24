@@ -70,6 +70,10 @@ A variety of filters exists to allow you adjust the styling:
 * `core_sitemaps_index_stylesheet_content` - Filter the content of the sitemap index stylesheet.
 * `core_sitemaps_stylesheet_css` - Filter the CSS only for the sitemap stylesheet.
 
+= Does this plugin support `changefreq` and `priority` attributes for sitemaps? =
+
+No. Those are optional fields in the sitemaps protocol and not typically consumed by search engines. Developers can still add those fields if they really want too.
+
 == Changelog ==
 
 For the plugin's changelog, please check out the full list of changes [on GitHub](https://github.com/GoogleChromeLabs/wp-sitemaps/blob/master/CHANGELOG.md).
