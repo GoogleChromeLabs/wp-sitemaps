@@ -46,7 +46,7 @@ class Core_Sitemaps_Renderer {
 		$sitemap_url = home_url( 'sitemap.xsl' );
 
 		/**
-		 * Filter the URL for the sitemap stylesheet'.
+		 * Filter the URL for the sitemap stylesheet.
 		 *
 		 * @param string $sitemap_url Full URL for the sitemaps xsl file.
 		 */
@@ -62,7 +62,7 @@ class Core_Sitemaps_Renderer {
 		$sitemap_url = home_url( 'sitemap-index.xsl' );
 
 		/**
-		 * Filter the URL for the sitemap index stylesheet'.
+		 * Filter the URL for the sitemap index stylesheet.
 		 *
 		 * @param string $sitemap_url Full URL for the sitemaps index xsl file.
 		 */
