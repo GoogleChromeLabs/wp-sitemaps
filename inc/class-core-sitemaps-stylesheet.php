@@ -1,14 +1,16 @@
 <?php
 /**
- * The Core_Sitemaps_Stylesheet sitemap provider.
+ * Sitemaps: Core_Sitemaps_Stylesheet class
  *
  * This class provides the XSL stylesheets to style all sitemaps.
  *
- * @package Core_Sitemaps
+ * @package WordPress
+ * @subpackage Sitemaps
+ * @since x.x.x
  */
 
 /**
- * Class Core_Sitemaps_Users
+ * Stylesheet provider class.
  */
 class Core_Sitemaps_Stylesheet {
 	/**

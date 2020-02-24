@@ -1,9 +1,12 @@
 <?php
 /**
- * Class file for the Core_Sitemaps_Provider class.
+ * Sitemaps: Core_Sitemaps_Provider class
+ *
  * This class is a base class for other sitemap providers to extend and contains shared functionality.
  *
- * @package Core_Sitemaps
+ * @package WordPress
+ * @subpackage Sitemaps
+ * @since x.x.x
  */
 
 /**

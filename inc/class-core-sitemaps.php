@@ -1,10 +1,12 @@
 <?php
 /**
- * Class file for the Core_Sitemaps class.
+ * Sitemaps: Core_Sitemaps class
  *
  * This is the main class integrating all other classes.
  *
- * @package Core_Sitemaps
+ * @package WordPress
+ * @subpackage Sitemaps
+ * @since x.x.x
  */
 
 /**

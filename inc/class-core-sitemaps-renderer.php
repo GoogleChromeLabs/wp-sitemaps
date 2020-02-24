@@ -1,8 +1,12 @@
 <?php
 /**
- * Rendering Sitemaps Data to XML in accordance with sitemap protocol.
+ * Sitemaps: Core_Sitemaps_Renderer class
  *
- * @package Core_Sitemap
+ * Responsible for rendering Sitemaps data to XML in accordance with sitemap protocol.
+ *
+ * @package WordPress
+ * @subpackage Sitemaps
+ * @since x.x.x
  */
 
 /**
