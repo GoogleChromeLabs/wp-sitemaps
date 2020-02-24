@@ -1,14 +1,16 @@
 <?php
 /**
- * The Core_Sitemaps_Users sitemap provider.
+ * Sitemaps: Core_Sitemaps_Users class
  *
- * This class extends Core_Sitemaps_Provider to support sitemaps for user pages in WordPress.
+ * This class builds the sitemaps for the 'user' object type.
  *
- * @package Core_Sitemaps
+ * @package WordPress
+ * @subpackage Sitemaps
+ * @since x.x.x
  */
 
 /**
- * Class Core_Sitemaps_Users
+ * Users XML sitemap provider.
  */
 class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	/**

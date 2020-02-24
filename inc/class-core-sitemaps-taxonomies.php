@@ -1,13 +1,16 @@
 <?php
 /**
- * Taxonomies sitemap.
+ * Sitemaps: Core_Sitemaps_Taxonomies class
  *
- * @package Core_Sitemaps
+ * This class builds the sitemaps for the 'taxonomy' object type.
+ *
+ * @package WordPress
+ * @subpackage Sitemaps
+ * @since x.x.x
  */
 
 /**
- * Class Core_Sitemaps_Taxonomies.
- * Builds the sitemap pages for Taxonomies.
+ * Taxonomies XML sitemap provider.
  */
 class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	/**

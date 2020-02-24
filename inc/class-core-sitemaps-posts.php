@@ -1,13 +1,16 @@
 <?php
 /**
- * Posts sitemap.
+ * Sitemaps: Core_Sitemaps_Posts class
  *
- * @package Core_Sitemaps
+ * This class builds the sitemaps for the 'post' object type.
+ *
+ * @package WordPress
+ * @subpackage Sitemaps
+ * @since x.x.x
  */
 
 /**
- * Class Core_Sitemaps_Posts.
- * Builds the sitemap pages for Posts.
+ * Posts XML sitemap provider.
  */
 class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	/**

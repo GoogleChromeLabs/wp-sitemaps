@@ -1,8 +1,12 @@
 <?php
 /**
- * Rendering Sitemaps Data to XML in accordance with sitemap protocol.
+ * Sitemaps: Core_Sitemaps_Renderer class
  *
- * @package Core_Sitemap
+ * Responsible for rendering Sitemaps data to XML in accordance with sitemap protocol.
+ *
+ * @package WordPress
+ * @subpackage Sitemaps
+ * @since x.x.x
  */
 
 /**
@@ -42,7 +46,7 @@ class Core_Sitemaps_Renderer {
 		$sitemap_url = home_url( 'sitemap.xsl' );
 
 		/**
-		 * Filter the URL for the sitemap stylesheet'.
+		 * Filter the URL for the sitemap stylesheet.
 		 *
 		 * @param string $sitemap_url Full URL for the sitemaps xsl file.
 		 */
@@ -58,7 +62,7 @@ class Core_Sitemaps_Renderer {
 		$sitemap_url = home_url( 'sitemap-index.xsl' );
 
 		/**
-		 * Filter the URL for the sitemap index stylesheet'.
+		 * Filter the URL for the sitemap index stylesheet.
 		 *
 		 * @param string $sitemap_url Full URL for the sitemaps index xsl file.
 		 */

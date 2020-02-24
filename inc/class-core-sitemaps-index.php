@@ -1,9 +1,12 @@
 <?php
 /**
- * Class file for the Core_Sitemaps_Index class.
+ * Sitemaps: Core_Sitemaps_Index class
+ *
  * This class generates the sitemap index.
  *
- * @package Core_Sitemaps
+ * @package WordPress
+ * @subpackage Sitemaps
+ * @since x.x.x
  */
 
 /**
