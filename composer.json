@@ -61,9 +61,9 @@
     "ext-simplexml": "*"
   },
   "require-dev": {
-    "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.6.0",
     "phpcompatibility/phpcompatibility-wp": "^2.1",
-    "phpunit/phpunit": "^5.0 || ^6.0 || ^7.0",
+	"phpunit/phpunit": "^5.7 || ^6.5 || ^7.5",
     "roave/security-advisories": "dev-master",
     "roots/wordpress": "5.2.2",
     "wp-cli/wp-cli": "2.2.0",
