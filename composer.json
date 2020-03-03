@@ -66,10 +66,10 @@
 	"phpunit/phpunit": "^5.7 || ^6.5 || ^7.5",
     "roave/security-advisories": "dev-master",
     "roots/wordpress": "dev-master",
-    "wp-cli/wp-cli": "2.2.0",
-    "wp-cli/wp-cli-bundle": "^2.1",
+    "wp-cli/wp-cli": "^2.2",
+    "wp-cli/wp-cli-bundle": "^2.2",
     "wp-coding-standards/wpcs": "^2.2",
-    "wp-phpunit/wp-phpunit": "5.1.1"
+    "wp-phpunit/wp-phpunit": "^5.3"
   },
   "extra": {
     "installer-types": [
