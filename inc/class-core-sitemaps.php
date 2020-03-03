@@ -49,6 +49,10 @@ class Core_Sitemaps {
 	 * @return void
 	 */
 	public function init() {
+		if ( ! (bool) get_option( 'blog_public' ) ) {
+			return;
+		}
+
 		// These will all fire on the init hook.
 		$this->setup_sitemaps_index();
 		$this->register_sitemaps();

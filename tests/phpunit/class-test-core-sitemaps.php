@@ -95,6 +95,22 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		self::$test_provider = new Core_Sitemaps_Test_Provider();
 	}
 
+	public function test_private_site() {
+		// Simulate private site (search engines discouraged).
+		update_option( 'blog_public', '0' );
+
+		$robots_text = apply_filters( 'robots_txt', '', true );
+
+		// Simulate public site.
+		update_option( 'blog_public', '1' );
+
+		$this->assertFalse( wp_next_scheduled( 'core_sitemaps_calculate_lastmod' ) );
+		$this->assertFalse( wp_next_scheduled( 'core_sitemaps_update_lastmod_taxonomies' ) );
+		$this->assertFalse( wp_next_scheduled( 'core_sitemaps_update_lastmod_posts' ) );
+		$this->assertFalse( wp_next_scheduled( 'core_sitemaps_update_lastmod_users' ) );
+		$this->assertEmpty( $robots_text );
+	}
+
 	/**
 	 * Test getting the correct number of URLs for a sitemap.
 	 */
