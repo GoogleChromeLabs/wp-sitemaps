@@ -334,7 +334,7 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		$robots_text = apply_filters( 'robots_txt', '', true );
 		$sitemap_string = 'Sitemap: http://' . WP_TESTS_DOMAIN . '/?sitemap=index';
 
-		$this->assertNotFalse( strpos( $robots_text, $sitemap_string ), 'Sitemap URL not included in robots text.' );
+		$this->assertContains( $sitemap_string, $robots_text, 'Sitemap URL not included in robots text.' );
 	}
 
 	/**
@@ -345,11 +345,12 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		update_option( 'blog_public', '0' );
 
 		$robots_text = apply_filters( 'robots_txt', '', true );
+		$sitemap_string = 'Sitemap: http://' . WP_TESTS_DOMAIN . '/?sitemap=index';
 
 		// Simulate public site.
 		update_option( 'blog_public', '1' );
 
-		$this->assertEmpty( $robots_text );
+		$this->assertNotContains( $sitemap_string, $robots_text );
 	}
 
 	/**
@@ -366,7 +367,7 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		// Clean up permalinks.
 		$this->set_permalink_structure();
 
-		$this->assertNotFalse( strpos( $robots_text, $sitemap_string ), 'Sitemap URL not included in robots text.' );
+		$this->assertContains( $sitemap_string, $robots_text, 'Sitemap URL not included in robots text.' );
 	}
 
 	/**
@@ -377,7 +378,7 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		$robots_text = apply_filters( 'robots_txt', '', true );
 		$sitemap_string = "\nSitemap: ";
 
-		$this->assertNotFalse( strpos( $robots_text, $sitemap_string ), 'Sitemap URL not prefixed with "\n".' );
+		$this->assertContains( $sitemap_string, $robots_text, 'Sitemap URL not prefixed with "\n".' );
 	}
 
 	/**
