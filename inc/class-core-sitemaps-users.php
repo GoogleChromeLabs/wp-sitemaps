@@ -36,7 +36,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 		$url_list = array();
 
 		foreach ( $users as $user ) {
-			$last_modified = get_posts(
+			$query = new WP_Query(
 				array(
 					'author'        => $user->ID,
 					'orderby'       => 'date',
@@ -44,6 +44,15 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 					'no_found_rows' => true,
 				)
 			);
+
+			/**
+			 * Fires when retrieving the last modified for a given user.
+			 *
+			 * @param WP_Query $query Query instance.
+			 */
+			do_action( 'core_sitemaps_user_last_modified_query', $query );
+
+			$last_modified = $query->get_posts();
 
 			$url_list[] = array(
 				'loc'     => get_author_posts_url( $user->ID ),
@@ -102,6 +111,13 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 				'paged'               => absint( $page_num ),
 			)
 		);
+
+		/**
+		 * Fires when retrieving the URL list for a users sitemap.
+		 *
+		 * @param WP_User_Query $query Query instance.
+		 */
+		do_action( 'core_sitemaps_user_query', $query );
 
 		return $query;
 	}

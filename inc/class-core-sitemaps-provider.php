@@ -103,6 +103,13 @@ class Core_Sitemaps_Provider {
 		);
 
 		/**
+		 * Fires when retrieving the URL list for a post type sitemap.
+		 *
+		 * @param WP_Query $query Query instance.
+		 */
+		do_action( 'core_sitemaps_post_type_query', $query );
+
+		/**
 		 * Returns an array of posts.
 		 *
 		 * @var array<int, \WP_Post> $posts
@@ -117,7 +124,7 @@ class Core_Sitemaps_Provider {
 		 */
 		if ( 'page' === $type && 1 === $page_num && 'posts' === get_option( 'show_on_front' ) ) {
 			// Assumes the homepage last modified date is the same as the most recent post.
-			$last_modified = get_posts(
+			$query = new WP_Query(
 				array(
 					'numberposts'            => 1,
 					'no_found_rows'          => true,
@@ -125,6 +132,17 @@ class Core_Sitemaps_Provider {
 					'update_post_meta_cache' => false,
 				)
 			);
+
+			/**
+			 * Fires when retrieving the most recent post.
+			 *
+			 * Used to determine the last modified date for the homepage.
+			 *
+			 * @param WP_Query $query Query instance.
+			 */
+			do_action( 'core_sitemaps_homepage_last_modified_query', $query );
+
+			$last_modified = $query->get_posts();
 
 			// Extract the data needed for home URL to add to the array.
 			$url_list[] = array(
@@ -199,6 +217,13 @@ class Core_Sitemaps_Provider {
 				'update_post_meta_cache' => false,
 			)
 		);
+
+		/**
+		 * Fires when calculating the maximum number of pages for a post type sitemap.
+		 *
+		 * @param WP_Query $query Query instance.
+		 */
+		do_action( 'core_sitemaps_post_type_max_num_pages_query', $query );
 
 		return isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
 	}

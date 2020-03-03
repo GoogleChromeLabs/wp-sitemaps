@@ -71,10 +71,17 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 
 		$taxonomy_terms = new WP_Term_Query( $args );
 
+		/**
+		 * Fires when retrieving the URL list for a taxonomy sitemap.
+		 *
+		 * @param WP_Term_Query $query Query instance.
+		 */
+		do_action( 'core_sitemaps_taxonomy_query', $taxonomy_terms );
+
 		if ( ! empty( $taxonomy_terms->terms ) ) {
 			// Loop through the terms and get the latest post stored in each.
 			foreach ( $taxonomy_terms->terms as $term ) {
-				$last_modified = get_posts(
+				$query = new WP_Query(
 					array(
 						'tax_query'              => array(
 							array(
@@ -91,6 +98,15 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 						'update_post_meta_cache' => false,
 					)
 				);
+
+				/**
+				 * Fires when retrieving the last modified for a given term.
+				 *
+				 * @param WP_Query $query Query instance.
+				 */
+				do_action( 'core_sitemaps_term_last_modified_query', $query );
+
+				$last_modified = $query->get_posts();
 
 				// Extract the data needed for each term URL in an array.
 				$url_list[] = array(
