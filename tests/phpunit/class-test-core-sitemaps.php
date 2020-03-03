@@ -1,15 +1,14 @@
 <?php
 /**
- * Class Core_Sitemap_Tests
+ * Sitemaps: Core_Sitemaps_Tests class
+ *
+ * Main test class.
  *
  * @package   Core_Sitemaps
  * @copyright 2019 The Core Sitemaps Contributors
  * @license   GNU General Public License, version 2
  * @link      https://github.com/GoogleChromeLabs/wp-sitemaps
  */
-
-use WP_UnitTestCase;
-use Core_Sitemaps_Test_Provider;
 
 require_once( __DIR__ . '/inc/class-core-sitemaps-test-provider.php' );
 
