@@ -1,6 +1,8 @@
 <?php
 /**
- * Class Core_Sitemap_Tests
+ * Sitemaps: Core_Sitemaps_Tests class
+ *
+ * Main test class.
  *
  * @package   Core_Sitemaps
  * @copyright 2019 The Core Sitemaps Contributors
