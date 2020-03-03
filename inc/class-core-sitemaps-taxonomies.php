@@ -18,7 +18,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	 */
 	public function __construct() {
 		$this->object_type = 'taxonomy';
-		$this->route       = '^sitemap-taxonomies-([A-z]+)-?([0-9]+)?\.xml$';
+		$this->route       = '^wp-sitemap-taxonomies-([A-z]+)-?([0-9]+)?\.xml$';
 		$this->slug        = 'taxonomies';
 	}
 

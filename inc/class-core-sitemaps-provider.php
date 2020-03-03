@@ -302,7 +302,7 @@ class Core_Sitemaps_Provider {
 		global $wp_rewrite;
 
 		$basename = sprintf(
-			'/sitemap-%1$s.xml',
+			'/wp-sitemap-%1$s.xml',
 			// Accounts for cases where name is not included, ex: sitemaps-users-1.xml.
 			implode( '-', array_filter( array( $this->slug, $name, (string) $page ) ) )
 		);
