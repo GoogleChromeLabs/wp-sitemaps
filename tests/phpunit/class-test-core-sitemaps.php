@@ -344,7 +344,7 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		// Simulate private site (search engines discouraged).
 		update_option( 'blog_public', '0' );
 
-		$robots_text = apply_filters( 'robots_txt', '', true );
+		$robots_text = apply_filters( 'robots_txt', '', false );
 		$sitemap_string = 'Sitemap: http://' . WP_TESTS_DOMAIN . '/?sitemap=index';
 
 		// Simulate public site.
