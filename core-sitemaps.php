@@ -56,7 +56,6 @@ add_action( 'init', 'core_sitemaps_get_server' );
 function core_sitemaps_plugin_activation() {
 	$core_sitemaps = new Core_Sitemaps();
 	$core_sitemaps->register_rewrites();
-	$core_sitemaps->register_xsl_rewrites();
 	flush_rewrite_rules( false );
 }
 
@@ -69,8 +68,7 @@ register_activation_hook( __FILE__, 'core_sitemaps_plugin_activation' );
  */
 function core_sitemaps_plugin_deactivation() {
 	$core_sitemaps = new Core_Sitemaps();
-	$core_sitemaps->register_rewrites();
-	$core_sitemaps->register_xsl_rewrites();
+	$core_sitemaps->unregister_rewrites();
 	flush_rewrite_rules( false );
 }
 
