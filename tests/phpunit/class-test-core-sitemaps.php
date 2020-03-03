@@ -8,9 +8,6 @@
  * @link      https://github.com/GoogleChromeLabs/wp-sitemaps
  */
 
-use WP_UnitTestCase;
-use Core_Sitemaps_Test_Provider;
-
 require_once( __DIR__ . '/inc/class-core-sitemaps-test-provider.php' );
 
 /**
