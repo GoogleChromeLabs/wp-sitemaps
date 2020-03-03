@@ -161,23 +161,23 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 	public function test_core_sitemaps_index_xml() {
 		$entries = array(
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-post-1.xml',
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-post-1.xml',
 				'lastmod' => '2019-11-01T12:00:00+00:00',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-page-1.xml',
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-page-1.xml',
 				'lastmod' => '2019-11-01T12:00:10+00:00',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/sitemap-taxonomies-category-1.xml',
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-category-1.xml',
 				'lastmod' => '2019-11-01T12:00:20+00:00',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/sitemap-taxonomies-post_tag-1.xml',
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-post_tag-1.xml',
 				'lastmod' => '2019-11-01T12:00:30+00:00',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/sitemap-users-1.xml',
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-users-1.xml',
 				'lastmod' => '2019-11-01T12:00:40+00:00',
 			),
 		);
@@ -187,13 +187,13 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		$xml = $renderer->get_sitemap_index_xml( $entries );
 
 		$expected = '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL .
-		'<?xml-stylesheet type="text/xsl" href="http://' . WP_TESTS_DOMAIN . '/sitemap-index.xsl" ?>' . PHP_EOL .
+		'<?xml-stylesheet type="text/xsl" href="http://' . WP_TESTS_DOMAIN . '/wp-sitemap-index.xsl" ?>' . PHP_EOL .
 		'<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' .
-		'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/sitemap-posts-post-1.xml</loc><lastmod>2019-11-01T12:00:00+00:00</lastmod></sitemap>' .
-		'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/sitemap-posts-page-1.xml</loc><lastmod>2019-11-01T12:00:10+00:00</lastmod></sitemap>' .
-		'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/sitemap-taxonomies-category-1.xml</loc><lastmod>2019-11-01T12:00:20+00:00</lastmod></sitemap>' .
-		'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/sitemap-taxonomies-post_tag-1.xml</loc><lastmod>2019-11-01T12:00:30+00:00</lastmod></sitemap>' .
-		'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/sitemap-users-1.xml</loc><lastmod>2019-11-01T12:00:40+00:00</lastmod></sitemap>' .
+		'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-post-1.xml</loc><lastmod>2019-11-01T12:00:00+00:00</lastmod></sitemap>' .
+		'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-page-1.xml</loc><lastmod>2019-11-01T12:00:10+00:00</lastmod></sitemap>' .
+		'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-category-1.xml</loc><lastmod>2019-11-01T12:00:20+00:00</lastmod></sitemap>' .
+		'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-post_tag-1.xml</loc><lastmod>2019-11-01T12:00:30+00:00</lastmod></sitemap>' .
+		'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-users-1.xml</loc><lastmod>2019-11-01T12:00:40+00:00</lastmod></sitemap>' .
 		'</sitemapindex>' . PHP_EOL;
 
 		$this->assertSame( $expected, $xml, 'Sitemap index markup incorrect.' );
@@ -231,7 +231,7 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 		$xml = $renderer->get_sitemap_xml( $url_list );
 
 		$expected = '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL .
-		'<?xml-stylesheet type="text/xsl" href="http://' . WP_TESTS_DOMAIN . '/sitemap.xsl" ?>' . PHP_EOL .
+		'<?xml-stylesheet type="text/xsl" href="http://' . WP_TESTS_DOMAIN . '/wp-sitemap.xsl" ?>' . PHP_EOL .
 		'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' .
 		'<url><loc>http://' . WP_TESTS_DOMAIN . '/2019/10/post-1</loc><lastmod>2019-11-01T12:00:00+00:00</lastmod></url>' .
 		'<url><loc>http://' . WP_TESTS_DOMAIN . '/2019/10/post-2</loc><lastmod>2019-11-01T12:00:10+00:00</lastmod></url>' .
@@ -347,7 +347,7 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 
 		// Get the text added to the default robots text output.
 		$robots_text = apply_filters( 'robots_txt', '', true );
-		$sitemap_string = 'Sitemap: http://' . WP_TESTS_DOMAIN . '/sitemap.xml';
+		$sitemap_string = 'Sitemap: http://' . WP_TESTS_DOMAIN . '/wp-sitemap.xml';
 
 		// Clean up permalinks.
 		$this->set_permalink_structure();
@@ -426,23 +426,23 @@ class Core_Sitemaps_Tests extends WP_UnitTestCase {
 
 		$expected = array(
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-post-1.xml',
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-post-1.xml',
 				'lastmod' => '',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/sitemap-posts-page-1.xml',
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-page-1.xml',
 				'lastmod' => '',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/sitemap-taxonomies-category-1.xml',
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-category-1.xml',
 				'lastmod' => '',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/sitemap-taxonomies-post_tag-1.xml',
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-post_tag-1.xml',
 				'lastmod' => '',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/sitemap-users-1.xml',
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-users-1.xml',
 				'lastmod' => '',
 			),
 		);

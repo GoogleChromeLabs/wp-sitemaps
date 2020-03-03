@@ -118,7 +118,7 @@ class Core_Sitemaps {
 		add_rewrite_tag( '%sub_type%', '([^?]+)' );
 
 		// Register index route.
-		add_rewrite_rule( '^sitemap\.xml$', 'index.php?sitemap=index', 'top' );
+		add_rewrite_rule( '^wp-sitemap\.xml$', 'index.php?sitemap=index', 'top' );
 
 		// Register routes for providers.
 		$providers = core_sitemaps_get_sitemaps();
@@ -133,8 +133,8 @@ class Core_Sitemaps {
 	 */
 	public function register_xsl_rewrites() {
 		add_rewrite_tag( '%stylesheet%', '([^?]+)' );
-		add_rewrite_rule( '^sitemap\.xsl$', 'index.php?stylesheet=xsl', 'top' );
-		add_rewrite_rule( '^sitemap-index\.xsl$', 'index.php?stylesheet=index', 'top' );
+		add_rewrite_rule( '^wp-sitemap\.xsl$', 'index.php?stylesheet=xsl', 'top' );
+		add_rewrite_rule( '^wp-sitemap-index\.xsl$', 'index.php?stylesheet=index', 'top' );
 	}
 
 	/**
