@@ -33,8 +33,8 @@
 	<!-- https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/wiki/Customizable-sniff-properties -->
 	<rule ref="WordPress-Core"/>
 	<rule ref="WordPress-Docs">
-        <exclude-pattern>tests/*</exclude-pattern>
-    </rule>
+		<exclude-pattern>tests/*</exclude-pattern>
+	</rule>
 	<config name="minimum_supported_wp_version" value="5.3"/>
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
 		<properties>
