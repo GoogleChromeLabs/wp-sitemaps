@@ -43,7 +43,7 @@ class Core_Sitemaps_Renderer {
 	 * @return string the sitemap stylesheet url.
 	 */
 	public function get_sitemap_stylesheet_url() {
-		$sitemap_url = home_url( 'sitemap.xsl' );
+		$sitemap_url = home_url( '/wp-sitemap.xsl' );
 
 		/**
 		 * Filter the URL for the sitemap stylesheet.
@@ -59,7 +59,7 @@ class Core_Sitemaps_Renderer {
 	 * @return string the sitemap index stylesheet url.
 	 */
 	public function get_sitemap_index_stylesheet_url() {
-		$sitemap_url = home_url( 'sitemap-index.xsl' );
+		$sitemap_url = home_url( '/wp-sitemap-index.xsl' );
 
 		/**
 		 * Filter the URL for the sitemap index stylesheet.

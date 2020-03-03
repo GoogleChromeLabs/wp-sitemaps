@@ -53,7 +53,7 @@ class Core_Sitemaps_Index {
 	public function get_index_url() {
 		global $wp_rewrite;
 
-		$url = home_url( '/sitemap.xml' );
+		$url = home_url( '/wp-sitemap.xml' );
 
 		if ( ! $wp_rewrite->using_permalinks() ) {
 			$url = add_query_arg( 'sitemap', 'index', home_url( '/' ) );
