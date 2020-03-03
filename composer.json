@@ -65,7 +65,7 @@
     "phpcompatibility/phpcompatibility-wp": "^2.1",
 	"phpunit/phpunit": "^5.7 || ^6.5 || ^7.5",
     "roave/security-advisories": "dev-master",
-    "roots/wordpress": "5.2.2",
+    "roots/wordpress": "dev-master",
     "wp-cli/wp-cli": "2.2.0",
     "wp-cli/wp-cli-bundle": "^2.1",
     "wp-coding-standards/wpcs": "^2.2",
