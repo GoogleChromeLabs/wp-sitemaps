@@ -120,9 +120,9 @@ class Core_Sitemaps {
 		add_rewrite_rule( '^wp-sitemap\.xml$', 'index.php?sitemap=index', 'top' );
 
 		// Register rewrites for the XSL stylesheet.
-		add_rewrite_tag( '%stylesheet%', '([^?]+)' );
-		add_rewrite_rule( '^wp-sitemap\.xsl$', 'index.php?stylesheet=xsl', 'top' );
-		add_rewrite_rule( '^wp-sitemap-index\.xsl$', 'index.php?stylesheet=index', 'top' );
+		add_rewrite_tag( '%sitemap-stylesheet%', '([^?]+)' );
+		add_rewrite_rule( '^wp-sitemap\.xsl$', 'index.php?sitemap-stylesheet=xsl', 'top' );
+		add_rewrite_rule( '^wp-sitemap-index\.xsl$', 'index.php?sitemap-stylesheet=index', 'top' );
 
 		// Register routes for providers.
 		$providers = core_sitemaps_get_sitemaps();
@@ -171,7 +171,7 @@ class Core_Sitemaps {
 
 		$sitemap    = sanitize_text_field( get_query_var( 'sitemap' ) );
 		$sub_type   = sanitize_text_field( get_query_var( 'sub_type' ) );
-		$stylesheet = sanitize_text_field( get_query_var( 'stylesheet' ) );
+		$stylesheet = sanitize_text_field( get_query_var( 'sitemap-stylesheet' ) );
 		$paged      = absint( get_query_var( 'paged' ) );
 
 		// Bail early if this isn't a sitemap or stylesheet route.

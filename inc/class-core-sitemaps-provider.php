@@ -274,6 +274,7 @@ class Core_Sitemaps_Provider {
 	 * @return string The composed URL for a sitemap entry.
 	 */
 	public function get_sitemap_url( $name, $page ) {
+		/* @var WP_Rewrite $wp_rewrite */
 		global $wp_rewrite;
 
 		$basename = sprintf(

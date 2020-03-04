@@ -25,7 +25,7 @@ class Core_Sitemaps_Registry {
 	 *
 	 * @param string                 $name     Name of the sitemap.
 	 * @param Core_Sitemaps_Provider $provider Instance of a Core_Sitemaps_Provider.
-	 * @return bool True if the sitemap was added, false if it wasn't as it's name was already registered.
+	 * @return bool True if the sitemap was added, false if it is already registered.
 	 */
 	public function add_sitemap( $name, $provider ) {
 		if ( isset( $this->sitemaps[ $name ] ) ) {
