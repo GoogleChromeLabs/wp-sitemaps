@@ -56,7 +56,6 @@ class Core_Sitemaps {
 		// Add additional action callbacks.
 		add_action( 'core_sitemaps_init', array( $this, 'setup_sitemaps' ) );
 		add_action( 'core_sitemaps_init', array( $this, 'register_rewrites' ) );
-		add_action( 'core_sitemaps_init', array( $this, 'register_xsl_rewrites' ) );
 		add_action( 'template_redirect', array( $this, 'render_sitemaps' ) );
 		add_action( 'wp_loaded', array( $this, 'maybe_flush_rewrites' ) );
 	}
@@ -120,6 +119,11 @@ class Core_Sitemaps {
 		// Register index route.
 		add_rewrite_rule( '^wp-sitemap\.xml$', 'index.php?sitemap=index', 'top' );
 
+		// Register rewrites for the XSL stylesheet.
+		add_rewrite_tag( '%stylesheet%', '([^?]+)' );
+		add_rewrite_rule( '^wp-sitemap\.xsl$', 'index.php?stylesheet=xsl', 'top' );
+		add_rewrite_rule( '^wp-sitemap-index\.xsl$', 'index.php?stylesheet=index', 'top' );
+
 		// Register routes for providers.
 		$providers = core_sitemaps_get_sitemaps();
 
@@ -129,12 +133,25 @@ class Core_Sitemaps {
 	}
 
 	/**
-	 * Provide rewrites for the xsl stylesheet.
+	 * Unregister sitemap rewrite tags and routing rules.
 	 */
-	public function register_xsl_rewrites() {
-		add_rewrite_tag( '%stylesheet%', '([^?]+)' );
-		add_rewrite_rule( '^wp-sitemap\.xsl$', 'index.php?stylesheet=xsl', 'top' );
-		add_rewrite_rule( '^wp-sitemap-index\.xsl$', 'index.php?stylesheet=index', 'top' );
+	public function unregister_rewrites() {
+		/* @var WP_Rewrite $wp_rewrite */
+		global $wp_rewrite;
+
+		// Unregister index route.
+		unset( $wp_rewrite->extra_rules_top['^wp-sitemap\.xml$'] );
+
+		// Unregister rewrites for the XSL stylesheet.
+		unset( $wp_rewrite->extra_rules_top['^wp-sitemap\.xsl$'] );
+		unset( $wp_rewrite->extra_rules_top['^wp-sitemap-index\.xsl$'] );
+
+		// Unregister routes for providers.
+		$providers = core_sitemaps_get_sitemaps();
+
+		foreach ( $providers as $provider ) {
+			unset( $wp_rewrite->extra_rules_top[ $provider->route ] );
+		}
 	}
 
 	/**
