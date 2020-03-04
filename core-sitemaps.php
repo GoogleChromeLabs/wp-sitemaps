@@ -47,3 +47,29 @@ require_once __DIR__ . '/inc/functions.php';
 
 // Boot the sitemaps system.
 add_action( 'init', 'core_sitemaps_get_server' );
+
+/**
+ * Plugin activation hook.
+ *
+ * Adds and flushes rewrite rules.
+ */
+function core_sitemaps_plugin_activation() {
+	$core_sitemaps = new Core_Sitemaps();
+	$core_sitemaps->register_rewrites();
+	flush_rewrite_rules( false );
+}
+
+register_activation_hook( __FILE__, 'core_sitemaps_plugin_activation' );
+
+/**
+ * Plugin deactivation hook.
+ *
+ * Adds and flushes rewrite rules.
+ */
+function core_sitemaps_plugin_deactivation() {
+	$core_sitemaps = new Core_Sitemaps();
+	$core_sitemaps->unregister_rewrites();
+	flush_rewrite_rules( false );
+}
+
+register_deactivation_hook( __FILE__, 'core_sitemaps_plugin_deactivation' );
