@@ -17,19 +17,19 @@ class Core_Sitemaps_Stylesheet {
 	 * Renders the xsl stylesheet depending on whether its the sitemap index or not.
 	 */
 	public function render_stylesheet() {
-		$stylesheet_query = get_query_var( 'stylesheet' );
+		$stylesheet_query = get_query_var( 'sitemap-stylesheet' );
 
 		if ( ! empty( $stylesheet_query ) ) {
 			header( 'Content-type: application/xml; charset=UTF-8' );
 
 			if ( 'xsl' === $stylesheet_query ) {
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- All content escaped below.
-				echo $this->stylesheet_xsl();
+				echo $this->get_sitemap_stylesheet();
 			}
 
 			if ( 'index' === $stylesheet_query ) {
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- All content escaped below.
-				echo $this->stylesheet_index_xsl();
+				echo $this->get_sitemap_index_stylesheet();
 			}
 
 			exit;
@@ -39,8 +39,8 @@ class Core_Sitemaps_Stylesheet {
 	/**
 	 * Returns the escaped xsl for all sitemaps, except index.
 	 */
-	public function stylesheet_xsl() {
-		$css         = self::stylesheet_xsl_css();
+	public function get_sitemap_stylesheet() {
+		$css         = $this->get_stylesheet_css();
 		$title       = esc_html__( 'XML Sitemap', 'core-sitemaps' );
 		$description = sprintf(
 			/* translators: %s: URL to sitemaps documentation. */
@@ -121,12 +121,11 @@ XSL;
 		return apply_filters( 'core_sitemaps_stylesheet_content', $xsl_content );
 	}
 
-
 	/**
 	 * Returns the escaped xsl for the index sitemaps.
 	 */
-	public function stylesheet_index_xsl() {
-		$css         = self::stylesheet_xsl_css();
+	public function get_sitemap_index_stylesheet() {
+		$css         = $this->get_stylesheet_css();
 		$title       = esc_html__( 'XML Sitemap', 'core-sitemaps' );
 		$description = sprintf(
 			/* translators: %s: URL to sitemaps documentation. */
@@ -208,12 +207,11 @@ XSL;
 	}
 
 	/**
-	 * The CSS to be included in sitemap xsl stylesheets;
-	 * factored out for uniformity.
+	 * The CSS to be included in sitemap XSL stylesheets.
 	 *
 	 * @return string The CSS.
 	 */
-	public static function stylesheet_xsl_css() {
+	protected function get_stylesheet_css() {
 		$css = '
 			body {
 				font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;

@@ -43,7 +43,14 @@ class Core_Sitemaps_Renderer {
 	 * @return string the sitemap stylesheet url.
 	 */
 	public function get_sitemap_stylesheet_url() {
+		/* @var WP_Rewrite $wp_rewrite */
+		global $wp_rewrite;
+
 		$sitemap_url = home_url( '/wp-sitemap.xsl' );
+
+		if ( ! $wp_rewrite->using_permalinks() ) {
+			$sitemap_url = add_query_arg( 'sitemap-stylesheet', 'xsl', home_url( '/' ) );
+		}
 
 		/**
 		 * Filter the URL for the sitemap stylesheet.
@@ -59,7 +66,14 @@ class Core_Sitemaps_Renderer {
 	 * @return string the sitemap index stylesheet url.
 	 */
 	public function get_sitemap_index_stylesheet_url() {
+		/* @var WP_Rewrite $wp_rewrite */
+		global $wp_rewrite;
+
 		$sitemap_url = home_url( '/wp-sitemap-index.xsl' );
+
+		if ( ! $wp_rewrite->using_permalinks() ) {
+			$sitemap_url = add_query_arg( 'sitemap-stylesheet', 'index', home_url( '/' ) );
+		}
 
 		/**
 		 * Filter the URL for the sitemap index stylesheet.
