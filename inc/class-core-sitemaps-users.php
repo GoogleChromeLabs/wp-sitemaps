@@ -50,7 +50,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 			 *
 			 * @param WP_Query $query Query instance.
 			 */
-			do_action( 'core_sitemaps_user_last_modified_query', &$query );
+			do_action_ref_array( 'core_sitemaps_user_last_modified_query', array( &$query ) );
 
 			$last_modified = $query->get_posts();
 
@@ -117,7 +117,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 		 *
 		 * @param WP_User_Query $query Query instance.
 		 */
-		do_action( 'core_sitemaps_user_query', &$query );
+		do_action_ref_array( 'core_sitemaps_user_query', array( &$query ) );
 
 		return $query;
 	}

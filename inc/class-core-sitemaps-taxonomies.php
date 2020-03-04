@@ -76,7 +76,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		 *
 		 * @param WP_Term_Query $query Query instance.
 		 */
-		do_action( 'core_sitemaps_taxonomy_query', &$taxonomy_terms );
+		do_action_ref_array( 'core_sitemaps_taxonomy_query', array( &$taxonomy_terms ) );
 
 		if ( ! empty( $taxonomy_terms->terms ) ) {
 			// Loop through the terms and get the latest post stored in each.
@@ -104,7 +104,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 				 *
 				 * @param WP_Query $query Query instance.
 				 */
-				do_action( 'core_sitemaps_term_last_modified_query', &$query );
+				do_action_ref_array( 'core_sitemaps_term_last_modified_query', array( &$query ) );
 
 				$last_modified = $query->get_posts();
 
