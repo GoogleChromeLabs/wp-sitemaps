@@ -8,7 +8,7 @@ class Test_Core_Sitemaps_Renderer extends WP_UnitTestCase {
 		$this->assertStringEndsWith( '/?sitemap-stylesheet=xsl', $stylesheet_url );
 	}
 
-	public function test_get_sitemap_stylesheet_url_pretty_permalinks_pretty_permalinks() {
+	public function test_get_sitemap_stylesheet_url_pretty_permalinks() {
 		// Set permalinks for testing.
 		$this->set_permalink_structure( '/%year%/%postname%/' );
 
@@ -28,7 +28,7 @@ class Test_Core_Sitemaps_Renderer extends WP_UnitTestCase {
 		$this->assertStringEndsWith( '/?sitemap-stylesheet=index', $stylesheet_url );
 	}
 
-	public function test_get_sitemap_index_stylesheet_url_pretty_permalinks_pretty_permalinks() {
+	public function test_get_sitemap_index_stylesheet_url_pretty_permalinks() {
 		// Set permalinks for testing.
 		$this->set_permalink_structure( '/%year%/%postname%/' );
 
