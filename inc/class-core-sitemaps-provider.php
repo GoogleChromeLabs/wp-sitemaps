@@ -107,7 +107,7 @@ class Core_Sitemaps_Provider {
 		 *
 		 * @param WP_Query $query Query instance.
 		 */
-		do_action( 'core_sitemaps_post_type_query', $query );
+		do_action( 'core_sitemaps_post_type_query', &$query );
 
 		/**
 		 * Returns an array of posts.
@@ -140,7 +140,7 @@ class Core_Sitemaps_Provider {
 			 *
 			 * @param WP_Query $query Query instance.
 			 */
-			do_action( 'core_sitemaps_homepage_last_modified_query', $query );
+			do_action( 'core_sitemaps_homepage_last_modified_query', &$query );
 
 			$last_modified = $query->get_posts();
 
@@ -223,7 +223,7 @@ class Core_Sitemaps_Provider {
 		 *
 		 * @param WP_Query $query Query instance.
 		 */
-		do_action( 'core_sitemaps_post_type_max_num_pages_query', $query );
+		do_action( 'core_sitemaps_post_type_max_num_pages_query', &$query );
 
 		return isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
 	}
