@@ -92,7 +92,12 @@ class Core_Sitemaps_Renderer {
 		header( 'Content-type: application/xml; charset=UTF-8' );
 
 		if ( ! class_exists( 'SimpleXMLElement' ) ) {
-			add_filter( 'wp_die_handler', static function() { return '_xml_wp_die_handler'; } );
+			add_filter(
+				'wp_die_handler',
+				static function () {
+					return '_xml_wp_die_handler';
+				}
+			);
 
 			wp_die(
 				sprintf(
@@ -100,9 +105,9 @@ class Core_Sitemaps_Renderer {
 					__( 'Could not generate XML sitemap due to missing %s extension', 'core-sitemaps' ),
 					'SimpleXML'
 				),
-				__( 'WordPress &rsaquo; Error' ),
+				__( 'WordPress &rsaquo; Error', 'core-sitemaps' ),
 				array(
-					'response' => 501 // Not implemented
+					'response' => 501, // "Not implemented".
 				)
 			);
 		}
