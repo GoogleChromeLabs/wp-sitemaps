@@ -91,6 +91,22 @@ class Core_Sitemaps_Renderer {
 	public function render_index( $sitemaps ) {
 		header( 'Content-type: application/xml; charset=UTF-8' );
 
+		if ( ! class_exists( 'SimpleXMLElement' ) ) {
+			add_filter( 'wp_die_handler', static function() { return '_xml_wp_die_handler'; } );
+
+			wp_die(
+				sprintf(
+					/* translators: %s: SimpleXML */
+					__( 'Could not generate XML sitemap due to missing %s extension', 'core-sitemaps' ),
+					'SimpleXML'
+				),
+				__( 'WordPress &rsaquo; Error' ),
+				array(
+					'response' => 501 // Not implemented
+				)
+			);
+		}
+
 		$index_xml = $this->get_sitemap_index_xml( $sitemaps );
 
 		if ( ! empty( $index_xml ) ) {
