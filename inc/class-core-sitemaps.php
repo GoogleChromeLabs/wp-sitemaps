@@ -54,7 +54,6 @@ class Core_Sitemaps {
 		$this->register_sitemaps();
 
 		// Add additional action callbacks.
-		add_action( 'core_sitemaps_init', array( $this, 'setup_sitemaps' ) );
 		add_action( 'core_sitemaps_init', array( $this, 'register_rewrites' ) );
 		add_action( 'template_redirect', array( $this, 'render_sitemaps' ) );
 		add_action( 'wp_loaded', array( $this, 'maybe_flush_rewrites' ) );
@@ -90,21 +89,6 @@ class Core_Sitemaps {
 		// Register each supported provider.
 		foreach ( $providers as $name => $provider ) {
 			$this->registry->add_sitemap( $name, $provider );
-		}
-	}
-
-	/**
-	 * Register and set up the functionality for all supported sitemaps.
-	 */
-	public function setup_sitemaps() {
-
-		// Set up rewrites and rendering callbacks for each supported sitemap.
-		foreach ( $this->registry->get_sitemaps() as $sitemap ) {
-			if ( ! $sitemap instanceof Core_Sitemaps_Provider ) {
-				return;
-			}
-
-			$sitemap->setup();
 		}
 	}
 

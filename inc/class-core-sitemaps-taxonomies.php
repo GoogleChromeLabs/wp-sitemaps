@@ -94,8 +94,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 
 				// Extract the data needed for each term URL in an array.
 				$url_list[] = array(
-					'loc'     => get_term_link( $term ),
-					'lastmod' => mysql2date( DATE_W3C, $last_modified[0]->post_modified_gmt, false ),
+					'loc' => get_term_link( $term ),
 				);
 			}
 		}

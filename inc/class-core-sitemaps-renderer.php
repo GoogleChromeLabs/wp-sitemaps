@@ -86,7 +86,7 @@ class Core_Sitemaps_Renderer {
 	/**
 	 * Render a sitemap index.
 	 *
-	 * @param array $sitemaps List of sitemap entries including loc and lastmod data.
+	 * @param array $sitemaps List of sitemap entries.
 	 */
 	public function render_index( $sitemaps ) {
 		header( 'Content-type: application/xml; charset=UTF-8' );
@@ -105,7 +105,7 @@ class Core_Sitemaps_Renderer {
 	/**
 	 * Get XML for a sitemap index.
 	 *
-	 * @param array $sitemaps List of sitemap entries including loc and lastmod data.
+	 * @param array $sitemaps List of sitemap entries.
 	 * @return string|false A well-formed XML string for a sitemap index. False on error.
 	 */
 	public function get_sitemap_index_xml( $sitemaps ) {
@@ -114,7 +114,6 @@ class Core_Sitemaps_Renderer {
 		foreach ( $sitemaps as $entry ) {
 			$sitemap = $sitemap_index->addChild( 'sitemap' );
 			$sitemap->addChild( 'loc', esc_url( $entry['loc'] ) );
-			$sitemap->addChild( 'lastmod', esc_html( $entry['lastmod'] ) );
 		}
 
 		return $sitemap_index->asXML();

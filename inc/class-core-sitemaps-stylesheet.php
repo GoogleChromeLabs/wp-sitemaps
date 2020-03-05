@@ -98,9 +98,6 @@ class Core_Sitemaps_Stylesheet {
 											<xsl:value-of select="sitemap:loc"/>
 										</a>
 									</td>
-									<td>
-										<xsl:value-of select="sitemap:lastmod"/>
-									</td>
 								</tr>
 							</xsl:for-each>
 							</tbody>
@@ -182,9 +179,6 @@ XSL;
 										<a href="{\$itemURL}">
 											<xsl:value-of select="sitemap:loc"/>
 										</a>
-									</td>
-									<td>
-										<xsl:value-of select="sitemap:lastmod"/>
 									</td>
 								</tr>
 							</xsl:for-each>
