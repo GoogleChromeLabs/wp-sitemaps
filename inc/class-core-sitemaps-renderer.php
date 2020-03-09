@@ -91,26 +91,7 @@ class Core_Sitemaps_Renderer {
 	public function render_index( $sitemaps ) {
 		header( 'Content-type: application/xml; charset=UTF-8' );
 
-		if ( ! class_exists( 'SimpleXMLElement' ) ) {
-			add_filter(
-				'wp_die_handler',
-				static function () {
-					return '_xml_wp_die_handler';
-				}
-			);
-
-			wp_die(
-				sprintf(
-					/* translators: %s: SimpleXML */
-					__( 'Could not generate XML sitemap due to missing %s extension', 'core-sitemaps' ),
-					'SimpleXML'
-				),
-				__( 'WordPress &rsaquo; Error', 'core-sitemaps' ),
-				array(
-					'response' => 501, // "Not implemented".
-				)
-			);
-		}
+		$this->check_for_simple_xml_availability();
 
 		$index_xml = $this->get_sitemap_index_xml( $sitemaps );
 
@@ -147,6 +128,8 @@ class Core_Sitemaps_Renderer {
 	public function render_sitemap( $url_list ) {
 		header( 'Content-type: application/xml; charset=UTF-8' );
 
+		$this->check_for_simple_xml_availability();
+
 		$sitemap_xml = $this->get_sitemap_xml( $url_list );
 
 		if ( ! empty( $sitemap_xml ) ) {
@@ -179,5 +162,31 @@ class Core_Sitemaps_Renderer {
 		}
 
 		return $urlset->asXML();
+	}
+
+	/**
+	 * Checks for the availability of the SimpleXML extension and errors if missing.
+	 */
+	private function check_for_simple_xml_availability() {
+		if ( ! class_exists( 'SimpleXMLElement' ) ) {
+			add_filter(
+				'wp_die_handler',
+				static function () {
+					return '_xml_wp_die_handler';
+				}
+			);
+
+			wp_die(
+				sprintf(
+				/* translators: %s: SimpleXML */
+					__( 'Could not generate XML sitemap due to missing %s extension', 'core-sitemaps' ),
+					'SimpleXML'
+				),
+				__( 'WordPress &rsaquo; Error', 'core-sitemaps' ),
+				array(
+					'response' => 501, // "Not implemented".
+				)
+			);
+		}
 	}
 }
