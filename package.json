@@ -1,6 +1,6 @@
 {
   "name": "core-sitemaps",
-  "version": "0.1.0",
+  "private": true,
   "main": "Gruntfile.js",
   "author": "WordPress.org contributors",
   "devDependencies": {
