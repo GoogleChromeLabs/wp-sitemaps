@@ -241,8 +241,6 @@ class Core_Sitemaps {
 	 * @param WP_Query $query The WP_Query object.
 	 */
 	public function redirect_sitemapxml( $bypass, $query ) {
-		global $wp_rewrite;
-
 		// If a plugin has already utilized the pre_handle_404 function, return without action to avoid conflicts.
 		if ( $bypass ) {
 			return $bypass;
