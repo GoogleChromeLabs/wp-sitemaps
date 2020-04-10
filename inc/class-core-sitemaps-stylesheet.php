@@ -53,64 +53,320 @@ class Core_Sitemaps_Stylesheet {
 			'<xsl:value-of select="count(sitemap:urlset/sitemap:url)"/>'
 		);
 
-		$url           = esc_html__( 'URL', 'core-sitemaps' );
-		$last_modified = esc_html__( 'Last Modified', 'core-sitemaps' );
+		$url              = esc_html__( 'URL', 'core-sitemaps' );
+		$last_modified    = esc_html__( 'Last Modified', 'core-sitemaps' );
+		$change_frequency = esc_html__( 'Change Frequency', 'core-sitemaps' );
+		$priority         = esc_html__( 'Priority', 'core-sitemaps' );
 
 		$xsl_content = <<<XSL
 <?xml version="1.0" encoding="UTF-8"?>
-			<xsl:stylesheet version="2.0"
-				xmlns:html="http://www.w3.org/TR/REC-html40"
-				xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-				xmlns:sitemap="http://www.sitemaps.org/schemas/sitemap/0.9"
-				xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-			<xsl:output method="html" version="1.0" encoding="UTF-8" indent="yes"/>
-			<xsl:template match="/">
-				<html xmlns="http://www.w3.org/1999/xhtml">
-				<head>
-					<title>$title</title>
-					<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-					<style type="text/css">
-						$css
-					</style>
-				</head>
-				<body>
-					<div id="sitemap__header">
-						<h1>$title</h1>
-						<p>$description</p>
-					</div>
-					<div id="sitemap__content">
-						<p class="text">$text</p>
-						<table id="sitemap__table">
-							<thead>
+<xsl:stylesheet
+		version="1.0"
+		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+		xmlns:sitemap="http://www.sitemaps.org/schemas/sitemap/0.9"
+		xmlns:wp="urn:wordpress.org/core-sitemaps"
+		xmlns:exsl="http://exslt.org/common"
+		xmlns:msxsl="urn:schemas-microsoft-com:xslt"
+		extension-element-prefixes="exsl msxsl"
+		exclude-result-prefixes="sitemap wp"
+		>
+	<xsl:output method="html" encoding="UTF-8" indent="yes" />
+
+	<!--
+		Define a key over all distinct element children of Q{http://www.sitemaps.org/schemas/sitemap/0.9}url.
+
+		Key values are the {@link https://www.w3.org/TR/xpath-30/#prod-xpath30-URIQualifiedName URIQualifiedName} of
+		each distinct child element.
+
+		@see the comment before the declaration of the "columns" variable below.
+	  -->
+	<xsl:key
+		name="distinct-url-children"
+		match="//sitemap:urlset/sitemap:url/*"
+		use="concat( 'Q{', namespace-uri(), '}', local-name() )"
+	/>
+
+	<xsl:template match="/">
+		<!--
+			Gather all distinct elements that appear as children of
+			Q{http://www.sitemaps.org/schemas/sitemap/0.9}url in the sitemap
+			and store them in a variable, so that they can be iterated over
+			to generate the HTML table.
+
+			Since no browsers currently support XSLT 2.0+, and hence don't support the
+			xsl:for-each-group instruction,	we use
+			{@link http://www.jenitennison.com/xslt/grouping/muenchian.html Muenchian Grouping}
+			gather the distinct children.
+
+			The columns will be in the following order (regardless of what
+			other the elements appear in in the sitemap, including different
+			orders for different Q{http://www.sitemaps.org/schemas/sitemap/0.9}url elements):
+
+			1. columns for all elements in the http://www.sitemaps.org/schemas/sitemap/0.9
+			   namespace will come before those in extension namespaces.
+
+			   a. elements defined in the sitemap {@link http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd XML Schema}
+			      will be in the order of the content model for Q{http://www.sitemaps.org/schemas/sitemap/0.9}url
+			   b. elements not defined in the sitemap XML Schema will ordered by their
+			      local-name() after those that are defined in the XML Schema.
+			2. columns for all elements in extension namespaces will be ordered by
+			   a. their namespace-uri()
+			   b. their local-name()
+		  -->
+		<xsl:variable name="columns">
+			<!--
+				Since XSLT 1.0 will create this variable as a
+				{@link https://www.w3.org/TR/1999/REC-xslt-19991116#section-Result-Tree-Fragments Result Tree Fragment}
+				we'll have to convert it to a node set to iterate over it.  To do that, we'll have
+				to use the extension function node-set().  If node-set() is not available,
+				we won't bother to gather columns, because we won't be able to iterate over them.
+				In that case, the HTML table will only contain the URL column.
+
+				{@link http://exslt.org/exsl/functions/node-set/ exsl:node-set()} is supported in Chrome, FF
+				and many other browsers.
+				{@link https://docs.microsoft.com/en-us/dotnet/standard/data/xml/support-for-the-msxsl-node-set-function msxsl:node-set()}
+				is supported in Edge and IE (11).
+			  -->
+			<xsl:if test="function-available( 'exsl:node-set' ) or function-available( 'msxsl:node-set' )">
+				<xsl:for-each select="//sitemap:urlset/sitemap:url/*[
+						namespace-uri() = 'http://www.sitemaps.org/schemas/sitemap/0.9' and
+						generate-id() = generate-id( key( 'distinct-url-children', concat( 'Q{', namespace-uri(), '}', local-name() ) )[1] ) ]">
+					<!--
+						 Force the columns to be in the order defined by the sitemaps
+						 XML Schema content model for Q{http://www.sitemaps.org/schemas/sitemap/0.9}url
+					  -->
+					<xsl:sort select="number( local-name() = 'loc' )" order="descending" />
+					<xsl:sort select="number( local-name() = 'lastmod' )" order="descending" />
+					<xsl:sort select="number( local-name() = 'changefreq' )" order="descending" />
+					<xsl:sort select="number( local-name() = 'priority' )" order="descending" />
+
+					<!-- then alpha for all elements in the sitemaps namespace that aren't in the schema -->
+					<xsl:sort select="local-name()" />
+
+					<wp:column namespace-uri="{namespace-uri()}" local-name="{local-name()}" />
+				</xsl:for-each>
+
+				<!-- then, get those elements in extension namespaces -->
+				<xsl:for-each select="//sitemap:urlset/sitemap:url/*[
+						namespace-uri() != 'http://www.sitemaps.org/schemas/sitemap/0.9' and
+						generate-id() = generate-id( key( 'distinct-url-children', concat( 'Q{', namespace-uri(), '}', local-name() ) )[1] ) ]">
+					<!-- order them by namespace-uri() and then local-name() -->
+					<xsl:sort select="namespace-uri()" />
+					<xsl:sort select="local-name()" />
+
+					<wp:column namespace-uri="{namespace-uri()}" local-name="{local-name()}" />
+				</xsl:for-each>
+			</xsl:if>
+		</xsl:variable>
+
+		<html>
+			<head>
+				<title>$title</title>
+				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+				<style type="text/css">
+					$css
+				</style>
+			</head>
+			<body>
+				<div id="sitemap__header">
+					<h1>$title</h1>
+					<p>$description</p>
+				</div>
+				<div id="sitemap__content">
+					<p class="text">$text</p>
+
+					<table id="sitemap__table">
+						<thead>
 							<tr>
-								<th>$url</th>
-								<th>$last_modified</th>
+								<xsl:choose>
+									<!-- Iterate over \$columns (if possible). -->
+									<xsl:when test="function-available( 'exsl:node-set' )">
+										<xsl:apply-templates select="exsl:node-set( \$columns )/*" mode="table-header" />
+									</xsl:when>
+									<xsl:when test="function-available( 'msxsl:node-set' )">
+										<xsl:apply-templates select="msxsl:node-set( \$columns )/*" mode="table-header" />
+									</xsl:when>
+									<xsl:otherwise>
+										<!-- Fallback: browser doesn't support node-set(), so output just the URL column. -->
+										<th>$url</th>
+									</xsl:otherwise>
+								</xsl:choose>
 							</tr>
-							</thead>
-							<tbody>
+						</thead>
+						<tbody>
 							<xsl:for-each select="sitemap:urlset/sitemap:url">
+								<!-- save the current node, so we can pass it to the xsl:apply-templates below. -->
+	                     		<xsl:variable name="current-url" select="." />
+
 								<tr>
-									<td>
-										<xsl:variable name="itemURL">
-											<xsl:value-of select="sitemap:loc"/>
-										</xsl:variable>
-										<a href="{\$itemURL}">
-											<xsl:value-of select="sitemap:loc"/>
-										</a>
-									</td>
-									<td>
-										<xsl:value-of select="sitemap:lastmod"/>
-									</td>
+									<xsl:choose>
+										<!-- Iterate over \$columns (if possible). -->
+										<xsl:when test="function-available( 'exsl:node-set' )">
+											<xsl:apply-templates select="exsl:node-set( \$columns )/*" mode="table-data">
+												<xsl:with-param name="current-url" select="\$current-url" />
+											</xsl:apply-templates>
+										</xsl:when>
+										<xsl:when test="function-available( 'msxsl:node-set' )">
+											<xsl:apply-templates select="msxsl:node-set( \$columns )/*" mode="table-data">
+												<xsl:with-param name="current-url" select="\$current-url" />
+											</xsl:apply-templates>
+										</xsl:when>
+										<xsl:otherwise>
+											<!-- Fallback: browser doesn't support node-set(), so output just the URL column. -->
+											<td>
+												<xsl:apply-templates select="sitemap:loc" mode="table-data" />
+											</td>
+										</xsl:otherwise>
+									</xsl:choose>
 								</tr>
 							</xsl:for-each>
-							</tbody>
-						</table>
+						</tbody>
+					</table>
+				</div>
+			</body>
+		</html>
+	</xsl:template>
 
-					</div>
-				</body>
-				</html>
-			</xsl:template>
-			</xsl:stylesheet>\n
+	<!--
+		Output an HTML "th" element for Q{http://www.sitemaps.org/schemas/sitemap/0.9}loc.
+	  -->
+	<xsl:template match="wp:column[@namespace-uri = 'http://www.sitemaps.org/schemas/sitemap/0.9' and @local-name = 'loc']" mode="table-header" priority="10">
+		<th>$url</th>
+	</xsl:template>
+
+	<!--
+		Output an HTML "th" element for Q{http://www.sitemaps.org/schemas/sitemap/0.9}lastmod.
+	  -->
+	<xsl:template match="wp:column[@namespace-uri = 'http://www.sitemaps.org/schemas/sitemap/0.9' and @local-name = 'lastmod']" mode="table-header" priority="10">
+		<th>$last_modified</th>
+	</xsl:template>
+
+	<!--
+		Output an HTML "th" element for Q{http://www.sitemaps.org/schemas/sitemap/0.9}changefreq.
+	  -->
+	<xsl:template match="wp:column[@namespace-uri = 'http://www.sitemaps.org/schemas/sitemap/0.9' and @local-name = 'changefreq']" mode="table-header" priority="10">
+		<th>$change_frequency</th>
+	</xsl:template>
+
+	<!--
+		Output an HTML "th" element for Q{http://www.sitemaps.org/schemas/sitemap/0.9}priority.
+	  -->
+	<xsl:template match="wp:column[@namespace-uri = 'http://www.sitemaps.org/schemas/sitemap/0.9' and @local-name = 'priority']" mode="table-header" priority="10">
+		<th>$priority</th>
+	</xsl:template>
+
+	<!--
+		Output an HTML "th" element for "extension" elements in the http://www.sitemaps.org/schemas/sitemap/0.9 namespace.
+
+		Technically, "extension" elements in the sitemap should be extension namespaces,
+		but the current state of the core-sitemaps plugin code puts them in the
+		http://www.sitemaps.org/schemas/sitemap/0.9 namespace; so we need this template.
+	  -->
+	<xsl:template match="wp:column[@namespace-uri = 'http://www.sitemaps.org/schemas/sitemap/0.9']" mode="table-header">
+		<th>
+			<xsl:call-template name="maybe-add-css-class" />
+			<xsl:call-template name="ucfirst">
+				<xsl:with-param name="str" select="@local-name" />
+			</xsl:call-template>
+		</th>
+	</xsl:template>
+
+	<!--
+		Output an HTML "th" element for columns for extenion elements in the sitemap.
+	  -->
+	<xsl:template match="wp:column[@namespace-uri != 'http://www.sitemaps.org/schemas/sitemap/0.9']" mode="table-header">
+		<th>
+			<xsl:call-template name="maybe-add-css-class" />
+			<xsl:call-template name="ucfirst">
+				<xsl:with-param name="str" select="@local-name" />
+			</xsl:call-template>
+		</th>
+	</xsl:template>
+
+	<!--
+		Output an HTML "a" element for Q{http://www.sitemaps.org/schemas/sitemap/0.9}loc.
+	  -->
+	<xsl:template match="sitemap:loc" mode="table-data">
+		<a href="{.}">
+			<xsl:value-of select="." />
+		</a>
+	</xsl:template>
+
+	<!--
+		Output the text content of all other element children of Q{http://www.sitemaps.org/schemas/sitemap/0.9}url.
+	  -->
+	<xsl:template match="*" mode="table-data">
+		<xsl:value-of select="." />
+	</xsl:template>
+
+	<!--
+		Output an HTML "td" element for a given column.
+
+		If the \$current-url does not have a child element for this column,
+		and empty "td" element will be output.
+
+		@param node \$current-url The current Q{http://www.sitemaps.org/schemas/sitemap/0.9}url element.
+	  -->
+	<xsl:template match="wp:column" mode="table-data">
+		<xsl:param name="current-url" />
+
+		<td>
+			<xsl:call-template name="maybe-add-css-class" />
+			<xsl:apply-templates select="\$current-url/*[namespace-uri() = current()/@namespace-uri and local-name() = current()/@local-name]" mode="table-data" />
+		</td>
+	</xsl:template>
+
+	<!--
+		Add a CSS class attribute to HTML th/td elements in the result tree for extension elements in the sitemap
+		so that plugins can style them differently if they so choose.
+	  -->
+	<xsl:template name="maybe-add-css-class">
+		<xsl:if test="@namespace-uri != 'http://www.sitemaps.org/schemas/sitemap/0.9' or not( @local-name = 'loc' or @local-name = 'lastmod' or @local-name = 'changefreq' or @local-name = 'priority' )">
+			<xsl:attribute name="class">
+				<xsl:choose>
+					<xsl:when test="@namespace-uri = 'http://www.sitemaps.org/schemas/sitemap/0.9'">
+						<xsl:if test="not( @local-name = 'loc' or @local-name = 'lastmod' or @local-name = 'changefreq' or @local-name = 'priority' )">
+							<!--
+								There shouldn't be any other elements in the http://www.sitemaps.org/schemas/sitemap/0.9
+								namespace, but currently there can be, so this is necessary for now.
+							  -->
+							<xsl:text>extension</xsl:text>
+						</xsl:if>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:text>extension</xsl:text>
+						<xsl:text> </xsl:text>
+						<xsl:value-of select="@namespace-uri" />
+					</xsl:otherwise> 
+				</xsl:choose>
+			</xsl:attribute>
+		</xsl:if>
+	</xsl:template>
+
+	<!--
+		Poor man's equivalent of PHP's ucfirst() function.
+
+		XSLT/XPath 1.0 does not have a "real" upper-case() function (XPath 2.0 does, but
+		no browsers currently support XPath 2.0).
+
+		This will NOT uppercase first characters that are non-ASCII.
+	  -->
+	<xsl:template name="ucfirst">
+		<xsl:param name="str" />
+
+		<xsl:value-of select="
+			concat(
+				translate(
+					substring( \$str, 1, 1 ),
+					'abcdefghijklmnopqrstuvwxyz',
+					'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+				),
+				substring( \$str, 2 )
+			)"
+		 />
+	</xsl:template>
+</xsl:stylesheet>
+
 XSL;
 
 		/**
