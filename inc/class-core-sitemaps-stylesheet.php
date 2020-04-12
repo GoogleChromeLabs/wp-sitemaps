@@ -488,10 +488,10 @@ XSL;
 	protected function get_stylesheet_column_headings() {
 		$column_headings = array(
 			'http://www.sitemaps.org/schemas/sitemap/0.9' => array(
-				'loc'        => esc_html__( 'URL', 'core-sitemaps' ),
-				'lastmod'    => esc_html__( 'Last Modified', 'core-sitemaps' ),
-				'changefreq' => esc_html__( 'Change Frequency', 'core-sitemaps' ),
-				'priority'   => esc_html__( 'Priority', 'core-sitemaps' ),
+				'loc'        => esc_xml__( 'URL', 'core-sitemaps' ),
+				'lastmod'    => esc_xml__( 'Last Modified', 'core-sitemaps' ),
+				'changefreq' => esc_xml__( 'Change Frequency', 'core-sitemaps' ),
+				'priority'   => esc_xml__( 'Priority', 'core-sitemaps' ),
 			)
 		);
 		/**
