@@ -31,22 +31,12 @@ class Core_Sitemaps_Renderer {
 	 * Core_Sitemaps_Renderer constructor.
 	 */
 	public function __construct() {
-		/**
-		 * Filter whether the XSLT stylesheet is used when the sitemap is viewed in a browser.
-		 *
-		 * @param bool $use_stylesheet True if the XSLT stylesheet should be used, false otherwise.
-		 */
-		if ( apply_filters( 'core_sitemaps_use_stylesheet', true ) ) {
-			$stylesheet_url   = $this->get_sitemap_stylesheet_url();
+		$stylesheet_url = $this->get_sitemap_stylesheet_url();
+		if ( $stylesheet_url ) {
 			$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . esc_url( $stylesheet_url ) . '" ?>';
 		}
-		/**
-		 * Filter whether the XSLT stylesheet is used when the sitemap index is viewed in a browser.
-		 *
-		 * @param bool $use_stylesheet True if the XSLT stylesheet should be used, false otherwise.
-		 */
-		if ( apply_filters( 'core_sitemaps_use_index_stylesheet', true ) ) {
-			$stylesheet_index_url   = $this->get_sitemap_index_stylesheet_url();
+		$stylesheet_index_url   = $this->get_sitemap_index_stylesheet_url();
+		if ( $stylesheet_index_url ) {
 			$this->stylesheet_index = '<?xml-stylesheet type="text/xsl" href="' . esc_url( $stylesheet_index_url ) . '" ?>';
 		}
 	}
