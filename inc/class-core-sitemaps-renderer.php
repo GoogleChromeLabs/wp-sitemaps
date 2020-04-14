@@ -59,6 +59,9 @@ class Core_Sitemaps_Renderer {
 		/**
 		 * Filter the URL for the sitemap stylesheet.
 		 *
+		 * If a falsy value is returned, no stylesheet will be used and
+		 * the "raw" XML of the sitemap will be displayed.
+		 *
 		 * @param string $sitemap_url Full URL for the sitemaps xsl file.
 		 */
 		return apply_filters( 'core_sitemaps_stylesheet_url', $sitemap_url );
@@ -81,6 +84,9 @@ class Core_Sitemaps_Renderer {
 
 		/**
 		 * Filter the URL for the sitemap index stylesheet.
+		 *
+		 * If a falsy value is returned, no stylesheet will be used and
+		 * the "raw" XML of the sitemap index will be displayed.
 		 *
 		 * @param string $sitemap_url Full URL for the sitemaps index xsl file.
 		 */
