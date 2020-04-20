@@ -110,8 +110,6 @@ class Test_Core_Sitemaps_Renderer extends WP_UnitTestCase {
 			$xpath->query( '//processing-instruction( "xml-stylesheet" )' ),
 			'Sitemap incorrectly contains the xml-stylesheet processing instruction.'
 		);
-
-		return;
 	}
 
 	/**
@@ -180,8 +178,6 @@ class Test_Core_Sitemaps_Renderer extends WP_UnitTestCase {
 			$xpath->query( '//processing-instruction( "xml-stylesheet" )' ),
 			'Sitemap incorrectly contains the xml-stylesheet processing instruction.'
 		);
-
-		return;
 	}
 
 	/**
