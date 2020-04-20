@@ -88,6 +88,33 @@ class Test_Core_Sitemaps_Renderer extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Test XML output for the sitemap index renderer when stylesheet is disabled.
+	 */
+	public function test_get_sitemap_index_xml_without_stylsheet() {
+		$entries = array(
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-post-1.xml',
+				'lastmod' => '2019-11-01T12:00:00+00:00',
+			),
+		);
+
+		add_filter( 'core_sitemaps_stylesheet_index_url', '__return_false' );
+
+		$renderer = new Core_Sitemaps_Renderer();
+
+		$xmlDOM   = $this->loadXML( $renderer->get_sitemap_index_xml( $entries ) );
+		$xpath    = new DOMXPath( $xmlDOM );
+
+		$this->assertCount(
+			0,
+			$xpath->query( '//processing-instruction( "xml-stylesheet" )' ),
+			'Sitemap incorrectly contains the xml-stylesheet processing instruction.'
+		);
+
+		return;
+	}
+
+	/**
 	 * Test XML output for the sitemap page renderer.
 	 */
 	public function test_get_sitemap_xml() {
@@ -128,6 +155,33 @@ class Test_Core_Sitemaps_Renderer extends WP_UnitTestCase {
 					'</urlset>';
 
 		$this->assertXMLEquals( $expected, $actual, 'Sitemap page markup incorrect.' );
+	}
+
+	/**
+	 * Test XML output for the sitemap page renderer when stylesheet is disabled.
+	 */
+	public function test_get_sitemap_xml_without_stylsheet() {
+		$url_list = array(
+			array(
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/2019/10/post-1',
+				'lastmod' => '2019-11-01T12:00:00+00:00',
+			),
+		);
+
+		add_filter( 'core_sitemaps_stylesheet_url', '__return_false' );
+
+		$renderer = new Core_Sitemaps_Renderer();
+
+		$xmlDOM   = $this->loadXML( $renderer->get_sitemap_xml( $url_list ) );
+		$xpath    = new DOMXPath( $xmlDOM );
+
+		$this->assertCount(
+			0,
+			$xpath->query( '//processing-instruction( "xml-stylesheet" )' ),
+			'Sitemap incorrectly contains the xml-stylesheet processing instruction.'
+		);
+
+		return;
 	}
 
 	/**
