@@ -70,16 +70,16 @@ class Test_Core_Sitemaps_Renderer extends WP_UnitTestCase {
 		$expected = '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL .
 					'<?xml-stylesheet type="text/xsl" href="http://' . WP_TESTS_DOMAIN . '/?sitemap-stylesheet=index" ?>' . PHP_EOL .
 					'<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' .
-					'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-post-1.xml</loc><lastmod>2019-11-01T12:00:00+00:00</lastmod></sitemap>' .
-					'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-page-1.xml</loc><lastmod>2019-11-01T12:00:10+00:00</lastmod></sitemap>' .
-					'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-category-1.xml</loc><lastmod>2019-11-01T12:00:20+00:00</lastmod></sitemap>' .
-					'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-post_tag-1.xml</loc><lastmod>2019-11-01T12:00:30+00:00</lastmod></sitemap>' .
-					'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-users-1.xml</loc><lastmod>2019-11-01T12:00:40+00:00</lastmod></sitemap>' .
-					'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-post-post-1.xml</loc><lastmod>2019-11-01T12:00:00+00:00</lastmod></sitemap>' .
-					'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-post-page-1.xml</loc><lastmod>2019-11-01T12:00:10+00:00</lastmod></sitemap>' .
-					'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomy-category-1.xml</loc><lastmod>2019-11-01T12:00:20+00:00</lastmod></sitemap>' .
-					'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomy-post_tag-1.xml</loc><lastmod>2019-11-01T12:00:30+00:00</lastmod></sitemap>' .
-					'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-user-1.xml</loc><lastmod>2019-11-01T12:00:40+00:00</lastmod></sitemap>' .
+					'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-post-1.xml</loc></sitemap>' .
+					'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-page-1.xml</loc></sitemap>' .
+					'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-category-1.xml</loc></sitemap>' .
+					'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-post_tag-1.xml</loc></sitemap>' .
+					'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-users-1.xml</loc></sitemap>' .
+					'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-post-post-1.xml</loc></sitemap>' .
+					'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-post-page-1.xml</loc></sitemap>' .
+					'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomy-category-1.xml</loc></sitemap>' .
+					'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomy-post_tag-1.xml</loc></sitemap>' .
+					'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-user-1.xml</loc></sitemap>' .
 					'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-post-1.xml</loc></sitemap>' .
 					'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-page-1.xml</loc></sitemap>' .
 					'<sitemap><loc>http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-category-1.xml</loc></sitemap>' .
