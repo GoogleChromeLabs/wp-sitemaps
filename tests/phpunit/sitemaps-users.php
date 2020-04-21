@@ -40,7 +40,6 @@ class Test_Core_Sitemaps_Users extends WP_UnitTestCase {
 
 				return array(
 					'loc'      => get_author_posts_url( $user_id ),
-					'lastmod' => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
 				);
 			},
 			self::$users

@@ -28,31 +28,6 @@ class Core_Sitemaps_Provider {
 	protected $sub_type = '';
 
 	/**
-	 * Set up relevant rewrite rules, actions, and filters.
-	 */
-	public function setup() {
-		// Set up async tasks related to calculating lastmod data.
-		add_action( 'core_sitemaps_calculate_lastmod', array( $this, 'calculate_sitemap_lastmod' ), 10, 3 );
-		add_action( 'core_sitemaps_update_lastmod_' . $this->object_type, array( $this, 'update_lastmod_values' ) );
-
-		if ( ! wp_next_scheduled( 'core_sitemaps_update_lastmod_' . $this->object_type ) && ! wp_installing() ) {
-
-			/**
-			 * Filter the recurrence value for updating sitemap lastmod values.
-			 *
-			 * @since 0.1.0
-			 *
-			 * @param string $recurrence How often the event should subsequently recur. Default 'twicedaily'.
-			 *                           See wp_get_schedules() for accepted values.
-			 * @param string $type       The object type being handled by this event, e.g. posts, taxonomies, users.
-			 */
-			$lastmod_recurrence = apply_filters( 'core_sitemaps_lastmod_recurrence', 'twicedaily', $this->object_type );
-
-			wp_schedule_event( time(), $lastmod_recurrence, 'core_sitemaps_update_lastmod_' . $this->object_type );
-		}
-	}
-
-	/**
 	 * Return object type being queried.
 	 *
 	 * @return string Name of the object type.
@@ -146,10 +121,8 @@ class Core_Sitemaps_Provider {
 		foreach ( $sitemap_types as $type ) {
 			for ( $page = 1; $page <= $type['pages']; $page ++ ) {
 				$loc        = $this->get_sitemap_url( $type['name'], $page );
-				$lastmod    = $this->get_sitemap_lastmod( $type['name'], $page );
 				$sitemaps[] = array(
-					'loc'     => $loc,
-					'lastmod' => $lastmod,
+					'loc' => $loc,
 				);
 			}
 		}
@@ -162,7 +135,6 @@ class Core_Sitemaps_Provider {
 	 *
 	 * @param string $name The name of the sitemap.
 	 * @param int    $page The page of the sitemap.
-	 *
 	 * @return string The composed URL for a sitemap entry.
 	 */
 	public function get_sitemap_url( $name, $page ) {
@@ -189,73 +161,6 @@ class Core_Sitemaps_Provider {
 		}
 
 		return $url;
-	}
-
-	/**
-	 * Get the last modified date for a sitemap page.
-	 *
-	 * This will be overridden in provider subclasses.
-	 *
-	 * @param string $name The name of the sitemap.
-	 * @param int    $page The page of the sitemap being returned.
-	 * @return string The GMT date of the most recently changed date.
-	 */
-	public function get_sitemap_lastmod( $name, $page ) {
-		$type = implode( '_', array_filter( array( $this->object_type, $name, (string) $page ) ) );
-
-		// Check for an option.
-		$lastmod = get_option( "core_sitemaps_lastmod_$type", '' );
-
-		// If blank, schedule a job.
-		if ( empty( $lastmod ) && ! wp_doing_cron() ) {
-			$event_args = array( $this->object_type, $name, $page );
-
-			// Don't schedule a duplicate job.
-			if ( ! wp_next_scheduled( 'core_sitemaps_calculate_lastmod', $event_args ) ) {
-				wp_schedule_single_event( time(), 'core_sitemaps_calculate_lastmod', $event_args );
-			}
-		}
-
-		return $lastmod;
-	}
-
-	/**
-	 * Calculate lastmod date for a sitemap page.
-	 *
-	 * Calculated value is saved to the database as an option.
-	 *
-	 * @param string $type    The object type of the page: posts, taxonomies, users, etc.
-	 * @param string $subtype The object subtype if applicable, e.g., post type, taxonomy type.
-	 * @param int    $page    The page number.
-	 */
-	public function calculate_sitemap_lastmod( $type, $subtype, $page ) {
-		if ( $type !== $this->object_type ) {
-			return;
-		}
-
-		// Get the list of URLs from this page and sort it by lastmod date.
-		$url_list    = $this->get_url_list( $page, $subtype );
-		$sorted_list = wp_list_sort( $url_list, 'lastmod', 'DESC' );
-
-		// Use the most recent lastmod value as the lastmod value for the sitemap page.
-		$lastmod = reset( $sorted_list )['lastmod'];
-
-		$suffix = implode( '_', array_filter( array( $type, $subtype, (string) $page ) ) );
-
-		update_option( "core_sitemaps_lastmod_$suffix", $lastmod );
-	}
-
-	/**
-	 * Schedules asynchronous tasks to update lastmod entries for all sitemap pages.
-	 */
-	public function update_lastmod_values() {
-		$sitemap_types = $this->get_sitemap_type_data();
-
-		foreach ( $sitemap_types as $type ) {
-			for ( $page = 1; $page <= $type['pages']; $page ++ ) {
-				wp_schedule_single_event( time(), 'core_sitemaps_calculate_lastmod', array( $this->object_type, $this->sub_type, $page ) );
-			}
-		}
 	}
 
 	/**

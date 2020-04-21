@@ -54,10 +54,10 @@ class Core_Sitemaps {
 		$this->register_sitemaps();
 
 		// Add additional action callbacks.
-		add_action( 'core_sitemaps_init', array( $this, 'setup_sitemaps' ) );
 		add_action( 'core_sitemaps_init', array( $this, 'register_rewrites' ) );
 		add_action( 'template_redirect', array( $this, 'render_sitemaps' ) );
 		add_action( 'wp_loaded', array( $this, 'maybe_flush_rewrites' ) );
+		add_action( 'pre_handle_404', array( $this, 'redirect_sitemapxml' ), 10, 2 );
 	}
 
 	/**
@@ -91,21 +91,6 @@ class Core_Sitemaps {
 		/* @var Core_Sitemaps_Provider $provider */
 		foreach ( $providers as $name => $provider ) {
 			$this->registry->add_sitemap( $name, $provider );
-		}
-	}
-
-	/**
-	 * Register and set up the functionality for all supported sitemaps.
-	 */
-	public function setup_sitemaps() {
-
-		// Set up rewrites and rendering callbacks for each supported sitemap.
-		foreach ( $this->registry->get_sitemaps() as $sitemap ) {
-			if ( ! $sitemap instanceof Core_Sitemaps_Provider ) {
-				return;
-			}
-
-			$sitemap->setup();
 		}
 	}
 
@@ -226,5 +211,25 @@ class Core_Sitemaps {
 
 		$this->renderer->render_sitemap( $url_list );
 		exit;
+	}
+
+	/**
+	 * Redirect an URL to the wp-sitemap.xml
+	 *
+	 * @param bool     $bypass Pass-through of the pre_handle_404 filter value.
+	 * @param WP_Query $query The WP_Query object.
+	 */
+	public function redirect_sitemapxml( $bypass, $query ) {
+		// If a plugin has already utilized the pre_handle_404 function, return without action to avoid conflicts.
+		if ( $bypass ) {
+			return $bypass;
+		}
+
+		// 'pagename' is for most permalink types, name is for when the %postname% is used as a top-level field.
+		if ( 'sitemap-xml' === $query->get( 'pagename' ) ||
+			 'sitemap-xml' === $query->get( 'name' ) ) {
+			wp_safe_redirect( $this->index->get_index_url() );
+			exit();
+		}
 	}
 }

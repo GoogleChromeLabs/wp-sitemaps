@@ -74,6 +74,10 @@ A variety of filters exists to allow you adjust the styling:
 
 No. Those are optional fields in the sitemaps protocol and not typically consumed by search engines. Developers can still add those fields if they really want too.
 
+= Why is there no last modified date shown in the sitemap? =
+
+XML sitemaps are first and foremost a discovery mechanism for content. Exposing the date the content was last modified is not needed for the majority of sites.
+
 == Changelog ==
 
 For the plugin's changelog, please check out the full list of changes [on GitHub](https://github.com/GoogleChromeLabs/wp-sitemaps/blob/master/CHANGELOG.md).
