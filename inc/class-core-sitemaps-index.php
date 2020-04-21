@@ -51,6 +51,7 @@ class Core_Sitemaps_Index {
 	 * @return string the sitemap index url.
 	 */
 	public function get_index_url() {
+		/* @var WP_Rewrite $wp_rewrite */
 		global $wp_rewrite;
 
 		$url = home_url( '/wp-sitemap.xml' );

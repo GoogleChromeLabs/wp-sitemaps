@@ -1,10 +1,10 @@
 === Core Sitemaps ===
 Contributors: joemcgill, pacifika, kburgoine, tweetythierry, swissspidy
 Tags: seo, sitemaps
-Requires at least: 5.2
+Requires at least: 5.3
 Tested up to: 5.4
 Requires PHP: 5.6
-Stable tag: 0.1.0
+Stable tag: 0.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,10 @@ A variety of filters exists to allow you adjust the styling:
 = Does this plugin support `changefreq` and `priority` attributes for sitemaps? =
 
 No. Those are optional fields in the sitemaps protocol and not typically consumed by search engines. Developers can still add those fields if they really want too.
+
+= Why is there no last modified date shown in the sitemap? =
+
+XML sitemaps are first and foremost a discovery mechanism for content. Exposing the date the content was last modified is not needed for the majority of sites.
 
 == Changelog ==
 

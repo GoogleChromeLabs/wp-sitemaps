@@ -17,19 +17,19 @@ class Core_Sitemaps_Stylesheet {
 	 * Renders the xsl stylesheet depending on whether its the sitemap index or not.
 	 */
 	public function render_stylesheet() {
-		$stylesheet_query = get_query_var( 'stylesheet' );
+		$stylesheet_query = get_query_var( 'sitemap-stylesheet' );
 
 		if ( ! empty( $stylesheet_query ) ) {
 			header( 'Content-type: application/xml; charset=UTF-8' );
 
 			if ( 'xsl' === $stylesheet_query ) {
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- All content escaped below.
-				echo $this->stylesheet_xsl();
+				echo $this->get_sitemap_stylesheet();
 			}
 
 			if ( 'index' === $stylesheet_query ) {
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- All content escaped below.
-				echo $this->stylesheet_index_xsl();
+				echo $this->get_sitemap_index_stylesheet();
 			}
 
 			exit;
@@ -39,8 +39,8 @@ class Core_Sitemaps_Stylesheet {
 	/**
 	 * Returns the escaped xsl for all sitemaps, except index.
 	 */
-	public function stylesheet_xsl() {
-		$css         = self::stylesheet_xsl_css();
+	public function get_sitemap_stylesheet() {
+		$css         = $this->get_stylesheet_css();
 		$title       = esc_html__( 'XML Sitemap', 'core-sitemaps' );
 		$description = sprintf(
 			/* translators: %s: URL to sitemaps documentation. */
@@ -53,8 +53,7 @@ class Core_Sitemaps_Stylesheet {
 			'<xsl:value-of select="count(sitemap:urlset/sitemap:url)"/>'
 		);
 
-		$url           = esc_html__( 'URL', 'core-sitemaps' );
-		$last_modified = esc_html__( 'Last Modified', 'core-sitemaps' );
+		$url = esc_html__( 'URL', 'core-sitemaps' );
 
 		$xsl_content = <<<XSL
 <?xml version="1.0" encoding="UTF-8"?>
@@ -84,7 +83,6 @@ class Core_Sitemaps_Stylesheet {
 							<thead>
 							<tr>
 								<th>$url</th>
-								<th>$last_modified</th>
 							</tr>
 							</thead>
 							<tbody>
@@ -97,9 +95,6 @@ class Core_Sitemaps_Stylesheet {
 										<a href="{\$itemURL}">
 											<xsl:value-of select="sitemap:loc"/>
 										</a>
-									</td>
-									<td>
-										<xsl:value-of select="sitemap:lastmod"/>
 									</td>
 								</tr>
 							</xsl:for-each>
@@ -121,12 +116,11 @@ XSL;
 		return apply_filters( 'core_sitemaps_stylesheet_content', $xsl_content );
 	}
 
-
 	/**
 	 * Returns the escaped xsl for the index sitemaps.
 	 */
-	public function stylesheet_index_xsl() {
-		$css         = self::stylesheet_xsl_css();
+	public function get_sitemap_index_stylesheet() {
+		$css         = $this->get_stylesheet_css();
 		$title       = esc_html__( 'XML Sitemap', 'core-sitemaps' );
 		$description = sprintf(
 			/* translators: %s: URL to sitemaps documentation. */
@@ -139,8 +133,7 @@ XSL;
 			'<xsl:value-of select="count(sitemap:sitemapindex/sitemap:sitemap)"/>'
 		);
 
-		$url           = esc_html__( 'URL', 'core-sitemaps' );
-		$last_modified = esc_html__( 'Last Modified', 'core-sitemaps' );
+		$url = esc_html__( 'URL', 'core-sitemaps' );
 
 		$xsl_content = <<<XSL
 <?xml version="1.0" encoding="UTF-8"?>
@@ -170,7 +163,6 @@ XSL;
 							<thead>
 							<tr>
 								<th>$url</th>
-								<th>$last_modified</th>
 							</tr>
 							</thead>
 							<tbody>
@@ -183,9 +175,6 @@ XSL;
 										<a href="{\$itemURL}">
 											<xsl:value-of select="sitemap:loc"/>
 										</a>
-									</td>
-									<td>
-										<xsl:value-of select="sitemap:lastmod"/>
 									</td>
 								</tr>
 							</xsl:for-each>
@@ -208,12 +197,11 @@ XSL;
 	}
 
 	/**
-	 * The CSS to be included in sitemap xsl stylesheets;
-	 * factored out for uniformity.
+	 * The CSS to be included in sitemap XSL stylesheets.
 	 *
 	 * @return string The CSS.
 	 */
-	public static function stylesheet_xsl_css() {
+	protected function get_stylesheet_css() {
 		$css = '
 			body {
 				font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
