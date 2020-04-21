@@ -22,6 +22,8 @@ matrix:
       env: WP_TRAVISCI=phpcs WP_VERSION=latest
     - php: 7.3
       env: WP_VERSION=latest
+    - php: 7.3
+      env: WP_TRAVISCI=phpstan WP_VERSION=latest
     - php: 7.2
       env: WP_VERSION=latest
     - php: 7.1
@@ -60,4 +62,9 @@ script:
   - |
     if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
       vendor/bin/phpcs
+    fi
+  - |
+    if [[ "$WP_TRAVISCI" == "phpstan" ]] ; then
+      composer require --dev szepeviktor/phpstan-wordpress --ignore-platform-reqs
+      vendor/bin/phpstan analyze
     fi
