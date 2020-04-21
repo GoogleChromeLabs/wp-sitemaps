@@ -58,6 +58,7 @@ class Core_Sitemaps {
 		add_action( 'core_sitemaps_init', array( $this, 'register_rewrites' ) );
 		add_action( 'template_redirect', array( $this, 'render_sitemaps' ) );
 		add_action( 'wp_loaded', array( $this, 'maybe_flush_rewrites' ) );
+		add_action( 'pre_handle_404', array( $this, 'redirect_sitemapxml' ), 10, 2 );
 	}
 
 	/**
@@ -230,6 +231,26 @@ class Core_Sitemaps {
 
 			$this->renderer->render_sitemap( $url_list );
 			exit;
+		}
+	}
+
+	/**
+	 * Redirect an URL to the wp-sitemap.xml
+	 *
+	 * @param bool     $bypass Pass-through of the pre_handle_404 filter value.
+	 * @param WP_Query $query The WP_Query object.
+	 */
+	public function redirect_sitemapxml( $bypass, $query ) {
+		// If a plugin has already utilized the pre_handle_404 function, return without action to avoid conflicts.
+		if ( $bypass ) {
+			return $bypass;
+		}
+
+		// 'pagename' is for most permalink types, name is for when the %postname% is used as a top-level field.
+		if ( 'sitemap-xml' === $query->get( 'pagename' ) ||
+			 'sitemap-xml' === $query->get( 'name' ) ) {
+			wp_safe_redirect( $this->index->get_index_url() );
+			exit();
 		}
 	}
 }
