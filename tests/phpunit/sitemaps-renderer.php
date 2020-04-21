@@ -102,8 +102,8 @@ class Test_Core_Sitemaps_Renderer extends WP_UnitTestCase {
 
 		$renderer = new Core_Sitemaps_Renderer();
 
-		$xmlDOM   = $this->loadXML( $renderer->get_sitemap_index_xml( $entries ) );
-		$xpath    = new DOMXPath( $xmlDOM );
+		$xmlDom   = $this->loadXML( $renderer->get_sitemap_index_xml( $entries ) );
+		$xpath    = new DOMXPath( $xmlDom );
 
 		$this->assertCount(
 			0,
@@ -170,8 +170,8 @@ class Test_Core_Sitemaps_Renderer extends WP_UnitTestCase {
 
 		$renderer = new Core_Sitemaps_Renderer();
 
-		$xmlDOM   = $this->loadXML( $renderer->get_sitemap_xml( $url_list ) );
-		$xpath    = new DOMXPath( $xmlDOM );
+		$xmlDom   = $this->loadXML( $renderer->get_sitemap_xml( $url_list ) );
+		$xpath    = new DOMXPath( $xmlDom );
 
 		$this->assertCount(
 			0,
@@ -201,8 +201,8 @@ class Test_Core_Sitemaps_Renderer extends WP_UnitTestCase {
 
 		$renderer = new Core_Sitemaps_Renderer();
 
-		$xmlDOM   = $this->loadXML( $renderer->get_sitemap_xml( $url_list ) );
-		$xpath    = new DOMXPath( $xmlDOM );
+		$xmlDom   = $this->loadXML( $renderer->get_sitemap_xml( $url_list ) );
+		$xpath    = new DOMXPath( $xmlDom );
 		$xpath->registerNamespace( 'sitemap', 'http://www.sitemaps.org/schemas/sitemap/0.9' );
 
 		$this->assertEquals(
@@ -247,10 +247,10 @@ class Test_Core_Sitemaps_Renderer extends WP_UnitTestCase {
 		$internal = libxml_use_internal_errors( true );
 		libxml_clear_errors();
 
-		$xmlDOM = new DOMDocument();
+		$xmlDom = new DOMDocument();
 
 		$this->assertTrue(
-			$xmlDOM->loadXML( $xml, $options ),
+			$xmlDom->loadXML( $xml, $options ),
 			libxml_get_last_error() ? sprintf( 'Non-well-formed XML: %s.', libxml_get_last_error()->message ) : ''
 		);
 
@@ -258,7 +258,7 @@ class Test_Core_Sitemaps_Renderer extends WP_UnitTestCase {
 		libxml_use_internal_errors( $internal );
 		libxml_clear_errors();
 
-		return $xmlDOM;
+		return $xmlDom;
 	}
 
 	/**
