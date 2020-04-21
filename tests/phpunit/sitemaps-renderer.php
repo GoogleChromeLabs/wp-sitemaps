@@ -105,10 +105,10 @@ class Test_Core_Sitemaps_Renderer extends WP_UnitTestCase {
 		$xml_dom   = $this->loadXML( $renderer->get_sitemap_index_xml( $entries ) );
 		$xpath    = new DOMXPath( $xml_dom );
 
-		$this->assertCount(
+		$this->assertSame(
 			0,
-			$xpath->query( '//processing-instruction( "xml-stylesheet" )' ),
-			'Sitemap incorrectly contains the xml-stylesheet processing instruction.'
+			$xpath->query( '//processing-instruction( "xml-stylesheet" )' )->length,
+			'Sitemap index incorrectly contains the xml-stylesheet processing instruction.'
 		);
 	}
 
@@ -173,9 +173,9 @@ class Test_Core_Sitemaps_Renderer extends WP_UnitTestCase {
 		$xml_dom   = $this->loadXML( $renderer->get_sitemap_xml( $url_list ) );
 		$xpath    = new DOMXPath( $xml_dom );
 
-		$this->assertCount(
+		$this->assertSame(
 			0,
-			$xpath->query( '//processing-instruction( "xml-stylesheet" )' ),
+			$xpath->query( '//processing-instruction( "xml-stylesheet" )' )->length,
 			'Sitemap incorrectly contains the xml-stylesheet processing instruction.'
 		);
 	}
