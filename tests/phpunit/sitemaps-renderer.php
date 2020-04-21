@@ -270,14 +270,14 @@ class Test_Core_Sitemaps_Renderer extends WP_UnitTestCase {
 	 * @return string The normalized form of `$xml`.
 	 */
 	public function normalizeXML( $xml, $options = 0 ) {
-		static $xsltProc;
+		static $xslt_proc;
 
-		if ( ! $xsltProc ) {
-			$xsltProc = new XSLTProcessor();
-			$xsltProc->importStyleSheet( simplexml_load_file( WP_TESTS_ASSETS_DIR . '/normalize-xml.xsl' ) );
+		if ( ! $xslt_proc ) {
+			$xslt_proc = new XSLTProcessor();
+			$xslt_proc->importStyleSheet( simplexml_load_file( WP_TESTS_ASSETS_DIR . '/normalize-xml.xsl' ) );
 		}
 
-		return $xsltProc->transformToXML( $this->loadXML( $xml, $options ) );
+		return $xslt_proc->transformToXML( $this->loadXML( $xml, $options ) );
 	}
 
 	/**
@@ -294,8 +294,8 @@ class Test_Core_Sitemaps_Renderer extends WP_UnitTestCase {
 	 * @param string $actualXml
 	 * @param string $message   Optional. Message to display when the assertion fails.
 	 */
-	public function assertXMLEquals( $expectedXml, $actualXml, $message = '' ) {
-		$this->assertEquals( $this->normalizeXML( $expectedXml ), $this->normalizeXML( $actualXml ), $message );
+	public function assertXMLEquals( $expectedXml, $actualXml, $message = '' ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
+		$this->assertEquals( $this->normalizeXML( $expectedXml ), $this->normalizeXML( $actualXml ), $message ); //phpcs:ignore WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
 	}
 
 	/**
@@ -312,7 +312,7 @@ class Test_Core_Sitemaps_Renderer extends WP_UnitTestCase {
 	 * @param string $actualXml
 	 * @param string $message   Optional. Message to display when the assertion fails.
 	 */
-	public function assertXMLNotEquals( $expectedXml, $actualXml, $message = '' ) {
-		$this->assertNotEquals( $this->normalizeXML( $expectedXml ), $this->normalizeXML( $actualXml ), $message );
+	public function assertXMLNotEquals( $expectedXml, $actualXml, $message = '' ) { //phpcs:ignore WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
+		$this->assertNotEquals( $this->normalizeXML( $expectedXml ), $this->normalizeXML( $actualXml ), $message ); //phpcs:ignore WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
 	}
 }
