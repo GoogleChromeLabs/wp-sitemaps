@@ -53,8 +53,7 @@ class Core_Sitemaps_Stylesheet {
 			'<xsl:value-of select="count(sitemap:urlset/sitemap:url)"/>'
 		);
 
-		$url           = esc_html__( 'URL', 'core-sitemaps' );
-		$last_modified = esc_html__( 'Last Modified', 'core-sitemaps' );
+		$url = esc_html__( 'URL', 'core-sitemaps' );
 
 		$xsl_content = <<<XSL
 <?xml version="1.0" encoding="UTF-8"?>
@@ -84,7 +83,6 @@ class Core_Sitemaps_Stylesheet {
 							<thead>
 							<tr>
 								<th>$url</th>
-								<th>$last_modified</th>
 							</tr>
 							</thead>
 							<tbody>
@@ -135,8 +133,7 @@ XSL;
 			'<xsl:value-of select="count(sitemap:sitemapindex/sitemap:sitemap)"/>'
 		);
 
-		$url           = esc_html__( 'URL', 'core-sitemaps' );
-		$last_modified = esc_html__( 'Last Modified', 'core-sitemaps' );
+		$url = esc_html__( 'URL', 'core-sitemaps' );
 
 		$xsl_content = <<<XSL
 <?xml version="1.0" encoding="UTF-8"?>
@@ -166,7 +163,6 @@ XSL;
 							<thead>
 							<tr>
 								<th>$url</th>
-								<th>$last_modified</th>
 							</tr>
 							</thead>
 							<tbody>

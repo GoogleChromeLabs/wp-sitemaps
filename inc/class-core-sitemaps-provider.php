@@ -91,16 +91,6 @@ class Core_Sitemaps_Provider {
 		 * Shows only on the first page if the reading settings are set to display latest posts.
 		 */
 		if ( 'page' === $type && 1 === $page_num && 'posts' === get_option( 'show_on_front' ) ) {
-			// Assumes the homepage last modified date is the same as the most recent post.
-			$last_modified = get_posts(
-				array(
-					'numberposts'            => 1,
-					'no_found_rows'          => true,
-					'update_post_term_cache' => false,
-					'update_post_meta_cache' => false,
-				)
-			);
-
 			// Extract the data needed for home URL to add to the array.
 			$url_list[] = array(
 				'loc'     => home_url(),

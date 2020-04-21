@@ -72,27 +72,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		$taxonomy_terms = new WP_Term_Query( $args );
 
 		if ( ! empty( $taxonomy_terms->terms ) ) {
-			// Loop through the terms and get the latest post stored in each.
 			foreach ( $taxonomy_terms->terms as $term ) {
-				$last_modified = get_posts(
-					array(
-						'tax_query'              => array(
-							array(
-								'taxonomy' => $type,
-								'field'    => 'term_id',
-								'terms'    => $term,
-							),
-						),
-						'posts_per_page'         => '1',
-						'orderby'                => 'date',
-						'order'                  => 'DESC',
-						'no_found_rows'          => true,
-						'update_post_term_cache' => false,
-						'update_post_meta_cache' => false,
-					)
-				);
-
-				// Extract the data needed for each term URL in an array.
 				$url_list[] = array(
 					'loc' => get_term_link( $term ),
 				);

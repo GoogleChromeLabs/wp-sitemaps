@@ -36,15 +36,6 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 		$url_list = array();
 
 		foreach ( $users as $user ) {
-			$last_modified = get_posts(
-				array(
-					'author'        => $user->ID,
-					'orderby'       => 'date',
-					'numberposts'   => 1,
-					'no_found_rows' => true,
-				)
-			);
-
 			$url_list[] = array(
 				'loc'     => get_author_posts_url( $user->ID ),
 			);
