@@ -184,23 +184,18 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 		$expected = array(
 			array(
 				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sub_type=post&paged=1',
-				'lastmod' => '',
 			),
 			array(
 				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sub_type=page&paged=1',
-				'lastmod' => '',
 			),
 			array(
 				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sub_type=category&paged=1',
-				'lastmod' => '',
 			),
 			array(
 				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sub_type=post_tag&paged=1',
-				'lastmod' => '',
 			),
 			array(
 				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=users&paged=1',
-				'lastmod' => '',
 			),
 		);
 
@@ -218,23 +213,18 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 		$expected = array(
 			array(
 				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-post-1.xml',
-				'lastmod' => '',
 			),
 			array(
 				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-page-1.xml',
-				'lastmod' => '',
 			),
 			array(
 				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-category-1.xml',
-				'lastmod' => '',
 			),
 			array(
 				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-post_tag-1.xml',
-				'lastmod' => '',
 			),
 			array(
 				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-users-1.xml',
-				'lastmod' => '',
 			),
 		);
 
@@ -302,9 +292,6 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 	 * Tests getting a URL list for post type page with included home page.
 	 */
 	public function test_get_url_list_page_with_home() {
-		// Create a new post to confirm the home page lastmod date.
-		$new_post = self::factory()->post->create_and_get();
-
 		$providers = core_sitemaps_get_sitemaps();
 
 		$post_list = $providers['posts']->get_url_list( 1, 'page' );
@@ -316,7 +303,6 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 			$expected,
 			array(
 				'loc'     => home_url(),
-				'lastmod' => mysql2date( DATE_W3C, $new_post->post_modified_gmt, false ),
 			)
 		);
 
@@ -372,7 +358,7 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 	 *
 	 * @param string $type An object sub type, e.g., post type.
 	 * @param array  $ids  An array of object IDs.
-	 * @return array A formed URL list including 'loc' and 'lastmod' values.
+	 * @return array A formed URL list.
 	 */
 	public function _get_expected_url_list( $type, $ids ) {
 		$posts = get_posts(
@@ -388,7 +374,6 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 			static function ( $post ) {
 				return array(
 					'loc'     => get_permalink( $post ),
-					'lastmod' => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
 				);
 			},
 			$posts
