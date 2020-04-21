@@ -31,10 +31,14 @@ class Core_Sitemaps_Renderer {
 	 * Core_Sitemaps_Renderer constructor.
 	 */
 	public function __construct() {
-		$stylesheet_url         = $this->get_sitemap_stylesheet_url();
+		$stylesheet_url = $this->get_sitemap_stylesheet_url();
+		if ( $stylesheet_url ) {
+			$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . esc_url( $stylesheet_url ) . '" ?>';
+		}
 		$stylesheet_index_url   = $this->get_sitemap_index_stylesheet_url();
-		$this->stylesheet       = '<?xml-stylesheet type="text/xsl" href="' . esc_url( $stylesheet_url ) . '" ?>';
-		$this->stylesheet_index = '<?xml-stylesheet type="text/xsl" href="' . esc_url( $stylesheet_index_url ) . '" ?>';
+		if ( $stylesheet_index_url ) {
+			$this->stylesheet_index = '<?xml-stylesheet type="text/xsl" href="' . esc_url( $stylesheet_index_url ) . '" ?>';
+		}
 	}
 
 	/**
@@ -54,6 +58,9 @@ class Core_Sitemaps_Renderer {
 
 		/**
 		 * Filter the URL for the sitemap stylesheet.
+		 *
+		 * If a falsy value is returned, no stylesheet will be used and
+		 * the "raw" XML of the sitemap will be displayed.
 		 *
 		 * @param string $sitemap_url Full URL for the sitemaps xsl file.
 		 */
@@ -77,6 +84,9 @@ class Core_Sitemaps_Renderer {
 
 		/**
 		 * Filter the URL for the sitemap index stylesheet.
+		 *
+		 * If a falsy value is returned, no stylesheet will be used and
+		 * the "raw" XML of the sitemap index will be displayed.
 		 *
 		 * @param string $sitemap_url Full URL for the sitemaps index xsl file.
 		 */
@@ -109,7 +119,14 @@ class Core_Sitemaps_Renderer {
 	 * @return string|false A well-formed XML string for a sitemap index. False on error.
 	 */
 	public function get_sitemap_index_xml( $sitemaps ) {
-		$sitemap_index = new SimpleXMLElement( '<?xml version="1.0" encoding="UTF-8" ?>' . $this->stylesheet_index . '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></sitemapindex>' );
+		$sitemap_index = new SimpleXMLElement(
+			sprintf(
+				'%1$s%2$s%3$s',
+				'<?xml version="1.0" encoding="UTF-8" ?>',
+				$this->stylesheet_index,
+				'<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" />'
+			)
+		);
 
 		foreach ( $sitemaps as $entry ) {
 			$sitemap = $sitemap_index->addChild( 'sitemap' );
@@ -146,7 +163,14 @@ class Core_Sitemaps_Renderer {
 	 * @return string|false A well-formed XML string for a sitemap index. False on error.
 	 */
 	public function get_sitemap_xml( $url_list ) {
-		$urlset = new SimpleXMLElement( '<?xml version="1.0" encoding="UTF-8" ?>' . $this->stylesheet . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>' );
+		$urlset = new SimpleXMLElement(
+			sprintf(
+				'%1$s%2$s%3$s',
+				'<?xml version="1.0" encoding="UTF-8" ?>',
+				$this->stylesheet,
+				'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" />'
+			)
+		);
 
 		foreach ( $url_list as $url_item ) {
 			$url = $urlset->addChild( 'url' );
