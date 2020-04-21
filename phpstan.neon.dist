@@ -1,0 +1,16 @@
+includes:
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+parameters:
+    level: max
+    inferPrivatePropertyTypeFromConstructor: true
+    # TODO Add array types & shapes to PHPDoc blocks.
+    checkMissingIterableValueType: false
+    paths:
+        - inc/
+    autoload_files:
+        - core-sitemaps.php
+    ignoreErrors:
+        # Uses func_get_args()
+        - '#^Function apply_filters(_ref_array)? invoked with [34567] parameters, 2 required\.$#'
+        # PHP 5.6
+        - '# has no return typehint specified\.$#'
