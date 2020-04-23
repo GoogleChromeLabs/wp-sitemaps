@@ -57,7 +57,7 @@ class Core_Sitemaps {
 		add_action( 'core_sitemaps_init', array( $this, 'register_rewrites' ) );
 		add_action( 'template_redirect', array( $this, 'render_sitemaps' ) );
 		add_action( 'wp_loaded', array( $this, 'maybe_flush_rewrites' ) );
-		add_action( 'pre_handle_404', array( $this, 'redirect_sitemapxml' ), 10, 2 );
+		add_filter( 'pre_handle_404', array( $this, 'redirect_sitemapxml' ), 10, 2 );
 	}
 
 	/**
