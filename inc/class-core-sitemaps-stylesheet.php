@@ -492,7 +492,7 @@ XSL;
 				'lastmod'    => esc_xml__( 'Last Modified', 'core-sitemaps' ),
 				'changefreq' => esc_xml__( 'Change Frequency', 'core-sitemaps' ),
 				'priority'   => esc_xml__( 'Priority', 'core-sitemaps' ),
-			)
+			),
 		);
 		/**
 		 * Filter the column headings used in the sitemap stylesheet.
