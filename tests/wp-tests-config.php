@@ -32,3 +32,4 @@ define( 'WP_TESTS_DOMAIN', 'localhost:8000' );
 define( 'WP_TESTS_EMAIL', 'admin@example.org' );
 define( 'WP_TESTS_TITLE', 'HM Tests' );
 define( 'WP_PHP_BINARY', 'php' );
+define( 'WP_TESTS_ASSETS_DIR', __DIR__ . '/assets' );
