@@ -57,7 +57,6 @@ class Test_Core_Sitemaps_Taxonomies extends WP_UnitTestCase {
 			static function ( $id ) use ( $post ) {
 				return array(
 					'loc'     => get_term_link( $id, 'category' ),
-					'lastmod' => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
 				);
 			},
 			$categories
@@ -71,7 +70,6 @@ class Test_Core_Sitemaps_Taxonomies extends WP_UnitTestCase {
 			static function ( $id ) use ( $post ) {
 				return array(
 					'loc'     => get_term_link( $id, 'post_tag' ),
-					'lastmod' => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
 				);
 			},
 			self::$post_tags
@@ -101,7 +99,6 @@ class Test_Core_Sitemaps_Taxonomies extends WP_UnitTestCase {
 			static function ( $id ) use ( $taxonomy, $post ) {
 				return array(
 					'loc'     => get_term_link( $id, $taxonomy ),
-					'lastmod' => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
 				);
 			},
 			$terms
