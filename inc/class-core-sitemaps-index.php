@@ -38,7 +38,7 @@ class Core_Sitemaps_Index {
 	 * @return bool|string $redirect
 	 */
 	public function redirect_canonical( $redirect ) {
-		if ( get_query_var( 'sitemap' ) ) {
+		if ( get_query_var( 'sitemap' ) || get_query_var( 'sitemap-stylesheet' ) ) {
 			return false;
 		}
 
