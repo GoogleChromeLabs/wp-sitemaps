@@ -35,7 +35,7 @@ class Core_Sitemaps_Provider {
 	 * @return array $url_list List of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num, $type = '' ) {
-		return [];
+		return array();
 	}
 
 	/**
