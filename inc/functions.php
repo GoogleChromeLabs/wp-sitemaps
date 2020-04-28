@@ -23,11 +23,6 @@ function core_sitemaps_get_server() {
 	 */
 	global $core_sitemaps;
 
-	// If there isn't a global instance, set and bootstrap the sitemaps system.
-	if ( empty( $core_sitemaps ) ) {
-		$core_sitemaps = new Core_Sitemaps();
-	}
-
 	$is_enabled = (bool) get_option( 'blog_public' );
 
 	/**
@@ -38,21 +33,25 @@ function core_sitemaps_get_server() {
 	$is_enabled = (bool) apply_filters( 'core_sitemaps_is_enabled', $is_enabled );
 
 	if ( ! $is_enabled ) {
-		return $core_sitemaps;
+		return null;
 	}
 
-	$core_sitemaps->init();
+	// If there isn't a global instance, set and bootstrap the sitemaps system.
+	if ( empty( $core_sitemaps ) ) {
+		$core_sitemaps = new Core_Sitemaps();
+		$core_sitemaps->init();
 
-	/**
-	 * Fires when initializing the Core_Sitemaps object.
-	 *
-	 * Additional sitemaps should be registered on this hook.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @param core_sitemaps $core_sitemaps Server object.
-	 */
-	do_action( 'core_sitemaps_init', $core_sitemaps );
+		/**
+		 * Fires when initializing the Core_Sitemaps object.
+		 *
+		 * Additional sitemaps should be registered on this hook.
+		 *
+		 * @since 0.1.0
+		 *
+		 * @param core_sitemaps $core_sitemaps Server object.
+		 */
+		do_action( 'core_sitemaps_init', $core_sitemaps );
+	}
 
 	return $core_sitemaps;
 }
