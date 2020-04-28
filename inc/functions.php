@@ -94,10 +94,10 @@ if ( ! function_exists( 'esc_xml' ) ) :
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param string $text
+	 * @param string $text Text to escape.
 	 * @return string
 	 */
-	function esc_xml( $text ) {
+	function esc_xml( $text ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
 		$safe_text = wp_check_invalid_utf8( $text );
 		$safe_text = _wp_specialchars( $safe_text, ENT_QUOTES );
 		$safe_text = html_entity_decode( $safe_text, ENT_HTML5 );
@@ -113,7 +113,7 @@ if ( ! function_exists( 'esc_xml' ) ) :
 		 * @param string $safe_text The text after it has been escaped.
 		 * @param string $text      The text prior to being escaped.
 		 */
-		return apply_filters( 'esc_xml', $safe_text, $text );
+		return apply_filters( 'esc_xml', $safe_text, $text ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
 	}
 endif;
 
@@ -131,7 +131,7 @@ if ( ! function_exists( 'esc_xml__' ) ) :
 	 *                       Default 'default'.
 	 * @return string Translated text.
 	 */
-	function esc_xml__( $text, $domain = 'default' ) {
-		return esc_xml( translate( $text, $domain ) );
+	function esc_xml__( $text, $domain = 'default' ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
+		return esc_xml( translate( $text, $domain ) ); // phpcs:ignore WordPress.WP.I18n
 	}
 endif;
