@@ -85,7 +85,7 @@ function core_sitemaps_register_sitemap( $name, $provider ) {
 		return false;
 	}
 
-	return $core_sitemaps->registry->add_sitemap($name, $provider);
+	return $core_sitemaps->registry->add_sitemap( $name, $provider );
 }
 
 /**
