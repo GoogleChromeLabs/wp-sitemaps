@@ -28,6 +28,17 @@ class Core_Sitemaps_Provider {
 	protected $sub_type = '';
 
 	/**
+	 * Get a URL list for a sitemap.
+	 *
+	 * @param int    $page_num Page of results.
+	 * @param string $type     Optional. Post type name. Default ''.
+	 * @return array $url_list List of URLs for a sitemap.
+	 */
+	public function get_url_list( $page_num, $type = '' ) {
+		return [];
+	}
+
+	/**
 	 * Return object type being queried.
 	 *
 	 * @return string Name of the object type.
