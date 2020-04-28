@@ -27,7 +27,7 @@
 
 // The limit for how many sitemaps to include in an index.
 const CORE_SITEMAPS_MAX_SITEMAPS    = 50000;
-const CORE_SITEMAPS_REWRITE_VERSION = '2020-04-07';
+const CORE_SITEMAPS_REWRITE_VERSION = '2020-04-28';
 
 // Limit the number of URLs included in as sitemap.
 if ( ! defined( 'CORE_SITEMAPS_MAX_URLS' ) ) {

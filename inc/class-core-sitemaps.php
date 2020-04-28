@@ -100,7 +100,7 @@ class Core_Sitemaps {
 	public function register_rewrites() {
 		// Add rewrite tags.
 		add_rewrite_tag( '%sitemap%', '([^?]+)' );
-		add_rewrite_tag( '%sub_type%', '([^?]+)' );
+		add_rewrite_tag( '%sitemap-sub-type%', '([^?]+)' );
 
 		// Register index route.
 		add_rewrite_rule( '^wp-sitemap\.xml$', 'index.php?sitemap=index', 'top' );
@@ -112,8 +112,8 @@ class Core_Sitemaps {
 
 		// Register routes for providers.
 		add_rewrite_rule(
-			'^wp-sitemap-([A-z]+)-?([A-z]+)-?([0-9]+)?\.xml$',
-			'index.php?sitemap=$matches[1]&sitemap-sub-type=$matches[2]&paged=$matches[3]',
+			'^wp-sitemap-([A-z]+)-(([A-z]+)-)?([0-9]+)?\.xml$',
+			'index.php?sitemap=$matches[1]&sitemap-sub-type=$matches[3]&paged=$matches[4]',
 			'top'
 		);
 	}
@@ -133,7 +133,7 @@ class Core_Sitemaps {
 		unset( $wp_rewrite->extra_rules_top['^wp-sitemap-index\.xsl$'] );
 
 		// Unregister routes for providers.
-		unset( $wp_rewrite->extra_rules_top['^wp-sitemap-([A-z]+)-?([A-z]+)-?([0-9]+)?\.xml$'] );
+		unset( $wp_rewrite->extra_rules_top['^wp-sitemap-([A-z]+)-(([A-z]+)-)?([0-9]+)?\.xml$'] );
 	}
 
 	/**
