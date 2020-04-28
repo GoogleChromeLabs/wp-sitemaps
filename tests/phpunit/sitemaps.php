@@ -183,19 +183,19 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 
 		$expected = array(
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=post&sitemap-sub-type=post&paged=1',
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sitemap-sub-type=post&paged=1',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=post&sitemap-sub-type=page&paged=1',
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sitemap-sub-type=page&paged=1',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomy&sitemap-sub-type=category&paged=1',
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sitemap-sub-type=category&paged=1',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomy&sitemap-sub-type=post_tag&paged=1',
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sitemap-sub-type=post_tag&paged=1',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=user&paged=1',
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=users&paged=1',
 			),
 		);
 
@@ -212,19 +212,19 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 
 		$expected = array(
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-post-post-1.xml',
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-post-1.xml',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-post-page-1.xml',
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-page-1.xml',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomy-category-1.xml',
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-category-1.xml',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomy-post_tag-1.xml',
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-post_tag-1.xml',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-user-1.xml',
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-users-1.xml',
 			),
 		);
 
@@ -252,8 +252,8 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 		unregister_post_type( 'public_cpt' );
 		unregister_post_type( 'private_cpt' );
 
-		$this->assertContains( 'http://' . WP_TESTS_DOMAIN . '/?sitemap=post&sitemap-sub-type=public_cpt&paged=1', $entries, 'Public CPTs are not in the index.' );
-		$this->assertNotContains( 'http://' . WP_TESTS_DOMAIN . '/?sitemap=post&sitemap-sub-type=private_cpt&paged=1', $entries, 'Private CPTs are visible in the index.' );
+		$this->assertContains( 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sitemap-sub-type=public_cpt&paged=1', $entries, 'Public CPTs are not in the index.' );
+		$this->assertNotContains( 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sitemap-sub-type=private_cpt&paged=1', $entries, 'Private CPTs are visible in the index.' );
 	}
 
 	/**
