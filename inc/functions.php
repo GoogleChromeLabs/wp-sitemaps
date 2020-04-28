@@ -13,7 +13,7 @@
 /**
  * Retrieves the current Sitemaps server instance.
  *
- * @return Core_Sitemaps Core_Sitemaps instance.
+ * @return Core_Sitemaps|null Core_Sitemaps instance, or null of sitemaps are disabled.
  */
 function core_sitemaps_get_server() {
 	/**
@@ -64,6 +64,10 @@ function core_sitemaps_get_server() {
 function core_sitemaps_get_sitemaps() {
 	$core_sitemaps = core_sitemaps_get_server();
 
+	if ( ! $core_sitemaps ) {
+		return array();
+	}
+
 	return $core_sitemaps->registry->get_sitemaps();
 }
 
@@ -77,7 +81,11 @@ function core_sitemaps_get_sitemaps() {
 function core_sitemaps_register_sitemap( $name, $provider ) {
 	$core_sitemaps = core_sitemaps_get_server();
 
-	return $core_sitemaps->registry->add_sitemap( $name, $provider );
+	if ( ! $core_sitemaps ) {
+		return false;
+	}
+
+	return $core_sitemaps->registry->add_sitemap($name, $provider);
 }
 
 /**
