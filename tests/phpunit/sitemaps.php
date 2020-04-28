@@ -310,6 +310,28 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Tests getting a URL list for post with private post.
+	 */
+	public function test_get_url_list_private_post() {
+		wp_set_current_user( self::$editor_id );
+
+		$providers = core_sitemaps_get_sitemaps();
+
+		$post_list_before = $providers['posts']->get_url_list( 1, 'post' );
+
+		$private_post_id = self::factory()->post->create( array( 'post_status' => 'private' ) );
+
+		$post_list_after = $providers['posts']->get_url_list( 1, 'post' );
+
+		$private_post = array(
+			'loc' => get_permalink( $private_post_id ),
+		);
+
+		$this->assertNotContains( $private_post, $post_list_after );
+		$this->assertEqualSets( $post_list_before, $post_list_after );
+	}
+
+	/**
 	 * Tests getting a URL list for a custom post type.
 	 */
 	public function test_get_url_list_cpt() {
