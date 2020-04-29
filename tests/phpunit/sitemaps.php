@@ -183,16 +183,16 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 
 		$expected = array(
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sub_type=post&paged=1',
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sitemap-sub-type=post&paged=1',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sub_type=page&paged=1',
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sitemap-sub-type=page&paged=1',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sub_type=category&paged=1',
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sitemap-sub-type=category&paged=1',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sub_type=post_tag&paged=1',
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sitemap-sub-type=post_tag&paged=1',
 			),
 			array(
 				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=users&paged=1',
@@ -252,8 +252,8 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 		unregister_post_type( 'public_cpt' );
 		unregister_post_type( 'private_cpt' );
 
-		$this->assertContains( 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sub_type=public_cpt&paged=1', $entries, 'Public CPTs are not in the index.' );
-		$this->assertNotContains( 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sub_type=private_cpt&paged=1', $entries, 'Private CPTs are visible in the index.' );
+		$this->assertContains( 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sitemap-sub-type=public_cpt&paged=1', $entries, 'Public CPTs are not in the index.' );
+		$this->assertNotContains( 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sitemap-sub-type=private_cpt&paged=1', $entries, 'Private CPTs are visible in the index.' );
 	}
 
 	/**
@@ -307,6 +307,28 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 		);
 
 		$this->assertEquals( $expected, $post_list );
+	}
+
+	/**
+	 * Tests getting a URL list for post with private post.
+	 */
+	public function test_get_url_list_private_post() {
+		wp_set_current_user( self::$editor_id );
+
+		$providers = core_sitemaps_get_sitemaps();
+
+		$post_list_before = $providers['posts']->get_url_list( 1, 'post' );
+
+		$private_post_id = self::factory()->post->create( array( 'post_status' => 'private' ) );
+
+		$post_list_after = $providers['posts']->get_url_list( 1, 'post' );
+
+		$private_post = array(
+			'loc' => get_permalink( $private_post_id ),
+		);
+
+		$this->assertNotContains( $private_post, $post_list_after );
+		$this->assertEqualSets( $post_list_before, $post_list_after );
 	}
 
 	/**

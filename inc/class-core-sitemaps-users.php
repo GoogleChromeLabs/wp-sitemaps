@@ -17,9 +17,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	 * Core_Sitemaps_Users constructor.
 	 */
 	public function __construct() {
-		$this->object_type = 'user';
-		$this->route       = '^wp-sitemap-users-?([0-9]+)?\.xml$';
-		$this->slug        = 'users';
+		$this->object_type = 'users';
 	}
 
 	/**
@@ -64,7 +62,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 
 		$total_users = $query->get_total();
 
-		return (int) ceil( $total_users / core_sitemaps_get_max_urls( $this->slug ) );
+		return (int) ceil( $total_users / core_sitemaps_get_max_urls( $this->object_type ) );
 	}
 
 	/**
@@ -88,7 +86,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 		$query = new WP_User_Query(
 			array(
 				'has_published_posts' => array_keys( $public_post_types ),
-				'number'              => core_sitemaps_get_max_urls( $this->slug ),
+				'number'              => core_sitemaps_get_max_urls( $this->object_type ),
 				'paged'               => absint( $page_num ),
 			)
 		);
