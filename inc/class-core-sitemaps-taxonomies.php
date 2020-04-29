@@ -17,9 +17,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	 * Core_Sitemaps_Taxonomies constructor.
 	 */
 	public function __construct() {
-		$this->object_type = 'taxonomy';
-		$this->route       = '^wp-sitemap-taxonomies-([A-z]+)-?([0-9]+)?\.xml$';
-		$this->slug        = 'taxonomies';
+		$this->object_type = 'taxonomies';
 	}
 
 	/**
@@ -50,13 +48,13 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		$url_list = array();
 
 		// Offset by how many terms should be included in previous pages.
-		$offset = ( $page_num - 1 ) * core_sitemaps_get_max_urls( $this->slug );
+		$offset = ( $page_num - 1 ) * core_sitemaps_get_max_urls( $this->object_type );
 
 		$args = array(
 			'fields'                 => 'ids',
 			'taxonomy'               => $type,
 			'orderby'                => 'term_order',
-			'number'                 => core_sitemaps_get_max_urls( $this->slug ),
+			'number'                 => core_sitemaps_get_max_urls( $this->object_type ),
 			'offset'                 => $offset,
 			'hide_empty'             => true,
 
@@ -108,15 +106,6 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	}
 
 	/**
-	 * Query for the Taxonomies add_rewrite_rule.
-	 *
-	 * @return string Valid add_rewrite_rule query.
-	 */
-	public function rewrite_query() {
-		return 'index.php?sitemap=' . $this->slug . '&sub_type=$matches[1]&paged=$matches[2]';
-	}
-
-	/**
 	 * Sitemap Index query for determining the number of pages.
 	 *
 	 * @param string $type Taxonomy name.
@@ -129,6 +118,6 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 
 		$term_count = wp_count_terms( $type, array( 'hide_empty' => true ) );
 
-		return (int) ceil( $term_count / core_sitemaps_get_max_urls( $this->slug ) );
+		return (int) ceil( $term_count / core_sitemaps_get_max_urls( $this->object_type ) );
 	}
 }

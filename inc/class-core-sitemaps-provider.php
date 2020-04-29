@@ -28,101 +28,14 @@ class Core_Sitemaps_Provider {
 	protected $sub_type = '';
 
 	/**
-	 * Sitemap route
-	 *
-	 * Regex pattern used when building the route for a sitemap.
-	 *
-	 * @var string
-	 */
-	public $route = '';
-
-	/**
-	 * Sitemap slug
-	 *
-	 * Used for building sitemap URLs.
-	 *
-	 * @var string
-	 */
-	public $slug = '';
-
-	/**
-	 * Get a URL list for a post type sitemap.
+	 * Get a URL list for a sitemap.
 	 *
 	 * @param int    $page_num Page of results.
 	 * @param string $type     Optional. Post type name. Default ''.
 	 * @return array $url_list List of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num, $type = '' ) {
-		if ( ! $type ) {
-			$type = $this->get_queried_type();
-		}
-
-		// Return an empty array if the type is not supported.
-		$supported_types = $this->get_object_sub_types();
-
-		if ( ! isset( $supported_types[ $type ] ) ) {
-			return array();
-		}
-
-		$query = new WP_Query(
-			array(
-				'orderby'                => 'ID',
-				'order'                  => 'ASC',
-				'post_type'              => $type,
-				'posts_per_page'         => core_sitemaps_get_max_urls( $this->slug ),
-				'post_status'            => array( 'publish' ),
-				'paged'                  => $page_num,
-				'no_found_rows'          => true,
-				'update_post_term_cache' => false,
-				'update_post_meta_cache' => false,
-			)
-		);
-
-		/**
-		 * Returns an array of posts.
-		 *
-		 * @var array<int, \WP_Post> $posts
-		 */
-		$posts = $query->get_posts();
-
-		$url_list = array();
-
-		/*
-		 * Add a URL for the homepage in the pages sitemap.
-		 * Shows only on the first page if the reading settings are set to display latest posts.
-		 */
-		if ( 'page' === $type && 1 === $page_num && 'posts' === get_option( 'show_on_front' ) ) {
-			// Extract the data needed for home URL to add to the array.
-			$url_list[] = array(
-				'loc'     => home_url(),
-			);
-		}
-
-		foreach ( $posts as $post ) {
-			$url_list[] = array(
-				'loc'     => get_permalink( $post ),
-			);
-		}
-
-		/**
-		 * Filter the list of URLs for a sitemap before rendering.
-		 *
-		 * @since 0.1.0
-		 *
-		 * @param array  $url_list List of URLs for a sitemap.
-		 * @param string $type     Name of the post_type.
-		 * @param int    $page_num Page of results.
-		 */
-		return apply_filters( 'core_sitemaps_posts_url_list', $url_list, $type, $page_num );
-	}
-
-	/**
-	 * Query for the add_rewrite_rule. Must match the number of Capturing Groups in the route regex.
-	 *
-	 * @return string Valid add_rewrite_rule query.
-	 */
-	public function rewrite_query() {
-		return 'index.php?sitemap=' . $this->slug . '&paged=$matches[1]';
+		return array();
 	}
 
 	/**
@@ -134,7 +47,7 @@ class Core_Sitemaps_Provider {
 		$type = $this->sub_type;
 
 		if ( empty( $type ) ) {
-			$type = $this->object_type;
+			return $this->object_type;
 		}
 
 		return $type;
@@ -157,8 +70,7 @@ class Core_Sitemaps_Provider {
 				'orderby'                => 'ID',
 				'order'                  => 'ASC',
 				'post_type'              => $type,
-				'posts_per_page'         => core_sitemaps_get_max_urls( $this->slug ),
-				'post_status'            => array( 'publish' ),
+				'posts_per_page'         => core_sitemaps_get_max_urls( $this->object_type ),
 				'paged'                  => 1,
 				'update_post_term_cache' => false,
 				'update_post_meta_cache' => false,
@@ -243,7 +155,7 @@ class Core_Sitemaps_Provider {
 		$basename = sprintf(
 			'/wp-sitemap-%1$s.xml',
 			// Accounts for cases where name is not included, ex: sitemaps-users-1.xml.
-			implode( '-', array_filter( array( $this->slug, $name, (string) $page ) ) )
+			implode( '-', array_filter( array( $this->object_type, $name, (string) $page ) ) )
 		);
 
 		$url = home_url( $basename );
@@ -251,9 +163,9 @@ class Core_Sitemaps_Provider {
 		if ( ! $wp_rewrite->using_permalinks() ) {
 			$url = add_query_arg(
 				array(
-					'sitemap'  => $this->slug,
-					'sub_type' => $name,
-					'paged'    => $page,
+					'sitemap'          => $this->object_type,
+					'sitemap-sub-type' => $name,
+					'paged'            => $page,
 				),
 				home_url( '/' )
 			);
