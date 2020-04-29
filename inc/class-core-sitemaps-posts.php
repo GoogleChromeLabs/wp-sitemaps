@@ -64,6 +64,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 				'order'                  => 'ASC',
 				'post_type'              => $type,
 				'posts_per_page'         => core_sitemaps_get_max_urls( $this->object_type ),
+				'post_status'            => array( 'publish' ),
 				'paged'                  => $page_num,
 				'no_found_rows'          => true,
 				'update_post_term_cache' => false,
