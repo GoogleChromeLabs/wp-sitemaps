@@ -13,7 +13,7 @@
 /**
  * Retrieves the current Sitemaps server instance.
  *
- * @return Core_Sitemaps Core_Sitemaps instance.
+ * @return Core_Sitemaps|null Core_Sitemaps instance, or null of sitemaps are disabled.
  */
 function core_sitemaps_get_server() {
 	/**
@@ -22,6 +22,19 @@ function core_sitemaps_get_server() {
 	 * @var Core_Sitemaps $core_sitemaps
 	 */
 	global $core_sitemaps;
+
+	$is_enabled = (bool) get_option( 'blog_public' );
+
+	/**
+	 * Filters whether XML Sitemaps are enabled or not.
+	 *
+	 * @param bool $is_enabled Whether XML Sitemaps are enabled or not. Defaults to true for public sites.
+	 */
+	$is_enabled = (bool) apply_filters( 'core_sitemaps_is_enabled', $is_enabled );
+
+	if ( ! $is_enabled ) {
+		return null;
+	}
 
 	// If there isn't a global instance, set and bootstrap the sitemaps system.
 	if ( empty( $core_sitemaps ) ) {
@@ -51,6 +64,10 @@ function core_sitemaps_get_server() {
 function core_sitemaps_get_sitemaps() {
 	$core_sitemaps = core_sitemaps_get_server();
 
+	if ( ! $core_sitemaps ) {
+		return array();
+	}
+
 	return $core_sitemaps->registry->get_sitemaps();
 }
 
@@ -63,6 +80,10 @@ function core_sitemaps_get_sitemaps() {
  */
 function core_sitemaps_register_sitemap( $name, $provider ) {
 	$core_sitemaps = core_sitemaps_get_server();
+
+	if ( ! $core_sitemaps ) {
+		return false;
+	}
 
 	return $core_sitemaps->registry->add_sitemap( $name, $provider );
 }

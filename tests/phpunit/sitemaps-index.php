@@ -33,6 +33,16 @@ class Test_Core_Sitemaps_Index extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Test robots.txt output for a private site.
+	 */
+	public function test_robots_text_private_site() {
+		$robots_text = apply_filters( 'robots_txt', '', false );
+		$sitemap_string = 'Sitemap: http://' . WP_TESTS_DOMAIN . '/?sitemap=index';
+
+		$this->assertNotContains( $sitemap_string, $robots_text );
+	}
+
+	/**
 	 * Test robots.txt output with permalinks set.
 	 */
 	public function test_robots_text_with_permalinks() {
