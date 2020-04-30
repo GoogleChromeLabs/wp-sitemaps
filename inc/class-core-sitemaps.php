@@ -112,7 +112,7 @@ class Core_Sitemaps {
 
 		// Register routes for providers.
 		add_rewrite_rule(
-			'^wp-sitemap-([a-z]+?)-([a-z\d-]+?)-(\d+?)\.xml$',
+			'^wp-sitemap-([a-z]+?)-([a-z\d_-]+?)-(\d+?)\.xml$',
 			'index.php?sitemap=$matches[1]&sitemap-sub-type=$matches[2]&paged=$matches[3]',
 			'top'
 		);
