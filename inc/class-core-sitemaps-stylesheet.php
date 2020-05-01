@@ -201,7 +201,7 @@ XSL;
 	 *
 	 * @return string The CSS.
 	 */
-	protected function get_stylesheet_css() {
+	public function get_stylesheet_css() {
 		$css = '
 			body {
 				font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;

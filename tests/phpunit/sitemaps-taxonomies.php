@@ -173,4 +173,18 @@ class Test_Core_Sitemaps_Taxonomies extends WP_UnitTestCase {
 		$this->assertContains( 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sitemap-sub-type=public_taxonomy&paged=1', $entries, 'Public Taxonomies are not in the index.' );
 		$this->assertNotContains( 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sitemap-sub-type=private_taxonomy&paged=1', $entries, 'Private Taxonomies are visible in the index.' );
 	}
+
+	/**
+	 * Test ability to filter object subtypes.
+	 */
+	public function test_filter_core_sitemaps_taxonomies() {
+		$taxonomies_provider = new Core_Sitemaps_Taxonomies();
+
+		// Return an empty array to show that the list of subtypes is filterable.
+		add_filter( 'core_sitemaps_taxonomies', '__return_empty_array' );
+		$subtypes = $taxonomies_provider->get_object_sub_types();
+		remove_filter( 'core_sitemaps_taxonomies', '__return_empty_array' );
+
+		$this->assertEquals( array(), $subtypes, 'Could not filter taxonomies subtypes.' );
+	}
 }
