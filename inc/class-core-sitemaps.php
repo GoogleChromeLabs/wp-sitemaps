@@ -151,21 +151,21 @@ class Core_Sitemaps {
 	public function render_sitemaps() {
 		global $wp_query;
 
-		$sitemap    = sanitize_text_field( get_query_var( 'sitemap' ) );
-		$sub_type   = sanitize_text_field( get_query_var( 'sitemap-sub-type' ) );
-		$stylesheet = sanitize_text_field( get_query_var( 'sitemap-stylesheet' ) );
-		$paged      = absint( get_query_var( 'paged' ) );
+		$sitemap         = sanitize_text_field( get_query_var( 'sitemap' ) );
+		$sub_type        = sanitize_text_field( get_query_var( 'sitemap-sub-type' ) );
+		$stylesheet_type = sanitize_text_field( get_query_var( 'sitemap-stylesheet' ) );
+		$paged           = absint( get_query_var( 'paged' ) );
 
 		// Bail early if this isn't a sitemap or stylesheet route.
-		if ( ! ( $sitemap || $stylesheet ) ) {
+		if ( ! ( $sitemap || $stylesheet_type ) ) {
 			return;
 		}
 
 		// Render stylesheet if this is stylesheet route.
-		if ( $stylesheet ) {
+		if ( $stylesheet_type ) {
 			$stylesheet = new Core_Sitemaps_Stylesheet();
 
-			$stylesheet->render_stylesheet();
+			$stylesheet->render_stylesheet( $stylesheet_type );
 			exit;
 		}
 
