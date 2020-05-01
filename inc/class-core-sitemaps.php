@@ -50,7 +50,6 @@ class Core_Sitemaps {
 	 */
 	public function init() {
 		// These will all fire on the init hook.
-		$this->setup_sitemaps_index();
 		$this->register_sitemaps();
 
 		// Add additional action callbacks.
@@ -58,13 +57,8 @@ class Core_Sitemaps {
 		add_action( 'template_redirect', array( $this, 'render_sitemaps' ) );
 		add_action( 'wp_loaded', array( $this, 'maybe_flush_rewrites' ) );
 		add_filter( 'pre_handle_404', array( $this, 'redirect_sitemapxml' ), 10, 2 );
-	}
-
-	/**
-	 * Set up the main sitemap index.
-	 */
-	public function setup_sitemaps_index() {
-		$this->index->setup_sitemap();
+		add_filter( 'robots_txt', array( $this, 'add_robots' ), 0, 2 );
+		add_filter( 'redirect_canonical', array( $this, 'redirect_canonical' ) );
 	}
 
 	/**
@@ -241,5 +235,34 @@ class Core_Sitemaps {
 		}
 
 		return $bypass;
+	}
+
+	/**
+	 * Adds the sitemap index to robots.txt.
+	 *
+	 * @param string $output robots.txt output.
+	 * @param bool   $public Whether the site is public or not.
+	 * @return string robots.txt output.
+	 */
+	public function add_robots( $output, $public ) {
+		if ( $public ) {
+			$output .= "\nSitemap: " . esc_url( $this->index->get_index_url() ) . "\n";
+		}
+
+		return $output;
+	}
+
+	/**
+	 * Prevent trailing slashes.
+	 *
+	 * @param string $redirect The redirect URL currently determined.
+	 * @return bool|string $redirect
+	 */
+	public function redirect_canonical( $redirect ) {
+		if ( get_query_var( 'sitemap' ) || get_query_var( 'sitemap-stylesheet' ) ) {
+			return false;
+		}
+
+		return $redirect;
 	}
 }
