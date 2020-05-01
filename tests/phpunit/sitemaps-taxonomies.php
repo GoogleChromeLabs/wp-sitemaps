@@ -186,4 +186,22 @@ class Test_Core_Sitemaps_Taxonomies extends WP_UnitTestCase {
 
 		$this->assertEquals( array(), $subtypes, 'Could not filter taxonomies subtypes.' );
 	}
+
+	/**
+	 * Test ability to filter the taxonomies URL list.
+	 */
+	public function test_filter_core_sitemaps_taxonomies_url_list() {
+		$taxonomies_provider = new Core_Sitemaps_Taxonomies();
+
+		add_filter( 'core_sitemaps_taxonomies_url_list', '__return_empty_array' );
+
+		// Register taxonomy, create a term for it and assign a post to it.
+		register_taxonomy( 'test_tax', 'post' );
+		$term = self::factory()->term->create( array( 'taxonomy'  => 'test_tax' ) );
+		$post = self::factory()->post->create();
+		wp_set_post_terms( $post, array( $term ), 'test_tax' );
+
+		$test_tax_url_list = $taxonomies_provider->get_url_list( 1, 'test_tax' );
+		$this->assertEquals( array(), $test_tax_url_list, 'Could not filter taxonomies URL list.' );
+	}
 }
