@@ -38,9 +38,9 @@ class Core_Sitemaps {
 	 * Core_Sitemaps constructor.
 	 */
 	public function __construct() {
-		$this->index    = new Core_Sitemaps_Index();
 		$this->registry = new Core_Sitemaps_Registry();
 		$this->renderer = new Core_Sitemaps_Renderer();
+		$this->index    = new Core_Sitemaps_Index( $this->registry );
 	}
 
 	/**
@@ -171,16 +171,9 @@ class Core_Sitemaps {
 
 		// Render the index.
 		if ( 'index' === $sitemap ) {
-			$sitemaps = array();
+			$sitemap_list = $this->index->get_sitemap_list();
 
-			$providers = $this->registry->get_sitemaps();
-			/* @var Core_Sitemaps_Provider $provider */
-			foreach ( $providers as $provider ) {
-				// Using array_push is more efficient than array_merge in a loop.
-				array_push( $sitemaps, ...$provider->get_sitemap_entries() );
-			}
-
-			$this->renderer->render_index( $sitemaps );
+			$this->renderer->render_index( $sitemap_list );
 			exit;
 		}
 

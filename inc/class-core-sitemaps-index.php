@@ -16,6 +16,40 @@
 class Core_Sitemaps_Index {
 
 	/**
+	 * The main registry of supported sitemaps.
+	 *
+	 * @var Core_Sitemaps_Registry
+	 */
+	protected $registry;
+
+	/**
+	 * Core_Sitemaps_Index constructor.
+	 *
+	 * @param Core_Sitemaps_Registry $registry Sitemap provider registry.
+	 */
+	public function __construct( $registry ) {
+		$this->registry = $registry;
+	}
+
+	/**
+	 * Gets a sitemap list for the index.
+	 *
+	 * @return array List of all sitemaps.
+	 */
+	public function get_sitemap_list() {
+		$sitemaps = array();
+
+		$providers = $this->registry->get_sitemaps();
+		/* @var Core_Sitemaps_Provider $provider */
+		foreach ( $providers as $provider ) {
+			// Using array_push is more efficient than array_merge in a loop.
+			array_push( $sitemaps, ...$provider->get_sitemap_entries() );
+		}
+
+		return $sitemaps;
+	}
+
+	/**
 	 * Builds the URL for the sitemap index.
 	 *
 	 * @return string the sitemap index url.
