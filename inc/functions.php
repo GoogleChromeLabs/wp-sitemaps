@@ -2,7 +2,7 @@
 /**
  * Sitemaps: Public functions
  *
- * This file cocntains a variety of public functions developers can use to interact with
+ * This file contains a variety of public functions developers can use to interact with
  * the XML Sitemaps API.
  *
  * @package WordPress
@@ -57,7 +57,7 @@ function core_sitemaps_get_server() {
 }
 
 /**
- * Get a list of sitemaps.
+ * Gets a list of sitemaps.
  *
  * @return array $sitemaps A list of registered sitemap providers.
  */
@@ -72,7 +72,7 @@ function core_sitemaps_get_sitemaps() {
 }
 
 /**
- * Register a new sitemap provider.
+ * Registers a new sitemap provider.
  *
  * @param string                 $name     Unique name for the sitemap provider.
  * @param Core_Sitemaps_Provider $provider The `Core_Sitemaps_Provider` instance implementing the sitemap.
@@ -89,7 +89,7 @@ function core_sitemaps_register_sitemap( $name, $provider ) {
 }
 
 /**
- * Get the maximum number of URLs for a sitemap.
+ * Gets the maximum number of URLs for a sitemap.
  *
  * @since 0.1.0
  *
@@ -98,7 +98,7 @@ function core_sitemaps_register_sitemap( $name, $provider ) {
  */
 function core_sitemaps_get_max_urls( $type = '' ) {
 	/**
-	 * Filter the maximum number of URLs displayed on a sitemap.
+	 * Filters the maximum number of URLs displayed on a sitemap.
 	 *
 	 * @since 0.1.0
 	 *

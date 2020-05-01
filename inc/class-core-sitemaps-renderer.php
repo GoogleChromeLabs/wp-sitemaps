@@ -42,7 +42,7 @@ class Core_Sitemaps_Renderer {
 	}
 
 	/**
-	 * Get the URL for the sitemap stylesheet.
+	 * Gets the URL for the sitemap stylesheet.
 	 *
 	 * @return string the sitemap stylesheet url.
 	 */
@@ -68,7 +68,7 @@ class Core_Sitemaps_Renderer {
 	}
 
 	/**
-	 * Get the URL for the sitemap index stylesheet.
+	 * Gets the URL for the sitemap index stylesheet.
 	 *
 	 * @return string the sitemap index stylesheet url.
 	 */
@@ -83,7 +83,7 @@ class Core_Sitemaps_Renderer {
 		}
 
 		/**
-		 * Filter the URL for the sitemap index stylesheet.
+		 * Filters the URL for the sitemap index stylesheet.
 		 *
 		 * If a falsy value is returned, no stylesheet will be used and
 		 * the "raw" XML of the sitemap index will be displayed.
@@ -94,7 +94,7 @@ class Core_Sitemaps_Renderer {
 	}
 
 	/**
-	 * Render a sitemap index.
+	 * Renders a sitemap index.
 	 *
 	 * @param array $sitemaps List of sitemap entries.
 	 */
@@ -113,7 +113,7 @@ class Core_Sitemaps_Renderer {
 	}
 
 	/**
-	 * Get XML for a sitemap index.
+	 * Gets XML for a sitemap index.
 	 *
 	 * @param array $sitemaps List of sitemap entries.
 	 * @return string|false A well-formed XML string for a sitemap index. False on error.
@@ -137,7 +137,7 @@ class Core_Sitemaps_Renderer {
 	}
 
 	/**
-	 * Render a sitemap.
+	 * Renders a sitemap.
 	 *
 	 * @param array $url_list A list of URLs for a sitemap.
 	 */
@@ -156,7 +156,7 @@ class Core_Sitemaps_Renderer {
 	}
 
 	/**
-	 * Get XML for a sitemap.
+	 * Gets XML for a sitemap.
 	 *
 	 * @param array $url_list A list of URLs for a sitemap.
 	 * @return string|false A well-formed XML string for a sitemap index. False on error.

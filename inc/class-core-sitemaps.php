@@ -44,7 +44,7 @@ class Core_Sitemaps {
 	}
 
 	/**
-	 * Initiate all sitemap functionality.
+	 * Initiates all sitemap functionality.
 	 *
 	 * @return void
 	 */
@@ -61,14 +61,14 @@ class Core_Sitemaps {
 	}
 
 	/**
-	 * Set up the main sitemap index.
+	 * Sets up the main sitemap index.
 	 */
 	public function setup_sitemaps_index() {
 		$this->index->setup_sitemap();
 	}
 
 	/**
-	 * Register and set up the functionality for all supported sitemaps.
+	 * Registers and sets up the functionality for all supported sitemaps.
 	 */
 	public function register_sitemaps() {
 		/**
@@ -95,7 +95,7 @@ class Core_Sitemaps {
 	}
 
 	/**
-	 * Register sitemap rewrite tags and routing rules.
+	 * Registers sitemap rewrite tags and routing rules.
 	 */
 	public function register_rewrites() {
 		// Add rewrite tags.
@@ -124,7 +124,7 @@ class Core_Sitemaps {
 	}
 
 	/**
-	 * Unregister sitemap rewrite tags and routing rules.
+	 * Unregisters sitemap rewrite tags and routing rules.
 	 */
 	public function unregister_rewrites() {
 		/* @var WP_Rewrite $wp_rewrite */
@@ -143,7 +143,7 @@ class Core_Sitemaps {
 	}
 
 	/**
-	 * Flush rewrite rules if developers updated them.
+	 * Flushes rewrite rules if developers updated them.
 	 */
 	public function maybe_flush_rewrites() {
 		if ( update_option( 'core_sitemaps_rewrite_version', CORE_SITEMAPS_REWRITE_VERSION ) ) {
@@ -152,7 +152,7 @@ class Core_Sitemaps {
 	}
 
 	/**
-	 * Render sitemap templates based on rewrite rules.
+	 * Renders sitemap templates based on rewrite rules.
 	 */
 	public function render_sitemaps() {
 		global $wp_query;
@@ -220,7 +220,7 @@ class Core_Sitemaps {
 	}
 
 	/**
-	 * Redirect an URL to the wp-sitemap.xml
+	 * Redirects a URL to the wp-sitemap.xml
 	 *
 	 * @param bool     $bypass Pass-through of the pre_handle_404 filter value.
 	 * @param WP_Query $query The WP_Query object.

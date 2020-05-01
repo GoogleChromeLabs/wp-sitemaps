@@ -109,7 +109,7 @@ class Core_Sitemaps_Stylesheet {
 XSL;
 
 		/**
-		 * Filter the content of the sitemap stylesheet.
+		 * Filters the content of the sitemap stylesheet.
 		 *
 		 * @param string $xsl Full content for the xml stylesheet.
 		 */
@@ -189,7 +189,7 @@ XSL;
 XSL;
 
 		/**
-		 * Filter the content of the sitemap index stylesheet.
+		 * Filters the content of the sitemap index stylesheet.
 		 *
 		 * @param string $xsl Full content for the xml stylesheet.
 		 */
@@ -197,7 +197,7 @@ XSL;
 	}
 
 	/**
-	 * The CSS to be included in sitemap XSL stylesheets.
+	 * Gets the CSS to be included in sitemap XSL stylesheets.
 	 *
 	 * @return string The CSS.
 	 */
@@ -231,7 +231,7 @@ XSL;
 			}';
 
 		/**
-		 * Filter the css only for the sitemap stylesheet.
+		 * Filters the css only for the sitemap stylesheet.
 		 *
 		 * @param string $css CSS to be applied to default xsl file.
 		 */

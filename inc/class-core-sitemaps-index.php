@@ -1,8 +1,8 @@
 <?php
 /**
- * Sitemaps: Core_Sitemaps_Index class
+ * Sitemaps: Core_Sitemaps_Index class.
  *
- * This class generates the sitemap index.
+ * Generates the sitemap index.
  *
  * @package WordPress
  * @subpackage Sitemaps
@@ -23,7 +23,7 @@ class Core_Sitemaps_Index {
 	protected $name = 'index';
 
 	/**
-	 * A helper function to initiate actions, hooks and other features needed.
+	 * Initiates actions, hooks and other features needed.
 	 */
 	public function setup_sitemap() {
 		// Add filters.
@@ -32,7 +32,7 @@ class Core_Sitemaps_Index {
 	}
 
 	/**
-	 * Prevent trailing slashes.
+	 * Prevents trailing slashes.
 	 *
 	 * @param string $redirect The redirect URL currently determined.
 	 * @return bool|string $redirect

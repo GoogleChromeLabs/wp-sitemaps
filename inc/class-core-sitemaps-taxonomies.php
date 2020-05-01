@@ -2,7 +2,7 @@
 /**
  * Sitemaps: Core_Sitemaps_Taxonomies class
  *
- * This class builds the sitemaps for the 'taxonomy' object type.
+ * Builds the sitemaps for the 'taxonomy' object type.
  *
  * @package WordPress
  * @subpackage Sitemaps
@@ -21,7 +21,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	}
 
 	/**
-	 * Get a URL list for a taxonomy sitemap.
+	 * Gets a URL list for a taxonomy sitemap.
 	 *
 	 * @param int    $page_num Page of results.
 	 * @param string $type     Optional. Taxonomy type name. Default ''.
@@ -90,7 +90,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	}
 
 	/**
-	 * Return all public, registered taxonomies.
+	 * Returns all public, registered taxonomies.
 	 */
 	public function get_object_sub_types() {
 		$taxonomy_types = get_taxonomies( array( 'public' => true ), 'objects' );
@@ -106,7 +106,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	}
 
 	/**
-	 * Sitemap Index query for determining the number of pages.
+	 * Gets the max number of pages available for the object type.
 	 *
 	 * @param string $type Taxonomy name.
 	 * @return int Total number of pages.
