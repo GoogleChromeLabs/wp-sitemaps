@@ -10,7 +10,6 @@ class Test_Core_Sitemaps_Posts extends WP_UnitTestCase {
 		// Return an empty array to show that the list of subtypes is filterable.
 		add_filter( 'core_sitemaps_post_types', '__return_empty_array' );
 		$subtypes = $posts_provider->get_object_sub_types();
-		remove_filter( 'core_sitemaps_post_types', '__return_empty_array' );
 
 		$this->assertEquals( array(), $subtypes, 'Could not filter posts subtypes.' );
 	}

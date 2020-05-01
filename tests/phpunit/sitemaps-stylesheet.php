@@ -8,10 +8,7 @@ class Test_Core_Sitemaps_Stylesheet extends WP_UnitTestCase {
 		$stylesheet = new Core_Sitemaps_Stylesheet();
 
 		add_filter( 'core_sitemaps_stylesheet_content', '__return_empty_string' );
-
 		$content = $stylesheet->get_sitemap_stylesheet();
-
-		remove_filter( 'core_sitemaps_stylesheet_content', '__return_empty_string' );
 
 		$this->assertSame( '', $content, 'Could not filter stylesheet content' );
 	}
@@ -23,10 +20,7 @@ class Test_Core_Sitemaps_Stylesheet extends WP_UnitTestCase {
 		$stylesheet = new Core_Sitemaps_Stylesheet();
 
 		add_filter( 'core_sitemaps_index_stylesheet_content', '__return_empty_string' );
-
 		$content = $stylesheet->get_sitemap_index_stylesheet();
-
-		remove_filter( 'core_sitemaps_index_stylesheet_content', '__return_empty_string' );
 
 		$this->assertSame( '', $content, 'Could not filter sitemap index stylesheet content' );
 	}
@@ -38,10 +32,7 @@ class Test_Core_Sitemaps_Stylesheet extends WP_UnitTestCase {
 		$stylesheet = new Core_Sitemaps_Stylesheet();
 
 		add_filter( 'core_sitemaps_stylesheet_css', '__return_empty_string' );
-
 		$css = $stylesheet->get_stylesheet_css();
-
-		remove_filter( 'core_sitemaps_stylesheet_css', '__return_empty_string' );
 
 		$this->assertSame( '', $css, 'Could not filter sitemap stylesheet CSS' );
 	}
