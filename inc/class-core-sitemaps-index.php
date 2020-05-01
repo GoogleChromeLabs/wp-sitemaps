@@ -14,13 +14,6 @@
  * Builds the sitemap index page that lists the links to all of the sitemaps.
  */
 class Core_Sitemaps_Index {
-	/**
-	 * Sitemap name.
-	 * Used for building sitemap URLs.
-	 *
-	 * @var string
-	 */
-	protected $name = 'index';
 
 	/**
 	 * Builds the URL for the sitemap index.
