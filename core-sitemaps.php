@@ -20,14 +20,14 @@
  * Author URI:        https://github.com/GoogleChromeLabs/wp-sitemaps/graphs/contributors
  * Text Domain:       core-sitemaps
  * Domain Path:       /languages
- * Requires at least: 5.2
+ * Requires at least: 5.3
  * Requires PHP:      5.6
- * Version:           0.1.0
+ * Version:           0.2.0
  */
 
 // The limit for how many sitemaps to include in an index.
 const CORE_SITEMAPS_MAX_SITEMAPS    = 50000;
-const CORE_SITEMAPS_REWRITE_VERSION = '2019-11-15a';
+const CORE_SITEMAPS_REWRITE_VERSION = '2020-04-29';
 
 // Limit the number of URLs included in as sitemap.
 if ( ! defined( 'CORE_SITEMAPS_MAX_URLS' ) ) {
@@ -47,3 +47,29 @@ require_once __DIR__ . '/inc/functions.php';
 
 // Boot the sitemaps system.
 add_action( 'init', 'core_sitemaps_get_server' );
+
+/**
+ * Plugin activation hook.
+ *
+ * Adds and flushes rewrite rules.
+ */
+function core_sitemaps_plugin_activation() {
+	$core_sitemaps = new Core_Sitemaps();
+	$core_sitemaps->register_rewrites();
+	flush_rewrite_rules( false );
+}
+
+register_activation_hook( __FILE__, 'core_sitemaps_plugin_activation' );
+
+/**
+ * Plugin deactivation hook.
+ *
+ * Adds and flushes rewrite rules.
+ */
+function core_sitemaps_plugin_deactivation() {
+	$core_sitemaps = new Core_Sitemaps();
+	$core_sitemaps->unregister_rewrites();
+	flush_rewrite_rules( false );
+}
+
+register_deactivation_hook( __FILE__, 'core_sitemaps_plugin_deactivation' );

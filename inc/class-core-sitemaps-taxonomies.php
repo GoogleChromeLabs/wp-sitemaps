@@ -1,22 +1,23 @@
 <?php
 /**
- * Taxonomies sitemap.
+ * Sitemaps: Core_Sitemaps_Taxonomies class
  *
- * @package Core_Sitemaps
+ * This class builds the sitemaps for the 'taxonomy' object type.
+ *
+ * @package WordPress
+ * @subpackage Sitemaps
+ * @since x.x.x
  */
 
 /**
- * Class Core_Sitemaps_Taxonomies.
- * Builds the sitemap pages for Taxonomies.
+ * Taxonomies XML sitemap provider.
  */
 class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	/**
 	 * Core_Sitemaps_Taxonomies constructor.
 	 */
 	public function __construct() {
-		$this->object_type = 'taxonomy';
-		$this->route       = '^sitemap-taxonomies-([A-z]+)-?([0-9]+)?\.xml$';
-		$this->slug        = 'taxonomies';
+		$this->object_type = 'taxonomies';
 	}
 
 	/**
@@ -47,13 +48,13 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		$url_list = array();
 
 		// Offset by how many terms should be included in previous pages.
-		$offset = ( $page_num - 1 ) * core_sitemaps_get_max_urls( $this->slug );
+		$offset = ( $page_num - 1 ) * core_sitemaps_get_max_urls( $this->object_type );
 
 		$args = array(
 			'fields'                 => 'ids',
 			'taxonomy'               => $type,
 			'orderby'                => 'term_order',
-			'number'                 => core_sitemaps_get_max_urls( $this->slug ),
+			'number'                 => core_sitemaps_get_max_urls( $this->object_type ),
 			'offset'                 => $offset,
 			'hide_empty'             => true,
 
@@ -69,30 +70,9 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		$taxonomy_terms = new WP_Term_Query( $args );
 
 		if ( ! empty( $taxonomy_terms->terms ) ) {
-			// Loop through the terms and get the latest post stored in each.
 			foreach ( $taxonomy_terms->terms as $term ) {
-				$last_modified = get_posts(
-					array(
-						'tax_query'              => array(
-							array(
-								'taxonomy' => $type,
-								'field'    => 'term_id',
-								'terms'    => $term,
-							),
-						),
-						'posts_per_page'         => '1',
-						'orderby'                => 'date',
-						'order'                  => 'DESC',
-						'no_found_rows'          => true,
-						'update_post_term_cache' => false,
-						'update_post_meta_cache' => false,
-					)
-				);
-
-				// Extract the data needed for each term URL in an array.
 				$url_list[] = array(
-					'loc'     => get_term_link( $term ),
-					'lastmod' => mysql2date( DATE_W3C, $last_modified[0]->post_modified_gmt, false ),
+					'loc' => get_term_link( $term ),
 				);
 			}
 		}
@@ -126,15 +106,6 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	}
 
 	/**
-	 * Query for the Taxonomies add_rewrite_rule.
-	 *
-	 * @return string Valid add_rewrite_rule query.
-	 */
-	public function rewrite_query() {
-		return 'index.php?sitemap=' . $this->slug . '&sub_type=$matches[1]&paged=$matches[2]';
-	}
-
-	/**
 	 * Sitemap Index query for determining the number of pages.
 	 *
 	 * @param string $type Taxonomy name.
@@ -147,6 +118,6 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 
 		$term_count = wp_count_terms( $type, array( 'hide_empty' => true ) );
 
-		return (int) ceil( $term_count / core_sitemaps_get_max_urls( $this->slug ) );
+		return (int) ceil( $term_count / core_sitemaps_get_max_urls( $this->object_type ) );
 	}
 }

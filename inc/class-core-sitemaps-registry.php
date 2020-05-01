@@ -1,8 +1,12 @@
 <?php
 /**
- * Core Sitemaps Registry
+ * Sitemaps: Core_Sitemaps_Registry class
  *
- * @package Core_Sitemaps
+ * This class handles registration sitemaps.
+ *
+ * @package WordPress
+ * @subpackage Sitemaps
+ * @since x.x.x
  */
 
 /**
@@ -21,7 +25,7 @@ class Core_Sitemaps_Registry {
 	 *
 	 * @param string                 $name     Name of the sitemap.
 	 * @param Core_Sitemaps_Provider $provider Instance of a Core_Sitemaps_Provider.
-	 * @return bool True if the sitemap was added, false if it wasn't as it's name was already registered.
+	 * @return bool True if the sitemap was added, false if it is already registered.
 	 */
 	public function add_sitemap( $name, $provider ) {
 		if ( isset( $this->sitemaps[ $name ] ) ) {
@@ -35,6 +39,21 @@ class Core_Sitemaps_Registry {
 		$this->sitemaps[ $name ] = $provider;
 
 		return true;
+	}
+
+	/**
+	 * Returns a single sitemap provider.
+	 *
+	 * @param string $name Sitemap provider name.
+	 *
+	 * @return Core_Sitemaps_Provider|null Provider if it exists, null otherwise.
+	 */
+	public function get_provider( $name ) {
+		if ( ! isset( $this->sitemaps[ $name ] ) ) {
+			return null;
+		}
+
+		return $this->sitemaps[ $name ];
 	}
 
 	/**

@@ -1,9 +1,12 @@
 <?php
 /**
- * Class file for the Core_Sitemaps_Index class.
+ * Sitemaps: Core_Sitemaps_Index class
+ *
  * This class generates the sitemap index.
  *
- * @package Core_Sitemaps
+ * @package WordPress
+ * @subpackage Sitemaps
+ * @since x.x.x
  */
 
 /**
@@ -35,7 +38,7 @@ class Core_Sitemaps_Index {
 	 * @return bool|string $redirect
 	 */
 	public function redirect_canonical( $redirect ) {
-		if ( get_query_var( 'sitemap' ) ) {
+		if ( get_query_var( 'sitemap' ) || get_query_var( 'sitemap-stylesheet' ) ) {
 			return false;
 		}
 
@@ -48,9 +51,10 @@ class Core_Sitemaps_Index {
 	 * @return string the sitemap index url.
 	 */
 	public function get_index_url() {
+		/* @var WP_Rewrite $wp_rewrite */
 		global $wp_rewrite;
 
-		$url = home_url( '/sitemap.xml' );
+		$url = home_url( '/wp-sitemap.xml' );
 
 		if ( ! $wp_rewrite->using_permalinks() ) {
 			$url = add_query_arg( 'sitemap', 'index', home_url( '/' ) );

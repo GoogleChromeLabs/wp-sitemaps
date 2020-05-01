@@ -15,8 +15,7 @@
 
 	<testsuites>
 		<testsuite name="plugins">
-			<directory prefix="class-test-" suffix=".php">./tests/phpunit/</directory>
+			<directory suffix=".php">./tests/phpunit/</directory>
 		</testsuite>
 	</testsuites>
-
 </phpunit>

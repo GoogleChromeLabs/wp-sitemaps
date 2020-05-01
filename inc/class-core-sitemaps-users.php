@@ -1,23 +1,23 @@
 <?php
 /**
- * The Core_Sitemaps_Users sitemap provider.
+ * Sitemaps: Core_Sitemaps_Users class
  *
- * This class extends Core_Sitemaps_Provider to support sitemaps for user pages in WordPress.
+ * This class builds the sitemaps for the 'user' object type.
  *
- * @package Core_Sitemaps
+ * @package WordPress
+ * @subpackage Sitemaps
+ * @since x.x.x
  */
 
 /**
- * Class Core_Sitemaps_Users
+ * Users XML sitemap provider.
  */
 class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	/**
 	 * Core_Sitemaps_Users constructor.
 	 */
 	public function __construct() {
-		$this->object_type = 'user';
-		$this->route       = '^sitemap-users-?([0-9]+)?\.xml$';
-		$this->slug        = 'users';
+		$this->object_type = 'users';
 	}
 
 	/**
@@ -34,18 +34,8 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 		$url_list = array();
 
 		foreach ( $users as $user ) {
-			$last_modified = get_posts(
-				array(
-					'author'        => $user->ID,
-					'orderby'       => 'date',
-					'numberposts'   => 1,
-					'no_found_rows' => true,
-				)
-			);
-
 			$url_list[] = array(
 				'loc'     => get_author_posts_url( $user->ID ),
-				'lastmod' => mysql2date( DATE_W3C, $last_modified[0]->post_modified_gmt, false ),
 			);
 		}
 
@@ -72,7 +62,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 
 		$total_users = $query->get_total();
 
-		return (int) ceil( $total_users / core_sitemaps_get_max_urls( $this->slug ) );
+		return (int) ceil( $total_users / core_sitemaps_get_max_urls( $this->object_type ) );
 	}
 
 	/**
@@ -96,7 +86,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 		$query = new WP_User_Query(
 			array(
 				'has_published_posts' => array_keys( $public_post_types ),
-				'number'              => core_sitemaps_get_max_urls( $this->slug ),
+				'number'              => core_sitemaps_get_max_urls( $this->object_type ),
 				'paged'               => absint( $page_num ),
 			)
 		);
