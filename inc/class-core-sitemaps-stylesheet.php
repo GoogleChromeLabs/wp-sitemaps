@@ -6,11 +6,13 @@
  *
  * @package WordPress
  * @subpackage Sitemaps
- * @since x.x.x
+ * @since 5.5.0
  */
 
 /**
  * Stylesheet provider class.
+ *
+ * @since 5.5.0
  */
 class Core_Sitemaps_Stylesheet {
 	/**
@@ -38,6 +40,8 @@ class Core_Sitemaps_Stylesheet {
 
 	/**
 	 * Returns the escaped xsl for all sitemaps, except index.
+	 *
+	 * @since 5.5.0
 	 */
 	public function get_sitemap_stylesheet() {
 		$css         = $this->get_stylesheet_css();
@@ -111,6 +115,8 @@ XSL;
 		/**
 		 * Filters the content of the sitemap stylesheet.
 		 *
+		 * @since 5.5.0
+		 *
 		 * @param string $xsl Full content for the xml stylesheet.
 		 */
 		return apply_filters( 'core_sitemaps_stylesheet_content', $xsl_content );
@@ -118,6 +124,8 @@ XSL;
 
 	/**
 	 * Returns the escaped xsl for the index sitemaps.
+	 *
+	 * @since 5.5.0
 	 */
 	public function get_sitemap_index_stylesheet() {
 		$css         = $this->get_stylesheet_css();
@@ -191,6 +199,8 @@ XSL;
 		/**
 		 * Filters the content of the sitemap index stylesheet.
 		 *
+		 * @since 5.5.0
+		 *
 		 * @param string $xsl Full content for the xml stylesheet.
 		 */
 		return apply_filters( 'core_sitemaps_index_stylesheet_content', $xsl_content );
@@ -198,6 +208,8 @@ XSL;
 
 	/**
 	 * Gets the CSS to be included in sitemap XSL stylesheets.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @return string The CSS.
 	 */
@@ -232,6 +244,8 @@ XSL;
 
 		/**
 		 * Filters the css only for the sitemap stylesheet.
+		 *
+		 * @since 5.5.0
 		 *
 		 * @param string $css CSS to be applied to default xsl file.
 		 */

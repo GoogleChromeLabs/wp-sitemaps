@@ -6,15 +6,19 @@
  *
  * @package WordPress
  * @subpackage Sitemaps
- * @since x.x.x
+ * @since 5.5.0
  */
 
 /**
  * Taxonomies XML sitemap provider.
+ *
+ * @since 5.5.0
  */
 class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	/**
 	 * Core_Sitemaps_Taxonomies constructor.
+	 *
+	 * @since 5.5.0
 	 */
 	public function __construct() {
 		$this->object_type = 'taxonomies';
@@ -22,6 +26,8 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 
 	/**
 	 * Gets a URL list for a taxonomy sitemap.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @param int    $page_num Page of results.
 	 * @param string $type     Optional. Taxonomy type name. Default ''.
@@ -78,9 +84,9 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		}
 
 		/**
-		 * Filter the list of URLs for a sitemap before rendering.
+		 * Filters the list of URLs for a sitemap before rendering.
 		 *
-		 * @since 0.1.0
+		 * @since 5.5.0
 		 *
 		 * @param array  $url_list List of URLs for a sitemap.
 		 * @param string $type     Name of the taxonomy_type.
@@ -91,6 +97,8 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 
 	/**
 	 * Returns all public, registered taxonomies.
+	 *
+	 * @since 5.5.0
 	 */
 	public function get_object_sub_types() {
 		$taxonomy_types = get_taxonomies( array( 'public' => true ), 'objects' );
@@ -98,7 +106,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		/**
 		 * Filter the list of taxonomy object sub types available within the sitemap.
 		 *
-		 * @since 0.1.0
+		 * @since 5.5.0
 		 *
 		 * @param array $taxonomy_types List of registered taxonomy type names.
 		 */
@@ -107,6 +115,8 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 
 	/**
 	 * Gets the max number of pages available for the object type.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @param string $type Taxonomy name.
 	 * @return int Total number of pages.

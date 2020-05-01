@@ -6,17 +6,21 @@
  *
  * @package WordPress
  * @subpackage Sitemaps
- * @since x.x.x
+ * @since 5.5.0
  */
 
 /**
  * Class Core_Sitemaps_Index.
  * Builds the sitemap index page that lists the links to all of the sitemaps.
+ *
+ * @since 5.5.0
  */
 class Core_Sitemaps_Index {
 	/**
 	 * Sitemap name.
 	 * Used for building sitemap URLs.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @var string
 	 */
@@ -24,6 +28,8 @@ class Core_Sitemaps_Index {
 
 	/**
 	 * Initiates actions, hooks and other features needed.
+	 *
+	 * @since 5.5.0
 	 */
 	public function setup_sitemap() {
 		// Add filters.
@@ -33,6 +39,8 @@ class Core_Sitemaps_Index {
 
 	/**
 	 * Prevents trailing slashes.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @param string $redirect The redirect URL currently determined.
 	 * @return bool|string $redirect
@@ -47,6 +55,8 @@ class Core_Sitemaps_Index {
 
 	/**
 	 * Builds the URL for the sitemap index.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @return string the sitemap index url.
 	 */
@@ -65,6 +75,8 @@ class Core_Sitemaps_Index {
 
 	/**
 	 * Adds the sitemap index to robots.txt.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @param string $output robots.txt output.
 	 * @param bool   $public Whether the site is public or not.

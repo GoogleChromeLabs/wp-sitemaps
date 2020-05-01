@@ -6,15 +6,19 @@
  *
  * @package WordPress
  * @subpackage Sitemaps
- * @since x.x.x
+ * @since 5.5.0
  */
 
 /**
- * Class Core_Sitemaps_Provider
+ * Class Core_Sitemaps_Provider.
+ *
+ * @since 5.5.0
  */
 class Core_Sitemaps_Provider {
 	/**
 	 * Post type name.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @var string
 	 */
@@ -23,12 +27,16 @@ class Core_Sitemaps_Provider {
 	/**
 	 * Sub type name.
 	 *
+	 * @since 5.5.0
+	 *
 	 * @var string
 	 */
 	protected $sub_type = '';
 
 	/**
 	 * Gets a URL list for a sitemap.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @param int    $page_num Page of results.
 	 * @param string $type     Optional. Post type name. Default ''.
@@ -40,6 +48,8 @@ class Core_Sitemaps_Provider {
 
 	/**
 	 * Returns object type being queried.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @return string Name of the object type.
 	 */
@@ -55,6 +65,8 @@ class Core_Sitemaps_Provider {
 
 	/**
 	 * Gets the max number of pages available for the object type.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @param string $type Optional. Object type. Default is null.
 	 * @return int Total number of pages.
@@ -83,6 +95,8 @@ class Core_Sitemaps_Provider {
 	/**
 	 * Sets the object sub_type.
 	 *
+	 * @since 5.5.0
+	 *
 	 * @param string $sub_type The name of the object subtype.
 	 * @return bool Returns true on success.
 	 */
@@ -94,6 +108,8 @@ class Core_Sitemaps_Provider {
 
 	/**
 	 * Gets data about each sitemap type.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @return array List of sitemap types including object subtype name and number of pages.
 	 */
@@ -122,6 +138,8 @@ class Core_Sitemaps_Provider {
 	 *
 	 * The returned data is used to populate the sitemap entries of the index.
 	 *
+	 * @since 5.5.0
+	 *
 	 * @return array List of sitemaps.
 	 */
 	public function get_sitemap_entries() {
@@ -143,6 +161,8 @@ class Core_Sitemaps_Provider {
 
 	/**
 	 * Gets the URL of a sitemap entry.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @param string $name The name of the sitemap.
 	 * @param int    $page The page of the sitemap.
@@ -178,6 +198,8 @@ class Core_Sitemaps_Provider {
 	 * Returns the list of supported object sub-types exposed by the provider.
 	 *
 	 * By default this is the sub_type as specified in the class property.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @return array List: containing object types or false if there are no subtypes.
 	 */

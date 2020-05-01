@@ -6,15 +6,19 @@
  *
  * @package WordPress
  * @subpackage Sitemaps
- * @since x.x.x
+ * @since 5.5.0
  */
 
 /**
  * Posts XML sitemap provider.
+ *
+ * @since 5.5.0
  */
 class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	/**
 	 * Core_Sitemaps_Posts constructor.
+	 *
+	 * @since 5.5.0
 	 */
 	public function __construct() {
 		$this->object_type = 'posts';
@@ -23,6 +27,8 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	/**
 	 * Returns the public post types, which excludes nav_items and similar types.
 	 * Attachments are also excluded. This includes custom post types with public = true.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @return array $post_types List of registered object sub types.
 	 */
@@ -33,7 +39,8 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 		/**
 		 * Filters the list of post object sub types available within the sitemap.
 		 *
-		 * @since 0.1.0
+		 * @since 5.5.0
+		 *
 		 * @param array $post_types List of registered object sub types.
 		 */
 		return apply_filters( 'core_sitemaps_post_types', $post_types );
@@ -41,6 +48,8 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 
 	/**
 	 * Gets a URL list for a post type sitemap.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @param int    $page_num Page of results.
 	 * @param string $type     Optional. Post type name. Default ''.
@@ -101,7 +110,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 		/**
 		 * Filters the list of URLs for a sitemap before rendering.
 		 *
-		 * @since 0.1.0
+		 * @since 5.5.0
 		 *
 		 * @param array  $url_list List of URLs for a sitemap.
 		 * @param string $type     Name of the post_type.

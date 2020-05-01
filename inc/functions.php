@@ -7,17 +7,21 @@
  *
  * @package WordPress
  * @subpackage Sitemaps
- * @since x.x.x
+ * @since 5.5.0
  */
 
 /**
  * Retrieves the current Sitemaps server instance.
+ *
+ * @since 5.5.0
  *
  * @return Core_Sitemaps|null Core_Sitemaps instance, or null of sitemaps are disabled.
  */
 function core_sitemaps_get_server() {
 	/**
 	 * Global Core Sitemaps instance.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @var Core_Sitemaps $core_sitemaps
 	 */
@@ -27,6 +31,8 @@ function core_sitemaps_get_server() {
 
 	/**
 	 * Filters whether XML Sitemaps are enabled or not.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @param bool $is_enabled Whether XML Sitemaps are enabled or not. Defaults to true for public sites.
 	 */
@@ -46,7 +52,7 @@ function core_sitemaps_get_server() {
 		 *
 		 * Additional sitemaps should be registered on this hook.
 		 *
-		 * @since 0.1.0
+		 * @since 5.5.0
 		 *
 		 * @param core_sitemaps $core_sitemaps Server object.
 		 */
@@ -58,6 +64,8 @@ function core_sitemaps_get_server() {
 
 /**
  * Gets a list of sitemaps.
+ *
+ * @since 5.5.0
  *
  * @return array $sitemaps A list of registered sitemap providers.
  */
@@ -73,6 +81,8 @@ function core_sitemaps_get_sitemaps() {
 
 /**
  * Registers a new sitemap provider.
+ *
+ * @since 5.5.0
  *
  * @param string                 $name     Unique name for the sitemap provider.
  * @param Core_Sitemaps_Provider $provider The `Core_Sitemaps_Provider` instance implementing the sitemap.
@@ -91,7 +101,7 @@ function core_sitemaps_register_sitemap( $name, $provider ) {
 /**
  * Gets the maximum number of URLs for a sitemap.
  *
- * @since 0.1.0
+ * @since 5.5.0
  *
  * @param string $type Optional. The type of sitemap to be filtered. Default ''.
  * @return int The maximum number of URLs.
@@ -100,7 +110,7 @@ function core_sitemaps_get_max_urls( $type = '' ) {
 	/**
 	 * Filters the maximum number of URLs displayed on a sitemap.
 	 *
-	 * @since 0.1.0
+	 * @since 5.5.0
 	 *
 	 * @param int    $max_urls The maximum number of URLs included in a sitemap. Default 2000.
 	 * @param string $type     Optional. The type of sitemap to be filtered. Default ''.
