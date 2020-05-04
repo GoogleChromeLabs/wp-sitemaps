@@ -47,7 +47,7 @@ class Core_Sitemaps_Provider {
 	}
 
 	/**
-	 * Returns object type being queried.
+	 * Returns the name of the object type being queried.
 	 *
 	 * @since 5.5.0
 	 *
