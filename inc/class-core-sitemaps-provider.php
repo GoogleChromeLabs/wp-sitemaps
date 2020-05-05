@@ -6,15 +6,19 @@
  *
  * @package WordPress
  * @subpackage Sitemaps
- * @since x.x.x
+ * @since 5.5.0
  */
 
 /**
- * Class Core_Sitemaps_Provider
+ * Class Core_Sitemaps_Provider.
+ *
+ * @since 5.5.0
  */
 class Core_Sitemaps_Provider {
 	/**
 	 * Post type name.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @var string
 	 */
@@ -23,12 +27,16 @@ class Core_Sitemaps_Provider {
 	/**
 	 * Sub type name.
 	 *
+	 * @since 5.5.0
+	 *
 	 * @var string
 	 */
 	protected $sub_type = '';
 
 	/**
-	 * Get a URL list for a sitemap.
+	 * Gets a URL list for a sitemap.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @param int    $page_num Page of results.
 	 * @param string $type     Optional. Post type name. Default ''.
@@ -39,7 +47,9 @@ class Core_Sitemaps_Provider {
 	}
 
 	/**
-	 * Return object type being queried.
+	 * Returns the name of the object type being queried.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @return string Name of the object type.
 	 */
@@ -54,7 +64,9 @@ class Core_Sitemaps_Provider {
 	}
 
 	/**
-	 * Query for determining the number of pages.
+	 * Gets the max number of pages available for the object type.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @param string $type Optional. Object type. Default is null.
 	 * @return int Total number of pages.
@@ -81,7 +93,9 @@ class Core_Sitemaps_Provider {
 	}
 
 	/**
-	 * Set the object sub_type.
+	 * Sets the object sub_type.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @param string $sub_type The name of the object subtype.
 	 * @return bool Returns true on success.
@@ -93,7 +107,9 @@ class Core_Sitemaps_Provider {
 	}
 
 	/**
-	 * Get data about each sitemap type.
+	 * Gets data about each sitemap type.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @return array List of sitemap types including object subtype name and number of pages.
 	 */
@@ -118,9 +134,11 @@ class Core_Sitemaps_Provider {
 	}
 
 	/**
-	 * List of sitemap pages exposed by this provider.
+	 * Lists sitemap pages exposed by this provider.
 	 *
 	 * The returned data is used to populate the sitemap entries of the index.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @return array List of sitemaps.
 	 */
@@ -142,7 +160,9 @@ class Core_Sitemaps_Provider {
 	}
 
 	/**
-	 * Get the URL of a sitemap entry.
+	 * Gets the URL of a sitemap entry.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @param string $name The name of the sitemap.
 	 * @param int    $page The page of the sitemap.
@@ -175,9 +195,11 @@ class Core_Sitemaps_Provider {
 	}
 
 	/**
-	 * Return the list of supported object sub-types exposed by the provider.
+	 * Returns the list of supported object sub-types exposed by the provider.
 	 *
 	 * By default this is the sub_type as specified in the class property.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @return array List: containing object types or false if there are no subtypes.
 	 */
