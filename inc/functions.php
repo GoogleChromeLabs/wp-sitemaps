@@ -63,7 +63,7 @@ function core_sitemaps_get_server() {
 }
 
 /**
- * Gets a list of sitemaps.
+ * Gets a list of sitemap providers.
  *
  * @since 5.5.0
  *
