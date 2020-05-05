@@ -1,29 +1,34 @@
 <?php
 /**
- * Sitemaps: Core_Sitemaps_Index class
+ * Sitemaps: Core_Sitemaps_Index class.
  *
- * This class generates the sitemap index.
+ * Generates the sitemap index.
  *
  * @package WordPress
  * @subpackage Sitemaps
- * @since x.x.x
+ * @since 5.5.0
  */
 
 /**
  * Class Core_Sitemaps_Index.
  * Builds the sitemap index page that lists the links to all of the sitemaps.
+ *
+ * @since 5.5.0
  */
 class Core_Sitemaps_Index {
 
 	/**
 	 * The main registry of supported sitemaps.
 	 *
+	 * @since 5.5.0
 	 * @var Core_Sitemaps_Registry
 	 */
 	protected $registry;
 
 	/**
 	 * Core_Sitemaps_Index constructor.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @param Core_Sitemaps_Registry $registry Sitemap provider registry.
 	 */
@@ -33,6 +38,8 @@ class Core_Sitemaps_Index {
 
 	/**
 	 * Gets a sitemap list for the index.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @return array List of all sitemaps.
 	 */
@@ -51,6 +58,8 @@ class Core_Sitemaps_Index {
 
 	/**
 	 * Builds the URL for the sitemap index.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @return string the sitemap index url.
 	 */

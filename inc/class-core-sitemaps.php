@@ -6,15 +6,19 @@
  *
  * @package WordPress
  * @subpackage Sitemaps
- * @since x.x.x
+ * @since 5.5.0
  */
 
 /**
- * Class Core_Sitemaps
+ * Class Core_Sitemaps.
+ *
+ * @since 5.5.0
  */
 class Core_Sitemaps {
 	/**
 	 * The main index of supported sitemaps.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @var Core_Sitemaps_Index
 	 */
@@ -23,6 +27,8 @@ class Core_Sitemaps {
 	/**
 	 * The main registry of supported sitemaps.
 	 *
+	 * @since 5.5.0
+	 *
 	 * @var Core_Sitemaps_Registry
 	 */
 	public $registry;
@@ -30,12 +36,16 @@ class Core_Sitemaps {
 	/**
 	 * An instance of the renderer class.
 	 *
+	 * @since 5.5.0
+	 *
 	 * @var Core_Sitemaps_Renderer
 	 */
 	public $renderer;
 
 	/**
 	 * Core_Sitemaps constructor.
+	 *
+	 * @since 5.5.0
 	 */
 	public function __construct() {
 		$this->registry = new Core_Sitemaps_Registry();
@@ -44,9 +54,9 @@ class Core_Sitemaps {
 	}
 
 	/**
-	 * Initiate all sitemap functionality.
+	 * Initiates all sitemap functionality.
 	 *
-	 * @return void
+	 * @since 5.5.0
 	 */
 	public function init() {
 		// These will all fire on the init hook.
@@ -62,7 +72,9 @@ class Core_Sitemaps {
 	}
 
 	/**
-	 * Register and set up the functionality for all supported sitemaps.
+	 * Registers and sets up the functionality for all supported sitemaps.
+	 *
+	 * @since 5.5.0
 	 */
 	public function register_sitemaps() {
 		/**
@@ -89,7 +101,9 @@ class Core_Sitemaps {
 	}
 
 	/**
-	 * Register sitemap rewrite tags and routing rules.
+	 * Registers sitemap rewrite tags and routing rules.
+	 *
+	 * @since 5.5.0
 	 */
 	public function register_rewrites() {
 		// Add rewrite tags.
@@ -118,7 +132,9 @@ class Core_Sitemaps {
 	}
 
 	/**
-	 * Unregister sitemap rewrite tags and routing rules.
+	 * Un-registers sitemap rewrite tags and routing rules.
+	 *
+	 * @since 5.5.0
 	 */
 	public function unregister_rewrites() {
 		/* @var WP_Rewrite $wp_rewrite */
@@ -137,7 +153,9 @@ class Core_Sitemaps {
 	}
 
 	/**
-	 * Flush rewrite rules if developers updated them.
+	 * Flushes rewrite rules if developers updated them.
+	 *
+	 * @since 5.5.0
 	 */
 	public function maybe_flush_rewrites() {
 		if ( update_option( 'core_sitemaps_rewrite_version', CORE_SITEMAPS_REWRITE_VERSION ) ) {
@@ -146,7 +164,9 @@ class Core_Sitemaps {
 	}
 
 	/**
-	 * Render sitemap templates based on rewrite rules.
+	 * Renders sitemap templates based on rewrite rules.
+	 *
+	 * @since 5.5.0
 	 */
 	public function render_sitemaps() {
 		global $wp_query;
@@ -207,7 +227,9 @@ class Core_Sitemaps {
 	}
 
 	/**
-	 * Redirect an URL to the wp-sitemap.xml
+	 * Redirects a URL to the wp-sitemap.xml
+	 *
+	 * @since 5.5.0
 	 *
 	 * @param bool     $bypass Pass-through of the pre_handle_404 filter value.
 	 * @param WP_Query $query The WP_Query object.
@@ -233,6 +255,8 @@ class Core_Sitemaps {
 	/**
 	 * Adds the sitemap index to robots.txt.
 	 *
+	 * @since 5.5.0
+	 *
 	 * @param string $output robots.txt output.
 	 * @param bool   $public Whether the site is public or not.
 	 * @return string robots.txt output.
@@ -247,6 +271,8 @@ class Core_Sitemaps {
 
 	/**
 	 * Prevent trailing slashes.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @param string $redirect The redirect URL currently determined.
 	 * @return bool|string $redirect
