@@ -18,12 +18,12 @@ class Core_Sitemaps_Stylesheet {
 	/**
 	 * Renders the xsl stylesheet depending on whether its the sitemap index or not.
 	 *
-	 * @param string $type Stylesheet type. Either 'xsl' or 'index'.
+	 * @param string $type Stylesheet type. Either 'sitemap' or 'index'.
 	 */
 	public function render_stylesheet( $type ) {
 		header( 'Content-type: application/xml; charset=UTF-8' );
 
-		if ( 'xsl' === $type ) {
+		if ( 'sitemap' === $type ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- All content escaped below.
 			echo $this->get_sitemap_stylesheet();
 		}
