@@ -2,26 +2,32 @@
 /**
  * Sitemaps: Core_Sitemaps_Users class
  *
- * This class builds the sitemaps for the 'user' object type.
+ * Builds the sitemaps for the 'user' object type.
  *
  * @package WordPress
  * @subpackage Sitemaps
- * @since x.x.x
+ * @since 5.5.0
  */
 
 /**
  * Users XML sitemap provider.
+ *
+ * @since 5.5.0
  */
 class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	/**
 	 * Core_Sitemaps_Users constructor.
+	 *
+	 * @since 5.5.0
 	 */
 	public function __construct() {
 		$this->object_type = 'users';
 	}
 
 	/**
-	 * Get a URL list for a user sitemap.
+	 * Gets a URL list for a user sitemap.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @param int    $page_num Page of results.
 	 * @param string $type     Optional. Not applicable for Users but required for
@@ -40,18 +46,20 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 		}
 
 		/**
-		 * Filter the list of URLs for a sitemap before rendering.
+		 * Filters the list of URLs for a sitemap before rendering.
 		 *
-		 * @since 0.1.0
+		 * @since 5.5.0
 		 *
-		 * @param array  $url_list    List of URLs for a sitemap.
-		 * @param int    $page_num    Page of results.
+		 * @param array  $url_list List of URLs for a sitemap.
+		 * @param int    $page_num Page of results.
 		 */
 		return apply_filters( 'core_sitemaps_users_url_list', $url_list, $page_num );
 	}
 
 	/**
-	 * Return max number of pages available for the object type.
+	 * Gets the max number of pages available for the object type.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @see Core_Sitemaps_Provider::max_num_pages
 	 * @param string $type Optional. Name of the object type. Default is null.
@@ -66,9 +74,11 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	}
 
 	/**
-	 * Return a query for authors with public posts.
+	 * Returns a query for authors with public posts.
 	 *
 	 * Implementation must support `$query->max_num_pages`.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @param integer $page_num Optional. Default is 1. Page of query results to return.
 	 * @return WP_User_Query
