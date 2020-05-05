@@ -48,14 +48,14 @@ class Core_Sitemaps_Registry {
 	}
 
 	/**
-	 * Returns a single sitemap provider.
+	 * Returns a single registered sitemaps provider.
 	 *
 	 * @since 5.5.0
 	 *
 	 * @param string $name Sitemap provider name.
-	 * @return Core_Sitemaps_Provider|null Provider if it exists, null otherwise.
+	 * @return Core_Sitemaps_Provider|null Sitemaps provider if it exists, null otherwise.
 	 */
-	public function get_provider( $name ) {
+	public function get_sitemap( $name ) {
 		if ( ! isset( $this->sitemaps[ $name ] ) ) {
 			return null;
 		}

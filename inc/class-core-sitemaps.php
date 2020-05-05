@@ -212,7 +212,7 @@ class Core_Sitemaps {
 			exit;
 		}
 
-		$provider = $this->registry->get_provider( $sitemap );
+		$provider = $this->registry->get_sitemap( $sitemap );
 
 		if ( ! $provider ) {
 			return;
