@@ -48,7 +48,7 @@ class Core_Sitemaps_Registry {
 	}
 
 	/**
-	 * Returns a single registered sitemaps.
+	 * Returns a single registered sitemaps provider.
 	 *
 	 * @since 5.5.0
 	 *
