@@ -412,4 +412,53 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 
 		$this->assertEquals( $sitemaps['test_sitemap'], self::$test_provider, 'Can not confirm sitemap registration is working.' );
 	}
+
+	/**
+	 * Test robots.txt output.
+	 */
+	public function test_robots_text() {
+		// Get the text added to the default robots text output.
+		$robots_text = apply_filters( 'robots_txt', '', true );
+		$sitemap_string = 'Sitemap: http://' . WP_TESTS_DOMAIN . '/?sitemap=index';
+
+		$this->assertContains( $sitemap_string, $robots_text, 'Sitemap URL not included in robots text.' );
+	}
+
+	/**
+	 * Test robots.txt output for a private site.
+	 */
+	public function test_robots_text_private_site() {
+		$robots_text = apply_filters( 'robots_txt', '', false );
+		$sitemap_string = 'Sitemap: http://' . WP_TESTS_DOMAIN . '/?sitemap=index';
+
+		$this->assertNotContains( $sitemap_string, $robots_text );
+	}
+
+	/**
+	 * Test robots.txt output with permalinks set.
+	 */
+	public function test_robots_text_with_permalinks() {
+		// Set permalinks for testing.
+		$this->set_permalink_structure( '/%year%/%postname%/' );
+
+		// Get the text added to the default robots text output.
+		$robots_text = apply_filters( 'robots_txt', '', true );
+		$sitemap_string = 'Sitemap: http://' . WP_TESTS_DOMAIN . '/wp-sitemap.xml';
+
+		// Clean up permalinks.
+		$this->set_permalink_structure();
+
+		$this->assertContains( $sitemap_string, $robots_text, 'Sitemap URL not included in robots text.' );
+	}
+
+	/**
+	 * Test robots.txt output with line feed prefix.
+	 */
+	public function test_robots_text_prefixed_with_line_feed() {
+		// Get the text added to the default robots text output.
+		$robots_text = apply_filters( 'robots_txt', '', true );
+		$sitemap_string = "\nSitemap: ";
+
+		$this->assertContains( $sitemap_string, $robots_text, 'Sitemap URL not prefixed with "\n".' );
+	}
 }

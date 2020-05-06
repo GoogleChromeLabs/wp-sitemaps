@@ -48,9 +48,9 @@ class Core_Sitemaps {
 	 * @since 5.5.0
 	 */
 	public function __construct() {
-		$this->index    = new Core_Sitemaps_Index();
 		$this->registry = new Core_Sitemaps_Registry();
 		$this->renderer = new Core_Sitemaps_Renderer();
+		$this->index    = new Core_Sitemaps_Index( $this->registry );
 	}
 
 	/**
@@ -60,7 +60,6 @@ class Core_Sitemaps {
 	 */
 	public function init() {
 		// These will all fire on the init hook.
-		$this->setup_sitemaps_index();
 		$this->register_sitemaps();
 
 		// Add additional action callbacks.
@@ -68,15 +67,8 @@ class Core_Sitemaps {
 		add_action( 'template_redirect', array( $this, 'render_sitemaps' ) );
 		add_action( 'wp_loaded', array( $this, 'maybe_flush_rewrites' ) );
 		add_filter( 'pre_handle_404', array( $this, 'redirect_sitemapxml' ), 10, 2 );
-	}
-
-	/**
-	 * Sets up the main sitemap index.
-	 *
-	 * @since 5.5.0
-	 */
-	public function setup_sitemaps_index() {
-		$this->index->setup_sitemap();
+		add_filter( 'robots_txt', array( $this, 'add_robots' ), 0, 2 );
+		add_filter( 'redirect_canonical', array( $this, 'redirect_canonical' ) );
 	}
 
 	/**
@@ -123,7 +115,7 @@ class Core_Sitemaps {
 
 		// Register rewrites for the XSL stylesheet.
 		add_rewrite_tag( '%sitemap-stylesheet%', '([^?]+)' );
-		add_rewrite_rule( '^wp-sitemap\.xsl$', 'index.php?sitemap-stylesheet=xsl', 'top' );
+		add_rewrite_rule( '^wp-sitemap\.xsl$', 'index.php?sitemap-stylesheet=sitemap', 'top' );
 		add_rewrite_rule( '^wp-sitemap-index\.xsl$', 'index.php?sitemap-stylesheet=index', 'top' );
 
 		// Register routes for providers.
@@ -179,36 +171,29 @@ class Core_Sitemaps {
 	public function render_sitemaps() {
 		global $wp_query;
 
-		$sitemap    = sanitize_text_field( get_query_var( 'sitemap' ) );
-		$sub_type   = sanitize_text_field( get_query_var( 'sitemap-sub-type' ) );
-		$stylesheet = sanitize_text_field( get_query_var( 'sitemap-stylesheet' ) );
-		$paged      = absint( get_query_var( 'paged' ) );
+		$sitemap         = sanitize_text_field( get_query_var( 'sitemap' ) );
+		$sub_type        = sanitize_text_field( get_query_var( 'sitemap-sub-type' ) );
+		$stylesheet_type = sanitize_text_field( get_query_var( 'sitemap-stylesheet' ) );
+		$paged           = absint( get_query_var( 'paged' ) );
 
 		// Bail early if this isn't a sitemap or stylesheet route.
-		if ( ! ( $sitemap || $stylesheet ) ) {
+		if ( ! ( $sitemap || $stylesheet_type ) ) {
 			return;
 		}
 
 		// Render stylesheet if this is stylesheet route.
-		if ( $stylesheet ) {
+		if ( $stylesheet_type ) {
 			$stylesheet = new Core_Sitemaps_Stylesheet();
 
-			$stylesheet->render_stylesheet();
+			$stylesheet->render_stylesheet( $stylesheet_type );
 			exit;
 		}
 
 		// Render the index.
 		if ( 'index' === $sitemap ) {
-			$sitemaps = array();
+			$sitemap_list = $this->index->get_sitemap_list();
 
-			$providers = $this->registry->get_sitemaps();
-			/* @var Core_Sitemaps_Provider $provider */
-			foreach ( $providers as $provider ) {
-				// Using array_push is more efficient than array_merge in a loop.
-				array_push( $sitemaps, ...$provider->get_sitemap_entries() );
-			}
-
-			$this->renderer->render_index( $sitemaps );
+			$this->renderer->render_index( $sitemap_list );
 			exit;
 		}
 
@@ -265,5 +250,38 @@ class Core_Sitemaps {
 		}
 
 		return $bypass;
+	}
+
+	/**
+	 * Adds the sitemap index to robots.txt.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param string $output robots.txt output.
+	 * @param bool   $public Whether the site is public or not.
+	 * @return string robots.txt output.
+	 */
+	public function add_robots( $output, $public ) {
+		if ( $public ) {
+			$output .= "\nSitemap: " . esc_url( $this->index->get_index_url() ) . "\n";
+		}
+
+		return $output;
+	}
+
+	/**
+	 * Prevent trailing slashes.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param string $redirect The redirect URL currently determined.
+	 * @return bool|string $redirect
+	 */
+	public function redirect_canonical( $redirect ) {
+		if ( get_query_var( 'sitemap' ) || get_query_var( 'sitemap-stylesheet' ) ) {
+			return false;
+		}
+
+		return $redirect;
 	}
 }
