@@ -6,15 +6,19 @@
  *
  * @package WordPress
  * @subpackage Sitemaps
- * @since x.x.x
+ * @since 5.5.0
  */
 
 /**
  * Class Core_Sitemaps_Renderer
+ *
+ * @since 5.5.0
  */
 class Core_Sitemaps_Renderer {
 	/**
 	 * XSL stylesheet for styling a sitemap for web browsers.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @var string
 	 */
@@ -23,12 +27,16 @@ class Core_Sitemaps_Renderer {
 	/**
 	 * XSL stylesheet for styling a sitemap for web browsers.
 	 *
+	 * @since 5.5.0
+	 *
 	 * @var string
 	 */
 	protected $stylesheet_index = '';
 
 	/**
 	 * Core_Sitemaps_Renderer constructor.
+	 *
+	 * @since 5.5.0
 	 */
 	public function __construct() {
 		$stylesheet_url = $this->get_sitemap_stylesheet_url();
@@ -42,7 +50,9 @@ class Core_Sitemaps_Renderer {
 	}
 
 	/**
-	 * Get the URL for the sitemap stylesheet.
+	 * Gets the URL for the sitemap stylesheet.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @return string the sitemap stylesheet url.
 	 */
@@ -57,10 +67,12 @@ class Core_Sitemaps_Renderer {
 		}
 
 		/**
-		 * Filter the URL for the sitemap stylesheet.
+		 * Filters the URL for the sitemap stylesheet.
 		 *
 		 * If a falsy value is returned, no stylesheet will be used and
 		 * the "raw" XML of the sitemap will be displayed.
+		 *
+		 * @since 5.5.0
 		 *
 		 * @param string $sitemap_url Full URL for the sitemaps xsl file.
 		 */
@@ -68,7 +80,9 @@ class Core_Sitemaps_Renderer {
 	}
 
 	/**
-	 * Get the URL for the sitemap index stylesheet.
+	 * Gets the URL for the sitemap index stylesheet.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @return string the sitemap index stylesheet url.
 	 */
@@ -83,10 +97,12 @@ class Core_Sitemaps_Renderer {
 		}
 
 		/**
-		 * Filter the URL for the sitemap index stylesheet.
+		 * Filters the URL for the sitemap index stylesheet.
 		 *
 		 * If a falsy value is returned, no stylesheet will be used and
 		 * the "raw" XML of the sitemap index will be displayed.
+		 *
+		 * @since 5.5.0
 		 *
 		 * @param string $sitemap_url Full URL for the sitemaps index xsl file.
 		 */
@@ -94,7 +110,9 @@ class Core_Sitemaps_Renderer {
 	}
 
 	/**
-	 * Render a sitemap index.
+	 * Renders a sitemap index.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @param array $sitemaps List of sitemap entries.
 	 */
@@ -113,7 +131,9 @@ class Core_Sitemaps_Renderer {
 	}
 
 	/**
-	 * Get XML for a sitemap index.
+	 * Gets XML for a sitemap index.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @param array $sitemaps List of sitemap entries.
 	 * @return string|false A well-formed XML string for a sitemap index. False on error.
@@ -137,7 +157,9 @@ class Core_Sitemaps_Renderer {
 	}
 
 	/**
-	 * Render a sitemap.
+	 * Renders a sitemap.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @param array $url_list A list of URLs for a sitemap.
 	 */
@@ -156,7 +178,9 @@ class Core_Sitemaps_Renderer {
 	}
 
 	/**
-	 * Get XML for a sitemap.
+	 * Gets XML for a sitemap.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @param array $url_list A list of URLs for a sitemap.
 	 * @return string|false A well-formed XML string for a sitemap index. False on error.
@@ -189,6 +213,8 @@ class Core_Sitemaps_Renderer {
 
 	/**
 	 * Checks for the availability of the SimpleXML extension and errors if missing.
+	 *
+	 * @since 5.5.0
 	 */
 	private function check_for_simple_xml_availability() {
 		if ( ! class_exists( 'SimpleXMLElement' ) ) {
