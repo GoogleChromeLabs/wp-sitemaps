@@ -17,25 +17,23 @@
 class Core_Sitemaps_Stylesheet {
 	/**
 	 * Renders the xsl stylesheet depending on whether its the sitemap index or not.
+	 *
+	 * @param string $type Stylesheet type. Either 'sitemap' or 'index'.
 	 */
-	public function render_stylesheet() {
-		$stylesheet_query = get_query_var( 'sitemap-stylesheet' );
+	public function render_stylesheet( $type ) {
+		header( 'Content-type: application/xml; charset=UTF-8' );
 
-		if ( ! empty( $stylesheet_query ) ) {
-			header( 'Content-type: application/xml; charset=UTF-8' );
-
-			if ( 'xsl' === $stylesheet_query ) {
-				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- All content escaped below.
-				echo $this->get_sitemap_stylesheet();
-			}
-
-			if ( 'index' === $stylesheet_query ) {
-				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- All content escaped below.
-				echo $this->get_sitemap_index_stylesheet();
-			}
-
-			exit;
+		if ( 'sitemap' === $type ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- All content escaped below.
+			echo $this->get_sitemap_stylesheet();
 		}
+
+		if ( 'index' === $type ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- All content escaped below.
+			echo $this->get_sitemap_index_stylesheet();
+		}
+
+		exit;
 	}
 
 	/**

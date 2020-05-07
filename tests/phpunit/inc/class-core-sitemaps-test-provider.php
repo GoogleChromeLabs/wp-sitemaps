@@ -13,9 +13,11 @@
 class Core_Sitemaps_Test_Provider extends Core_Sitemaps_Provider {
 	/**
 	 * Core_Sitemaps_Posts constructor.
+	 *
+	 * @param string $object_type Optional. Object type name to use. Default 'test'.
 	 */
-	public function __construct() {
-		$this->object_type = 'test';
+	public function __construct( $object_type = 'test' ) {
+		$this->object_type = $object_type;
 	}
 
 	/**
@@ -28,4 +30,13 @@ class Core_Sitemaps_Test_Provider extends Core_Sitemaps_Provider {
 		return array( 'type-1', 'type-2', 'type-3' );
 	}
 
+	/**
+	 * Query for determining the number of pages.
+	 *
+	 * @param string $type Optional. Object type. Default is null.
+	 * @return int Total number of pages.
+	 */
+	public function max_num_pages( $type = '' ) {
+		return 4;
+	}
 }
