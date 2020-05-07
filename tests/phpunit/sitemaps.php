@@ -109,8 +109,6 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 
 		$post_list = $providers[ $type ]->get_url_list( 1, $sub_type );
 
-		remove_filter( 'core_sitemaps_' . $type . '_url_list', array( $this, '_add_attributes_to_url_list' ) );
-
 		foreach ( $post_list as $entry ) {
 			$this->assertEquals( 'value', $entry['extra'], 'Could not add attributes to url lists for ' . $type . '.' );
 		}
@@ -281,9 +279,6 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 		$post_list = $providers['posts']->get_url_list( 1, 'page' );
 
 		$expected = $this->_get_expected_url_list( 'page', self::$pages );
-
-		// Clean up.
-		remove_filter( 'pre_option_show_on_front', '__return_true' );
 
 		$this->assertEquals( $expected, $post_list );
 	}

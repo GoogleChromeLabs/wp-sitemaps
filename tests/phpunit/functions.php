@@ -13,9 +13,6 @@ class Test_Core_Sitemaps_Functions extends WP_UnitTestCase {
 		$expected_taxonomies = core_sitemaps_get_max_urls( 'taxonomies' );
 		$expected_users = core_sitemaps_get_max_urls( 'users' );
 
-		// Clean up.
-		remove_filter( 'core_sitemaps_max_urls', array( $this, '_filter_max_url_value' ) );
-
 		$this->assertEquals( $expected_null, CORE_SITEMAPS_MAX_URLS, 'Can not confirm max URL number.' );
 		$this->assertEquals( $expected_posts, 300, 'Can not confirm max URL number for posts.' );
 		$this->assertEquals( $expected_taxonomies, 50, 'Can not confirm max URL number for taxonomies.' );
