@@ -117,7 +117,7 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 	/**
 	 * Data provider for `test_add_attributes_to_url_list()`.
 	 *
-	 * @return array A list of object types and sub types.
+	 * @return array A list of object types and subtypes.
 	 */
 	public function _url_list_providers() {
 		return array(
@@ -377,7 +377,7 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 	/**
 	 * Helper function for building an expected url list.
 	 *
-	 * @param string $type An object sub type, e.g., post type.
+	 * @param string $type An object subtype, e.g., post type.
 	 * @param array  $ids {
 	 *     An array of object IDs.
 	 *
