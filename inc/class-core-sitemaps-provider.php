@@ -148,6 +148,20 @@ abstract class Core_Sitemaps_Provider {
 		/* @var WP_Rewrite $wp_rewrite */
 		global $wp_rewrite;
 
+		if ( ! $wp_rewrite->using_permalinks() ) {
+			return add_query_arg(
+				// Accounts for cases where name is not included, ex: sitemaps-users-1.xml.
+				array_filter(
+					array(
+						'sitemap'          => $this->object_type,
+						'sitemap-sub-type' => $name,
+						'paged'            => $page,
+					)
+				),
+				home_url( '/' )
+			);
+		}
+
 		$basename = sprintf(
 			'/wp-sitemap-%1$s.xml',
 			implode(
@@ -163,23 +177,7 @@ abstract class Core_Sitemaps_Provider {
 			)
 		);
 
-		$url = home_url( $basename );
-
-		if ( ! $wp_rewrite->using_permalinks() ) {
-			$url = add_query_arg(
-				// Accounts for cases where name is not included, ex: sitemaps-users-1.xml.
-				array_filter(
-					array(
-						'sitemap'          => $this->object_type,
-						'sitemap-sub-type' => $name,
-						'paged'            => $page,
-					)
-				),
-				home_url( '/' )
-			);
-		}
-
-		return $url;
+		return home_url( $basename );
 	}
 
 	/**
