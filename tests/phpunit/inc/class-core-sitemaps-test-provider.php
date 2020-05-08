@@ -26,7 +26,7 @@ class Core_Sitemaps_Test_Provider extends Core_Sitemaps_Provider {
 	 *
 	 * @return array $post_types List of registered object sub types.
 	 */
-	public function get_object_sub_types() {
+	public function get_object_subtypes() {
 		return array( 'type-1', 'type-2', 'type-3' );
 	}
 

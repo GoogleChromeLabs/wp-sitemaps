@@ -32,7 +32,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	 *
 	 * @return array $post_types List of registered object sub types.
 	 */
-	public function get_object_sub_types() {
+	public function get_object_subtypes() {
 		$post_types = get_post_types( array( 'public' => true ), 'objects' );
 		unset( $post_types['attachment'] );
 
@@ -51,19 +51,19 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param int    $page_num Page of results.
-	 * @param string $type     Optional. Post type name. Default ''.
+	 * @param int    $page_num  Page of results.
+	 * @param string $post_type Optional. Post type name. Default empty.
 	 * @return array $url_list List of URLs for a sitemap.
 	 */
-	public function get_url_list( $page_num, $type = '' ) {
-		if ( ! $type ) {
-			$type = $this->get_queried_type();
+	public function get_url_list( $page_num, $post_type = '' ) {
+		if ( ! $post_type ) {
+			$post_type = $this->get_queried_type();
 		}
 
 		// Return an empty array if the type is not supported.
-		$supported_types = $this->get_object_sub_types();
+		$supported_types = $this->get_object_subtypes();
 
-		if ( ! isset( $supported_types[ $type ] ) ) {
+		if ( ! isset( $supported_types[ $post_type ] ) ) {
 			return array();
 		}
 
@@ -71,7 +71,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 			array(
 				'orderby'                => 'ID',
 				'order'                  => 'ASC',
-				'post_type'              => $type,
+				'post_type'              => $post_type,
 				'posts_per_page'         => core_sitemaps_get_max_urls( $this->object_type ),
 				'post_status'            => array( 'publish' ),
 				'paged'                  => $page_num,
@@ -94,7 +94,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 		 * Add a URL for the homepage in the pages sitemap.
 		 * Shows only on the first page if the reading settings are set to display latest posts.
 		 */
-		if ( 'page' === $type && 1 === $page_num && 'posts' === get_option( 'show_on_front' ) ) {
+		if ( 'page' === $post_type && 1 === $page_num && 'posts' === get_option( 'show_on_front' ) ) {
 			// Extract the data needed for home URL to add to the array.
 			$url_list[] = array(
 				'loc' => home_url(),
@@ -112,10 +112,10 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array  $url_list List of URLs for a sitemap.
-		 * @param string $type     Name of the post_type.
-		 * @param int    $page_num Page number of the results.
+		 * @param array  $url_list  List of URLs for a sitemap.
+		 * @param string $post_type Name of the post_type.
+		 * @param int    $page_num  Page number of the results.
 		 */
-		return apply_filters( 'core_sitemaps_posts_url_list', $url_list, $type, $page_num );
+		return apply_filters( 'core_sitemaps_posts_url_list', $url_list, $post_type, $page_num );
 	}
 }

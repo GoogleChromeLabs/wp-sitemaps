@@ -172,7 +172,7 @@ class Core_Sitemaps {
 		global $wp_query;
 
 		$sitemap         = sanitize_text_field( get_query_var( 'sitemap' ) );
-		$sub_type        = sanitize_text_field( get_query_var( 'sitemap-sub-type' ) );
+		$object_subtype  = sanitize_text_field( get_query_var( 'sitemap-sub-type' ) );
 		$stylesheet_type = sanitize_text_field( get_query_var( 'sitemap-stylesheet' ) );
 		$paged           = absint( get_query_var( 'paged' ) );
 
@@ -207,14 +207,14 @@ class Core_Sitemaps {
 			$paged = 1;
 		}
 
-		$sub_types = $provider->get_object_sub_types();
+		$object_subtypes = $provider->get_object_subtypes();
 
 		// Only set the current object sub-type if it's supported.
-		if ( isset( $sub_types[ $sub_type ] ) ) {
-			$provider->set_sub_type( $sub_types[ $sub_type ]->name );
+		if ( isset( $object_subtypes[ $object_subtype ] ) ) {
+			$provider->set_object_subtype( $object_subtypes[ $object_subtype ]->name );
 		}
 
-		$url_list = $provider->get_url_list( $paged, $sub_type );
+		$url_list = $provider->get_url_list( $paged, $object_subtype );
 
 		// Force a 404 and bail early if no URLs are present.
 		if ( empty( $url_list ) ) {
