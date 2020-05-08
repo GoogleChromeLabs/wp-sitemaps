@@ -21,7 +21,8 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	 * @since 5.5.0
 	 */
 	public function __construct() {
-		$this->object_type = 'users';
+		$this->name        = 'users';
+		$this->object_type = 'user';
 	}
 
 	/**

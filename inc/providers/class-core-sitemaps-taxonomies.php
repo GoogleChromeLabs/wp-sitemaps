@@ -21,7 +21,8 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	 * @since 5.5.0
 	 */
 	public function __construct() {
-		$this->object_type = 'taxonomies';
+		$this->name        = 'taxonomies';
+		$this->object_type = 'term';
 	}
 
 	/**

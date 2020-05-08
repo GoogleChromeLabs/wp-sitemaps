@@ -17,6 +17,17 @@
 abstract class Core_Sitemaps_Provider {
 
 	/**
+	 * Provider name.
+	 *
+	 * This will also be used as the public-facing name in URLs.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @var string
+	 */
+	protected $name = '';
+
+	/**
 	 * Object type name (e.g. 'post', 'term', 'user').
 	 *
 	 * @since 5.5.0
@@ -153,7 +164,7 @@ abstract class Core_Sitemaps_Provider {
 				// Accounts for cases where name is not included, ex: sitemaps-users-1.xml.
 				array_filter(
 					array(
-						'sitemap'          => $this->object_type,
+						'sitemap'          => $this->name,
 						'sitemap-sub-type' => $name,
 						'paged'            => $page,
 					)
@@ -169,7 +180,7 @@ abstract class Core_Sitemaps_Provider {
 				// Accounts for cases where name is not included, ex: sitemaps-users-1.xml.
 				array_filter(
 					array(
-						$this->object_type,
+						$this->name,
 						$name,
 						(string) $page,
 					)

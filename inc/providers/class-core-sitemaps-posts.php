@@ -21,7 +21,8 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	 * @since 5.5.0
 	 */
 	public function __construct() {
-		$this->object_type = 'posts';
+		$this->name        = 'posts';
+		$this->object_type = 'post';
 	}
 
 	/**
