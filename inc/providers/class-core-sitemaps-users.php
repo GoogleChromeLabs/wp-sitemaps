@@ -54,7 +54,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 		 *    A list of URLs for a sitemap.
 		 *
 		 *    @type string $loc The URL.
-	 	 * }
+		 * }
 		 * @param int    $page_num Page of results.
 		 */
 		return apply_filters( 'core_sitemaps_users_url_list', $url_list, $page_num );
