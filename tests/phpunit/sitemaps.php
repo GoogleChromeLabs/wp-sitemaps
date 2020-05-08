@@ -139,7 +139,11 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 	/**
 	 * Filter callback to add an extra value to URL lists.
 	 *
-	 * @param array $url_list A URL list from a sitemap provider.
+	 * @param array $url_list {
+	 *    A URL list from a sitemap provider.
+	 *
+	 *    @type string $loc The URL.
+	 * }
 	 * @return array The filtered URL list.
 	 */
 	public function _add_attributes_to_url_list( $url_list ) {
@@ -374,7 +378,11 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 	 * Helper function for building an expected url list.
 	 *
 	 * @param string $type An object sub type, e.g., post type.
-	 * @param array  $ids  An array of object IDs.
+	 * @param array  $ids {
+	 *     An array of object IDs.
+	 *
+	 *     @type int $id An object id.
+	 * }
 	 * @return array A formed URL list.
 	 */
 	public function _get_expected_url_list( $type, $ids ) {

@@ -82,7 +82,13 @@ class Core_Sitemaps {
 		 *
 		 * @since 0.1.0
 		 *
-		 * @param array $providers Array of Core_Sitemap_Provider objects.
+		 * @param array $providers {
+		 *     Array of Core_Sitemap_Provider objects.
+		 *
+		 *     @type string $posts      The Core_Sitemaps_Posts object.
+		 *     @type string $taxonomies The Core_Sitemaps_Taxonomies object.
+		 *     @type string $users      The Core_Sitemaps_Users object.
+		 * }
 		 */
 		$providers = apply_filters(
 			'core_sitemaps_register_providers',
