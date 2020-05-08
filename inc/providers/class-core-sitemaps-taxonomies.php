@@ -25,13 +25,33 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	}
 
 	/**
+	 * Returns all public, registered taxonomies.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @return array Map of registered taxonomy objects keyed by their name.
+	 */
+	public function get_object_subtypes() {
+		$taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
+
+		/**
+		 * Filter the list of taxonomy object subtypes available within the sitemap.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param array $taxonomies Map of registered taxonomy objects keyed by their name.
+		 */
+		return apply_filters( 'core_sitemaps_taxonomies', $taxonomies );
+	}
+
+	/**
 	 * Gets a URL list for a taxonomy sitemap.
 	 *
 	 * @since 5.5.0
 	 *
 	 * @param int    $page_num Page of results.
 	 * @param string $taxonomy Optional. Taxonomy name. Default empty.
-	 * @return array $url_list List of URLs for a sitemap.
+	 * @return array List of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num, $taxonomy = '' ) {
 		// Find the query_var for subtype.
@@ -93,24 +113,6 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		 * @param int    $page_num Page of results.
 		 */
 		return apply_filters( 'core_sitemaps_taxonomies_url_list', $url_list, $taxonomy, $page_num );
-	}
-
-	/**
-	 * Returns all public, registered taxonomies.
-	 *
-	 * @since 5.5.0
-	 */
-	public function get_object_subtypes() {
-		$taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
-
-		/**
-		 * Filter the list of taxonomy object subtypes available within the sitemap.
-		 *
-		 * @since 5.5.0
-		 *
-		 * @param array $taxonomies List of registered taxonomy names.
-		 */
-		return apply_filters( 'core_sitemaps_taxonomies', $taxonomies );
 	}
 
 	/**

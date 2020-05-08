@@ -30,7 +30,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @return array $post_types List of registered object sub types.
+	 * @return array Map of registered post type objects keyed by their name.
 	 */
 	public function get_object_subtypes() {
 		$post_types = get_post_types( array( 'public' => true ), 'objects' );
@@ -41,7 +41,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array $post_types List of registered object sub types.
+		 * @param array $post_types Map of registered post type objects keyed by their name.
 		 */
 		return apply_filters( 'core_sitemaps_post_types', $post_types );
 	}
@@ -53,7 +53,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	 *
 	 * @param int    $page_num  Page of results.
 	 * @param string $post_type Optional. Post type name. Default empty.
-	 * @return array $url_list List of URLs for a sitemap.
+	 * @return array List of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num, $post_type = '' ) {
 		if ( ! $post_type ) {
@@ -117,5 +117,34 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 		 * @param int    $page_num  Page number of the results.
 		 */
 		return apply_filters( 'core_sitemaps_posts_url_list', $url_list, $post_type, $page_num );
+	}
+
+	/**
+	 * Gets the max number of pages available for the object type.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param string $post_type Optional. Post type name. Default empty.
+	 * @return int Total number of pages.
+	 */
+	public function max_num_pages( $post_type = '' ) {
+		if ( empty( $post_type ) ) {
+			$post_type = $this->get_queried_type();
+		}
+
+		$query = new WP_Query(
+			array(
+				'fields'                 => 'ids',
+				'orderby'                => 'ID',
+				'order'                  => 'ASC',
+				'post_type'              => $post_type,
+				'posts_per_page'         => core_sitemaps_get_max_urls( $this->object_type ),
+				'paged'                  => 1,
+				'update_post_term_cache' => false,
+				'update_post_meta_cache' => false,
+			)
+		);
+
+		return isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
 	}
 }

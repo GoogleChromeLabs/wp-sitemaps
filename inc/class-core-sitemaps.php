@@ -211,7 +211,7 @@ class Core_Sitemaps {
 
 		// Only set the current object sub-type if it's supported.
 		if ( isset( $object_subtypes[ $object_subtype ] ) ) {
-			$provider->set_object_subtype( $object_subtypes[ $object_subtype ]->name );
+			$provider->set_object_subtype( $object_subtype );
 		}
 
 		$url_list = $provider->get_url_list( $paged, $object_subtype );

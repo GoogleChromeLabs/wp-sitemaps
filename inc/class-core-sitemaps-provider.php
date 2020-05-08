@@ -14,7 +14,7 @@
  *
  * @since 5.5.0
  */
-class Core_Sitemaps_Provider {
+abstract class Core_Sitemaps_Provider {
 
 	/**
 	 * Object type name (e.g. 'post', 'term', 'user').
@@ -44,11 +44,9 @@ class Core_Sitemaps_Provider {
 	 *
 	 * @param int    $page_num       Page of results.
 	 * @param string $object_subtype Optional. Object subtype name. Default empty.
-	 * @return array $url_list List of URLs for a sitemap.
+	 * @return array List of URLs for a sitemap.
 	 */
-	public function get_url_list( $page_num, $object_subtype = '' ) {
-		return array();
-	}
+	abstract public function get_url_list( $page_num, $object_subtype = '' );
 
 	/**
 	 * Returns the name of the object type or object subtype being queried.
@@ -73,26 +71,7 @@ class Core_Sitemaps_Provider {
 	 * @param string $object_subtype Optional. Object subtype. Default empty.
 	 * @return int Total number of pages.
 	 */
-	public function max_num_pages( $object_subtype = '' ) {
-		if ( empty( $object_subtype ) ) {
-			$object_subtype = $this->get_queried_type();
-		}
-
-		$query = new WP_Query(
-			array(
-				'fields'                 => 'ids',
-				'orderby'                => 'ID',
-				'order'                  => 'ASC',
-				'post_type'              => $object_subtype,
-				'posts_per_page'         => core_sitemaps_get_max_urls( $this->object_type ),
-				'paged'                  => 1,
-				'update_post_term_cache' => false,
-				'update_post_meta_cache' => false,
-			)
-		);
-
-		return isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
-	}
+	abstract public function max_num_pages( $object_subtype = '' );
 
 	/**
 	 * Sets the object subtype.
@@ -120,15 +99,10 @@ class Core_Sitemaps_Provider {
 
 		$object_subtypes = $this->get_object_subtypes();
 
-		foreach ( $object_subtypes as $object_subtype ) {
-			// Handle lists of post-objects.
-			if ( isset( $object_subtype->name ) ) {
-				$object_subtype = $object_subtype->name;
-			}
-
+		foreach ( $object_subtypes as $object_subtype_name => $data ) {
 			$sitemap_data[] = array(
-				'name'   => $object_subtype,
-				'pages' => $this->max_num_pages( $object_subtype ),
+				'name'   => $object_subtype_name,
+				'pages' => $this->max_num_pages( $object_subtype_name ),
 			);
 		}
 
@@ -176,18 +150,30 @@ class Core_Sitemaps_Provider {
 
 		$basename = sprintf(
 			'/wp-sitemap-%1$s.xml',
-			// Accounts for cases where name is not included, ex: sitemaps-users-1.xml.
-			implode( '-', array_filter( array( $this->object_type, $name, (string) $page ) ) )
+			implode(
+				'-',
+				// Accounts for cases where name is not included, ex: sitemaps-users-1.xml.
+				array_filter(
+					array(
+						$this->object_type,
+						$name,
+						(string) $page,
+					)
+				)
+			)
 		);
 
 		$url = home_url( $basename );
 
 		if ( ! $wp_rewrite->using_permalinks() ) {
 			$url = add_query_arg(
-				array(
-					'sitemap'          => $this->object_type,
-					'sitemap-sub-type' => $name,
-					'paged'            => $page,
+				// Accounts for cases where name is not included, ex: sitemaps-users-1.xml.
+				array_filter(
+					array(
+						'sitemap'          => $this->object_type,
+						'sitemap-sub-type' => $name,
+						'paged'            => $page,
+					)
 				),
 				home_url( '/' )
 			);
@@ -199,15 +185,15 @@ class Core_Sitemaps_Provider {
 	/**
 	 * Returns the list of supported object sub-types exposed by the provider.
 	 *
-	 * By default this is the subtype as specified in the class property.
-	 *
 	 * @since 5.5.0
 	 *
-	 * @return array List: containing object types or false if there are no subtypes.
+	 * @return array List of object subtypes objects keyed by their name.
 	 */
 	public function get_object_subtypes() {
 		if ( ! empty( $this->object_subtype ) ) {
-			return array( $this->object_subtype );
+			return array(
+				$this->object_subtype => (object) array( 'name' => $this->object_subtype ),
+			);
 		}
 
 		/**
@@ -217,6 +203,8 @@ class Core_Sitemaps_Provider {
 		 *
 		 * @link https://github.com/GoogleChromeLabs/wp-sitemaps/pull/72#discussion_r347496750
 		 */
-		return array( false );
+		return array(
+			'' => (object) array( 'name' => '' ),
+		);
 	}
 }
