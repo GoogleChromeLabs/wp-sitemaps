@@ -54,7 +54,7 @@ class Core_Sitemaps_Renderer {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @return string the sitemap stylesheet url.
+	 * @return string The sitemap stylesheet url.
 	 */
 	public function get_sitemap_stylesheet_url() {
 		/* @var WP_Rewrite $wp_rewrite */
@@ -84,7 +84,7 @@ class Core_Sitemaps_Renderer {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @return string the sitemap index stylesheet url.
+	 * @return string The sitemap index stylesheet url.
 	 */
 	public function get_sitemap_index_stylesheet_url() {
 		/* @var WP_Rewrite $wp_rewrite */

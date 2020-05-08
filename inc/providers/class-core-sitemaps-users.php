@@ -81,7 +81,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	 * @since 5.5.0
 	 *
 	 * @param integer $page_num Optional. Default is 1. Page of query results to return.
-	 * @return WP_User_Query
+	 * @return WP_User_Query A WordPress user query object for authors with public posts.
 	 */
 	public function get_public_post_authors_query( $page_num = 1 ) {
 		$public_post_types = get_post_types(
