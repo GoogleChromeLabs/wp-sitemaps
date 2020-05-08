@@ -239,7 +239,6 @@ class Core_Sitemaps {
 	 *
 	 * @param bool     $bypass Pass-through of the pre_handle_404 filter value.
 	 * @param WP_Query $query The WP_Query object.
-	 *
 	 * @return bool Bypass value.
 	 */
 	public function redirect_sitemapxml( $bypass, $query ) {
