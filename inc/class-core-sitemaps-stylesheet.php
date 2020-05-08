@@ -51,7 +51,7 @@ class Core_Sitemaps_Stylesheet {
 		);
 		$text        = sprintf(
 			/* translators: %s: number of URLs. */
-			__( 'This XML Sitemap contains %s URLs.', 'core-sitemaps' ),
+			__( 'Number of URLs in this XML Sitemap: %s.', 'core-sitemaps' ),
 			'<xsl:value-of select="count(sitemap:urlset/sitemap:url)"/>'
 		);
 
