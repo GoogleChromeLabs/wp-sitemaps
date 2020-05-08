@@ -31,7 +31,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	 *
 	 * @param int    $page_num Page of results.
 	 * @param string $type     Optional. Not applicable for Users but required for
-	 *                         compatibility with the parent provider class. Default ''.
+	 *                         compatibility with the parent provider class. Default empty.
 	 * @return array $url_list List of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num, $type = '' ) {

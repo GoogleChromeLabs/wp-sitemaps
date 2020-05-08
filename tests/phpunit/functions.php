@@ -23,7 +23,7 @@ class Test_Core_Sitemaps_Functions extends WP_UnitTestCase {
 	 * Callback function for testing the `core_sitemaps_max_urls` filter.
 	 *
 	 * @param int    $max_urls The maximum number of URLs included in a sitemap. Default 2000.
-	 * @param string $type     Optional. The type of sitemap to be filtered. Default ''.
+	 * @param string $type     Optional. The type of sitemap to be filtered. Default empty.
 	 * @return int The maximum number of URLs.
 	 */
 	public function _filter_max_url_value( $max_urls, $type ) {

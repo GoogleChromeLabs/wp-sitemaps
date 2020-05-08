@@ -30,7 +30,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	 * @since 5.5.0
 	 *
 	 * @param int    $page_num Page of results.
-	 * @param string $type     Optional. Taxonomy type name. Default ''.
+	 * @param string $type     Optional. Taxonomy type name. Default empty.
 	 * @return array $url_list List of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num, $type = '' ) {
