@@ -25,7 +25,7 @@ class Core_Sitemaps_Provider {
 	protected $object_type = '';
 
 	/**
-	 * Sub type name.
+	 * Subtype name.
 	 *
 	 * @since 5.5.0
 	 *
@@ -195,7 +195,7 @@ class Core_Sitemaps_Provider {
 	}
 
 	/**
-	 * Returns the list of supported object sub-types exposed by the provider.
+	 * Returns the list of supported object subtypes exposed by the provider.
 	 *
 	 * By default this is the sub_type as specified in the class property.
 	 *
@@ -211,7 +211,7 @@ class Core_Sitemaps_Provider {
 		/**
 		 * To prevent complexity in code calling this function, such as `get_sitemaps()` in this class,
 		 * an iterable type is returned. The value false was chosen as it passes empty() checks and
-		 * as semantically this provider does not provide sub-types.
+		 * as semantically this provider does not provide subtypes.
 		 *
 		 * @link https://github.com/GoogleChromeLabs/wp-sitemaps/pull/72#discussion_r347496750
 		 */

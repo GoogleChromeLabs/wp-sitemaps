@@ -215,7 +215,7 @@ class Core_Sitemaps {
 
 		$sub_types = $provider->get_object_sub_types();
 
-		// Only set the current object sub-type if it's supported.
+		// Only set the current object subtype if it's supported.
 		if ( isset( $sub_types[ $sub_type ] ) ) {
 			$provider->set_sub_type( $sub_types[ $sub_type ]->name );
 		}
