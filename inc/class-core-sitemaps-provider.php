@@ -206,9 +206,9 @@ abstract class Core_Sitemaps_Provider {
 		}
 
 		/**
-		 * To prevent complexity in code calling this function, such as `get_sitemaps()` in this class,
-		 * an iterable type is returned. The value false was chosen as it passes empty() checks and
-		 * as semantically this provider does not provide sub-types.
+		 * To prevent complexity in code calling this function, such as `get_sitemap_type_data()`
+		 * in this class, a non-empty array is returned, so that sitemaps for providers without
+		 * object subtypes are still registered correctly.
 		 *
 		 * @link https://github.com/GoogleChromeLabs/wp-sitemaps/pull/72#discussion_r347496750
 		 */
