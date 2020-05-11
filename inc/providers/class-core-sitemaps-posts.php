@@ -30,7 +30,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @return array $post_types List of registered object sub types.
+	 * @return array $post_types Array of registered subtype objects (WP_Post_Type).
 	 */
 	public function get_object_sub_types() {
 		$post_types = get_post_types( array( 'public' => true ), 'objects' );
@@ -41,7 +41,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array $post_types List of registered object sub types.
+		 * @param array $post_types Array of registered subtype objects (WP_Post_Type).
 		 */
 		return apply_filters( 'core_sitemaps_post_types', $post_types );
 	}
@@ -53,7 +53,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 	 *
 	 * @param int    $page_num Page of results.
 	 * @param string $type     Optional. Post type name. Default empty.
-	 * @return array $url_list List of URLs for a sitemap.
+	 * @return array $url_list Array of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num, $type = '' ) {
 		if ( ! $type ) {
@@ -108,11 +108,11 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 		}
 
 		/**
-		 * Filters the list of URLs for a sitemap before rendering.
+		 * Filters the array of URLs for a sitemap before rendering.
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array  $url_list List of URLs for a sitemap.
+		 * @param array  $url_list Array of URLs for a sitemap.
 		 * @param string $type     Name of the post_type.
 		 * @param int    $page_num Page number of the results.
 		 */

@@ -24,7 +24,7 @@ class Core_Sitemaps_Test_Provider extends Core_Sitemaps_Provider {
 	 * Return the public post types, which excludes nav_items and similar types.
 	 * Attachments are also excluded. This includes custom post types with public = true
 	 *
-	 * @return array $post_types List of registered object subtypes.
+	 * @return array $post_types Array of registered subtype objects (WP_Post_Type).
 	 */
 	public function get_object_sub_types() {
 		return array( 'type-1', 'type-2', 'type-3' );

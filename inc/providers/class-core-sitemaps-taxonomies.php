@@ -31,7 +31,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	 *
 	 * @param int    $page_num Page of results.
 	 * @param string $type     Optional. Taxonomy type name. Default empty.
-	 * @return array $url_list List of URLs for a sitemap.
+	 * @return array $url_list Array of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num, $type = '' ) {
 		// Find the query_var for sub_type.
@@ -84,11 +84,11 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		}
 
 		/**
-		 * Filters the list of URLs for a sitemap before rendering.
+		 * Filters the array of URLs for a sitemap. before rendering.
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array  $url_list List of URLs for a sitemap.
+		 * @param array  $url_list Array of URLs for a sitemap.
 		 * @param string $type     Name of the taxonomy_type.
 		 * @param int    $page_num Page of results.
 		 */
@@ -108,7 +108,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array $taxonomy_types List of registered taxonomy type names.
+		 * @param array $taxonomy_types Array of registered taxonomy type objects (WP_Taxonomy).
 		 */
 		return apply_filters( 'core_sitemaps_taxonomies', $taxonomy_types );
 	}
