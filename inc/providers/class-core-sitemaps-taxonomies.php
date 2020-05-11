@@ -88,11 +88,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array $url_list {
-		 *    A list of URLs for a sitemap.
-		 *
-		 *    @type string $loc The URL.
-		 * }
+		 * @param array  $url_list List of URLs for a sitemap.
 		 * @param string $type     Name of the taxonomy_type.
 		 * @param int    $page_num Page of results.
 		 */
@@ -108,15 +104,11 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		$taxonomy_types = get_taxonomies( array( 'public' => true ), 'objects' );
 
 		/**
-		 * Filters the list of taxonomy objects available within the sitemap.
+		 * Filter the list of taxonomy object sub types available within the sitemap.
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array $taxonomy_types {
-		 *     List of registered taxonomy  objects.
-		 *
-		 *     @type WP_Taxonomy A taxonomy object.
-		 * }
+		 * @param array $taxonomy_types List of registered taxonomy type names.
 		 */
 		return apply_filters( 'core_sitemaps_taxonomies', $taxonomy_types );
 	}

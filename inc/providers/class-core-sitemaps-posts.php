@@ -41,11 +41,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array $post_types {
-		 *     List of registered object sub types.
-		 *
-		 *     @type WP_Post_Type A post type object.
-		 * }
+		 * @param array $post_types List of registered object sub types.
 		 */
 		return apply_filters( 'core_sitemaps_post_types', $post_types );
 	}
@@ -116,11 +112,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array $url_list {
-		 *    A list of URLs for a sitemap.
-		 *
-		 *    @type string $loc The URL.
-		 * }
+		 * @param array  $url_list List of URLs for a sitemap.
 		 * @param string $type     Name of the post_type.
 		 * @param int    $page_num Page number of the results.
 		 */

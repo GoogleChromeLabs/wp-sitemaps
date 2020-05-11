@@ -114,11 +114,7 @@ class Core_Sitemaps_Renderer {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param array $sitemaps {
-	 *    List of sitemap entries.
-	 *
-	 *    @type string $loc The sitemap URL.
-	 * }
+	 * @param array $sitemaps List of sitemap entries.
 	 */
 	public function render_index( $sitemaps ) {
 		header( 'Content-type: application/xml; charset=UTF-8' );
@@ -139,11 +135,7 @@ class Core_Sitemaps_Renderer {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param array $sitemaps {
-	 *    List of sitemap entries.
-	 *
-	 *    @type string $loc The sitemap URL.
-	 * }
+	 * @param array $sitemaps List of sitemap entries.
 	 * @return string|false A well-formed XML string for a sitemap index. False on error.
 	 */
 	public function get_sitemap_index_xml( $sitemaps ) {
@@ -169,11 +161,7 @@ class Core_Sitemaps_Renderer {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param array $url_list {
-	 *    A list of URLs for a sitemap.
-	 *
-	 *    @type string $loc The URL.
-	 * }
+	 * @param array $url_list A list of URLs for a sitemap.
 	 */
 	public function render_sitemap( $url_list ) {
 		header( 'Content-type: application/xml; charset=UTF-8' );
@@ -194,11 +182,7 @@ class Core_Sitemaps_Renderer {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param array $url_list {
-	 *    A list of URLs for a sitemap.
-	 *
-	 *    @type string $loc The URL.
-	 * }
+	 * @param array $url_list A list of URLs for a sitemap.
 	 * @return string|false A well-formed XML string for a sitemap index. False on error.
 	 */
 	public function get_sitemap_xml( $url_list ) {
