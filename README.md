@@ -134,7 +134,7 @@ A variety of filters exists to allow you adjust the styling:
 
 ### Does this plugin support `changefreq` and `priority` attributes for sitemaps?
 
-No. Those are optional fields in the sitemaps protocol and not typically consumed by search engines. Developers can still add those fields if they really want too.
+No. Those are optional fields in the sitemaps protocol and not typically consumed by search engines. Developers can still add those fields if they really want to.
 
 ## Changelog
 
