@@ -8,7 +8,7 @@ Stable tag: 0.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-A feature plugin to integrate basic XML Sitemaps in WordPress Core
+A feature plugin to integrate basic XML Sitemaps in WordPress Core.
 
 == Description ==
 
@@ -44,7 +44,7 @@ You can use the `core_sitemaps_register_providers` filter to disable sitemap gen
 
 = How can I disable sitemaps for a certain post type or taxonomy? =
 
-You can use the `core_sitemaps_post_types` filter to disable sitemap generation for posts of a certain type.
+You can use the `core_sitemaps_post_types` filter to disable sitemap generation for posts of a certain post type.
 
 By default, only public posts will be represented in the sitemap.
 
@@ -140,7 +140,7 @@ Use the `core_sitemaps_max_urls` filter to adjust the maximum number of URLs inc
 
 = How can I change the appearance of the XML sitemaps in the browser using XSL? =
 
-A variety of filters exists to allow you adjust the styling:
+A variety of filters exist to allow you to adjust the styling:
 
 * `core_sitemaps_stylesheet_url` - Filter the URL for the sitemap stylesheet.
 * `core_sitemaps_stylesheet_index_url` - Filter the URL for the sitemap index stylesheet.
