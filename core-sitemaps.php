@@ -2,13 +2,13 @@
 /**
  * Main setup.
  *
- * @package         Core_Sitemaps
+ * @package         Sitemaps
  */
 
 /**
  * Core Sitemaps Plugin.
  *
- * @package   Core_Sitemaps
+ * @package   Sitemaps
  * @copyright 2019 The Core Sitemaps Contributors
  * @license   GNU General Public License, version 2
  * @link      https://github.com/GoogleChromeLabs/wp-sitemaps
@@ -54,7 +54,7 @@ add_action( 'init', 'sitemaps_get_server' );
  * Adds and flushes rewrite rules.
  */
 function sitemaps_plugin_activation() {
-	$sitemaps = new Core_Sitemaps();
+	$sitemaps = new Sitemaps();
 	$sitemaps->register_rewrites();
 	flush_rewrite_rules( false );
 }
@@ -67,7 +67,7 @@ register_activation_hook( __FILE__, 'sitemaps_plugin_activation' );
  * Adds and flushes rewrite rules.
  */
 function sitemaps_plugin_deactivation() {
-	$sitemaps = new Core_Sitemaps();
+	$sitemaps = new Sitemaps();
 	$sitemaps->unregister_rewrites();
 	flush_rewrite_rules( false );
 }

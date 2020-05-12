@@ -2,7 +2,7 @@
 /**
  * Test sitemap provider.
  *
- * @package Core_Sitemaps
+ * @package Sitemaps
  */
 
 /**

@@ -4,7 +4,7 @@
  *
  * Main test class.
  *
- * @package   Core_Sitemaps
+ * @package   Sitemaps
  * @copyright 2019 The Core Sitemaps Contributors
  * @license   GNU General Public License, version 2
  * @link      https://github.com/GoogleChromeLabs/wp-sitemaps
@@ -17,7 +17,7 @@ require_once( __DIR__ . '/inc/class-core-sitemaps-test-provider.php' );
  *
  * @group sitemaps
  */
-class Test_Core_Sitemaps extends WP_UnitTestCase {
+class Test_Sitemaps extends WP_UnitTestCase {
 
 	/**
 	 * List of user IDs.

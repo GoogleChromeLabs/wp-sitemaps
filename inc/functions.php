@@ -15,7 +15,7 @@
  *
  * @since 5.5.0
  *
- * @return Core_Sitemaps|null Core_Sitemaps instance, or null of sitemaps are disabled.
+ * @return Sitemaps|null Sitemaps instance, or null of sitemaps are disabled.
  */
 function sitemaps_get_server() {
 	/**
@@ -23,7 +23,7 @@ function sitemaps_get_server() {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @var Core_Sitemaps $sitemaps
+	 * @var Sitemaps $sitemaps
 	 */
 	global $sitemaps;
 
@@ -44,11 +44,11 @@ function sitemaps_get_server() {
 
 	// If there isn't a global instance, set and bootstrap the sitemaps system.
 	if ( empty( $sitemaps ) ) {
-		$sitemaps = new Core_Sitemaps();
+		$sitemaps = new Sitemaps();
 		$sitemaps->init();
 
 		/**
-		 * Fires when initializing the Core_Sitemaps object.
+		 * Fires when initializing the Sitemaps object.
 		 *
 		 * Additional sitemaps should be registered on this hook.
 		 *

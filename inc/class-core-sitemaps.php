@@ -1,6 +1,6 @@
 <?php
 /**
- * Sitemaps: Core_Sitemaps class
+ * Sitemaps: Sitemaps class
  *
  * This is the main class integrating all other classes.
  *
@@ -10,11 +10,11 @@
  */
 
 /**
- * Class Core_Sitemaps.
+ * Class Sitemaps.
  *
  * @since 5.5.0
  */
-class Core_Sitemaps {
+class Sitemaps {
 	/**
 	 * The main index of supported sitemaps.
 	 *
@@ -43,7 +43,7 @@ class Core_Sitemaps {
 	public $renderer;
 
 	/**
-	 * Core_Sitemaps constructor.
+	 * Sitemaps constructor.
 	 *
 	 * @since 5.5.0
 	 */
