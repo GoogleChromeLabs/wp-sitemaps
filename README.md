@@ -1,10 +1,10 @@
 # Core Sitemaps
 
-A feature plugin to integrate basic XML Sitemaps in WordPress Core
+A feature plugin to integrate basic XML Sitemaps in WordPress Core.
 
 ## Description
 
-As [originally proposed in June 2019](https://make.wordpress.org/core/2019/06/12/xml-sitemaps-feature-project-proposal/), this feature plugin seeks to integrate basic XML Sitemaps functionality in WordPress Core.
+As [originally proposed in June 2019](https://make.wordpress.org/core/2019/06/12/xml-sitemaps-feature-project-proposal/), this feature plugin seeks to integrate basic XML Sitemaps functionality into WordPress Core.
 
 A short explanation of how this plugin works can be found on [this make/core blog post](https://make.wordpress.org/core/2020/01/27/feature-plugin-xml-sitemaps/).
 
@@ -28,7 +28,7 @@ You can use the `core_sitemaps_register_providers` filter to disable sitemap gen
 
 ### How can I disable sitemaps for a certain post type or taxonomy?
 
-You can use the `core_sitemaps_post_types` filter to disable sitemap generation for posts of a certain type.
+You can use the `core_sitemaps_post_types` filter to disable sitemap generation for posts of a certain post type.
 
 By default, only public posts will be represented in the sitemap.
 
@@ -134,7 +134,7 @@ A variety of filters exists to allow you adjust the styling:
 
 ### Does this plugin support `changefreq` and `priority` attributes for sitemaps?
 
-No. Those are optional fields in the sitemaps protocol and not typically consumed by search engines. Developers can still add those fields if they really want too.
+No. Those are optional fields in the sitemaps protocol and not typically consumed by search engines. Developers can still add those fields if they really want to.
 
 ## Changelog
 

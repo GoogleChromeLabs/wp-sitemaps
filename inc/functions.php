@@ -103,18 +103,17 @@ function core_sitemaps_register_sitemap( $name, $provider ) {
  *
  * @since 5.5.0
  *
- * @param string $type Optional. The type of sitemap to be filtered. Default empty.
+ * @param string $object_type Object type for sitemap to be filtered (e.g. 'post', 'term', 'user').
  * @return int The maximum number of URLs.
  */
-function core_sitemaps_get_max_urls( $type = '' ) {
+function core_sitemaps_get_max_urls( $object_type ) {
 	/**
 	 * Filters the maximum number of URLs displayed on a sitemap.
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param int    $max_urls The maximum number of URLs included in a sitemap. Default 2000.
-	 * @param string $type     Optional. The type of sitemap to be filtered. Default empty.
-	 * @return int The maximum number of URLs.
+	 * @param int    $max_urls    The maximum number of URLs included in a sitemap. Default 2000.
+	 * @param string $object_type Object type for sitemap to be filtered (e.g. 'post', 'term', 'user').
 	 */
-	return apply_filters( 'core_sitemaps_max_urls', CORE_SITEMAPS_MAX_URLS, $type );
+	return apply_filters( 'core_sitemaps_max_urls', CORE_SITEMAPS_MAX_URLS, $object_type );
 }

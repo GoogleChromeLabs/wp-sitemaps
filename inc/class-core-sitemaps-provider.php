@@ -14,9 +14,21 @@
  *
  * @since 5.5.0
  */
-class Core_Sitemaps_Provider {
+abstract class Core_Sitemaps_Provider {
+
 	/**
-	 * Post type name.
+	 * Provider name.
+	 *
+	 * This will also be used as the public-facing name in URLs.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @var string
+	 */
+	protected $name = '';
+
+	/**
+	 * Object type name (e.g. 'post', 'term', 'user').
 	 *
 	 * @since 5.5.0
 	 *
@@ -25,42 +37,41 @@ class Core_Sitemaps_Provider {
 	protected $object_type = '';
 
 	/**
-	 * Subtype name.
+	 * Object subtype name.
+	 *
+	 * For example, this should be a post type name for object type 'post' or
+	 * a taxonomy name for object type 'term').
 	 *
 	 * @since 5.5.0
 	 *
 	 * @var string
 	 */
-	protected $sub_type = '';
+	protected $object_subtype = '';
 
 	/**
 	 * Gets a URL list for a sitemap.
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param int    $page_num Page of results.
-	 * @param string $type     Optional. Post type name. Default empty.
+	 * @param int    $page_num       Page of results.
+	 * @param string $object_subtype Optional. Object subtype name. Default empty.
 	 * @return array $url_list Array of URLs for a sitemap.
 	 */
-	public function get_url_list( $page_num, $type = '' ) {
-		return array();
-	}
+	abstract public function get_url_list( $page_num, $object_subtype = '' );
 
 	/**
-	 * Returns the name of the object type being queried.
+	 * Returns the name of the object type or object subtype being queried.
 	 *
 	 * @since 5.5.0
 	 *
-	 * @return string Name of the object type.
+	 * @return string Object subtype if set, otherwise object type.
 	 */
 	public function get_queried_type() {
-		$type = $this->sub_type;
-
-		if ( empty( $type ) ) {
+		if ( empty( $this->object_subtype ) ) {
 			return $this->object_type;
 		}
 
-		return $type;
+		return $this->object_subtype;
 	}
 
 	/**
@@ -68,40 +79,21 @@ class Core_Sitemaps_Provider {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param string $type Optional. Object type. Default is null.
+	 * @param string $object_subtype Optional. Object subtype. Default empty.
 	 * @return int Total number of pages.
 	 */
-	public function max_num_pages( $type = '' ) {
-		if ( empty( $type ) ) {
-			$type = $this->get_queried_type();
-		}
-
-		$query = new WP_Query(
-			array(
-				'fields'                 => 'ids',
-				'orderby'                => 'ID',
-				'order'                  => 'ASC',
-				'post_type'              => $type,
-				'posts_per_page'         => core_sitemaps_get_max_urls( $this->object_type ),
-				'paged'                  => 1,
-				'update_post_term_cache' => false,
-				'update_post_meta_cache' => false,
-			)
-		);
-
-		return isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
-	}
+	abstract public function max_num_pages( $object_subtype = '' );
 
 	/**
-	 * Sets the object sub_type.
+	 * Sets the object subtype.
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param string $sub_type The name of the object subtype.
+	 * @param string $object_subtype The name of the object subtype.
 	 * @return bool Returns true on success.
 	 */
-	public function set_sub_type( $sub_type ) {
-		$this->sub_type = $sub_type;
+	public function set_object_subtype( $object_subtype ) {
+		$this->object_subtype = $object_subtype;
 
 		return true;
 	}
@@ -116,17 +108,12 @@ class Core_Sitemaps_Provider {
 	public function get_sitemap_type_data() {
 		$sitemap_data = array();
 
-		$sitemap_types = $this->get_object_sub_types();
+		$object_subtypes = $this->get_object_subtypes();
 
-		foreach ( $sitemap_types as $type ) {
-			// Handle lists of post-objects.
-			if ( isset( $type->name ) ) {
-				$type = $type->name;
-			}
-
+		foreach ( $object_subtypes as $object_subtype_name => $data ) {
 			$sitemap_data[] = array(
-				'name'   => $type,
-				'pages' => $this->max_num_pages( $type ),
+				'name'   => $object_subtype_name,
+				'pages' => $this->max_num_pages( $object_subtype_name ),
 			);
 		}
 
@@ -172,49 +159,61 @@ class Core_Sitemaps_Provider {
 		/* @var WP_Rewrite $wp_rewrite */
 		global $wp_rewrite;
 
-		$basename = sprintf(
-			'/wp-sitemap-%1$s.xml',
-			// Accounts for cases where name is not included, ex: sitemaps-users-1.xml.
-			implode( '-', array_filter( array( $this->object_type, $name, (string) $page ) ) )
-		);
-
-		$url = home_url( $basename );
-
 		if ( ! $wp_rewrite->using_permalinks() ) {
-			$url = add_query_arg(
-				array(
-					'sitemap'          => $this->object_type,
-					'sitemap-sub-type' => $name,
-					'paged'            => $page,
+			return add_query_arg(
+				// Accounts for cases where name is not included, ex: sitemaps-users-1.xml.
+				array_filter(
+					array(
+						'sitemap'          => $this->name,
+						'sitemap-sub-type' => $name,
+						'paged'            => $page,
+					)
 				),
 				home_url( '/' )
 			);
 		}
 
-		return $url;
+		$basename = sprintf(
+			'/wp-sitemap-%1$s.xml',
+			implode(
+				'-',
+				// Accounts for cases where name is not included, ex: sitemaps-users-1.xml.
+				array_filter(
+					array(
+						$this->name,
+						$name,
+						(string) $page,
+					)
+				)
+			)
+		);
+
+		return home_url( $basename );
 	}
 
 	/**
 	 * Returns the list of supported object subtypes exposed by the provider.
 	 *
-	 * By default this is the sub_type as specified in the class property.
-	 *
 	 * @since 5.5.0
 	 *
-	 * @return array List: containing object types or false if there are no subtypes.
+	 * @return array List of object subtypes objects keyed by their name.
 	 */
-	public function get_object_sub_types() {
-		if ( ! empty( $this->sub_type ) ) {
-			return array( $this->sub_type );
+	public function get_object_subtypes() {
+		if ( ! empty( $this->object_subtype ) ) {
+			return array(
+				$this->object_subtype => (object) array( 'name' => $this->object_subtype ),
+			);
 		}
 
 		/**
-		 * To prevent complexity in code calling this function, such as `get_sitemaps()` in this class,
-		 * an iterable type is returned. The value false was chosen as it passes empty() checks and
-		 * as semantically this provider does not provide subtypes.
+		 * To prevent complexity in code calling this function, such as `get_sitemap_type_data()`
+		 * in this class, a non-empty array is returned, so that sitemaps for providers without
+		 * object subtypes are still registered correctly.
 		 *
 		 * @link https://github.com/GoogleChromeLabs/wp-sitemaps/pull/72#discussion_r347496750
 		 */
-		return array( false );
+		return array(
+			'' => (object) array( 'name' => '' ),
+		);
 	}
 }
