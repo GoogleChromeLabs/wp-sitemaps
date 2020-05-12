@@ -182,7 +182,7 @@ class Test_Core_Sitemaps_Taxonomies extends WP_UnitTestCase {
 
 		// Return an empty array to show that the list of subtypes is filterable.
 		add_filter( 'core_sitemaps_taxonomies', '__return_empty_array' );
-		$subtypes = $taxonomies_provider->get_object_sub_types();
+		$subtypes = $taxonomies_provider->get_object_subtypes();
 
 		$this->assertEquals( array(), $subtypes, 'Could not filter taxonomies subtypes.' );
 	}

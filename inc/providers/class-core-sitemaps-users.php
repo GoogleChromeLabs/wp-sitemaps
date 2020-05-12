@@ -21,7 +21,8 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	 * @since 5.5.0
 	 */
 	public function __construct() {
-		$this->object_type = 'users';
+		$this->name        = 'users';
+		$this->object_type = 'user';
 	}
 
 	/**
@@ -29,12 +30,13 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param int    $page_num Page of results.
-	 * @param string $type     Optional. Not applicable for Users but required for
-	 *                         compatibility with the parent provider class. Default ''.
-	 * @return array $url_list List of URLs for a sitemap.
+	 * @param int    $page_num       Page of results.
+	 * @param string $object_subtype Optional. Not applicable for Users but
+	 *                               required for compatibility with the parent
+	 *                               provider class. Default empty.
+	 * @return array List of URLs for a sitemap.
 	 */
-	public function get_url_list( $page_num, $type = '' ) {
+	public function get_url_list( $page_num, $object_subtype = '' ) {
 		$query    = $this->get_public_post_authors_query( $page_num );
 		$users    = $query->get_results();
 		$url_list = array();
@@ -62,10 +64,13 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	 * @since 5.5.0
 	 *
 	 * @see Core_Sitemaps_Provider::max_num_pages
-	 * @param string $type Optional. Name of the object type. Default is null.
+	 *
+	 * @param string $object_subtype Optional. Not applicable for Users but
+	 *                               required for compatibility with the parent
+	 *                               provider class. Default empty.
 	 * @return int Total page count.
 	 */
-	public function max_num_pages( $type = '' ) {
+	public function max_num_pages( $object_subtype = '' ) {
 		$query = $this->get_public_post_authors_query();
 
 		$total_users = $query->get_total();
