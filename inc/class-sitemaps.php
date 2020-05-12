@@ -82,7 +82,7 @@ class Sitemaps {
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array $providers Array of Core_Sitemap_Provider objects keyed by their name.
+		 * @param array $providers Array of Sitemap_Provider objects keyed by their name.
 		 */
 		$providers = apply_filters(
 			'sitemaps_register_providers',
