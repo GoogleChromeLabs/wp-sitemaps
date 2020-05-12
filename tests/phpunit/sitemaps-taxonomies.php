@@ -177,11 +177,11 @@ class Test_Core_Sitemaps_Taxonomies extends WP_UnitTestCase {
 	/**
 	 * Test ability to filter object subtypes.
 	 */
-	public function test_filter_core_sitemaps_taxonomies() {
+	public function test_filter_sitemaps_taxonomies() {
 		$taxonomies_provider = new Core_Sitemaps_Taxonomies();
 
 		// Return an empty array to show that the list of subtypes is filterable.
-		add_filter( 'core_sitemaps_taxonomies', '__return_empty_array' );
+		add_filter( 'sitemaps_taxonomies', '__return_empty_array' );
 		$subtypes = $taxonomies_provider->get_object_subtypes();
 
 		$this->assertEquals( array(), $subtypes, 'Could not filter taxonomies subtypes.' );
@@ -190,10 +190,10 @@ class Test_Core_Sitemaps_Taxonomies extends WP_UnitTestCase {
 	/**
 	 * Test ability to filter the taxonomies URL list.
 	 */
-	public function test_filter_core_sitemaps_taxonomies_url_list() {
+	public function test_filter_sitemaps_taxonomies_url_list() {
 		$taxonomies_provider = new Core_Sitemaps_Taxonomies();
 
-		add_filter( 'core_sitemaps_taxonomies_url_list', '__return_empty_array' );
+		add_filter( 'sitemaps_taxonomies_url_list', '__return_empty_array' );
 
 		// Register taxonomy, create a term for it and assign a post to it.
 		register_taxonomy( 'test_tax', 'post' );

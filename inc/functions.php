@@ -17,7 +17,7 @@
  *
  * @return Core_Sitemaps|null Core_Sitemaps instance, or null of sitemaps are disabled.
  */
-function core_sitemaps_get_server() {
+function sitemaps_get_server() {
 	/**
 	 * Global Core Sitemaps instance.
 	 *
@@ -36,7 +36,7 @@ function core_sitemaps_get_server() {
 	 *
 	 * @param bool $is_enabled Whether XML Sitemaps are enabled or not. Defaults to true for public sites.
 	 */
-	$is_enabled = (bool) apply_filters( 'core_sitemaps_is_enabled', $is_enabled );
+	$is_enabled = (bool) apply_filters( 'sitemaps_is_enabled', $is_enabled );
 
 	if ( ! $is_enabled ) {
 		return null;
@@ -56,7 +56,7 @@ function core_sitemaps_get_server() {
 		 *
 		 * @param core_sitemaps $core_sitemaps Server object.
 		 */
-		do_action( 'core_sitemaps_init', $core_sitemaps );
+		do_action( 'sitemaps_init', $core_sitemaps );
 	}
 
 	return $core_sitemaps;
@@ -69,8 +69,8 @@ function core_sitemaps_get_server() {
  *
  * @return array $sitemaps A list of registered sitemap providers.
  */
-function core_sitemaps_get_sitemaps() {
-	$core_sitemaps = core_sitemaps_get_server();
+function sitemaps_get_sitemaps() {
+	$core_sitemaps = sitemaps_get_server();
 
 	if ( ! $core_sitemaps ) {
 		return array();
@@ -88,8 +88,8 @@ function core_sitemaps_get_sitemaps() {
  * @param Core_Sitemaps_Provider $provider The `Core_Sitemaps_Provider` instance implementing the sitemap.
  * @return bool Returns true if the sitemap was added. False on failure.
  */
-function core_sitemaps_register_sitemap( $name, $provider ) {
-	$core_sitemaps = core_sitemaps_get_server();
+function sitemaps_register_sitemap( $name, $provider ) {
+	$core_sitemaps = sitemaps_get_server();
 
 	if ( ! $core_sitemaps ) {
 		return false;
@@ -106,7 +106,7 @@ function core_sitemaps_register_sitemap( $name, $provider ) {
  * @param string $object_type Object type for sitemap to be filtered (e.g. 'post', 'term', 'user').
  * @return int The maximum number of URLs.
  */
-function core_sitemaps_get_max_urls( $object_type ) {
+function sitemaps_get_max_urls( $object_type ) {
 	/**
 	 * Filters the maximum number of URLs displayed on a sitemap.
 	 *
@@ -115,5 +115,5 @@ function core_sitemaps_get_max_urls( $object_type ) {
 	 * @param int    $max_urls    The maximum number of URLs included in a sitemap. Default 2000.
 	 * @param string $object_type Object type for sitemap to be filtered (e.g. 'post', 'term', 'user').
 	 */
-	return apply_filters( 'core_sitemaps_max_urls', CORE_SITEMAPS_MAX_URLS, $object_type );
+	return apply_filters( 'sitemaps_max_urls', CORE_SITEMAPS_MAX_URLS, $object_type );
 }

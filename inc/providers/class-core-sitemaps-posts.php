@@ -44,7 +44,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 		 *
 		 * @param array $post_types Map of registered post type objects keyed by their name.
 		 */
-		return apply_filters( 'core_sitemaps_post_types', $post_types );
+		return apply_filters( 'sitemaps_post_types', $post_types );
 	}
 
 	/**
@@ -73,7 +73,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 				'orderby'                => 'ID',
 				'order'                  => 'ASC',
 				'post_type'              => $post_type,
-				'posts_per_page'         => core_sitemaps_get_max_urls( $this->object_type ),
+				'posts_per_page'         => sitemaps_get_max_urls( $this->object_type ),
 				'post_status'            => array( 'publish' ),
 				'paged'                  => $page_num,
 				'no_found_rows'          => true,
@@ -117,7 +117,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 		 * @param string $post_type Name of the post_type.
 		 * @param int    $page_num  Page number of the results.
 		 */
-		return apply_filters( 'core_sitemaps_posts_url_list', $url_list, $post_type, $page_num );
+		return apply_filters( 'sitemaps_posts_url_list', $url_list, $post_type, $page_num );
 	}
 
 	/**
@@ -139,7 +139,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 				'orderby'                => 'ID',
 				'order'                  => 'ASC',
 				'post_type'              => $post_type,
-				'posts_per_page'         => core_sitemaps_get_max_urls( $this->object_type ),
+				'posts_per_page'         => sitemaps_get_max_urls( $this->object_type ),
 				'paged'                  => 1,
 				'update_post_term_cache' => false,
 				'update_post_meta_cache' => false,

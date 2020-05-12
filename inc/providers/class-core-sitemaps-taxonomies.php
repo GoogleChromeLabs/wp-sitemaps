@@ -42,7 +42,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		 *
 		 * @param array $taxonomies Map of registered taxonomy objects keyed by their name.
 		 */
-		return apply_filters( 'core_sitemaps_taxonomies', $taxonomies );
+		return apply_filters( 'sitemaps_taxonomies', $taxonomies );
 	}
 
 	/**
@@ -75,13 +75,13 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		$url_list = array();
 
 		// Offset by how many terms should be included in previous pages.
-		$offset = ( $page_num - 1 ) * core_sitemaps_get_max_urls( $this->object_type );
+		$offset = ( $page_num - 1 ) * sitemaps_get_max_urls( $this->object_type );
 
 		$args = array(
 			'fields'                 => 'ids',
 			'taxonomy'               => $taxonomy,
 			'orderby'                => 'term_order',
-			'number'                 => core_sitemaps_get_max_urls( $this->object_type ),
+			'number'                 => sitemaps_get_max_urls( $this->object_type ),
 			'offset'                 => $offset,
 			'hide_empty'             => true,
 
@@ -113,7 +113,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		 * @param string $taxonomy Taxonomy name.
 		 * @param int    $page_num Page of results.
 		 */
-		return apply_filters( 'core_sitemaps_taxonomies_url_list', $url_list, $taxonomy, $page_num );
+		return apply_filters( 'sitemaps_taxonomies_url_list', $url_list, $taxonomy, $page_num );
 	}
 
 	/**
@@ -131,6 +131,6 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 
 		$term_count = wp_count_terms( $taxonomy, array( 'hide_empty' => true ) );
 
-		return (int) ceil( $term_count / core_sitemaps_get_max_urls( $this->object_type ) );
+		return (int) ceil( $term_count / sitemaps_get_max_urls( $this->object_type ) );
 	}
 }

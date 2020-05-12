@@ -63,7 +63,7 @@ class Core_Sitemaps {
 		$this->register_sitemaps();
 
 		// Add additional action callbacks.
-		add_action( 'core_sitemaps_init', array( $this, 'register_rewrites' ) );
+		add_action( 'sitemaps_init', array( $this, 'register_rewrites' ) );
 		add_action( 'template_redirect', array( $this, 'render_sitemaps' ) );
 		add_action( 'wp_loaded', array( $this, 'maybe_flush_rewrites' ) );
 		add_filter( 'pre_handle_404', array( $this, 'redirect_sitemapxml' ), 10, 2 );
@@ -85,7 +85,7 @@ class Core_Sitemaps {
 		 * @param array $providers Array of Core_Sitemap_Provider objects keyed by their name.
 		 */
 		$providers = apply_filters(
-			'core_sitemaps_register_providers',
+			'sitemaps_register_providers',
 			array(
 				'posts'      => new Core_Sitemaps_Posts(),
 				'taxonomies' => new Core_Sitemaps_Taxonomies(),
@@ -158,7 +158,7 @@ class Core_Sitemaps {
 	 * @since 5.5.0
 	 */
 	public function maybe_flush_rewrites() {
-		if ( update_option( 'core_sitemaps_rewrite_version', CORE_SITEMAPS_REWRITE_VERSION ) ) {
+		if ( update_option( 'sitemaps_rewrite_version', CORE_SITEMAPS_REWRITE_VERSION ) ) {
 			flush_rewrite_rules( false );
 		}
 	}

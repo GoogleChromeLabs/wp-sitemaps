@@ -92,7 +92,7 @@ class Test_Core_Sitemaps_Renderer extends WP_UnitTestCase {
 			),
 		);
 
-		add_filter( 'core_sitemaps_stylesheet_index_url', '__return_false' );
+		add_filter( 'sitemaps_stylesheet_index_url', '__return_false' );
 
 		$renderer = new Core_Sitemaps_Renderer();
 
@@ -154,7 +154,7 @@ class Test_Core_Sitemaps_Renderer extends WP_UnitTestCase {
 			),
 		);
 
-		add_filter( 'core_sitemaps_stylesheet_url', '__return_false' );
+		add_filter( 'sitemaps_stylesheet_url', '__return_false' );
 
 		$renderer = new Core_Sitemaps_Renderer();
 
