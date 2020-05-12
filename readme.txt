@@ -150,7 +150,7 @@ A variety of filters exist to allow you to adjust the styling:
 
 = Does this plugin support `changefreq` and `priority` attributes for sitemaps? =
 
-No. Those are optional fields in the sitemaps protocol and not typically consumed by search engines. Developers can still add those fields if they really want too.
+No. Those are optional fields in the sitemaps protocol and not typically consumed by search engines. Developers can still add those fields if they really want to.
 
 = Why is there no last modified date shown in the sitemap? =
 
