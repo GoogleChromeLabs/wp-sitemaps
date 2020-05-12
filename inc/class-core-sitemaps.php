@@ -158,7 +158,7 @@ class Sitemaps {
 	 * @since 5.5.0
 	 */
 	public function maybe_flush_rewrites() {
-		if ( update_option( 'sitemaps_rewrite_version', CORE_SITEMAPS_REWRITE_VERSION ) ) {
+		if ( update_option( 'sitemaps_rewrite_version', SITEMAPS_REWRITE_VERSION ) ) {
 			flush_rewrite_rules( false );
 		}
 	}
