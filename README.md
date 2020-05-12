@@ -8,7 +8,7 @@ As [originally proposed in June 2019](https://make.wordpress.org/core/2019/06/12
 
 A short explanation of how this plugin works can be found on [this make/core blog post](https://make.wordpress.org/core/2020/01/27/feature-plugin-xml-sitemaps/).
 
-Interested in contributing to this plugin? Feel free to join us in the [#sitemaps](https://wordpress.slack.com/archives/CTKTGNJJW) Slack channel.
+Interested in contributing to this plugin? Feel free to join us in the [#core-sitemaps](https://wordpress.slack.com/archives/CTKTGNJJW) Slack channel.
 
 ## Documentation
 
