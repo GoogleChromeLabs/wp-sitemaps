@@ -20,7 +20,7 @@
  * Author URI:        https://github.com/GoogleChromeLabs/wp-sitemaps/graphs/contributors
  * Text Domain:       core-sitemaps
  * Domain Path:       /languages
- * Requires at least: 5.3
+ * Requires at least: 5.4
  * Requires PHP:      5.6
  * Version:           0.2.0
  */
