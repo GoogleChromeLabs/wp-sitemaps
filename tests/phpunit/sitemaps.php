@@ -372,8 +372,8 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 
 	/**
 	 * Helper function for building an expected url list.
-	 * @param string $type An object sub type, e.g., post type.
 	 *
+	 * @param string $type An object sub type, e.g., post type.
 	 * @param array  $ids  Array of object IDs.
 	 * @return array A formed URL list.
 	 */

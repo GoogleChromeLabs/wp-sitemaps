@@ -83,7 +83,7 @@ class Core_Sitemaps {
 		 * @since 5.5.0
 		 *
 		 * @param array $providers {
-		 * @param array $providers Array of Core_Sitemap_Provider objects keyed by their name.
+		 *     Array of Core_Sitemap_Provider objects keyed by their name.
 		 *
 		 *     @type object $posts      The Core_Sitemaps_Posts object.
 		 *     @type object $taxonomies The Core_Sitemaps_Taxonomies object.
