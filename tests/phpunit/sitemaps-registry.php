@@ -2,10 +2,10 @@
 
 require_once( __DIR__ . '/inc/class-core-sitemaps-test-provider.php' );
 
-class Test_Core_Sitemaps_Registry extends WP_UnitTestCase {
+class Test_Sitemaps_Registry extends WP_UnitTestCase {
 	public function test_add_sitemap() {
-		$provider = new Core_Sitemaps_Test_Provider();
-		$registry = new Core_Sitemaps_Registry();
+		$provider = new Sitemaps_Test_Provider();
+		$registry = new Sitemaps_Registry();
 
 		$actual   = $registry->add_sitemap( 'foo', $provider );
 		$sitemaps = $registry->get_sitemaps();
@@ -16,9 +16,9 @@ class Test_Core_Sitemaps_Registry extends WP_UnitTestCase {
 	}
 
 	public function test_add_sitemap_prevent_duplicates() {
-		$provider1 = new Core_Sitemaps_Test_Provider();
-		$provider2 = new Core_Sitemaps_Test_Provider();
-		$registry = new Core_Sitemaps_Registry();
+		$provider1 = new Sitemaps_Test_Provider();
+		$provider2 = new Sitemaps_Test_Provider();
+		$registry = new Sitemaps_Registry();
 
 		$actual1  = $registry->add_sitemap( 'foo', $provider1 );
 		$actual2  = $registry->add_sitemap( 'foo', $provider2 );
@@ -32,7 +32,7 @@ class Test_Core_Sitemaps_Registry extends WP_UnitTestCase {
 
 	public function test_add_sitemap_invalid_type() {
 		$provider = null;
-		$registry = new Core_Sitemaps_Registry();
+		$registry = new Sitemaps_Registry();
 
 		$actual   = $registry->add_sitemap( 'foo', $provider );
 		$sitemaps = $registry->get_sitemaps();

@@ -1,6 +1,6 @@
 <?php
 /**
- * Sitemaps: Core_Sitemaps_Stylesheet class
+ * Sitemaps: Sitemaps_Stylesheet class
  *
  * This class provides the XSL stylesheets to style all sitemaps.
  *
@@ -14,7 +14,7 @@
  *
  * @since 5.5.0
  */
-class Core_Sitemaps_Stylesheet {
+class Sitemaps_Stylesheet {
 	/**
 	 * Renders the xsl stylesheet depending on whether its the sitemap index or not.
 	 *

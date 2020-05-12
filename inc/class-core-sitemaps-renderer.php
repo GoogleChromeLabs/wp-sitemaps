@@ -1,6 +1,6 @@
 <?php
 /**
- * Sitemaps: Core_Sitemaps_Renderer class
+ * Sitemaps: Sitemaps_Renderer class
  *
  * Responsible for rendering Sitemaps data to XML in accordance with sitemap protocol.
  *
@@ -10,11 +10,11 @@
  */
 
 /**
- * Class Core_Sitemaps_Renderer
+ * Class Sitemaps_Renderer
  *
  * @since 5.5.0
  */
-class Core_Sitemaps_Renderer {
+class Sitemaps_Renderer {
 	/**
 	 * XSL stylesheet for styling a sitemap for web browsers.
 	 *
@@ -34,7 +34,7 @@ class Core_Sitemaps_Renderer {
 	protected $stylesheet_index = '';
 
 	/**
-	 * Core_Sitemaps_Renderer constructor.
+	 * Sitemaps_Renderer constructor.
 	 *
 	 * @since 5.5.0
 	 */

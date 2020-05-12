@@ -1,6 +1,6 @@
 <?php
 /**
- * Sitemaps: Core_Sitemaps_Taxonomies class
+ * Sitemaps: Sitemaps_Taxonomies class
  *
  * Builds the sitemaps for the 'taxonomy' object type.
  *
@@ -14,9 +14,9 @@
  *
  * @since 5.5.0
  */
-class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
+class Sitemaps_Taxonomies extends Sitemaps_Provider {
 	/**
-	 * Core_Sitemaps_Taxonomies constructor.
+	 * Sitemaps_Taxonomies constructor.
 	 *
 	 * @since 5.5.0
 	 */

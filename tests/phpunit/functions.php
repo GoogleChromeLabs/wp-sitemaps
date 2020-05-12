@@ -1,6 +1,6 @@
 <?php
 
-class Test_Core_Sitemaps_Functions extends WP_UnitTestCase {
+class Test_Sitemaps_Functions extends WP_UnitTestCase {
 	/**
 	 * Test getting the correct number of URLs for a sitemap.
 	 */
@@ -44,9 +44,9 @@ class Test_Core_Sitemaps_Functions extends WP_UnitTestCase {
 		$sitemaps = sitemaps_get_sitemaps();
 
 		$expected = array(
-			'posts'      => 'Core_Sitemaps_Posts',
-			'taxonomies' => 'Core_Sitemaps_Taxonomies',
-			'users'      => 'Core_Sitemaps_Users',
+			'posts'      => 'Sitemaps_Posts',
+			'taxonomies' => 'Sitemaps_Taxonomies',
+			'users'      => 'Sitemaps_Users',
 		);
 
 		$this->assertEquals( array_keys( $expected ), array_keys( $sitemaps ), 'Unable to confirm default sitemap types are registered.' );

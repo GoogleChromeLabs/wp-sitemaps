@@ -1,6 +1,6 @@
 <?php
 /**
- * Sitemaps: Core_Sitemaps_Users class
+ * Sitemaps: Sitemaps_Users class
  *
  * Builds the sitemaps for the 'user' object type.
  *
@@ -14,9 +14,9 @@
  *
  * @since 5.5.0
  */
-class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
+class Sitemaps_Users extends Sitemaps_Provider {
 	/**
-	 * Core_Sitemaps_Users constructor.
+	 * Sitemaps_Users constructor.
 	 *
 	 * @since 5.5.0
 	 */
@@ -63,7 +63,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @see Core_Sitemaps_Provider::max_num_pages
+	 * @see Sitemaps_Provider::max_num_pages
 	 *
 	 * @param string $object_subtype Optional. Not applicable for Users but
 	 *                               required for compatibility with the parent

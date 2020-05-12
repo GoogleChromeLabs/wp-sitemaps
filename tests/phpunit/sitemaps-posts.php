@@ -1,11 +1,11 @@
 <?php
 
-class Test_Core_Sitemaps_Posts extends WP_UnitTestCase {
+class Test_Sitemaps_Posts extends WP_UnitTestCase {
 	/**
 	 * Test ability to filter object subtypes.
 	 */
 	public function test_filter_sitemaps_post_types() {
-		$posts_provider = new Core_Sitemaps_Posts();
+		$posts_provider = new Sitemaps_Posts();
 
 		// Return an empty array to show that the list of subtypes is filterable.
 		add_filter( 'sitemaps_post_types', '__return_empty_array' );
@@ -18,7 +18,7 @@ class Test_Core_Sitemaps_Posts extends WP_UnitTestCase {
 	 * Test ability to filter the posts URL list.
 	 */
 	public function test_filter_sitemaps_posts_url_list() {
-		$posts_provider = new Core_Sitemaps_Posts();
+		$posts_provider = new Sitemaps_Posts();
 
 		add_filter( 'sitemaps_posts_url_list', '__return_empty_array' );
 		// Use 'page' post type with 'show_on_front' set to 'posts' to ensure

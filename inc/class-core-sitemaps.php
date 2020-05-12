@@ -20,7 +20,7 @@ class Core_Sitemaps {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @var Core_Sitemaps_Index
+	 * @var Sitemaps_Index
 	 */
 	public $index;
 
@@ -29,7 +29,7 @@ class Core_Sitemaps {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @var Core_Sitemaps_Registry
+	 * @var Sitemaps_Registry
 	 */
 	public $registry;
 
@@ -38,7 +38,7 @@ class Core_Sitemaps {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @var Core_Sitemaps_Renderer
+	 * @var Sitemaps_Renderer
 	 */
 	public $renderer;
 
@@ -48,9 +48,9 @@ class Core_Sitemaps {
 	 * @since 5.5.0
 	 */
 	public function __construct() {
-		$this->registry = new Core_Sitemaps_Registry();
-		$this->renderer = new Core_Sitemaps_Renderer();
-		$this->index    = new Core_Sitemaps_Index( $this->registry );
+		$this->registry = new Sitemaps_Registry();
+		$this->renderer = new Sitemaps_Renderer();
+		$this->index    = new Sitemaps_Index( $this->registry );
 	}
 
 	/**
@@ -87,14 +87,14 @@ class Core_Sitemaps {
 		$providers = apply_filters(
 			'sitemaps_register_providers',
 			array(
-				'posts'      => new Core_Sitemaps_Posts(),
-				'taxonomies' => new Core_Sitemaps_Taxonomies(),
-				'users'      => new Core_Sitemaps_Users(),
+				'posts'      => new Sitemaps_Posts(),
+				'taxonomies' => new Sitemaps_Taxonomies(),
+				'users'      => new Sitemaps_Users(),
 			)
 		);
 
 		// Register each supported provider.
-		/* @var Core_Sitemaps_Provider $provider */
+		/* @var Sitemaps_Provider $provider */
 		foreach ( $providers as $name => $provider ) {
 			$this->registry->add_sitemap( $name, $provider );
 		}
@@ -183,7 +183,7 @@ class Core_Sitemaps {
 
 		// Render stylesheet if this is stylesheet route.
 		if ( $stylesheet_type ) {
-			$stylesheet = new Core_Sitemaps_Stylesheet();
+			$stylesheet = new Sitemaps_Stylesheet();
 
 			$stylesheet->render_stylesheet( $stylesheet_type );
 			exit;

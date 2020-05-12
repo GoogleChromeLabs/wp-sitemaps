@@ -1,6 +1,6 @@
 <?php
 /**
- * Sitemaps: Core_Sitemaps_Tests class
+ * Sitemaps: Sitemaps_Tests class
  *
  * Main test class.
  *
@@ -64,7 +64,7 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 	/**
 	 * Test sitemap provider.
 	 *
-	 * @var Core_Sitemaps_Test_Provider
+	 * @var Sitemaps_Test_Provider
 	 */
 	public static $test_provider;
 
@@ -91,7 +91,7 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 		// Create a user with an editor role to complete some tests.
 		self::$editor_id  = $factory->user->create( array( 'role' => 'editor' ) );
 
-		self::$test_provider = new Core_Sitemaps_Test_Provider();
+		self::$test_provider = new Sitemaps_Test_Provider();
 	}
 
 	/**

@@ -1,6 +1,6 @@
 <?php
 /**
- * Sitemaps: Core_Sitemaps_Registry class
+ * Sitemaps: Sitemaps_Registry class
  *
  * Handles registering sitemaps.
  *
@@ -10,11 +10,11 @@
  */
 
 /**
- * Class Core_Sitemaps_Registry.
+ * Class Sitemaps_Registry.
  *
  * @since 5.5.0
  */
-class Core_Sitemaps_Registry {
+class Sitemaps_Registry {
 	/**
 	 * Registered sitemaps.
 	 *
@@ -30,7 +30,7 @@ class Core_Sitemaps_Registry {
 	 * @since 5.5.0
 	 *
 	 * @param string                 $name     Name of the sitemap.
-	 * @param Core_Sitemaps_Provider $provider Instance of a Core_Sitemaps_Provider.
+	 * @param Sitemaps_Provider $provider Instance of a Sitemaps_Provider.
 	 * @return bool True if the sitemap was added, false if it is already registered.
 	 */
 	public function add_sitemap( $name, $provider ) {
@@ -38,7 +38,7 @@ class Core_Sitemaps_Registry {
 			return false;
 		}
 
-		if ( ! $provider instanceof Core_Sitemaps_Provider ) {
+		if ( ! $provider instanceof Sitemaps_Provider ) {
 			return false;
 		}
 
@@ -53,7 +53,7 @@ class Core_Sitemaps_Registry {
 	 * @since 5.5.0
 	 *
 	 * @param string $name Sitemap provider name.
-	 * @return Core_Sitemaps_Provider|null Sitemaps provider if it exists, null otherwise.
+	 * @return Sitemaps_Provider|null Sitemaps provider if it exists, null otherwise.
 	 */
 	public function get_sitemap( $name ) {
 		if ( ! isset( $this->sitemaps[ $name ] ) ) {

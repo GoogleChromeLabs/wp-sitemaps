@@ -85,7 +85,7 @@ function sitemaps_get_sitemaps() {
  * @since 5.5.0
  *
  * @param string                 $name     Unique name for the sitemap provider.
- * @param Core_Sitemaps_Provider $provider The `Core_Sitemaps_Provider` instance implementing the sitemap.
+ * @param Sitemaps_Provider $provider The `Sitemaps_Provider` instance implementing the sitemap.
  * @return bool Returns true if the sitemap was added. False on failure.
  */
 function sitemaps_register_sitemap( $name, $provider ) {

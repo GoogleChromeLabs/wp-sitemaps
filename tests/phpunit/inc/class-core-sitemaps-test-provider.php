@@ -6,13 +6,13 @@
  */
 
 /**
- * Class Core_Sitemaps_Test_Provider.
+ * Class Sitemaps_Test_Provider.
  *
  * Provides test data for additional registered providers.
  */
-class Core_Sitemaps_Test_Provider extends Core_Sitemaps_Provider {
+class Sitemaps_Test_Provider extends Sitemaps_Provider {
 	/**
-	 * Core_Sitemaps_Posts constructor.
+	 * Sitemaps_Posts constructor.
 	 *
 	 * @param string $object_type Optional. Object type name to use. Default 'test'.
 	 */

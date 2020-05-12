@@ -1,6 +1,6 @@
 <?php
 /**
- * Sitemaps: Core_Sitemaps_Provider class
+ * Sitemaps: Sitemaps_Provider class
  *
  * This class is a base class for other sitemap providers to extend and contains shared functionality.
  *
@@ -10,11 +10,11 @@
  */
 
 /**
- * Class Core_Sitemaps_Provider.
+ * Class Sitemaps_Provider.
  *
  * @since 5.5.0
  */
-abstract class Core_Sitemaps_Provider {
+abstract class Sitemaps_Provider {
 
 	/**
 	 * Provider name.

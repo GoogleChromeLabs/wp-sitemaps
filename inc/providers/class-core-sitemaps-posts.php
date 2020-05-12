@@ -1,6 +1,6 @@
 <?php
 /**
- * Sitemaps: Core_Sitemaps_Posts class
+ * Sitemaps: Sitemaps_Posts class
  *
  * Builds the sitemaps for the 'post' object type.
  *
@@ -14,9 +14,9 @@
  *
  * @since 5.5.0
  */
-class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
+class Sitemaps_Posts extends Sitemaps_Provider {
 	/**
-	 * Core_Sitemaps_Posts constructor.
+	 * Sitemaps_Posts constructor.
 	 *
 	 * @since 5.5.0
 	 */
