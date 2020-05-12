@@ -21,7 +21,28 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	 * @since 5.5.0
 	 */
 	public function __construct() {
-		$this->object_type = 'taxonomies';
+		$this->name        = 'taxonomies';
+		$this->object_type = 'term';
+	}
+
+	/**
+	 * Returns all public, registered taxonomies.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @return array Map of registered taxonomy objects keyed by their name.
+	 */
+	public function get_object_subtypes() {
+		$taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
+
+		/**
+		 * Filter the list of taxonomy object subtypes available within the sitemap.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param array $taxonomies Map of registered taxonomy objects keyed by their name.
+		 */
+		return apply_filters( 'core_sitemaps_taxonomies', $taxonomies );
 	}
 
 	/**
@@ -30,24 +51,24 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	 * @since 5.5.0
 	 *
 	 * @param int    $page_num Page of results.
-	 * @param string $type     Optional. Taxonomy type name. Default ''.
-	 * @return array $url_list List of URLs for a sitemap.
+	 * @param string $taxonomy Optional. Taxonomy name. Default empty.
+	 * @return array List of URLs for a sitemap.
 	 */
-	public function get_url_list( $page_num, $type = '' ) {
-		// Find the query_var for sub_type.
-		if ( ! $type ) {
-			$type = $this->get_queried_type();
+	public function get_url_list( $page_num, $taxonomy = '' ) {
+		// Find the query_var for subtype.
+		if ( ! $taxonomy ) {
+			$taxonomy = $this->get_queried_type();
 		}
 
-		// Bail early if we don't have a taxonomy type.
-		if ( empty( $type ) ) {
+		// Bail early if we don't have a taxonomy.
+		if ( empty( $taxonomy ) ) {
 			return array();
 		}
 
-		$supported_types = $this->get_object_sub_types();
+		$supported_types = $this->get_object_subtypes();
 
 		// Bail early if the queried taxonomy is not a supported type.
-		if ( ! isset( $supported_types[ $type ] ) ) {
+		if ( ! isset( $supported_types[ $taxonomy ] ) ) {
 			return array();
 		}
 
@@ -58,7 +79,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 
 		$args = array(
 			'fields'                 => 'ids',
-			'taxonomy'               => $type,
+			'taxonomy'               => $taxonomy,
 			'orderby'                => 'term_order',
 			'number'                 => core_sitemaps_get_max_urls( $this->object_type ),
 			'offset'                 => $offset,
@@ -89,28 +110,10 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		 * @since 5.5.0
 		 *
 		 * @param array  $url_list List of URLs for a sitemap.
-		 * @param string $type     Name of the taxonomy_type.
+		 * @param string $taxonomy Taxonomy name.
 		 * @param int    $page_num Page of results.
 		 */
-		return apply_filters( 'core_sitemaps_taxonomies_url_list', $url_list, $type, $page_num );
-	}
-
-	/**
-	 * Returns all public, registered taxonomies.
-	 *
-	 * @since 5.5.0
-	 */
-	public function get_object_sub_types() {
-		$taxonomy_types = get_taxonomies( array( 'public' => true ), 'objects' );
-
-		/**
-		 * Filter the list of taxonomy object sub types available within the sitemap.
-		 *
-		 * @since 5.5.0
-		 *
-		 * @param array $taxonomy_types List of registered taxonomy type names.
-		 */
-		return apply_filters( 'core_sitemaps_taxonomies', $taxonomy_types );
+		return apply_filters( 'core_sitemaps_taxonomies_url_list', $url_list, $taxonomy, $page_num );
 	}
 
 	/**
@@ -118,15 +121,15 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param string $type Taxonomy name.
+	 * @param string $taxonomy Taxonomy name.
 	 * @return int Total number of pages.
 	 */
-	public function max_num_pages( $type = '' ) {
-		if ( empty( $type ) ) {
-			$type = $this->get_queried_type();
+	public function max_num_pages( $taxonomy = '' ) {
+		if ( empty( $taxonomy ) ) {
+			$taxonomy = $this->get_queried_type();
 		}
 
-		$term_count = wp_count_terms( $type, array( 'hide_empty' => true ) );
+		$term_count = wp_count_terms( $taxonomy, array( 'hide_empty' => true ) );
 
 		return (int) ceil( $term_count / core_sitemaps_get_max_urls( $this->object_type ) );
 	}
