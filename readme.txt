@@ -16,7 +16,7 @@ As [originally proposed in June 2019](https://make.wordpress.org/core/2019/06/12
 
 A short explanation of how this plugin works can be found on [this make/core blog post](https://make.wordpress.org/core/2020/01/27/feature-plugin-xml-sitemaps/).
 
-Interested in contributing to this plugin? Feel free to [join us on GitHub](https://github.com/GoogleChromeLabs/wp-sitemaps) and the [#sitemaps](https://wordpress.slack.com/archives/CTKTGNJJW) Slack channel.
+Interested in contributing to this plugin? Feel free to [join us on GitHub](https://github.com/GoogleChromeLabs/wp-sitemaps) and the [#core-sitemaps](https://wordpress.slack.com/archives/CTKTGNJJW) Slack channel.
 
 == Installation ==
 
@@ -28,7 +28,7 @@ Interested in contributing to this plugin? Feel free to [join us on GitHub](http
 
 = Manual installation =
 
-1. Upload the entire `sitemaps` folder to the `/wp-content/plugins/` directory.
+1. Upload the entire `core-sitemaps` folder to the `/wp-content/plugins/` directory.
 2. Visit **Plugins**.
 3. Activate the Core Sitemaps plugin.
 
