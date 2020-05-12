@@ -54,8 +54,8 @@ add_action( 'init', 'sitemaps_get_server' );
  * Adds and flushes rewrite rules.
  */
 function sitemaps_plugin_activation() {
-	$core_sitemaps = new Core_Sitemaps();
-	$core_sitemaps->register_rewrites();
+	$sitemaps = new Core_Sitemaps();
+	$sitemaps->register_rewrites();
 	flush_rewrite_rules( false );
 }
 
@@ -67,8 +67,8 @@ register_activation_hook( __FILE__, 'sitemaps_plugin_activation' );
  * Adds and flushes rewrite rules.
  */
 function sitemaps_plugin_deactivation() {
-	$core_sitemaps = new Core_Sitemaps();
-	$core_sitemaps->unregister_rewrites();
+	$sitemaps = new Core_Sitemaps();
+	$sitemaps->unregister_rewrites();
 	flush_rewrite_rules( false );
 }
 

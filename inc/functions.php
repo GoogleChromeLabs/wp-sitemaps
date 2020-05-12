@@ -23,9 +23,9 @@ function sitemaps_get_server() {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @var Core_Sitemaps $core_sitemaps
+	 * @var Core_Sitemaps $sitemaps
 	 */
-	global $core_sitemaps;
+	global $sitemaps;
 
 	$is_enabled = (bool) get_option( 'blog_public' );
 
@@ -43,9 +43,9 @@ function sitemaps_get_server() {
 	}
 
 	// If there isn't a global instance, set and bootstrap the sitemaps system.
-	if ( empty( $core_sitemaps ) ) {
-		$core_sitemaps = new Core_Sitemaps();
-		$core_sitemaps->init();
+	if ( empty( $sitemaps ) ) {
+		$sitemaps = new Core_Sitemaps();
+		$sitemaps->init();
 
 		/**
 		 * Fires when initializing the Core_Sitemaps object.
@@ -54,12 +54,12 @@ function sitemaps_get_server() {
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param core_sitemaps $core_sitemaps Server object.
+		 * @param sitemaps $sitemaps Server object.
 		 */
-		do_action( 'sitemaps_init', $core_sitemaps );
+		do_action( 'sitemaps_init', $sitemaps );
 	}
 
-	return $core_sitemaps;
+	return $sitemaps;
 }
 
 /**
@@ -70,13 +70,13 @@ function sitemaps_get_server() {
  * @return array $sitemaps A list of registered sitemap providers.
  */
 function sitemaps_get_sitemaps() {
-	$core_sitemaps = sitemaps_get_server();
+	$sitemaps = sitemaps_get_server();
 
-	if ( ! $core_sitemaps ) {
+	if ( ! $sitemaps ) {
 		return array();
 	}
 
-	return $core_sitemaps->registry->get_sitemaps();
+	return $sitemaps->registry->get_sitemaps();
 }
 
 /**
@@ -89,13 +89,13 @@ function sitemaps_get_sitemaps() {
  * @return bool Returns true if the sitemap was added. False on failure.
  */
 function sitemaps_register_sitemap( $name, $provider ) {
-	$core_sitemaps = sitemaps_get_server();
+	$sitemaps = sitemaps_get_server();
 
-	if ( ! $core_sitemaps ) {
+	if ( ! $sitemaps ) {
 		return false;
 	}
 
-	return $core_sitemaps->registry->add_sitemap( $name, $provider );
+	return $sitemaps->registry->add_sitemap( $name, $provider );
 }
 
 /**
