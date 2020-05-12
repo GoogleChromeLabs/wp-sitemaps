@@ -55,7 +55,7 @@ tests_add_filter(
 tests_add_filter(
 	'muplugins_loaded',
 	static function () {
-		require dirname( dirname( __FILE__ ) ) . '/core-sitemaps.php';
+		require dirname( dirname( __FILE__ ) ) . '/sitemaps.php';
 	}
 );
 

@@ -1,6 +1,6 @@
 <?php
 
-require_once( __DIR__ . '/inc/class-core-sitemaps-test-provider.php' );
+require_once( __DIR__ . '/inc/class-sitemaps-test-provider.php' );
 
 class Test_Sitemaps_Registry extends WP_UnitTestCase {
 	public function test_add_sitemap() {

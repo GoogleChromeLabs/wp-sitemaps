@@ -18,7 +18,7 @@
  * Description:       A feature plugin to integrate basic XML Sitemaps in WordPress Core
  * Author:            Core Sitemaps Plugin Contributors
  * Author URI:        https://github.com/GoogleChromeLabs/wp-sitemaps/graphs/contributors
- * Text Domain:       core-sitemaps
+ * Text Domain:       sitemaps
  * Domain Path:       /languages
  * Requires at least: 5.3
  * Requires PHP:      5.6
@@ -34,15 +34,15 @@ if ( ! defined( 'SITEMAPS_MAX_URLS' ) ) {
 	define( 'SITEMAPS_MAX_URLS', 2000 );
 }
 
-require_once __DIR__ . '/inc/class-core-sitemaps.php';
-require_once __DIR__ . '/inc/class-core-sitemaps-provider.php';
-require_once __DIR__ . '/inc/class-core-sitemaps-index.php';
-require_once __DIR__ . '/inc/class-core-sitemaps-registry.php';
-require_once __DIR__ . '/inc/class-core-sitemaps-renderer.php';
-require_once __DIR__ . '/inc/class-core-sitemaps-stylesheet.php';
-require_once __DIR__ . '/inc/providers/class-core-sitemaps-posts.php';
-require_once __DIR__ . '/inc/providers/class-core-sitemaps-taxonomies.php';
-require_once __DIR__ . '/inc/providers/class-core-sitemaps-users.php';
+require_once __DIR__ . '/inc/class-sitemaps.php';
+require_once __DIR__ . '/inc/class-sitemaps-provider.php';
+require_once __DIR__ . '/inc/class-sitemaps-index.php';
+require_once __DIR__ . '/inc/class-sitemaps-registry.php';
+require_once __DIR__ . '/inc/class-sitemaps-renderer.php';
+require_once __DIR__ . '/inc/class-sitemaps-stylesheet.php';
+require_once __DIR__ . '/inc/providers/class-sitemaps-posts.php';
+require_once __DIR__ . '/inc/providers/class-sitemaps-taxonomies.php';
+require_once __DIR__ . '/inc/providers/class-sitemaps-users.php';
 require_once __DIR__ . '/inc/functions.php';
 
 // Boot the sitemaps system.

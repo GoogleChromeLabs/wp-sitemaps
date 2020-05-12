@@ -38,7 +38,7 @@
     ],
     "local:phpunit": [
       "wp @local db query --dbuser=root --dbpass=password \"CREATE DATABASE IF NOT EXISTS wordpress_test DEFAULT CHARSET utf8\"",
-      "vagrant ssh -c \"cd /vagrant/content/plugins/core-sitemaps && WP_TESTS_DB_PASS=password composer run test:phpunit\""
+      "vagrant ssh -c \"cd /vagrant/content/plugins/sitemaps && WP_TESTS_DB_PASS=password composer run test:phpunit\""
     ],
     "test:phpcs": [
       "phpcs"

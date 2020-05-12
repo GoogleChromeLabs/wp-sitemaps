@@ -228,10 +228,10 @@ class Sitemaps_Renderer {
 			wp_die(
 				sprintf(
 				/* translators: %s: SimpleXML */
-					__( 'Could not generate XML sitemap due to missing %s extension', 'core-sitemaps' ),
+					__( 'Could not generate XML sitemap due to missing %s extension', 'sitemaps' ),
 					'SimpleXML'
 				),
-				__( 'WordPress &rsaquo; Error', 'core-sitemaps' ),
+				__( 'WordPress &rsaquo; Error', 'sitemaps' ),
 				array(
 					'response' => 501, // "Not implemented".
 				)

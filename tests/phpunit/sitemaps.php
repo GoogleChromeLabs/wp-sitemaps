@@ -10,7 +10,7 @@
  * @link      https://github.com/GoogleChromeLabs/wp-sitemaps
  */
 
-require_once( __DIR__ . '/inc/class-core-sitemaps-test-provider.php' );
+require_once( __DIR__ . '/inc/class-sitemaps-test-provider.php' );
 
 /**
  * Core sitemaps test cases.

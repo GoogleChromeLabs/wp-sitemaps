@@ -27,7 +27,7 @@ module.exports = function( grunt ) {
 
 		addtextdomain: {
 			options: {
-				textdomain: 'core-sitemaps',
+				textdomain: 'sitemaps',
 			},
 			update_all_domains: {
 				options: {
