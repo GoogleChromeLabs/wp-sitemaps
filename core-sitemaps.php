@@ -51,7 +51,7 @@ require_once __DIR__ . '/inc/providers/class-sitemaps-users.php';
 require_once __DIR__ . '/inc/functions.php';
 
 // Boot the sitemaps system.
-add_action( 'init', 'sitemaps_get_server' );
+add_action( 'init', 'wp_sitemaps_get_server' );
 
 /**
  * Plugin activation hook.

@@ -20,7 +20,7 @@ Interested in contributing to this plugin? Feel free to join us in the [#core-si
 
 ### How can I fully disable sitemap generation?
 
-You can use `remove_action( 'init', 'sitemaps_get_server' );` to disable initialization of any sitemap functionality.
+You can use `remove_action( 'init', 'wp_sitemaps_get_server' );` to disable initialization of any sitemap functionality.
 
 ### How can I disable sitemaps for a certain object type?
 

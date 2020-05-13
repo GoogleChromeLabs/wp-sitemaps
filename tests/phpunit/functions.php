@@ -4,13 +4,13 @@ class Test_Sitemaps_Functions extends WP_UnitTestCase {
 	/**
 	 * Test getting the correct number of URLs for a sitemap.
 	 */
-	public function test_sitemaps_get_max_urls() {
+	public function test_wp_sitemaps_get_max_urls() {
 		// Apply a filter to test filterable values.
 		add_filter( 'sitemaps_max_urls', array( $this, '_filter_max_url_value' ), 10, 2 );
 
-		$expected_posts = sitemaps_get_max_urls( 'post' );
-		$expected_taxonomies = sitemaps_get_max_urls( 'term' );
-		$expected_users = sitemaps_get_max_urls( 'user' );
+		$expected_posts = wp_sitemaps_get_max_urls( 'post' );
+		$expected_taxonomies = wp_sitemaps_get_max_urls( 'term' );
+		$expected_users = wp_sitemaps_get_max_urls( 'user' );
 
 		$this->assertEquals( $expected_posts, 300, 'Can not confirm max URL number for posts.' );
 		$this->assertEquals( $expected_taxonomies, 50, 'Can not confirm max URL number for taxonomies.' );
@@ -38,10 +38,10 @@ class Test_Sitemaps_Functions extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Test sitemaps_get_sitemaps default functionality
+	 * Test wp_get_sitemaps default functionality
 	 */
-	public function test_sitemaps_get_sitemaps() {
-		$sitemaps = sitemaps_get_sitemaps();
+	public function test_wp_get_sitemaps() {
+		$sitemaps = wp_get_sitemaps();
 
 		$expected = array(
 			'posts'      => 'Sitemaps_Posts',

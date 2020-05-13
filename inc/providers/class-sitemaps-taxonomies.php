@@ -75,13 +75,13 @@ class Sitemaps_Taxonomies extends Sitemaps_Provider {
 		$url_list = array();
 
 		// Offset by how many terms should be included in previous pages.
-		$offset = ( $page_num - 1 ) * sitemaps_get_max_urls( $this->object_type );
+		$offset = ( $page_num - 1 ) * wp_sitemaps_get_max_urls( $this->object_type );
 
 		$args = array(
 			'fields'                 => 'ids',
 			'taxonomy'               => $taxonomy,
 			'orderby'                => 'term_order',
-			'number'                 => sitemaps_get_max_urls( $this->object_type ),
+			'number'                 => wp_sitemaps_get_max_urls( $this->object_type ),
 			'offset'                 => $offset,
 			'hide_empty'             => true,
 
@@ -131,6 +131,6 @@ class Sitemaps_Taxonomies extends Sitemaps_Provider {
 
 		$term_count = wp_count_terms( $taxonomy, array( 'hide_empty' => true ) );
 
-		return (int) ceil( $term_count / sitemaps_get_max_urls( $this->object_type ) );
+		return (int) ceil( $term_count / wp_sitemaps_get_max_urls( $this->object_type ) );
 	}
 }

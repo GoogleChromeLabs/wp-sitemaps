@@ -17,7 +17,7 @@
  *
  * @return Sitemaps|null Sitemaps instance, or null of sitemaps are disabled.
  */
-function sitemaps_get_server() {
+function wp_sitemaps_get_server() {
 	/**
 	 * Global Core Sitemaps instance.
 	 *
@@ -69,8 +69,8 @@ function sitemaps_get_server() {
  *
  * @return array $sitemaps A list of registered sitemap providers.
  */
-function sitemaps_get_sitemaps() {
-	$sitemaps = sitemaps_get_server();
+function wp_get_sitemaps() {
+	$sitemaps = wp_sitemaps_get_server();
 
 	if ( ! $sitemaps ) {
 		return array();
@@ -88,8 +88,8 @@ function sitemaps_get_sitemaps() {
  * @param Sitemaps_Provider $provider The `Sitemaps_Provider` instance implementing the sitemap.
  * @return bool Returns true if the sitemap was added. False on failure.
  */
-function sitemaps_register_sitemap( $name, $provider ) {
-	$sitemaps = sitemaps_get_server();
+function wp_register_sitemap( $name, $provider ) {
+	$sitemaps = wp_sitemaps_get_server();
 
 	if ( ! $sitemaps ) {
 		return false;
@@ -106,7 +106,7 @@ function sitemaps_register_sitemap( $name, $provider ) {
  * @param string $object_type Object type for sitemap to be filtered (e.g. 'post', 'term', 'user').
  * @return int The maximum number of URLs.
  */
-function sitemaps_get_max_urls( $object_type ) {
+function wp_sitemaps_get_max_urls( $object_type ) {
 	/**
 	 * Filters the maximum number of URLs displayed on a sitemap.
 	 *

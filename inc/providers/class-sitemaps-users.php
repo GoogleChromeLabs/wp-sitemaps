@@ -75,7 +75,7 @@ class Sitemaps_Users extends Sitemaps_Provider {
 
 		$total_users = $query->get_total();
 
-		return (int) ceil( $total_users / sitemaps_get_max_urls( $this->object_type ) );
+		return (int) ceil( $total_users / wp_sitemaps_get_max_urls( $this->object_type ) );
 	}
 
 	/**
@@ -101,7 +101,7 @@ class Sitemaps_Users extends Sitemaps_Provider {
 		$query = new WP_User_Query(
 			array(
 				'has_published_posts' => array_keys( $public_post_types ),
-				'number'              => sitemaps_get_max_urls( $this->object_type ),
+				'number'              => wp_sitemaps_get_max_urls( $this->object_type ),
 				'paged'               => absint( $page_num ),
 			)
 		);
