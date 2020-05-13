@@ -20,9 +20,9 @@
  * Author URI:        https://github.com/GoogleChromeLabs/wp-sitemaps/graphs/contributors
  * Text Domain:       sitemaps
  * Domain Path:       /languages
- * Requires at least: 5.3
+ * Requires at least: 5.4
  * Requires PHP:      5.6
- * Version:           0.2.0
+ * Version:           0.3.0
  */
 
 // The limit for how many sitemaps to include in an index.
