@@ -2,7 +2,7 @@
 /**
  * Main setup.
  *
- * @package         Sitemaps
+ * @package Sitemaps
  */
 
 /**
@@ -24,6 +24,11 @@
  * Requires PHP:      5.6
  * Version:           0.3.0
  */
+
+// Bail early if Sitemaps is already defined. Prevents plugin from loading after core merge.
+if ( class_exists( 'Sitemaps' ) ) {
+	return;
+}
 
 // The limit for how many sitemaps to include in an index.
 const SITEMAPS_MAX_SITEMAPS    = 50000;
