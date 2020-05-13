@@ -10,6 +10,8 @@
  * @since 5.5.0
  */
 
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
+
 /**
  * Retrieves the current Sitemaps server instance.
  *
@@ -84,7 +86,7 @@ function wp_get_sitemaps() {
  *
  * @since 5.5.0
  *
- * @param string                 $name     Unique name for the sitemap provider.
+ * @param string            $name     Unique name for the sitemap provider.
  * @param Sitemaps_Provider $provider The `Sitemaps_Provider` instance implementing the sitemap.
  * @return bool Returns true if the sitemap was added. False on failure.
  */

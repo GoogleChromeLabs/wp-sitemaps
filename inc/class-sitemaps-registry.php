@@ -29,7 +29,7 @@ class Sitemaps_Registry {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param string                 $name     Name of the sitemap.
+	 * @param string            $name     Name of the sitemap.
 	 * @param Sitemaps_Provider $provider Instance of a Sitemaps_Provider.
 	 * @return bool True if the sitemap was added, false if it is already registered.
 	 */
