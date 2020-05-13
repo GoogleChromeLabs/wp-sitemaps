@@ -2,26 +2,32 @@
 /**
  * Sitemaps: Core_Sitemaps_Registry class
  *
- * This class handles registration sitemaps.
+ * Handles registering sitemaps.
  *
  * @package WordPress
  * @subpackage Sitemaps
- * @since x.x.x
+ * @since 5.5.0
  */
 
 /**
- * Class Core_Sitemaps_Registry
+ * Class Core_Sitemaps_Registry.
+ *
+ * @since 5.5.0
  */
 class Core_Sitemaps_Registry {
 	/**
 	 * Registered sitemaps.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @var array Array of registered sitemaps.
 	 */
 	private $sitemaps = array();
 
 	/**
-	 * Add a sitemap with route to the registry.
+	 * Adds a sitemap with route to the registry.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @param string                 $name     Name of the sitemap.
 	 * @param Core_Sitemaps_Provider $provider Instance of a Core_Sitemaps_Provider.
@@ -42,7 +48,25 @@ class Core_Sitemaps_Registry {
 	}
 
 	/**
-	 * List of all registered sitemaps.
+	 * Returns a single registered sitemaps provider.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param string $name Sitemap provider name.
+	 * @return Core_Sitemaps_Provider|null Sitemaps provider if it exists, null otherwise.
+	 */
+	public function get_sitemap( $name ) {
+		if ( ! isset( $this->sitemaps[ $name ] ) ) {
+			return null;
+		}
+
+		return $this->sitemaps[ $name ];
+	}
+
+	/**
+	 * Lists all registered sitemaps.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @return array List of sitemaps.
 	 */

@@ -109,8 +109,6 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 
 		$post_list = $providers[ $type ]->get_url_list( 1, $sub_type );
 
-		remove_filter( 'core_sitemaps_' . $type . '_url_list', array( $this, '_add_attributes_to_url_list' ) );
-
 		foreach ( $post_list as $entry ) {
 			$this->assertEquals( 'value', $entry['extra'], 'Could not add attributes to url lists for ' . $type . '.' );
 		}
@@ -183,16 +181,16 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 
 		$expected = array(
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sub_type=post&paged=1',
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sitemap-sub-type=post&paged=1',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sub_type=page&paged=1',
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sitemap-sub-type=page&paged=1',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sub_type=category&paged=1',
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sitemap-sub-type=category&paged=1',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sub_type=post_tag&paged=1',
+				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sitemap-sub-type=post_tag&paged=1',
 			),
 			array(
 				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=users&paged=1',
@@ -252,8 +250,8 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 		unregister_post_type( 'public_cpt' );
 		unregister_post_type( 'private_cpt' );
 
-		$this->assertContains( 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sub_type=public_cpt&paged=1', $entries, 'Public CPTs are not in the index.' );
-		$this->assertNotContains( 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sub_type=private_cpt&paged=1', $entries, 'Private CPTs are visible in the index.' );
+		$this->assertContains( 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sitemap-sub-type=public_cpt&paged=1', $entries, 'Public CPTs are not in the index.' );
+		$this->assertNotContains( 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sitemap-sub-type=private_cpt&paged=1', $entries, 'Private CPTs are visible in the index.' );
 	}
 
 	/**
@@ -282,9 +280,6 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 
 		$expected = $this->_get_expected_url_list( 'page', self::$pages );
 
-		// Clean up.
-		remove_filter( 'pre_option_show_on_front', '__return_true' );
-
 		$this->assertEquals( $expected, $post_list );
 	}
 
@@ -307,6 +302,28 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 		);
 
 		$this->assertEquals( $expected, $post_list );
+	}
+
+	/**
+	 * Tests getting a URL list for post with private post.
+	 */
+	public function test_get_url_list_private_post() {
+		wp_set_current_user( self::$editor_id );
+
+		$providers = core_sitemaps_get_sitemaps();
+
+		$post_list_before = $providers['posts']->get_url_list( 1, 'post' );
+
+		$private_post_id = self::factory()->post->create( array( 'post_status' => 'private' ) );
+
+		$post_list_after = $providers['posts']->get_url_list( 1, 'post' );
+
+		$private_post = array(
+			'loc' => get_permalink( $private_post_id ),
+		);
+
+		$this->assertNotContains( $private_post, $post_list_after );
+		$this->assertEqualSets( $post_list_before, $post_list_after );
 	}
 
 	/**
@@ -389,5 +406,54 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 		$sitemaps = core_sitemaps_get_sitemaps();
 
 		$this->assertEquals( $sitemaps['test_sitemap'], self::$test_provider, 'Can not confirm sitemap registration is working.' );
+	}
+
+	/**
+	 * Test robots.txt output.
+	 */
+	public function test_robots_text() {
+		// Get the text added to the default robots text output.
+		$robots_text = apply_filters( 'robots_txt', '', true );
+		$sitemap_string = 'Sitemap: http://' . WP_TESTS_DOMAIN . '/?sitemap=index';
+
+		$this->assertContains( $sitemap_string, $robots_text, 'Sitemap URL not included in robots text.' );
+	}
+
+	/**
+	 * Test robots.txt output for a private site.
+	 */
+	public function test_robots_text_private_site() {
+		$robots_text = apply_filters( 'robots_txt', '', false );
+		$sitemap_string = 'Sitemap: http://' . WP_TESTS_DOMAIN . '/?sitemap=index';
+
+		$this->assertNotContains( $sitemap_string, $robots_text );
+	}
+
+	/**
+	 * Test robots.txt output with permalinks set.
+	 */
+	public function test_robots_text_with_permalinks() {
+		// Set permalinks for testing.
+		$this->set_permalink_structure( '/%year%/%postname%/' );
+
+		// Get the text added to the default robots text output.
+		$robots_text = apply_filters( 'robots_txt', '', true );
+		$sitemap_string = 'Sitemap: http://' . WP_TESTS_DOMAIN . '/wp-sitemap.xml';
+
+		// Clean up permalinks.
+		$this->set_permalink_structure();
+
+		$this->assertContains( $sitemap_string, $robots_text, 'Sitemap URL not included in robots text.' );
+	}
+
+	/**
+	 * Test robots.txt output with line feed prefix.
+	 */
+	public function test_robots_text_prefixed_with_line_feed() {
+		// Get the text added to the default robots text output.
+		$robots_text = apply_filters( 'robots_txt', '', true );
+		$sitemap_string = "\nSitemap: ";
+
+		$this->assertContains( $sitemap_string, $robots_text, 'Sitemap URL not prefixed with "\n".' );
 	}
 }

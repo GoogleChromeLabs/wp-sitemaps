@@ -1,52 +1,65 @@
 <?php
 /**
- * Sitemaps: Core_Sitemaps_Index class
+ * Sitemaps: Core_Sitemaps_Index class.
  *
- * This class generates the sitemap index.
+ * Generates the sitemap index.
  *
  * @package WordPress
  * @subpackage Sitemaps
- * @since x.x.x
+ * @since 5.5.0
  */
 
 /**
  * Class Core_Sitemaps_Index.
  * Builds the sitemap index page that lists the links to all of the sitemaps.
+ *
+ * @since 5.5.0
  */
 class Core_Sitemaps_Index {
-	/**
-	 * Sitemap name.
-	 * Used for building sitemap URLs.
-	 *
-	 * @var string
-	 */
-	protected $name = 'index';
 
 	/**
-	 * A helper function to initiate actions, hooks and other features needed.
+	 * The main registry of supported sitemaps.
+	 *
+	 * @since 5.5.0
+	 * @var Core_Sitemaps_Registry
 	 */
-	public function setup_sitemap() {
-		// Add filters.
-		add_filter( 'robots_txt', array( $this, 'add_robots' ), 0, 2 );
-		add_filter( 'redirect_canonical', array( $this, 'redirect_canonical' ) );
+	protected $registry;
+
+	/**
+	 * Core_Sitemaps_Index constructor.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param Core_Sitemaps_Registry $registry Sitemap provider registry.
+	 */
+	public function __construct( $registry ) {
+		$this->registry = $registry;
 	}
 
 	/**
-	 * Prevent trailing slashes.
+	 * Gets a sitemap list for the index.
 	 *
-	 * @param string $redirect The redirect URL currently determined.
-	 * @return bool|string $redirect
+	 * @since 5.5.0
+	 *
+	 * @return array List of all sitemaps.
 	 */
-	public function redirect_canonical( $redirect ) {
-		if ( get_query_var( 'sitemap' ) || get_query_var( 'sitemap-stylesheet' ) ) {
-			return false;
+	public function get_sitemap_list() {
+		$sitemaps = array();
+
+		$providers = $this->registry->get_sitemaps();
+		/* @var Core_Sitemaps_Provider $provider */
+		foreach ( $providers as $provider ) {
+			// Using array_push is more efficient than array_merge in a loop.
+			array_push( $sitemaps, ...$provider->get_sitemap_entries() );
 		}
 
-		return $redirect;
+		return $sitemaps;
 	}
 
 	/**
 	 * Builds the URL for the sitemap index.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @return string the sitemap index url.
 	 */
@@ -61,20 +74,5 @@ class Core_Sitemaps_Index {
 		}
 
 		return $url;
-	}
-
-	/**
-	 * Adds the sitemap index to robots.txt.
-	 *
-	 * @param string $output robots.txt output.
-	 * @param bool   $public Whether the site is public or not.
-	 * @return string robots.txt output.
-	 */
-	public function add_robots( $output, $public ) {
-		if ( $public ) {
-			$output .= "\nSitemap: " . esc_url( $this->get_index_url() ) . "\n";
-		}
-
-		return $output;
 	}
 }

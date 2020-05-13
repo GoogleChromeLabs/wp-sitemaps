@@ -13,7 +13,7 @@ class Test_Core_Sitemaps_Renderer extends WP_UnitTestCase {
 		$sitemap_renderer = new Core_Sitemaps_Renderer();
 		$stylesheet_url   = $sitemap_renderer->get_sitemap_stylesheet_url();
 
-		$this->assertStringEndsWith( '/?sitemap-stylesheet=xsl', $stylesheet_url );
+		$this->assertStringEndsWith( '/?sitemap-stylesheet=sitemap', $stylesheet_url );
 	}
 
 	public function test_get_sitemap_stylesheet_url_pretty_permalinks() {
@@ -55,19 +55,19 @@ class Test_Core_Sitemaps_Renderer extends WP_UnitTestCase {
 	public function test_get_sitemap_index_xml() {
 		$entries = array(
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-post-1.xml',
+				'loc' => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-post-1.xml',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-page-1.xml',
+				'loc' => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-page-1.xml',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-category-1.xml',
+				'loc' => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-category-1.xml',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-post_tag-1.xml',
+				'loc' => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-post_tag-1.xml',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-users-1.xml',
+				'loc' => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-users-1.xml',
 			),
 		);
 
@@ -137,7 +137,7 @@ class Test_Core_Sitemaps_Renderer extends WP_UnitTestCase {
 
 		$actual   = $renderer->get_sitemap_xml( $url_list );
 		$expected = '<?xml version="1.0" encoding="UTF-8"?>' .
-					'<?xml-stylesheet type="text/xsl" href="http://' . WP_TESTS_DOMAIN . '/?sitemap-stylesheet=xsl" ?>' .
+					'<?xml-stylesheet type="text/xsl" href="http://' . WP_TESTS_DOMAIN . '/?sitemap-stylesheet=sitemap" ?>' .
 					'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' .
 					'<url><loc>http://' . WP_TESTS_DOMAIN . '/2019/10/post-1</loc></url>' .
 					'<url><loc>http://' . WP_TESTS_DOMAIN . '/2019/10/post-2</loc></url>' .

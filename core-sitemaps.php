@@ -20,16 +20,16 @@
  * Author URI:        https://github.com/GoogleChromeLabs/wp-sitemaps/graphs/contributors
  * Text Domain:       core-sitemaps
  * Domain Path:       /languages
- * Requires at least: 5.3
+ * Requires at least: 5.4
  * Requires PHP:      5.6
- * Version:           0.2.0
+ * Version:           0.3.0
  */
 
 // The limit for how many sitemaps to include in an index.
 const CORE_SITEMAPS_MAX_SITEMAPS    = 50000;
-const CORE_SITEMAPS_REWRITE_VERSION = '2020-03-04';
+const CORE_SITEMAPS_REWRITE_VERSION = '2020-04-29';
 
-// Limit the number of URLs included in as sitemap.
+// Limit the number of URLs included in a sitemap.
 if ( ! defined( 'CORE_SITEMAPS_MAX_URLS' ) ) {
 	define( 'CORE_SITEMAPS_MAX_URLS', 2000 );
 }
@@ -37,12 +37,12 @@ if ( ! defined( 'CORE_SITEMAPS_MAX_URLS' ) ) {
 require_once __DIR__ . '/inc/class-core-sitemaps.php';
 require_once __DIR__ . '/inc/class-core-sitemaps-provider.php';
 require_once __DIR__ . '/inc/class-core-sitemaps-index.php';
-require_once __DIR__ . '/inc/class-core-sitemaps-posts.php';
 require_once __DIR__ . '/inc/class-core-sitemaps-registry.php';
 require_once __DIR__ . '/inc/class-core-sitemaps-renderer.php';
 require_once __DIR__ . '/inc/class-core-sitemaps-stylesheet.php';
-require_once __DIR__ . '/inc/class-core-sitemaps-taxonomies.php';
-require_once __DIR__ . '/inc/class-core-sitemaps-users.php';
+require_once __DIR__ . '/inc/providers/class-core-sitemaps-posts.php';
+require_once __DIR__ . '/inc/providers/class-core-sitemaps-taxonomies.php';
+require_once __DIR__ . '/inc/providers/class-core-sitemaps-users.php';
 require_once __DIR__ . '/inc/functions.php';
 
 // Boot the sitemaps system.

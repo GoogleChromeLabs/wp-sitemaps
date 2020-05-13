@@ -170,7 +170,38 @@ class Test_Core_Sitemaps_Taxonomies extends WP_UnitTestCase {
 		unregister_taxonomy_for_object_type( 'public_taxonomy', 'post' );
 		unregister_taxonomy_for_object_type( 'private_taxonomy', 'post' );
 
-		$this->assertContains( 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sub_type=public_taxonomy&paged=1', $entries, 'Public Taxonomies are not in the index.' );
-		$this->assertNotContains( 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sub_type=private_taxonomy&paged=1', $entries, 'Private Taxonomies are visible in the index.' );
+		$this->assertContains( 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sitemap-sub-type=public_taxonomy&paged=1', $entries, 'Public Taxonomies are not in the index.' );
+		$this->assertNotContains( 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sitemap-sub-type=private_taxonomy&paged=1', $entries, 'Private Taxonomies are visible in the index.' );
+	}
+
+	/**
+	 * Test ability to filter object subtypes.
+	 */
+	public function test_filter_core_sitemaps_taxonomies() {
+		$taxonomies_provider = new Core_Sitemaps_Taxonomies();
+
+		// Return an empty array to show that the list of subtypes is filterable.
+		add_filter( 'core_sitemaps_taxonomies', '__return_empty_array' );
+		$subtypes = $taxonomies_provider->get_object_subtypes();
+
+		$this->assertEquals( array(), $subtypes, 'Could not filter taxonomies subtypes.' );
+	}
+
+	/**
+	 * Test ability to filter the taxonomies URL list.
+	 */
+	public function test_filter_core_sitemaps_taxonomies_url_list() {
+		$taxonomies_provider = new Core_Sitemaps_Taxonomies();
+
+		add_filter( 'core_sitemaps_taxonomies_url_list', '__return_empty_array' );
+
+		// Register taxonomy, create a term for it and assign a post to it.
+		register_taxonomy( 'test_tax', 'post' );
+		$term = self::factory()->term->create( array( 'taxonomy'  => 'test_tax' ) );
+		$post = self::factory()->post->create();
+		wp_set_post_terms( $post, array( $term ), 'test_tax' );
+
+		$test_tax_url_list = $taxonomies_provider->get_url_list( 1, 'test_tax' );
+		$this->assertEquals( array(), $test_tax_url_list, 'Could not filter taxonomies URL list.' );
 	}
 }

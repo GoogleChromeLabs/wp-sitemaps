@@ -6,15 +6,19 @@
  *
  * @package WordPress
  * @subpackage Sitemaps
- * @since x.x.x
+ * @since 5.5.0
  */
 
 /**
- * Class Core_Sitemaps
+ * Class Core_Sitemaps.
+ *
+ * @since 5.5.0
  */
 class Core_Sitemaps {
 	/**
 	 * The main index of supported sitemaps.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @var Core_Sitemaps_Index
 	 */
@@ -23,6 +27,8 @@ class Core_Sitemaps {
 	/**
 	 * The main registry of supported sitemaps.
 	 *
+	 * @since 5.5.0
+	 *
 	 * @var Core_Sitemaps_Registry
 	 */
 	public $registry;
@@ -30,53 +36,53 @@ class Core_Sitemaps {
 	/**
 	 * An instance of the renderer class.
 	 *
+	 * @since 5.5.0
+	 *
 	 * @var Core_Sitemaps_Renderer
 	 */
 	public $renderer;
 
 	/**
 	 * Core_Sitemaps constructor.
+	 *
+	 * @since 5.5.0
 	 */
 	public function __construct() {
-		$this->index    = new Core_Sitemaps_Index();
 		$this->registry = new Core_Sitemaps_Registry();
 		$this->renderer = new Core_Sitemaps_Renderer();
+		$this->index    = new Core_Sitemaps_Index( $this->registry );
 	}
 
 	/**
-	 * Initiate all sitemap functionality.
+	 * Initiates all sitemap functionality.
 	 *
-	 * @return void
+	 * @since 5.5.0
 	 */
 	public function init() {
 		// These will all fire on the init hook.
-		$this->setup_sitemaps_index();
 		$this->register_sitemaps();
 
 		// Add additional action callbacks.
 		add_action( 'core_sitemaps_init', array( $this, 'register_rewrites' ) );
 		add_action( 'template_redirect', array( $this, 'render_sitemaps' ) );
 		add_action( 'wp_loaded', array( $this, 'maybe_flush_rewrites' ) );
-		add_action( 'pre_handle_404', array( $this, 'redirect_sitemapxml' ), 10, 2 );
+		add_filter( 'pre_handle_404', array( $this, 'redirect_sitemapxml' ), 10, 2 );
+		add_filter( 'robots_txt', array( $this, 'add_robots' ), 0, 2 );
+		add_filter( 'redirect_canonical', array( $this, 'redirect_canonical' ) );
 	}
 
 	/**
-	 * Set up the main sitemap index.
-	 */
-	public function setup_sitemaps_index() {
-		$this->index->setup_sitemap();
-	}
-
-	/**
-	 * Register and set up the functionality for all supported sitemaps.
+	 * Registers and sets up the functionality for all supported sitemaps.
+	 *
+	 * @since 5.5.0
 	 */
 	public function register_sitemaps() {
 		/**
 		 * Filters the list of registered sitemap providers.
 		 *
-		 * @since 0.1.0
+		 * @since 5.5.0
 		 *
-		 * @param array $providers Array of Core_Sitemap_Provider objects.
+		 * @param array $providers Array of Core_Sitemap_Provider objects keyed by their name.
 		 */
 		$providers = apply_filters(
 			'core_sitemaps_register_providers',
@@ -88,37 +94,47 @@ class Core_Sitemaps {
 		);
 
 		// Register each supported provider.
+		/* @var Core_Sitemaps_Provider $provider */
 		foreach ( $providers as $name => $provider ) {
 			$this->registry->add_sitemap( $name, $provider );
 		}
 	}
 
 	/**
-	 * Register sitemap rewrite tags and routing rules.
+	 * Registers sitemap rewrite tags and routing rules.
+	 *
+	 * @since 5.5.0
 	 */
 	public function register_rewrites() {
 		// Add rewrite tags.
 		add_rewrite_tag( '%sitemap%', '([^?]+)' );
-		add_rewrite_tag( '%sub_type%', '([^?]+)' );
+		add_rewrite_tag( '%sitemap-sub-type%', '([^?]+)' );
 
 		// Register index route.
 		add_rewrite_rule( '^wp-sitemap\.xml$', 'index.php?sitemap=index', 'top' );
 
 		// Register rewrites for the XSL stylesheet.
 		add_rewrite_tag( '%sitemap-stylesheet%', '([^?]+)' );
-		add_rewrite_rule( '^wp-sitemap\.xsl$', 'index.php?sitemap-stylesheet=xsl', 'top' );
+		add_rewrite_rule( '^wp-sitemap\.xsl$', 'index.php?sitemap-stylesheet=sitemap', 'top' );
 		add_rewrite_rule( '^wp-sitemap-index\.xsl$', 'index.php?sitemap-stylesheet=index', 'top' );
 
 		// Register routes for providers.
-		$providers = core_sitemaps_get_sitemaps();
-
-		foreach ( $providers as $provider ) {
-			add_rewrite_rule( $provider->route, $provider->rewrite_query(), 'top' );
-		}
+		add_rewrite_rule(
+			'^wp-sitemap-([a-z]+?)-([a-z\d_-]+?)-(\d+?)\.xml$',
+			'index.php?sitemap=$matches[1]&sitemap-sub-type=$matches[2]&paged=$matches[3]',
+			'top'
+		);
+		add_rewrite_rule(
+			'^wp-sitemap-([a-z]+?)-(\d+?)\.xml$',
+			'index.php?sitemap=$matches[1]&paged=$matches[2]',
+			'top'
+		);
 	}
 
 	/**
-	 * Unregister sitemap rewrite tags and routing rules.
+	 * Un-registers sitemap rewrite tags and routing rules.
+	 *
+	 * @since 5.5.0
 	 */
 	public function unregister_rewrites() {
 		/* @var WP_Rewrite $wp_rewrite */
@@ -132,15 +148,14 @@ class Core_Sitemaps {
 		unset( $wp_rewrite->extra_rules_top['^wp-sitemap-index\.xsl$'] );
 
 		// Unregister routes for providers.
-		$providers = core_sitemaps_get_sitemaps();
-
-		foreach ( $providers as $provider ) {
-			unset( $wp_rewrite->extra_rules_top[ $provider->route ] );
-		}
+		unset( $wp_rewrite->extra_rules_top['^wp-sitemap-([a-z]+?)-([a-z\d-]+?)-(\d+?)\.xml$'] );
+		unset( $wp_rewrite->extra_rules_top['^wp-sitemap-([a-z]+?)-(\d+?)\.xml$'] );
 	}
 
 	/**
-	 * Flush rewrite rules if developers updated them.
+	 * Flushes rewrite rules if developers updated them.
+	 *
+	 * @since 5.5.0
 	 */
 	public function maybe_flush_rewrites() {
 		if ( update_option( 'core_sitemaps_rewrite_version', CORE_SITEMAPS_REWRITE_VERSION ) ) {
@@ -149,80 +164,77 @@ class Core_Sitemaps {
 	}
 
 	/**
-	 * Render sitemap templates based on rewrite rules.
+	 * Renders sitemap templates based on rewrite rules.
+	 *
+	 * @since 5.5.0
 	 */
 	public function render_sitemaps() {
 		global $wp_query;
 
-		$sitemap    = sanitize_text_field( get_query_var( 'sitemap' ) );
-		$sub_type   = sanitize_text_field( get_query_var( 'sub_type' ) );
-		$stylesheet = sanitize_text_field( get_query_var( 'sitemap-stylesheet' ) );
-		$paged      = absint( get_query_var( 'paged' ) );
+		$sitemap         = sanitize_text_field( get_query_var( 'sitemap' ) );
+		$object_subtype  = sanitize_text_field( get_query_var( 'sitemap-sub-type' ) );
+		$stylesheet_type = sanitize_text_field( get_query_var( 'sitemap-stylesheet' ) );
+		$paged           = absint( get_query_var( 'paged' ) );
 
 		// Bail early if this isn't a sitemap or stylesheet route.
-		if ( ! ( $sitemap || $stylesheet ) ) {
+		if ( ! ( $sitemap || $stylesheet_type ) ) {
 			return;
 		}
 
 		// Render stylesheet if this is stylesheet route.
-		if ( $stylesheet ) {
+		if ( $stylesheet_type ) {
 			$stylesheet = new Core_Sitemaps_Stylesheet();
 
-			$stylesheet->render_stylesheet();
+			$stylesheet->render_stylesheet( $stylesheet_type );
 			exit;
 		}
-
-		$providers = core_sitemaps_get_sitemaps();
 
 		// Render the index.
 		if ( 'index' === $sitemap ) {
-			$sitemaps = array();
+			$sitemap_list = $this->index->get_sitemap_list();
 
-			foreach ( $providers as $provider ) {
-				// Using array_push is more efficient than array_merge in a loop.
-				array_push( $sitemaps, ...$provider->get_sitemap_entries() );
-			}
-
-			$this->renderer->render_index( $sitemaps );
+			$this->renderer->render_index( $sitemap_list );
 			exit;
 		}
 
-		// Render sitemap pages.
-		foreach ( $providers as $provider ) {
-			// Move on in the slug doesn't match this provider.
-			if ( $sitemap !== $provider->slug ) {
-				continue;
-			}
+		$provider = $this->registry->get_sitemap( $sitemap );
 
-			if ( empty( $paged ) ) {
-				$paged = 1;
-			}
-
-			$sub_types = $provider->get_object_sub_types();
-
-			// Only set the current object sub-type if it's supported.
-			if ( isset( $sub_types[ $sub_type ] ) ) {
-				$provider->set_sub_type( $sub_types[ $sub_type ]->name );
-			}
-
-			$url_list = $provider->get_url_list( $paged, $sub_type );
-
-			// Force a 404 and bail early if no URLs are present.
-			if ( empty( $url_list ) ) {
-				$wp_query->set_404();
-				return;
-			}
-
-			$this->renderer->render_sitemap( $url_list );
-			exit;
+		if ( ! $provider ) {
+			return;
 		}
+
+		if ( empty( $paged ) ) {
+			$paged = 1;
+		}
+
+		$object_subtypes = $provider->get_object_subtypes();
+
+		// Only set the current object sub-type if it's supported.
+		if ( isset( $object_subtypes[ $object_subtype ] ) ) {
+			$provider->set_object_subtype( $object_subtype );
+		}
+
+		$url_list = $provider->get_url_list( $paged, $object_subtype );
+
+		// Force a 404 and bail early if no URLs are present.
+		if ( empty( $url_list ) ) {
+			$wp_query->set_404();
+			return;
+		}
+
+		$this->renderer->render_sitemap( $url_list );
+		exit;
 	}
 
 	/**
-	 * Redirect an URL to the wp-sitemap.xml
+	 * Redirects a URL to the wp-sitemap.xml
+	 *
+	 * @since 5.5.0
 	 *
 	 * @param bool     $bypass Pass-through of the pre_handle_404 filter value.
 	 * @param WP_Query $query The WP_Query object.
+	 *
+	 * @return bool bypass value.
 	 */
 	public function redirect_sitemapxml( $bypass, $query ) {
 		// If a plugin has already utilized the pre_handle_404 function, return without action to avoid conflicts.
@@ -236,5 +248,40 @@ class Core_Sitemaps {
 			wp_safe_redirect( $this->index->get_index_url() );
 			exit();
 		}
+
+		return $bypass;
+	}
+
+	/**
+	 * Adds the sitemap index to robots.txt.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param string $output robots.txt output.
+	 * @param bool   $public Whether the site is public or not.
+	 * @return string robots.txt output.
+	 */
+	public function add_robots( $output, $public ) {
+		if ( $public ) {
+			$output .= "\nSitemap: " . esc_url( $this->index->get_index_url() ) . "\n";
+		}
+
+		return $output;
+	}
+
+	/**
+	 * Prevent trailing slashes.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param string $redirect The redirect URL currently determined.
+	 * @return bool|string $redirect
+	 */
+	public function redirect_canonical( $redirect ) {
+		if ( get_query_var( 'sitemap' ) || get_query_var( 'sitemap-stylesheet' ) ) {
+			return false;
+		}
+
+		return $redirect;
 	}
 }

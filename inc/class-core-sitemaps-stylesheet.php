@@ -6,38 +6,40 @@
  *
  * @package WordPress
  * @subpackage Sitemaps
- * @since x.x.x
+ * @since 5.5.0
  */
 
 /**
  * Stylesheet provider class.
+ *
+ * @since 5.5.0
  */
 class Core_Sitemaps_Stylesheet {
 	/**
 	 * Renders the xsl stylesheet depending on whether its the sitemap index or not.
+	 *
+	 * @param string $type Stylesheet type. Either 'sitemap' or 'index'.
 	 */
-	public function render_stylesheet() {
-		$stylesheet_query = get_query_var( 'sitemap-stylesheet' );
+	public function render_stylesheet( $type ) {
+		header( 'Content-type: application/xml; charset=UTF-8' );
 
-		if ( ! empty( $stylesheet_query ) ) {
-			header( 'Content-type: application/xml; charset=UTF-8' );
-
-			if ( 'xsl' === $stylesheet_query ) {
-				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- All content escaped below.
-				echo $this->get_sitemap_stylesheet();
-			}
-
-			if ( 'index' === $stylesheet_query ) {
-				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- All content escaped below.
-				echo $this->get_sitemap_index_stylesheet();
-			}
-
-			exit;
+		if ( 'sitemap' === $type ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- All content escaped below.
+			echo $this->get_sitemap_stylesheet();
 		}
+
+		if ( 'index' === $type ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- All content escaped below.
+			echo $this->get_sitemap_index_stylesheet();
+		}
+
+		exit;
 	}
 
 	/**
 	 * Returns the escaped xsl for all sitemaps, except index.
+	 *
+	 * @since 5.5.0
 	 */
 	public function get_sitemap_stylesheet() {
 		$css         = $this->get_stylesheet_css();
@@ -49,8 +51,13 @@ class Core_Sitemaps_Stylesheet {
 		);
 		$text        = sprintf(
 			/* translators: %s: number of URLs. */
+<<<<<<< HEAD
 			esc_xml__( 'This XML Sitemap contains %s URLs.', 'core-sitemaps' ),
 			'<xsl:value-of select="count( sitemap:urlset/sitemap:url )"/>'
+=======
+			__( 'Number of URLs in this XML Sitemap: %s.', 'core-sitemaps' ),
+			'<xsl:value-of select="count(sitemap:urlset/sitemap:url)"/>'
+>>>>>>> master
 		);
 		$columns     = $this->get_stylesheet_columns();
 
@@ -189,7 +196,9 @@ class Core_Sitemaps_Stylesheet {
 XSL;
 
 		/**
-		 * Filter the content of the sitemap stylesheet.
+		 * Filters the content of the sitemap stylesheet.
+		 *
+		 * @since 5.5.0
 		 *
 		 * @param string $xsl Full content for the xml stylesheet.
 		 */
@@ -198,6 +207,8 @@ XSL;
 
 	/**
 	 * Returns the escaped xsl for the index sitemaps.
+	 *
+	 * @since 5.5.0
 	 */
 	public function get_sitemap_index_stylesheet() {
 		$css         = $this->get_stylesheet_css();
@@ -280,7 +291,9 @@ XSL;
 XSL;
 
 		/**
-		 * Filter the content of the sitemap index stylesheet.
+		 * Filters the content of the sitemap index stylesheet.
+		 *
+		 * @since 5.5.0
 		 *
 		 * @param string $xsl Full content for the xml stylesheet.
 		 */
@@ -288,11 +301,13 @@ XSL;
 	}
 
 	/**
-	 * The CSS to be included in sitemap XSL stylesheets.
+	 * Gets the CSS to be included in sitemap XSL stylesheets.
+	 *
+	 * @since 5.5.0
 	 *
 	 * @return string The CSS.
 	 */
-	protected function get_stylesheet_css() {
+	public function get_stylesheet_css() {
 		$css = '
 			body {
 				font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
@@ -322,7 +337,9 @@ XSL;
 			}';
 
 		/**
-		 * Filter the css only for the sitemap stylesheet.
+		 * Filters the css only for the sitemap stylesheet.
+		 *
+		 * @since 5.5.0
 		 *
 		 * @param string $css CSS to be applied to default xsl file.
 		 */
