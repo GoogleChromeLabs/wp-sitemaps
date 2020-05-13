@@ -18,7 +18,7 @@
  * Description:       A feature plugin to integrate basic XML Sitemaps in WordPress Core
  * Author:            Core Sitemaps Plugin Contributors
  * Author URI:        https://github.com/GoogleChromeLabs/wp-sitemaps/graphs/contributors
- * Text Domain:       sitemaps
+ * Text Domain:       core-sitemaps
  * Domain Path:       /languages
  * Requires at least: 5.4
  * Requires PHP:      5.6
