@@ -76,7 +76,7 @@ class Sitemaps_Renderer {
 		 *
 		 * @param string $sitemap_url Full URL for the sitemaps xsl file.
 		 */
-		return apply_filters( 'sitemaps_stylesheet_url', $sitemap_url );
+		return apply_filters( 'wp_sitemaps_stylesheet_url', $sitemap_url );
 	}
 
 	/**
@@ -106,7 +106,7 @@ class Sitemaps_Renderer {
 		 *
 		 * @param string $sitemap_url Full URL for the sitemaps index xsl file.
 		 */
-		return apply_filters( 'sitemaps_stylesheet_index_url', $sitemap_url );
+		return apply_filters( 'wp_sitemaps_stylesheet_index_url', $sitemap_url );
 	}
 
 	/**

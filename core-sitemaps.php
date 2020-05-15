@@ -64,7 +64,7 @@ function sitemaps_plugin_activation() {
 	flush_rewrite_rules( false );
 }
 
-register_activation_hook( __FILE__, 'sitemaps_plugin_activation' );
+register_activation_hook( __FILE__, 'wp_sitemaps_plugin_activation' );
 
 /**
  * Plugin deactivation hook.
@@ -77,4 +77,4 @@ function sitemaps_plugin_deactivation() {
 	flush_rewrite_rules( false );
 }
 
-register_deactivation_hook( __FILE__, 'sitemaps_plugin_deactivation' );
+register_deactivation_hook( __FILE__, 'wp_sitemaps_plugin_deactivation' );

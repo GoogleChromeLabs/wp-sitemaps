@@ -44,7 +44,7 @@ class Sitemaps_Posts extends Sitemaps_Provider {
 		 *
 		 * @param array $post_types Map of registered post type objects (WP_Post_Type) keyed by their name.
 		 */
-		return apply_filters( 'sitemaps_post_types', $post_types );
+		return apply_filters( 'wp_sitemaps_post_types', $post_types );
 	}
 
 	/**
@@ -117,7 +117,7 @@ class Sitemaps_Posts extends Sitemaps_Provider {
 		 * @param string $post_type Name of the post_type.
 		 * @param int    $page_num  Page number of the results.
 		 */
-		return apply_filters( 'sitemaps_posts_url_list', $url_list, $post_type, $page_num );
+		return apply_filters( 'wp_sitemaps_posts_url_list', $url_list, $post_type, $page_num );
 	}
 
 	/**

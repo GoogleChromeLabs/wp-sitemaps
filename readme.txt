@@ -54,7 +54,7 @@ Similarly, the `sitemaps_taxonomies` filter can be used to disable sitemap gener
 
 ```php
 add_filter(
-	'sitemaps_post_types',
+	'wp_sitemaps_post_types',
 	function( $post_types ) {
 		unset( $post_types['page'] );
 		return $post_types;
@@ -66,7 +66,7 @@ add_filter(
 
 ```php
 add_filter(
-	'sitemaps_taxonomies',
+	'wp_sitemaps_taxonomies',
 	function( $taxonomies ) {
 		unset( $taxonomies['post_tag'] );
 		return $taxonomies;
@@ -82,7 +82,7 @@ The `sitemaps_taxonomies_url_list`, `sitemaps_taxonomies_url_list`, and `sitemap
 
 ```php
 add_filter(
-	'sitemaps_posts_url_list',
+	'wp_sitemaps_posts_url_list',
 	function( $urls, $type ) {
 		if ( 'page' === $type ) {
 			$post_to_remove = array( 'loc' => get_permalink( 42 ) );
@@ -102,7 +102,7 @@ add_filter(
 
 ```php
 add_filter(
-	'sitemaps_taxonomies_url_list',
+	'wp_sitemaps_taxonomies_url_list',
 	function( $urls, $type ) {
 		if ( 'category' === $type ) {
 			$term_to_remove = array( 'loc' => get_term_link( 1 ) );
@@ -122,7 +122,7 @@ add_filter(
 
 ```php
 add_filter(
-	'sitemaps_users_url_list',
+	'wp_sitemaps_users_url_list',
 	function( $urls ) {
 		$user_to_remove = array( 'loc' => get_author_posts_url( 1 ) );
 		$key = array_search( $user_to_remove, $urls, true );

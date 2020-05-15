@@ -55,7 +55,7 @@ class Sitemaps_Users extends Sitemaps_Provider {
 		 * @param array  $url_list Array of URLs for a sitemap.
 		 * @param int    $page_num Page of results.
 		 */
-		return apply_filters( 'sitemaps_users_url_list', $url_list, $page_num );
+		return apply_filters( 'wp_sitemaps_users_url_list', $url_list, $page_num );
 	}
 
 	/**

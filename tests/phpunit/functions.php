@@ -6,7 +6,7 @@ class Test_Sitemaps_Functions extends WP_UnitTestCase {
 	 */
 	public function test_wp_sitemaps_get_max_urls() {
 		// Apply a filter to test filterable values.
-		add_filter( 'sitemaps_max_urls', array( $this, '_filter_max_url_value' ), 10, 2 );
+		add_filter( 'wp_sitemaps_max_urls', array( $this, '_filter_max_url_value' ), 10, 2 );
 
 		$expected_posts = wp_sitemaps_get_max_urls( 'post' );
 		$expected_taxonomies = wp_sitemaps_get_max_urls( 'term' );

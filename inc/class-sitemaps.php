@@ -63,7 +63,7 @@ class Sitemaps {
 		$this->register_sitemaps();
 
 		// Add additional action callbacks.
-		add_action( 'sitemaps_init', array( $this, 'register_rewrites' ) );
+		add_action( 'wp_sitemaps_init', array( $this, 'register_rewrites' ) );
 		add_action( 'template_redirect', array( $this, 'render_sitemaps' ) );
 		add_action( 'wp_loaded', array( $this, 'maybe_flush_rewrites' ) );
 		add_filter( 'pre_handle_404', array( $this, 'redirect_sitemapxml' ), 10, 2 );
@@ -91,7 +91,7 @@ class Sitemaps {
 		 * }
 		 */
 		$providers = apply_filters(
-			'sitemaps_register_providers',
+			'wp_sitemaps_register_providers',
 			array(
 				'posts'      => new Sitemaps_Posts(),
 				'taxonomies' => new Sitemaps_Taxonomies(),
@@ -164,7 +164,7 @@ class Sitemaps {
 	 * @since 5.5.0
 	 */
 	public function maybe_flush_rewrites() {
-		if ( update_option( 'sitemaps_rewrite_version', SITEMAPS_REWRITE_VERSION ) ) {
+		if ( update_option( 'wp_sitemaps_rewrite_version', SITEMAPS_REWRITE_VERSION ) ) {
 			flush_rewrite_rules( false );
 		}
 	}

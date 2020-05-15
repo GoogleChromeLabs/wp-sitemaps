@@ -8,7 +8,7 @@ class Test_Sitemaps_Posts extends WP_UnitTestCase {
 		$posts_provider = new Sitemaps_Posts();
 
 		// Return an empty array to show that the list of subtypes is filterable.
-		add_filter( 'sitemaps_post_types', '__return_empty_array' );
+		add_filter( 'wp_sitemaps_post_types', '__return_empty_array' );
 		$subtypes = $posts_provider->get_object_subtypes();
 
 		$this->assertEquals( array(), $subtypes, 'Could not filter posts subtypes.' );
@@ -20,7 +20,7 @@ class Test_Sitemaps_Posts extends WP_UnitTestCase {
 	public function test_filter_sitemaps_posts_url_list() {
 		$posts_provider = new Sitemaps_Posts();
 
-		add_filter( 'sitemaps_posts_url_list', '__return_empty_array' );
+		add_filter( 'wp_sitemaps_posts_url_list', '__return_empty_array' );
 		// Use 'page' post type with 'show_on_front' set to 'posts' to ensure
 		// this would not be empty without the filter.
 		add_filter(

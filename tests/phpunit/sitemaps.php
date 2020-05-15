@@ -103,7 +103,7 @@ class Test_Sitemaps extends WP_UnitTestCase {
 	 * @param string $sub_type The object subtype to use when getting a URL list.
 	 */
 	public function test_add_attributes_to_url_list( $type, $sub_type ) {
-		add_filter( 'sitemaps_' . $type . '_url_list', array( $this, '_add_attributes_to_url_list' ) );
+		add_filter( 'wp_sitemaps_' . $type . '_url_list', array( $this, '_add_attributes_to_url_list' ) );
 
 		$providers = wp_get_sitemaps();
 

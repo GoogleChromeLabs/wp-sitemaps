@@ -38,7 +38,7 @@ function wp_sitemaps_get_server() {
 	 *
 	 * @param bool $is_enabled Whether XML Sitemaps are enabled or not. Defaults to true for public sites.
 	 */
-	$is_enabled = (bool) apply_filters( 'sitemaps_is_enabled', $is_enabled );
+	$is_enabled = (bool) apply_filters( 'wp_sitemaps_is_enabled', $is_enabled );
 
 	if ( ! $is_enabled ) {
 		return null;
@@ -58,7 +58,7 @@ function wp_sitemaps_get_server() {
 		 *
 		 * @param sitemaps $sitemaps Server object.
 		 */
-		do_action( 'sitemaps_init', $sitemaps );
+		do_action( 'wp_sitemaps_init', $sitemaps );
 	}
 
 	return $sitemaps;
@@ -117,5 +117,5 @@ function wp_sitemaps_get_max_urls( $object_type ) {
 	 * @param int    $max_urls    The maximum number of URLs included in a sitemap. Default 2000.
 	 * @param string $object_type Object type for sitemap to be filtered (e.g. 'post', 'term', 'user').
 	 */
-	return apply_filters( 'sitemaps_max_urls', SITEMAPS_MAX_URLS, $object_type );
+	return apply_filters( 'wp_sitemaps_max_urls', SITEMAPS_MAX_URLS, $object_type );
 }

@@ -58,7 +58,7 @@ class Test_Sitemaps_Users extends WP_UnitTestCase {
 	public function test_filter_sitemaps_users_url_list() {
 		$users_provider = new Sitemaps_Users();
 
-		add_filter( 'sitemaps_users_url_list', '__return_empty_array' );
+		add_filter( 'wp_sitemaps_users_url_list', '__return_empty_array' );
 
 		// Create post by an existing user so that they are a post author.
 		self::factory()->post->create( array( 'post_author' => self::$editor_id ) );

@@ -42,7 +42,7 @@ class Sitemaps_Taxonomies extends Sitemaps_Provider {
 		 *
 		 * @param array $taxonomies Map of registered taxonomy objects keyed by their name.
 		 */
-		return apply_filters( 'sitemaps_taxonomies', $taxonomies );
+		return apply_filters( 'wp_sitemaps_taxonomies', $taxonomies );
 	}
 
 	/**
@@ -113,7 +113,7 @@ class Sitemaps_Taxonomies extends Sitemaps_Provider {
 		 * @param string $taxonomy Taxonomy name.
 		 * @param int    $page_num Page of results.
 		 */
-		return apply_filters( 'sitemaps_taxonomies_url_list', $url_list, $taxonomy, $page_num );
+		return apply_filters( 'wp_sitemaps_taxonomies_url_list', $url_list, $taxonomy, $page_num );
 	}
 
 	/**
