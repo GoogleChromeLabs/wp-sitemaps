@@ -15,7 +15,7 @@
  *
  * @since 5.5.0
  *
- * @return Core_Sitemaps|null Core_Sitemaps instance, or null of sitemaps are disabled.
+ * @return Core_Sitemaps|null Core_Sitemaps instance, or null if sitemaps are disabled.
  */
 function core_sitemaps_get_server() {
 	/**

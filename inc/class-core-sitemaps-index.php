@@ -61,7 +61,7 @@ class Core_Sitemaps_Index {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @return string the sitemap index url.
+	 * @return string The sitemap index url.
 	 */
 	public function get_index_url() {
 		/* @var WP_Rewrite $wp_rewrite */

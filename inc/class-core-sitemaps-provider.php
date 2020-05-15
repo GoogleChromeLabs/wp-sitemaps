@@ -55,7 +55,7 @@ abstract class Core_Sitemaps_Provider {
 	 *
 	 * @param int    $page_num       Page of results.
 	 * @param string $object_subtype Optional. Object subtype name. Default empty.
-	 * @return array List of URLs for a sitemap.
+	 * @return array $url_list Array of URLs for a sitemap.
 	 */
 	abstract public function get_url_list( $page_num, $object_subtype = '' );
 
@@ -192,7 +192,7 @@ abstract class Core_Sitemaps_Provider {
 	}
 
 	/**
-	 * Returns the list of supported object sub-types exposed by the provider.
+	 * Returns the list of supported object subtypes exposed by the provider.
 	 *
 	 * @since 5.5.0
 	 *

@@ -34,7 +34,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	 * @param string $object_subtype Optional. Not applicable for Users but
 	 *                               required for compatibility with the parent
 	 *                               provider class. Default empty.
-	 * @return array List of URLs for a sitemap.
+	 * @return array $url_list Array of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num, $object_subtype = '' ) {
 		$query    = $this->get_public_post_authors_query( $page_num );
@@ -48,11 +48,11 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 		}
 
 		/**
-		 * Filters the list of URLs for a sitemap before rendering.
+		 * Filters the array of URLs for a sitemap. before rendering.
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array  $url_list List of URLs for a sitemap.
+		 * @param array  $url_list Array of URLs for a sitemap.
 		 * @param int    $page_num Page of results.
 		 */
 		return apply_filters( 'core_sitemaps_users_url_list', $url_list, $page_num );
@@ -86,7 +86,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	 * @since 5.5.0
 	 *
 	 * @param integer $page_num Optional. Default is 1. Page of query results to return.
-	 * @return WP_User_Query
+	 * @return WP_User_Query A WordPress user query object for authors with public posts.
 	 */
 	public function get_public_post_authors_query( $page_num = 1 ) {
 		$public_post_types = get_post_types(
