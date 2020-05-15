@@ -25,8 +25,8 @@
  * Version:           0.3.0
  */
 
-// Bail early if Sitemaps is already defined. Prevents plugin from loading after core merge.
-if ( class_exists( 'Sitemaps' ) ) {
+// Do not load plugin if WordPress core already has sitemap support.
+if ( function_exists( 'wp_get_sitemaps' ) ) {
 	return;
 }
 
