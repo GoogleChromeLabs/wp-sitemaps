@@ -1,8 +1,8 @@
 <?php
 
-class Test_Sitemaps_Index extends WP_UnitTestCase {
+class Test_WP_Sitemaps_Index extends WP_UnitTestCase {
 	public function test_get_sitemap_list() {
-		$registry = new Sitemaps_Registry();
+		$registry = new WP_Sitemaps_Registry();
 
 		/*
 		 * The test provider has 3 subtypes.
@@ -13,12 +13,12 @@ class Test_Sitemaps_Index extends WP_UnitTestCase {
 		$registry->add_sitemap( 'foo', new Sitemaps_Test_Provider( 'foo' ) );
 		$registry->add_sitemap( 'bar', new Sitemaps_Test_Provider( 'bar' ) );
 
-		$sitemap_index = new Sitemaps_Index( $registry );
+		$sitemap_index = new WP_Sitemaps_Index( $registry );
 		$this->assertCount( 24, $sitemap_index->get_sitemap_list() );
 	}
 
 	public function test_get_index_url() {
-		$sitemap_index = new Sitemaps_Index( new Sitemaps_Registry() );
+		$sitemap_index = new WP_Sitemaps_Index( new WP_Sitemaps_Registry() );
 		$index_url = $sitemap_index->get_index_url();
 
 		$this->assertStringEndsWith( '/?sitemap=index', $index_url );
@@ -28,7 +28,7 @@ class Test_Sitemaps_Index extends WP_UnitTestCase {
 		// Set permalinks for testing.
 		$this->set_permalink_structure( '/%year%/%postname%/' );
 
-		$sitemap_index = new Sitemaps_Index( new Sitemaps_Registry() );
+		$sitemap_index = new WP_Sitemaps_Index( new WP_Sitemaps_Registry() );
 		$index_url = $sitemap_index->get_index_url();
 
 		// Clean up permalinks.

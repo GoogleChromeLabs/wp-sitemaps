@@ -10,9 +10,9 @@
  *
  * Provides test data for additional registered providers.
  */
-class Sitemaps_Test_Provider extends Sitemaps_Provider {
+class Sitemaps_Test_Provider extends WP_Sitemaps_Provider {
 	/**
-	 * Sitemaps_Posts constructor.
+	 * WP_Sitemaps_Posts constructor.
 	 *
 	 * @param string $object_type Optional. Object type name to use. Default 'test'.
 	 */

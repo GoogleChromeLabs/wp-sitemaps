@@ -1,6 +1,6 @@
 <?php
 
-class Test_Sitemaps_Users extends WP_UnitTestCase {
+class Test_WP_Sitemaps_Users extends WP_UnitTestCase {
 	/**
 	 * List of user IDs.
 	 *
@@ -27,7 +27,7 @@ class Test_Sitemaps_Users extends WP_UnitTestCase {
 
 	/**
 	 * Test getting a URL list for a users sitemap page via
-	 * Sitemaps_Users::get_url_list().
+	 * WP_Sitemaps_Users::get_url_list().
 	 */
 	public function test_get_url_list_users() {
 		// Set up the user to an editor to assign posts to other users.
@@ -45,7 +45,7 @@ class Test_Sitemaps_Users extends WP_UnitTestCase {
 			self::$users
 		);
 
-		$user_provider = new Sitemaps_Users();
+		$user_provider = new WP_Sitemaps_Users();
 
 		$url_list = $user_provider->get_url_list( 1 );
 
@@ -56,7 +56,7 @@ class Test_Sitemaps_Users extends WP_UnitTestCase {
 	 * Test ability to filter the users URL list.
 	 */
 	public function test_filter_sitemaps_users_url_list() {
-		$users_provider = new Sitemaps_Users();
+		$users_provider = new WP_Sitemaps_Users();
 
 		add_filter( 'wp_sitemaps_users_url_list', '__return_empty_array' );
 

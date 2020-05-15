@@ -3,9 +3,9 @@
 /**
  * @group renderer
  */
-class Test_Sitemaps_Renderer extends WP_UnitTestCase {
+class Test_WP_Sitemaps_Renderer extends WP_UnitTestCase {
 	public function test_get_sitemap_stylesheet_url() {
-		$sitemap_renderer = new Sitemaps_Renderer();
+		$sitemap_renderer = new WP_Sitemaps_Renderer();
 		$stylesheet_url   = $sitemap_renderer->get_sitemap_stylesheet_url();
 
 		$this->assertStringEndsWith( '/?sitemap-stylesheet=sitemap', $stylesheet_url );
@@ -15,7 +15,7 @@ class Test_Sitemaps_Renderer extends WP_UnitTestCase {
 		// Set permalinks for testing.
 		$this->set_permalink_structure( '/%year%/%postname%/' );
 
-		$sitemap_renderer = new Sitemaps_Renderer();
+		$sitemap_renderer = new WP_Sitemaps_Renderer();
 		$stylesheet_url   = $sitemap_renderer->get_sitemap_stylesheet_url();
 
 		// Clean up permalinks.
@@ -25,7 +25,7 @@ class Test_Sitemaps_Renderer extends WP_UnitTestCase {
 	}
 
 	public function test_get_sitemap_index_stylesheet_url() {
-		$sitemap_renderer = new Sitemaps_Renderer();
+		$sitemap_renderer = new WP_Sitemaps_Renderer();
 		$stylesheet_url   = $sitemap_renderer->get_sitemap_index_stylesheet_url();
 
 		$this->assertStringEndsWith( '/?sitemap-stylesheet=index', $stylesheet_url );
@@ -35,7 +35,7 @@ class Test_Sitemaps_Renderer extends WP_UnitTestCase {
 		// Set permalinks for testing.
 		$this->set_permalink_structure( '/%year%/%postname%/' );
 
-		$sitemap_renderer = new Sitemaps_Renderer();
+		$sitemap_renderer = new WP_Sitemaps_Renderer();
 		$stylesheet_url   = $sitemap_renderer->get_sitemap_index_stylesheet_url();
 
 		// Clean up permalinks.
@@ -66,7 +66,7 @@ class Test_Sitemaps_Renderer extends WP_UnitTestCase {
 			),
 		);
 
-		$renderer = new Sitemaps_Renderer();
+		$renderer = new WP_Sitemaps_Renderer();
 
 		$actual   = $renderer->get_sitemap_index_xml( $entries );
 		$expected = '<?xml version="1.0" encoding="UTF-8"?>' .
@@ -94,7 +94,7 @@ class Test_Sitemaps_Renderer extends WP_UnitTestCase {
 
 		add_filter( 'wp_sitemaps_stylesheet_index_url', '__return_false' );
 
-		$renderer = new Sitemaps_Renderer();
+		$renderer = new WP_Sitemaps_Renderer();
 
 		$xml_dom   = $this->loadXML( $renderer->get_sitemap_index_xml( $entries ) );
 		$xpath    = new DOMXPath( $xml_dom );
@@ -128,7 +128,7 @@ class Test_Sitemaps_Renderer extends WP_UnitTestCase {
 			),
 		);
 
-		$renderer = new Sitemaps_Renderer();
+		$renderer = new WP_Sitemaps_Renderer();
 
 		$actual   = $renderer->get_sitemap_xml( $url_list );
 		$expected = '<?xml version="1.0" encoding="UTF-8"?>' .
@@ -156,7 +156,7 @@ class Test_Sitemaps_Renderer extends WP_UnitTestCase {
 
 		add_filter( 'wp_sitemaps_stylesheet_url', '__return_false' );
 
-		$renderer = new Sitemaps_Renderer();
+		$renderer = new WP_Sitemaps_Renderer();
 
 		$xml_dom   = $this->loadXML( $renderer->get_sitemap_xml( $url_list ) );
 		$xpath    = new DOMXPath( $xml_dom );
@@ -185,7 +185,7 @@ class Test_Sitemaps_Renderer extends WP_UnitTestCase {
 			),
 		);
 
-		$renderer = new Sitemaps_Renderer();
+		$renderer = new WP_Sitemaps_Renderer();
 
 		$xml_dom   = $this->loadXML( $renderer->get_sitemap_xml( $url_list ) );
 		$xpath    = new DOMXPath( $xml_dom );

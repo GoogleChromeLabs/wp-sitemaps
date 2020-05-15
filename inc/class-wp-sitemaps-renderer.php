@@ -1,6 +1,6 @@
 <?php
 /**
- * Sitemaps: Sitemaps_Renderer class
+ * Sitemaps: WP_Sitemaps_Renderer class
  *
  * Responsible for rendering Sitemaps data to XML in accordance with sitemap protocol.
  *
@@ -10,11 +10,11 @@
  */
 
 /**
- * Class Sitemaps_Renderer
+ * Class WP_Sitemaps_Renderer
  *
  * @since 5.5.0
  */
-class Sitemaps_Renderer {
+class WP_Sitemaps_Renderer {
 	/**
 	 * XSL stylesheet for styling a sitemap for web browsers.
 	 *
@@ -34,7 +34,7 @@ class Sitemaps_Renderer {
 	protected $stylesheet_index = '';
 
 	/**
-	 * Sitemaps_Renderer constructor.
+	 * WP_Sitemaps_Renderer constructor.
 	 *
 	 * @since 5.5.0
 	 */

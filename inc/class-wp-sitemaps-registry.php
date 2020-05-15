@@ -1,6 +1,6 @@
 <?php
 /**
- * Sitemaps: Sitemaps_Registry class
+ * Sitemaps: WP_Sitemaps_Registry class
  *
  * Handles registering sitemaps.
  *
@@ -10,11 +10,11 @@
  */
 
 /**
- * Class Sitemaps_Registry.
+ * Class WP_Sitemaps_Registry.
  *
  * @since 5.5.0
  */
-class Sitemaps_Registry {
+class WP_Sitemaps_Registry {
 	/**
 	 * Registered sitemaps.
 	 *
@@ -30,7 +30,7 @@ class Sitemaps_Registry {
 	 * @since 5.5.0
 	 *
 	 * @param string            $name     Name of the sitemap.
-	 * @param Sitemaps_Provider $provider Instance of a Sitemaps_Provider.
+	 * @param WP_Sitemaps_Provider $provider Instance of a WP_Sitemaps_Provider.
 	 * @return bool True if the sitemap was added, false if it is already registered.
 	 */
 	public function add_sitemap( $name, $provider ) {
@@ -38,7 +38,7 @@ class Sitemaps_Registry {
 			return false;
 		}
 
-		if ( ! $provider instanceof Sitemaps_Provider ) {
+		if ( ! $provider instanceof WP_Sitemaps_Provider ) {
 			return false;
 		}
 
@@ -53,7 +53,7 @@ class Sitemaps_Registry {
 	 * @since 5.5.0
 	 *
 	 * @param string $name Sitemap provider name.
-	 * @return Sitemaps_Provider|null Sitemaps provider if it exists, null otherwise.
+	 * @return WP_Sitemaps_Provider|null Sitemaps provider if it exists, null otherwise.
 	 */
 	public function get_sitemap( $name ) {
 		if ( ! isset( $this->sitemaps[ $name ] ) ) {

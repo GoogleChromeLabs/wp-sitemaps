@@ -46,7 +46,7 @@ function wp_sitemaps_get_server() {
 
 	// If there isn't a global instance, set and bootstrap the sitemaps system.
 	if ( empty( $sitemaps ) ) {
-		$sitemaps = new Sitemaps();
+		$sitemaps = new WP_Sitemaps();
 		$sitemaps->init();
 
 		/**
@@ -87,7 +87,7 @@ function wp_get_sitemaps() {
  * @since 5.5.0
  *
  * @param string            $name     Unique name for the sitemap provider.
- * @param Sitemaps_Provider $provider The `Sitemaps_Provider` instance implementing the sitemap.
+ * @param WP_Sitemaps_Provider $provider The `Sitemaps_Provider` instance implementing the sitemap.
  * @return bool Returns true if the sitemap was added. False on failure.
  */
 function wp_register_sitemap( $name, $provider ) {

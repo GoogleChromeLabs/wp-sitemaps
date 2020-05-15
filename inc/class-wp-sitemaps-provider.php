@@ -1,6 +1,6 @@
 <?php
 /**
- * Sitemaps: Sitemaps_Provider class
+ * Sitemaps: WP_Sitemaps_Provider class
  *
  * This class is a base class for other sitemap providers to extend and contains shared functionality.
  *
@@ -10,11 +10,11 @@
  */
 
 /**
- * Class Sitemaps_Provider.
+ * Class WP_Sitemaps_Provider.
  *
  * @since 5.5.0
  */
-abstract class Sitemaps_Provider {
+abstract class WP_Sitemaps_Provider {
 
 	/**
 	 * Provider name.

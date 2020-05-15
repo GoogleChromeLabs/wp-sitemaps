@@ -1,6 +1,6 @@
 <?php
 /**
- * Sitemaps: Sitemaps_Posts class
+ * Sitemaps: WP_Sitemaps_Posts class
  *
  * Builds the sitemaps for the 'post' object type.
  *
@@ -14,9 +14,9 @@
  *
  * @since 5.5.0
  */
-class Sitemaps_Posts extends Sitemaps_Provider {
+class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 	/**
-	 * Sitemaps_Posts constructor.
+	 * WP_Sitemaps_Posts constructor.
 	 *
 	 * @since 5.5.0
 	 */

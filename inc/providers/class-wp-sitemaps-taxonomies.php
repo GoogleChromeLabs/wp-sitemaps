@@ -1,6 +1,6 @@
 <?php
 /**
- * Sitemaps: Sitemaps_Taxonomies class
+ * Sitemaps: WP_Sitemaps_Taxonomies class
  *
  * Builds the sitemaps for the 'taxonomy' object type.
  *
@@ -14,9 +14,9 @@
  *
  * @since 5.5.0
  */
-class Sitemaps_Taxonomies extends Sitemaps_Provider {
+class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
 	/**
-	 * Sitemaps_Taxonomies constructor.
+	 * WP_Sitemaps_Taxonomies constructor.
 	 *
 	 * @since 5.5.0
 	 */

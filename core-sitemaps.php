@@ -35,19 +35,19 @@ const WP_SITEMAPS_MAX_SITEMAPS    = 50000;
 const WP_SITEMAPS_REWRITE_VERSION = '2020-04-29';
 
 // Limit the number of URLs included in a sitemap.
-if ( ! defined( 'SITEMAPS_MAX_URLS' ) ) {
-	define( 'SITEMAPS_MAX_URLS', 2000 );
+if ( ! defined( 'WP_SITEMAPS_MAX_URLS' ) ) {
+	define( 'WP_SITEMAPS_MAX_URLS', 2000 );
 }
 
-require_once __DIR__ . '/inc/class-sitemaps.php';
-require_once __DIR__ . '/inc/class-sitemaps-provider.php';
-require_once __DIR__ . '/inc/class-sitemaps-index.php';
-require_once __DIR__ . '/inc/class-sitemaps-registry.php';
-require_once __DIR__ . '/inc/class-sitemaps-renderer.php';
-require_once __DIR__ . '/inc/class-sitemaps-stylesheet.php';
-require_once __DIR__ . '/inc/providers/class-sitemaps-posts.php';
-require_once __DIR__ . '/inc/providers/class-sitemaps-taxonomies.php';
-require_once __DIR__ . '/inc/providers/class-sitemaps-users.php';
+require_once __DIR__ . '/inc/class-wp-sitemaps.php';
+require_once __DIR__ . '/inc/class-wp-sitemaps-provider.php';
+require_once __DIR__ . '/inc/class-wp-sitemaps-index.php';
+require_once __DIR__ . '/inc/class-wp-sitemaps-registry.php';
+require_once __DIR__ . '/inc/class-wp-sitemaps-renderer.php';
+require_once __DIR__ . '/inc/class-wp-sitemaps-stylesheet.php';
+require_once __DIR__ . '/inc/providers/class-wp-sitemaps-posts.php';
+require_once __DIR__ . '/inc/providers/class-wp-sitemaps-taxonomies.php';
+require_once __DIR__ . '/inc/providers/class-wp-sitemaps-users.php';
 require_once __DIR__ . '/inc/functions.php';
 
 // Boot the sitemaps system.
@@ -59,12 +59,12 @@ add_action( 'init', 'wp_sitemaps_get_server' );
  * Adds and flushes rewrite rules.
  */
 function sitemaps_plugin_activation() {
-	$sitemaps = new Sitemaps();
+	$sitemaps = new WP_Sitemaps();
 	$sitemaps->register_rewrites();
 	flush_rewrite_rules( false );
 }
 
-register_activation_hook( __FILE__, 'wp_sitemaps_plugin_activation' );
+register_activation_hook( __FILE__, 'sitemaps_plugin_activation' );
 
 /**
  * Plugin deactivation hook.
@@ -72,9 +72,9 @@ register_activation_hook( __FILE__, 'wp_sitemaps_plugin_activation' );
  * Adds and flushes rewrite rules.
  */
 function sitemaps_plugin_deactivation() {
-	$sitemaps = new Sitemaps();
+	$sitemaps = new WP_Sitemaps();
 	$sitemaps->unregister_rewrites();
 	flush_rewrite_rules( false );
 }
 
-register_deactivation_hook( __FILE__, 'wp_sitemaps_plugin_deactivation' );
+register_deactivation_hook( __FILE__, 'sitemaps_plugin_deactivation' );

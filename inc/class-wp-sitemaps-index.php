@@ -1,6 +1,6 @@
 <?php
 /**
- * Sitemaps: Sitemaps_Index class.
+ * Sitemaps: WP_Sitemaps_Index class.
  *
  * Generates the sitemap index.
  *
@@ -10,27 +10,27 @@
  */
 
 /**
- * Class Sitemaps_Index.
+ * Class WP_Sitemaps_Index.
  * Builds the sitemap index page that lists the links to all of the sitemaps.
  *
  * @since 5.5.0
  */
-class Sitemaps_Index {
+class WP_Sitemaps_Index {
 
 	/**
 	 * The main registry of supported sitemaps.
 	 *
 	 * @since 5.5.0
-	 * @var Sitemaps_Registry
+	 * @var WP_Sitemaps_Registry
 	 */
 	protected $registry;
 
 	/**
-	 * Sitemaps_Index constructor.
+	 * WP_Sitemaps_Index constructor.
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param Sitemaps_Registry $registry Sitemap provider registry.
+	 * @param WP_Sitemaps_Registry $registry Sitemap provider registry.
 	 */
 	public function __construct( $registry ) {
 		$this->registry = $registry;
@@ -47,7 +47,7 @@ class Sitemaps_Index {
 		$sitemaps = array();
 
 		$providers = $this->registry->get_sitemaps();
-		/* @var Sitemaps_Provider $provider */
+		/* @var WP_Sitemaps_Provider $provider */
 		foreach ( $providers as $provider ) {
 			// Using array_push is more efficient than array_merge in a loop.
 			array_push( $sitemaps, ...$provider->get_sitemap_entries() );

@@ -1,6 +1,6 @@
 <?php
 /**
- * Sitemaps: Sitemaps_Stylesheet class
+ * Sitemaps: WP_Sitemaps_Stylesheet class
  *
  * This class provides the XSL stylesheets to style all sitemaps.
  *
@@ -14,7 +14,7 @@
  *
  * @since 5.5.0
  */
-class Sitemaps_Stylesheet {
+class WP_Sitemaps_Stylesheet {
 	/**
 	 * Renders the xsl stylesheet depending on whether its the sitemap index or not.
 	 *

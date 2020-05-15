@@ -1,6 +1,6 @@
 <?php
 /**
- * Sitemaps: Sitemaps_Users class
+ * Sitemaps: WP_Sitemaps_Users class
  *
  * Builds the sitemaps for the 'user' object type.
  *
@@ -14,9 +14,9 @@
  *
  * @since 5.5.0
  */
-class Sitemaps_Users extends Sitemaps_Provider {
+class WP_Sitemaps_Users extends WP_Sitemaps_Provider {
 	/**
-	 * Sitemaps_Users constructor.
+	 * WP_Sitemaps_Users constructor.
 	 *
 	 * @since 5.5.0
 	 */
@@ -63,7 +63,7 @@ class Sitemaps_Users extends Sitemaps_Provider {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @see Sitemaps_Provider::max_num_pages
+	 * @see WP_Sitemaps_Provider::max_num_pages
 	 *
 	 * @param string $object_subtype Optional. Not applicable for Users but
 	 *                               required for compatibility with the parent

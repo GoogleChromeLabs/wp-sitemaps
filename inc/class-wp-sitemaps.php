@@ -1,6 +1,6 @@
 <?php
 /**
- * Sitemaps: Sitemaps class
+ * WP_Sitemaps: WP_Sitemaps class
  *
  * This is the main class integrating all other classes.
  *
@@ -14,13 +14,13 @@
  *
  * @since 5.5.0
  */
-class Sitemaps {
+class WP_Sitemaps {
 	/**
 	 * The main index of supported sitemaps.
 	 *
 	 * @since 5.5.0
 	 *
-	 * @var Sitemaps_Index
+	 * @var WP_Sitemaps_Index
 	 */
 	public $index;
 
@@ -29,7 +29,7 @@ class Sitemaps {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @var Sitemaps_Registry
+	 * @var WP_Sitemaps_Registry
 	 */
 	public $registry;
 
@@ -38,7 +38,7 @@ class Sitemaps {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @var Sitemaps_Renderer
+	 * @var WP_Sitemaps_Renderer
 	 */
 	public $renderer;
 
@@ -48,9 +48,9 @@ class Sitemaps {
 	 * @since 5.5.0
 	 */
 	public function __construct() {
-		$this->registry = new Sitemaps_Registry();
-		$this->renderer = new Sitemaps_Renderer();
-		$this->index    = new Sitemaps_Index( $this->registry );
+		$this->registry = new WP_Sitemaps_Registry();
+		$this->renderer = new WP_Sitemaps_Renderer();
+		$this->index    = new WP_Sitemaps_Index( $this->registry );
 	}
 
 	/**
@@ -85,22 +85,22 @@ class Sitemaps {
 		 * @param array $providers {
 		 *     Array of Core_Sitemap_Provider objects keyed by their name.
 		 *
-		 *     @type object $posts      The Core_Sitemaps_Posts object.
-		 *     @type object $taxonomies The Core_Sitemaps_Taxonomies object.
-		 *     @type object $users      The Core_Sitemaps_Users object.
+		 *     @type object $posts      The Core_WP_Sitemaps_Posts object.
+		 *     @type object $taxonomies The Core_WP_Sitemaps_Taxonomies object.
+		 *     @type object $users      The Core_WP_Sitemaps_Users object.
 		 * }
 		 */
 		$providers = apply_filters(
 			'wp_sitemaps_register_providers',
 			array(
-				'posts'      => new Sitemaps_Posts(),
-				'taxonomies' => new Sitemaps_Taxonomies(),
-				'users'      => new Sitemaps_Users(),
+				'posts'      => new WP_Sitemaps_Posts(),
+				'taxonomies' => new WP_Sitemaps_Taxonomies(),
+				'users'      => new WP_Sitemaps_Users(),
 			)
 		);
 
 		// Register each supported provider.
-		/* @var Sitemaps_Provider $provider */
+		/* @var WP_Sitemaps_Provider $provider */
 		foreach ( $providers as $name => $provider ) {
 			$this->registry->add_sitemap( $name, $provider );
 		}
@@ -189,7 +189,7 @@ class Sitemaps {
 
 		// Render stylesheet if this is stylesheet route.
 		if ( $stylesheet_type ) {
-			$stylesheet = new Sitemaps_Stylesheet();
+			$stylesheet = new WP_Sitemaps_Stylesheet();
 
 			$stylesheet->render_stylesheet( $stylesheet_type );
 			exit;
