@@ -142,11 +142,11 @@ Use the `sitemaps_max_urls` filter to adjust the maximum number of URLs included
 
 A variety of filters exist to allow you to adjust the styling:
 
-* `sitemaps_stylesheet_url` - Filter the URL for the sitemap stylesheet.
-* `sitemaps_stylesheet_index_url` - Filter the URL for the sitemap index stylesheet.
-* `sitemaps_stylesheet_content` - Filter the content of the sitemap stylesheet.
+* `wp_sitemaps_stylesheet_url` - Filter the URL for the sitemap stylesheet.
+* `wp_sitemaps_stylesheet_index_url` - Filter the URL for the sitemap index stylesheet.
+* `wp_sitemaps_stylesheet_content` - Filter the content of the sitemap stylesheet.
 * `sitemaps_index_stylesheet_content` - Filter the content of the sitemap index stylesheet.
-* `sitemaps_stylesheet_css` - Filter the CSS only for the sitemap stylesheet.
+* `wp_sitemaps_stylesheet_css` - Filter the CSS only for the sitemap stylesheet.
 
 = Does this plugin support `changefreq` and `priority` attributes for sitemaps? =
 
