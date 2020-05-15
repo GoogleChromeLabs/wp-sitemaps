@@ -10,8 +10,8 @@ class Test_WP_Sitemaps_Index extends WP_UnitTestCase {
 		 * There are 2 providers registered.
 		 * Hence, 3*4*2=24.
 		 */
-		$registry->add_sitemap( 'foo', new Sitemaps_Test_Provider( 'foo' ) );
-		$registry->add_sitemap( 'bar', new Sitemaps_Test_Provider( 'bar' ) );
+		$registry->add_sitemap( 'foo', new WP_Sitemaps_Test_Provider( 'foo' ) );
+		$registry->add_sitemap( 'bar', new WP_Sitemaps_Test_Provider( 'bar' ) );
 
 		$sitemap_index = new WP_Sitemaps_Index( $registry );
 		$this->assertCount( 24, $sitemap_index->get_sitemap_list() );

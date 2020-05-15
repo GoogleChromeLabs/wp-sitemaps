@@ -10,7 +10,7 @@
  * @link      https://github.com/GoogleChromeLabs/wp-sitemaps
  */
 
-require_once( __DIR__ . '/inc/class-sitemaps-test-provider.php' );
+require_once( __DIR__ . '/inc/class-wp-sitemaps-test-provider.php' );
 
 /**
  * Core sitemaps test cases.
@@ -64,7 +64,7 @@ class Test_Sitemaps extends WP_UnitTestCase {
 	/**
 	 * Test sitemap provider.
 	 *
-	 * @var Sitemaps_Test_Provider
+	 * @var WP_Sitemaps_Test_Provider
 	 */
 	public static $test_provider;
 
@@ -91,7 +91,7 @@ class Test_Sitemaps extends WP_UnitTestCase {
 		// Create a user with an editor role to complete some tests.
 		self::$editor_id  = $factory->user->create( array( 'role' => 'editor' ) );
 
-		self::$test_provider = new Sitemaps_Test_Provider();
+		self::$test_provider = new WP_Sitemaps_Test_Provider();
 	}
 
 	/**

@@ -6,11 +6,11 @@
  */
 
 /**
- * Class Sitemaps_Test_Provider.
+ * Class WP_Sitemaps_Test_Provider.
  *
  * Provides test data for additional registered providers.
  */
-class Sitemaps_Test_Provider extends WP_Sitemaps_Provider {
+class WP_Sitemaps_Test_Provider extends WP_Sitemaps_Provider {
 	/**
 	 * WP_Sitemaps_Posts constructor.
 	 *

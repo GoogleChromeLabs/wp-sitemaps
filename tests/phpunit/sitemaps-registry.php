@@ -1,10 +1,10 @@
 <?php
 
-require_once( __DIR__ . '/inc/class-sitemaps-test-provider.php' );
+require_once( __DIR__ . '/inc/class-wp-sitemaps-test-provider.php' );
 
 class Test_WP_Sitemaps_Registry extends WP_UnitTestCase {
 	public function test_add_sitemap() {
-		$provider = new Sitemaps_Test_Provider();
+		$provider = new WP_Sitemaps_Test_Provider();
 		$registry = new WP_Sitemaps_Registry();
 
 		$actual   = $registry->add_sitemap( 'foo', $provider );
@@ -16,8 +16,8 @@ class Test_WP_Sitemaps_Registry extends WP_UnitTestCase {
 	}
 
 	public function test_add_sitemap_prevent_duplicates() {
-		$provider1 = new Sitemaps_Test_Provider();
-		$provider2 = new Sitemaps_Test_Provider();
+		$provider1 = new WP_Sitemaps_Test_Provider();
+		$provider2 = new WP_Sitemaps_Test_Provider();
 		$registry = new WP_Sitemaps_Registry();
 
 		$actual1  = $registry->add_sitemap( 'foo', $provider1 );
