@@ -164,7 +164,7 @@ class Sitemaps {
 	 * @since 5.5.0
 	 */
 	public function maybe_flush_rewrites() {
-		if ( update_option( 'wp_sitemaps_rewrite_version', SITEMAPS_REWRITE_VERSION ) ) {
+		if ( update_option( 'wp_sitemaps_rewrite_version', WP_SITEMAPS_REWRITE_VERSION ) ) {
 			flush_rewrite_rules( false );
 		}
 	}

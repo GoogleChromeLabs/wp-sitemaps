@@ -31,8 +31,8 @@ if ( function_exists( 'wp_get_sitemaps' ) ) {
 }
 
 // The limit for how many sitemaps to include in an index.
-const SITEMAPS_MAX_SITEMAPS    = 50000;
-const SITEMAPS_REWRITE_VERSION = '2020-04-29';
+const WP_SITEMAPS_MAX_SITEMAPS    = 50000;
+const WP_SITEMAPS_REWRITE_VERSION = '2020-04-29';
 
 // Limit the number of URLs included in a sitemap.
 if ( ! defined( 'SITEMAPS_MAX_URLS' ) ) {

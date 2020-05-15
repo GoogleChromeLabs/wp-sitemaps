@@ -73,8 +73,8 @@ class Sitemaps_Registry {
 	public function get_sitemaps() {
 		$total_sitemaps = count( $this->sitemaps );
 
-		if ( $total_sitemaps > SITEMAPS_MAX_SITEMAPS ) {
-			return array_slice( $this->sitemaps, 0, SITEMAPS_MAX_SITEMAPS, true );
+		if ( $total_sitemaps > WP_SITEMAPS_MAX_SITEMAPS ) {
+			return array_slice( $this->sitemaps, 0, WP_SITEMAPS_MAX_SITEMAPS, true );
 		}
 
 		return $this->sitemaps;
