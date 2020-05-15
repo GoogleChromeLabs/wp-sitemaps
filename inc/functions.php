@@ -17,7 +17,7 @@
  *
  * @since 5.5.0
  *
- * @return Sitemaps|null Sitemaps instance, or null of sitemaps are disabled.
+ * @return Sitemaps|null Sitemaps instance, or null if sitemaps are disabled.
  */
 function wp_sitemaps_get_server() {
 	/**

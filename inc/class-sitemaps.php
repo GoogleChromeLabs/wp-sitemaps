@@ -82,7 +82,13 @@ class Sitemaps {
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array $providers Array of Sitemap_Provider objects keyed by their name.
+		 * @param array $providers {
+		 *     Array of Core_Sitemap_Provider objects keyed by their name.
+		 *
+		 *     @type object $posts      The Core_Sitemaps_Posts object.
+		 *     @type object $taxonomies The Core_Sitemaps_Taxonomies object.
+		 *     @type object $users      The Core_Sitemaps_Users object.
+		 * }
 		 */
 		$providers = apply_filters(
 			'sitemaps_register_providers',
@@ -209,7 +215,7 @@ class Sitemaps {
 
 		$object_subtypes = $provider->get_object_subtypes();
 
-		// Only set the current object sub-type if it's supported.
+		// Only set the current object subtype if it's supported.
 		if ( isset( $object_subtypes[ $object_subtype ] ) ) {
 			$provider->set_object_subtype( $object_subtype );
 		}
@@ -233,8 +239,7 @@ class Sitemaps {
 	 *
 	 * @param bool     $bypass Pass-through of the pre_handle_404 filter value.
 	 * @param WP_Query $query The WP_Query object.
-	 *
-	 * @return bool bypass value.
+	 * @return bool Bypass value.
 	 */
 	public function redirect_sitemapxml( $bypass, $query ) {
 		// If a plugin has already utilized the pre_handle_404 function, return without action to avoid conflicts.
@@ -259,7 +264,7 @@ class Sitemaps {
 	 *
 	 * @param string $output robots.txt output.
 	 * @param bool   $public Whether the site is public or not.
-	 * @return string robots.txt output.
+	 * @return string The robots.txt output.
 	 */
 	public function add_robots( $output, $public ) {
 		if ( $public ) {
@@ -275,7 +280,7 @@ class Sitemaps {
 	 * @since 5.5.0
 	 *
 	 * @param string $redirect The redirect URL currently determined.
-	 * @return bool|string $redirect
+	 * @return bool|string $redirect The canonical redirect URL.
 	 */
 	public function redirect_canonical( $redirect ) {
 		if ( get_query_var( 'sitemap' ) || get_query_var( 'sitemap-stylesheet' ) ) {

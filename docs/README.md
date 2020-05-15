@@ -27,4 +27,4 @@ Please see the [Testing Documentation Section](/docs/TESTING.md).
 
 ## Reporting Security Issues
 
-Please see [SECURITY.md](/SECURITY.md).
+Please see [CONTRIBUTING.md](/docs/CONTRIBUTING.md#reporting-security-issues).

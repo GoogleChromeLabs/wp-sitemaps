@@ -117,7 +117,7 @@ class Test_Sitemaps extends WP_UnitTestCase {
 	/**
 	 * Data provider for `test_add_attributes_to_url_list()`.
 	 *
-	 * @return array A list of object types and sub types.
+	 * @return array A list of object types and subtypes.
 	 */
 	public function _url_list_providers() {
 		return array(
@@ -139,7 +139,7 @@ class Test_Sitemaps extends WP_UnitTestCase {
 	/**
 	 * Filter callback to add an extra value to URL lists.
 	 *
-	 * @param array $url_list A URL list from a sitemap provider.
+	 * @param array $url_list Array of URLs from a sitemap provider.
 	 * @return array The filtered URL list.
 	 */
 	public function _add_attributes_to_url_list( $url_list ) {
@@ -374,7 +374,7 @@ class Test_Sitemaps extends WP_UnitTestCase {
 	 * Helper function for building an expected url list.
 	 *
 	 * @param string $type An object sub type, e.g., post type.
-	 * @param array  $ids  An array of object IDs.
+	 * @param array  $ids  Array of object IDs.
 	 * @return array A formed URL list.
 	 */
 	public function _get_expected_url_list( $type, $ids ) {

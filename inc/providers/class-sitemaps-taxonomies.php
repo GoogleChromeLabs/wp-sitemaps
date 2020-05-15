@@ -52,7 +52,7 @@ class Sitemaps_Taxonomies extends Sitemaps_Provider {
 	 *
 	 * @param int    $page_num Page of results.
 	 * @param string $taxonomy Optional. Taxonomy name. Default empty.
-	 * @return array List of URLs for a sitemap.
+	 * @return array $url_list Array of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num, $taxonomy = '' ) {
 		// Find the query_var for subtype.
@@ -105,11 +105,11 @@ class Sitemaps_Taxonomies extends Sitemaps_Provider {
 		}
 
 		/**
-		 * Filters the list of URLs for a sitemap before rendering.
+		 * Filters the array of URLs for a sitemap. before rendering.
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array  $url_list List of URLs for a sitemap.
+		 * @param array  $url_list Array of URLs for a sitemap.
 		 * @param string $taxonomy Taxonomy name.
 		 * @param int    $page_num Page of results.
 		 */

@@ -31,7 +31,7 @@ class Sitemaps_Posts extends Sitemaps_Provider {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @return array Map of registered post type objects keyed by their name.
+	 * @return array Map of registered post type objects (WP_Post_Type) keyed by their name.
 	 */
 	public function get_object_subtypes() {
 		$post_types = get_post_types( array( 'public' => true ), 'objects' );
@@ -42,7 +42,7 @@ class Sitemaps_Posts extends Sitemaps_Provider {
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array $post_types Map of registered post type objects keyed by their name.
+		 * @param array $post_types Map of registered post type objects (WP_Post_Type) keyed by their name.
 		 */
 		return apply_filters( 'sitemaps_post_types', $post_types );
 	}
@@ -54,7 +54,7 @@ class Sitemaps_Posts extends Sitemaps_Provider {
 	 *
 	 * @param int    $page_num  Page of results.
 	 * @param string $post_type Optional. Post type name. Default empty.
-	 * @return array List of URLs for a sitemap.
+	 * @return array $url_list Array of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num, $post_type = '' ) {
 		if ( ! $post_type ) {
@@ -109,11 +109,11 @@ class Sitemaps_Posts extends Sitemaps_Provider {
 		}
 
 		/**
-		 * Filters the list of URLs for a sitemap before rendering.
+		 * Filters the array of URLs for a sitemap before rendering.
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array  $url_list  List of URLs for a sitemap.
+		 * @param array  $url_list  Array of URLs for a sitemap.
 		 * @param string $post_type Name of the post_type.
 		 * @param int    $page_num  Page number of the results.
 		 */
