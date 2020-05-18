@@ -68,8 +68,19 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 			return array();
 		}
 
+		/**
+		 * Filters the post type URL list query arguments.
+		 *
+		 * Allows modification of the URL list query arguments before querying.
+		 *
+		 * @see WP_Query for a full list of arguments
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param array $args An array of WP_Query arguments.
+		 */
 		$args = apply_filters(
-			'sitemaps_post_type_url_list_query_args',
+			'core_sitemaps_post_url_list_query_args',
 			array(
 				'orderby'                => 'ID',
 				'order'                  => 'ASC',
@@ -136,8 +147,19 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 			$post_type = $this->get_queried_type();
 		}
 
+		/**
+		 * Filters the query arguments for calculating the maximum number of pages.
+		 *
+		 * Allows modification of the "maximum number of pages" query arguments before querying.
+		 *
+		 * @see WP_Query for a full list of arguments
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param array $args An array of WP_Query arguments.
+		 */
 		$args = apply_filters(
-			'sitemaps_post_type_max_num_pages_query_args',
+			'core_sitemaps_post_type_max_num_pages_query_args',
 			array(
 				'fields'                 => 'ids',
 				'orderby'                => 'ID',
