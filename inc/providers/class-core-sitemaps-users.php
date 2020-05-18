@@ -98,13 +98,16 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 		// We're not supporting sitemaps for author pages for attachments.
 		unset( $public_post_types['attachment'] );
 
-		$query = new WP_User_Query(
+		$args = apply_filters(
+			'sitemaps_user_query_args',
 			array(
 				'has_published_posts' => array_keys( $public_post_types ),
 				'number'              => core_sitemaps_get_max_urls( $this->object_type ),
 				'paged'               => absint( $page_num ),
 			)
 		);
+
+		$query = new WP_User_Query( $args );
 
 		return $query;
 	}
