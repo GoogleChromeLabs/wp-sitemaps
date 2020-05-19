@@ -207,7 +207,7 @@ class Core_Sitemaps_Renderer {
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array @attributes Associative array of urlset attributes and their values.
+		 * @param array $attributes Associative array of urlset attributes and their values.
 		 */
 		$attributes = apply_filters( 'core_sitemaps_urlset_attributes', $attributes );
 
