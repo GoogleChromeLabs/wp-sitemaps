@@ -27,7 +27,7 @@
 
 // The limit for how many sitemaps to include in an index.
 const CORE_SITEMAPS_MAX_SITEMAPS    = 50000;
-const CORE_SITEMAPS_REWRITE_VERSION = '2020-04-29';
+const CORE_SITEMAPS_REWRITE_VERSION = '2020-05-19';
 
 // Limit the number of URLs included in a sitemap.
 if ( ! defined( 'CORE_SITEMAPS_MAX_URLS' ) ) {
@@ -39,7 +39,6 @@ require_once __DIR__ . '/inc/class-core-sitemaps-provider.php';
 require_once __DIR__ . '/inc/class-core-sitemaps-index.php';
 require_once __DIR__ . '/inc/class-core-sitemaps-registry.php';
 require_once __DIR__ . '/inc/class-core-sitemaps-renderer.php';
-require_once __DIR__ . '/inc/class-core-sitemaps-stylesheet.php';
 require_once __DIR__ . '/inc/providers/class-core-sitemaps-posts.php';
 require_once __DIR__ . '/inc/providers/class-core-sitemaps-taxonomies.php';
 require_once __DIR__ . '/inc/providers/class-core-sitemaps-users.php';

@@ -119,11 +119,6 @@ class Core_Sitemaps {
 		// Register index route.
 		add_rewrite_rule( '^wp-sitemap\.xml$', 'index.php?sitemap=index', 'top' );
 
-		// Register rewrites for the XSL stylesheet.
-		add_rewrite_tag( '%sitemap-stylesheet%', '([^?]+)' );
-		add_rewrite_rule( '^wp-sitemap\.xsl$', 'index.php?sitemap-stylesheet=sitemap', 'top' );
-		add_rewrite_rule( '^wp-sitemap-index\.xsl$', 'index.php?sitemap-stylesheet=index', 'top' );
-
 		// Register routes for providers.
 		add_rewrite_rule(
 			'^wp-sitemap-([a-z]+?)-([a-z\d_-]+?)-(\d+?)\.xml$',
@@ -179,20 +174,11 @@ class Core_Sitemaps {
 
 		$sitemap         = sanitize_text_field( get_query_var( 'sitemap' ) );
 		$object_subtype  = sanitize_text_field( get_query_var( 'sitemap-sub-type' ) );
-		$stylesheet_type = sanitize_text_field( get_query_var( 'sitemap-stylesheet' ) );
 		$paged           = absint( get_query_var( 'paged' ) );
 
-		// Bail early if this isn't a sitemap or stylesheet route.
-		if ( ! ( $sitemap || $stylesheet_type ) ) {
+		// Bail early if this isn't a sitemap route.
+		if ( ! ( $sitemap ) ) {
 			return;
-		}
-
-		// Render stylesheet if this is stylesheet route.
-		if ( $stylesheet_type ) {
-			$stylesheet = new Core_Sitemaps_Stylesheet();
-
-			$stylesheet->render_stylesheet( $stylesheet_type );
-			exit;
 		}
 
 		// Render the index.
@@ -283,7 +269,7 @@ class Core_Sitemaps {
 	 * @return bool|string $redirect The canonical redirect URL.
 	 */
 	public function redirect_canonical( $redirect ) {
-		if ( get_query_var( 'sitemap' ) || get_query_var( 'sitemap-stylesheet' ) ) {
+		if ( get_query_var( 'sitemap' ) ) {
 			return false;
 		}
 

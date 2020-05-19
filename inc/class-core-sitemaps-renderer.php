@@ -39,33 +39,6 @@ class Core_Sitemaps_Renderer {
 	 * @since 5.5.0
 	 */
 	public function __construct() {
-		$stylesheet_url = $this->get_sitemap_stylesheet_url();
-		if ( $stylesheet_url ) {
-			$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . esc_url( $stylesheet_url ) . '" ?>';
-		}
-		$stylesheet_index_url   = $this->get_sitemap_index_stylesheet_url();
-		if ( $stylesheet_index_url ) {
-			$this->stylesheet_index = '<?xml-stylesheet type="text/xsl" href="' . esc_url( $stylesheet_index_url ) . '" ?>';
-		}
-	}
-
-	/**
-	 * Gets the URL for the sitemap stylesheet.
-	 *
-	 * @since 5.5.0
-	 *
-	 * @return string The sitemap stylesheet url.
-	 */
-	public function get_sitemap_stylesheet_url() {
-		/* @var WP_Rewrite $wp_rewrite */
-		global $wp_rewrite;
-
-		$sitemap_url = home_url( '/wp-sitemap.xsl' );
-
-		if ( ! $wp_rewrite->using_permalinks() ) {
-			$sitemap_url = add_query_arg( 'sitemap-stylesheet', 'sitemap', home_url( '/' ) );
-		}
-
 		/**
 		 * Filters the URL for the sitemap stylesheet.
 		 *
@@ -76,24 +49,10 @@ class Core_Sitemaps_Renderer {
 		 *
 		 * @param string $sitemap_url Full URL for the sitemaps xsl file.
 		 */
-		return apply_filters( 'core_sitemaps_stylesheet_url', $sitemap_url );
-	}
+		$stylesheet_url = apply_filters( 'core_sitemaps_stylesheet_url', '' );
 
-	/**
-	 * Gets the URL for the sitemap index stylesheet.
-	 *
-	 * @since 5.5.0
-	 *
-	 * @return string The sitemap index stylesheet url.
-	 */
-	public function get_sitemap_index_stylesheet_url() {
-		/* @var WP_Rewrite $wp_rewrite */
-		global $wp_rewrite;
-
-		$sitemap_url = home_url( '/wp-sitemap-index.xsl' );
-
-		if ( ! $wp_rewrite->using_permalinks() ) {
-			$sitemap_url = add_query_arg( 'sitemap-stylesheet', 'index', home_url( '/' ) );
+		if ( $stylesheet_url ) {
+			$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . esc_url( $stylesheet_url ) . '" ?>';
 		}
 
 		/**
@@ -106,7 +65,11 @@ class Core_Sitemaps_Renderer {
 		 *
 		 * @param string $sitemap_url Full URL for the sitemaps index xsl file.
 		 */
-		return apply_filters( 'core_sitemaps_stylesheet_index_url', $sitemap_url );
+		$stylesheet_index_url = apply_filters( 'core_sitemaps_stylesheet_index_url', '' );
+
+		if ( $stylesheet_index_url ) {
+			$this->stylesheet_index = '<?xml-stylesheet type="text/xsl" href="' . esc_url( $stylesheet_index_url ) . '" ?>';
+		}
 	}
 
 	/**
