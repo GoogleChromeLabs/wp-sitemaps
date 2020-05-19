@@ -53,7 +53,14 @@ class Core_Sitemaps_Index {
 			array_push( $sitemaps, ...$provider->get_sitemap_entries() );
 		}
 
-		return $sitemaps;
+		/**
+		 * Filters the array of URLs for a sitemap index before rendering.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param array $sitemaps Array of URLs for a sitemap index.
+		 */
+		return apply_filters( 'core_sitemaps_sitemap_list', $sitemaps );
 	}
 
 	/**
