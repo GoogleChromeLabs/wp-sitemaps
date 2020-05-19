@@ -322,7 +322,7 @@ class Test_Core_Sitemaps_Renderer extends WP_UnitTestCase {
 		}
 	}
 
-	public function test_filter_urlset_attribures()	{
+	public function test_filter_urlset_attribures() {
 		add_filter( 'core_sitemaps_urlset_attributes', array( $this, '_filter_urlset_attributes' ) );
 
 		$url_list = array(
