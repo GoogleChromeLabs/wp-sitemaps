@@ -77,7 +77,8 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array $args An array of WP_Query arguments.
+		 * @param array  $args      An array of WP_Query arguments.
+		 * @param string $post_type The post type string.
 		 */
 		$args = apply_filters(
 			'core_sitemaps_post_url_list_query_args',
@@ -91,7 +92,8 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 				'no_found_rows'          => true,
 				'update_post_term_cache' => false,
 				'update_post_meta_cache' => false,
-			)
+			),
+			$post_type
 		);
 
 		$query = new WP_Query( $args );
