@@ -150,7 +150,10 @@ class Core_Sitemaps_Renderer {
 
 		foreach ( $sitemaps as $entry ) {
 			$sitemap = $sitemap_index->addChild( 'sitemap' );
-			$sitemap->addChild( 'loc', esc_url( $entry['loc'] ) );
+			// Add each attribute as a child node to the <sitemap> entry.
+			foreach ( $entry as $attr => $value ) {
+				$sitemap->addChild( $attr, esc_attr( $value ) );
+			}
 		}
 
 		return $sitemap_index->asXML();
