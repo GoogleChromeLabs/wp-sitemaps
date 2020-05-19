@@ -195,6 +195,23 @@ class Core_Sitemaps_Renderer {
 			)
 		);
 
+		$urlset->getNamespaces();
+
+		$attributes = array();
+
+		/**
+		 * Filters the `<urlset>` attributes for the sitemap.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param array @attributes Associative array of urlset attributes and their values.
+		 */
+		$attributes = apply_filters( 'core_sitemaps_urlset_attributes', $attributes );
+
+		foreach ( $attributes as $attribute => $value ) {
+			$urlset->addAttribute( 'xmlns:' . $attribute, $value );
+		}
+
 		foreach ( $url_list as $url_item ) {
 			$url = $urlset->addChild( 'url' );
 
