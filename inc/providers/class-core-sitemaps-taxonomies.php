@@ -77,21 +77,35 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		// Offset by how many terms should be included in previous pages.
 		$offset = ( $page_num - 1 ) * core_sitemaps_get_max_urls( $this->object_type );
 
-		$args = array(
-			'fields'                 => 'ids',
-			'taxonomy'               => $taxonomy,
-			'orderby'                => 'term_order',
-			'number'                 => core_sitemaps_get_max_urls( $this->object_type ),
-			'offset'                 => $offset,
-			'hide_empty'             => true,
+		/**
+		 * Filters the taxonomy terms query arguments.
+		 *
+		 * Allows modification of the taxonomy query arguments before querying.
+		 *
+		 * @see WP_Term_Query for a full list of arguments
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param array $args An array of WP_Term_Query arguments.
+		 */
+		$args = apply_filters(
+			'core_sitemaps_taxonomy_terms_query_args',
+			array(
+				'fields'                 => 'ids',
+				'taxonomy'               => $taxonomy,
+				'orderby'                => 'term_order',
+				'number'                 => core_sitemaps_get_max_urls( $this->object_type ),
+				'offset'                 => $offset,
+				'hide_empty'             => true,
 
-			/*
-			 * Limits aren't included in queries when hierarchical is set to true (by default).
-			 *
-			 * @link: https://github.com/WordPress/WordPress/blob/5.3/wp-includes/class-wp-term-query.php#L558-L567
-			 */
-			'hierarchical'           => false,
-			'update_term_meta_cache' => false,
+				/*
+				* Limits aren't included in queries when hierarchical is set to true (by default).
+				*
+				* @link: https://github.com/WordPress/WordPress/blob/5.3/wp-includes/class-wp-term-query.php#L558-L567
+				*/
+				'hierarchical'           => false,
+				'update_term_meta_cache' => false,
+			)
 		);
 
 		$taxonomy_terms = new WP_Term_Query( $args );
