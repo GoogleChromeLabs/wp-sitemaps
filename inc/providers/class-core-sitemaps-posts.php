@@ -161,7 +161,7 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 		 * @param array $args An array of WP_Query arguments.
 		 */
 		$args = apply_filters(
-			'core_sitemaps_post_type_max_num_pages_query_args',
+			'core_sitemaps_posts_max_num_pages_query_args',
 			array(
 				'fields'                 => 'ids',
 				'orderby'                => 'ID',
