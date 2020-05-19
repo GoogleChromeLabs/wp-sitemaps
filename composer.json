@@ -61,6 +61,9 @@
     "ext-simplexml": "*"
   },
   "require-dev": {
+    "ext-dom": "*",
+    "ext-libxml": "*",
+    "ext-xsl": "*",
     "dealerdirect/phpcodesniffer-composer-installer": "^0.6.0",
     "phpcompatibility/phpcompatibility-wp": "^2.1",
 	"phpunit/phpunit": "^5.7 || ^6.5 || ^7.5",
