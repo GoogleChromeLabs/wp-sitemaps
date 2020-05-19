@@ -218,12 +218,35 @@ class Core_Sitemaps_Renderer {
 		foreach ( $url_list as $url_item ) {
 			$url = $urlset->addChild( 'url' );
 
-			// Add each attribute as a child node to the URL entry.
+			// Add each attribute as a child node to the <url> entry.
 			foreach ( $url_item as $attr => $value ) {
-				if ( 'loc' === $attr ) {
-					$url->addChild( $attr, esc_url( $value ) );
+				$prefix = '';
+				if ( false !== strpos( $attr, ':' ) ) {
+					$prefix = explode( ':', $attr )[0] . ':';
+				}
+
+				/*
+				 * Arrays need to be prefixed with their namespace.
+				 *
+				 * Turns
+				 *
+				 * 'image:image' => array(
+				 *   'image:loc' => 'http://example.com/image.jpg',
+				 * )
+				 *
+				 * into
+				 *
+				 * <image:image>
+				 *   <image:loc>http://example.com/image.jpg</image:loc>
+				 * </image:image>
+				 */
+				if ( is_array( $value ) ) {
+					$item = $url->addChild( $prefix . $attr );
+					foreach  ( $value as $child_attr => $child_value ) {
+						$item->addChild( $prefix . $child_attr, $child_value );
+					}
 				} else {
-					$url->addChild( $attr, esc_attr( $value ) );
+					$url->addChild( $prefix . $attr, esc_attr( $value ) );
 				}
 			}
 		}
