@@ -86,7 +86,8 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array $args An array of WP_Term_Query arguments.
+		 * @param array  $args     An array of WP_Term_Query arguments.
+		 * @param string $taxonomy The taxonomy string.
 		 */
 		$args = apply_filters(
 			'core_sitemaps_taxonomy_terms_query_args',
@@ -105,7 +106,8 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 				*/
 				'hierarchical'           => false,
 				'update_term_meta_cache' => false,
-			)
+			),
+			$taxonomy
 		);
 
 		$taxonomy_terms = new WP_Term_Query( $args );
