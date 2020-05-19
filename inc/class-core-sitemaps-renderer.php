@@ -242,7 +242,7 @@ class Core_Sitemaps_Renderer {
 				 */
 				if ( is_array( $value ) ) {
 					$item = $url->addChild( $prefix . $attr );
-					foreach  ( $value as $child_attr => $child_value ) {
+					foreach ( $value as $child_attr => $child_value ) {
 						$item->addChild( $prefix . $child_attr, $child_value );
 					}
 				} else {
