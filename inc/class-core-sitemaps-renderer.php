@@ -217,7 +217,7 @@ class Core_Sitemaps_Renderer {
 
 			// Add each attribute as a child node to the URL entry.
 			foreach ( $url_item as $attr => $value ) {
-				if ( 'url' === $attr ) {
+				if ( 'loc' === $attr ) {
 					$url->addChild( $attr, esc_url( $value ) );
 				} else {
 					$url->addChild( $attr, esc_attr( $value ) );
