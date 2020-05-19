@@ -85,7 +85,7 @@ class Test_Core_Sitemaps_Renderer extends WP_UnitTestCase {
 	/**
 	 * Test XML output for the sitemap index renderer when stylesheet is disabled.
 	 */
-	public function test_get_sitemap_index_xml_without_stylsheet() {
+	public function test_get_sitemap_index_xml_without_stylesheet() {
 		$entries = array(
 			array(
 				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-post-1.xml',
@@ -147,7 +147,7 @@ class Test_Core_Sitemaps_Renderer extends WP_UnitTestCase {
 	/**
 	 * Test XML output for the sitemap page renderer when stylesheet is disabled.
 	 */
-	public function test_get_sitemap_xml_without_stylsheet() {
+	public function test_get_sitemap_xml_without_stylesheet() {
 		$url_list = array(
 			array(
 				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/2019/10/post-1',
