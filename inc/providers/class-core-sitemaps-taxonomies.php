@@ -110,6 +110,17 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 			$taxonomy
 		);
 
+		$taxonomy_terms = apply_filters(
+			'core_pre_taxonomy_terms_query',
+			null,
+			$taxonomy,
+			$args
+		);
+
+		if ( null !== $taxonomy_terms ) {
+			return $taxonomy_terms;
+		}
+
 		$taxonomy_terms = new WP_Term_Query( $args );
 
 		if ( ! empty( $taxonomy_terms->terms ) ) {

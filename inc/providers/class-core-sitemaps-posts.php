@@ -96,6 +96,17 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 			$post_type
 		);
 
+		$url_list = apply_filters(
+			'core_pre_sitemaps_post_url_list_query',
+			null,
+			$post_type,
+			$args
+		);
+
+		if ( null !== $url_list ) {
+			return $url_list;
+		}
+
 		$query = new WP_Query( $args );
 
 		/**
@@ -175,6 +186,17 @@ class Core_Sitemaps_Posts extends Core_Sitemaps_Provider {
 			),
 			$post_type
 		);
+
+		$max_num_pages = apply_filters(
+			'core_pre_sitemaps_posts_max_num_pages_query',
+			null,
+			$post_type,
+			$args
+		);
+
+		if ( null !== $max_num_pages ) {
+			return $max_num_pages;
+		}
 
 		$query = new WP_Query( $args );
 

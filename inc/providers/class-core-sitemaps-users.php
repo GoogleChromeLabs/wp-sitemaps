@@ -110,7 +110,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 		 * @param array $args An array of WP_User_Query arguments.
 		 */
 		$args = apply_filters(
-			'core_sitemaps_user_query_args',
+			'core_sitemaps_users_query_args',
 			array(
 				'has_published_posts' => array_keys( $public_post_types ),
 				'number'              => core_sitemaps_get_max_urls( $this->object_type ),
