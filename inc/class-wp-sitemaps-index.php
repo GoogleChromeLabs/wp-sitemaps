@@ -67,7 +67,7 @@ class WP_Sitemaps_Index {
 		 *
 		 * @param array $sitemaps Array of URLs for a sitemap index.
 		 */
-		return apply_filters( 'core_sitemaps_sitemap_list', $sitemaps );
+		return apply_filters( 'wp_sitemaps_sitemap_list', $sitemaps );
 	}
 
 	/**

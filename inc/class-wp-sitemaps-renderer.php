@@ -209,7 +209,7 @@ class WP_Sitemaps_Renderer {
 		 *
 		 * @param array $attributes Associative array of urlset attributes and their values.
 		 */
-		$attributes = apply_filters( 'core_sitemaps_urlset_attributes', $attributes );
+		$attributes = apply_filters( 'wp_sitemaps_urlset_attributes', $attributes );
 
 		foreach ( $attributes as $attribute => $value ) {
 			$urlset->addAttribute( 'xmlns:' . $attribute, $value );
