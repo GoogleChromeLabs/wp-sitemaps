@@ -1,7 +1,5 @@
 <?php
 
-require_once( __DIR__ . '/inc/class-core-sitemaps-test-provider.php' );
-
 class Test_Core_Sitemaps_Registry extends WP_UnitTestCase {
 	public function test_add_sitemap() {
 		$provider = new Core_Sitemaps_Test_Provider();
