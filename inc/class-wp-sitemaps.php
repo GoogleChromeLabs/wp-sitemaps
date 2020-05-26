@@ -213,13 +213,6 @@ class WP_Sitemaps {
 			$paged = 1;
 		}
 
-		$object_subtypes = $provider->get_object_subtypes();
-
-		// Only set the current object subtype if it's supported.
-		if ( isset( $object_subtypes[ $object_subtype ] ) ) {
-			$provider->set_object_subtype( $object_subtype );
-		}
-
 		$url_list = $provider->get_url_list( $paged, $object_subtype );
 
 		// Force a 404 and bail early if no URLs are present.

@@ -57,11 +57,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 	 * @return array $url_list Array of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num, $post_type = '' ) {
-		if ( ! $post_type ) {
-			$post_type = $this->get_queried_type();
-		}
-
-		// Return an empty array if the type is not supported.
+		// Bail early if the queried post type is not supported.
 		$supported_types = $this->get_object_subtypes();
 
 		if ( ! isset( $supported_types[ $post_type ] ) ) {
@@ -142,7 +138,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 	 */
 	public function max_num_pages( $post_type = '' ) {
 		if ( empty( $post_type ) ) {
-			$post_type = $this->get_queried_type();
+			return 0;
 		}
 
 		$query = new WP_Query(
