@@ -49,8 +49,15 @@ class Core_Sitemaps_Index {
 		$providers = $this->registry->get_sitemaps();
 		/* @var Core_Sitemaps_Provider $provider */
 		foreach ( $providers as $provider ) {
+			$sitemap_entries = $provider->get_sitemap_entries();
+
+			// Prevent issues with array_push and empty arrays on PHP < 7.3.
+			if ( ! $sitemap_entries ) {
+				continue;
+			}
+
 			// Using array_push is more efficient than array_merge in a loop.
-			array_push( $sitemaps, ...$provider->get_sitemap_entries() );
+			array_push( $sitemaps, ...$sitemap_entries );
 		}
 
 		return $sitemaps;
