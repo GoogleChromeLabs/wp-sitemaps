@@ -103,9 +103,21 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 		}
 
 		foreach ( $posts as $post ) {
-			$url_list[] = array(
+			$sitemap_entry = array(
 				'loc' => get_permalink( $post ),
 			);
+
+			/**
+			 * Filters the sitemap entry for an individual post.
+			 *
+			 * @since 5.5.0
+			 *
+			 * @param array   $sitemap_entry Sitemap entry for the post.
+			 * @param WP_Post $post          Post object.
+			 * @param string  $post_type     Name of the post_type.
+			 */
+			$sitemap_entry = apply_filters( 'wp_sitemaps_posts_entry', $sitemap_entry, $post, $post_type );
+			$url_list[] = $sitemap_entry;
 		}
 
 		/**
