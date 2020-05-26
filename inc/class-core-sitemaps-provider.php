@@ -122,6 +122,8 @@ abstract class Core_Sitemaps_Provider {
 
 		// Otherwise, include individual sitemaps for every object subtype.
 		foreach ( $object_subtypes as $object_subtype_name => $data ) {
+			$object_subtype_name = (string) $object_subtype_name;
+
 			$sitemap_data[] = array(
 				'name'  => $object_subtype_name,
 				'pages' => $this->max_num_pages( $object_subtype_name ),
