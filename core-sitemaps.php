@@ -1,14 +1,9 @@
 <?php
 /**
- * Main setup.
- *
- * @package Sitemaps
- */
-
-/**
  * Core Sitemaps Plugin.
  *
- * @package   Sitemaps
+ * @package WordPress
+ * @subpackage Sitemaps
  * @copyright 2019 The Core Sitemaps Contributors
  * @license   GNU General Public License, version 2
  * @link      https://github.com/GoogleChromeLabs/wp-sitemaps
