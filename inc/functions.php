@@ -117,3 +117,51 @@ function core_sitemaps_get_max_urls( $object_type ) {
 	 */
 	return apply_filters( 'core_sitemaps_max_urls', CORE_SITEMAPS_MAX_URLS, $object_type );
 }
+
+if ( ! function_exists( 'esc_xml' ) ) :
+/**
+ * Escaping for XML blocks.
+ *
+ * @since 5.5.0
+ *
+ * @param string $text Text to escape.
+ * @return string
+ */
+function esc_xml( $text ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
+	$safe_text = wp_check_invalid_utf8( $text );
+	$safe_text = _wp_specialchars( $safe_text, ENT_QUOTES );
+	$safe_text = html_entity_decode( $safe_text, ENT_HTML5 );
+	/**
+	 * Filters a string cleaned and escaped for output in XML.
+	 *
+	 * Text passed to esc_xml() is stripped of invalid or special characters
+	 * before output.  HTML named character references are converted to their
+	 * equiablent code points.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param string $safe_text The text after it has been escaped.
+	 * @param string $text      The text prior to being escaped.
+	 */
+	return apply_filters( 'esc_xml', $safe_text, $text ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
+}
+endif;
+
+if ( ! function_exists( 'esc_xml__' ) ) :
+/**
+ * Retrieve the translation of $text and escapes it for safe use in XML output.
+ *
+ * If there is no translation, or the text domain isn't loaded, the original text
+ * is escaped and returned.
+ *
+ * @since 5.5.0
+ *
+ * @param string $text   Text to translate.
+ * @param string $domain Optional. Text domain. Unique identifier for retrieving translated strings.
+ *                       Default 'default'.
+ * @return string Translated text.
+ */
+function esc_xml__( $text, $domain = 'default' ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
+	return esc_xml( translate( $text, $domain ) ); // phpcs:ignore WordPress.WP.I18n
+}
+endif;
