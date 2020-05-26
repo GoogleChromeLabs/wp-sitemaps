@@ -323,7 +323,7 @@ class Test_WP_Sitemaps_Renderer extends WP_UnitTestCase {
 	}
 
 	public function test_filter_urlset_attributes() {
-		add_filter( 'core_sitemaps_urlset_attributes', array( $this, '_filter_urlset_attributes' ) );
+		add_filter( 'wp_sitemaps_urlset_attributes', array( $this, '_filter_urlset_attributes' ) );
 
 		$url_list = array(
 			array(
@@ -344,7 +344,7 @@ class Test_WP_Sitemaps_Renderer extends WP_UnitTestCase {
 			'<url><loc>http://' . WP_TESTS_DOMAIN . '/2019/10/post-1</loc><lastmod>2005-01-01</lastmod><image:image><image:loc>http://example.com/image.jpg</image:loc></image:image></url>' .
 			'</urlset>';
 
-		remove_filter( 'core_sitemaps_urlset_attributes', array( $this, '_filter_urlset_attributes' ) );
+		remove_filter( 'wp_sitemaps_urlset_attributes', array( $this, '_filter_urlset_attributes' ) );
 
 		$this->assertXMLEquals( $expected, $actual, 'Sitemap page markup incorrect.' );
 	}
