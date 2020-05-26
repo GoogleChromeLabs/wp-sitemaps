@@ -128,9 +128,20 @@ if ( ! function_exists( 'esc_xml' ) ) :
 	 * @return string
 	 */
 	function esc_xml( $text ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
+		global $allowedentitynames;
+
 		$safe_text = wp_check_invalid_utf8( $text );
 		$safe_text = _wp_specialchars( $safe_text, ENT_QUOTES );
-		$safe_text = html_entity_decode( $safe_text, ENT_HTML5 );
+		// Replace HTML entities with their Unicode codepoints,
+		// without doing the same for the 5 XML entities.
+		$html_only_entities = array_diff( $allowedentitynames, array( 'amp', 'lt', 'gt', 'apos', 'quot' ) );
+		$safe_text          = preg_replace_callback(
+			'/&(' . implode( '|', $html_only_entities ) . ');/',
+			function( $matches ) {
+				return html_entity_decode( $matches[0], ENT_HTML5 );
+			},
+			$safe_text
+		);
 		/**
 		 * Filters a string cleaned and escaped for output in XML.
 		 *
