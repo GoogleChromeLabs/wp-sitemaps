@@ -109,7 +109,7 @@ class Test_WP_Sitemaps_Renderer extends WP_UnitTestCase {
 			),
 		);
 
-		$renderer = new Core_Sitemaps_Renderer();
+		$renderer = new WP_Sitemaps_Renderer();
 
 		$actual   = $renderer->get_sitemap_index_xml( $entries );
 		$expected = '<?xml version="1.0" encoding="UTF-8"?>' .
@@ -230,7 +230,7 @@ class Test_WP_Sitemaps_Renderer extends WP_UnitTestCase {
 			),
 		);
 
-		$renderer = new Core_Sitemaps_Renderer();
+		$renderer = new WP_Sitemaps_Renderer();
 
 		$actual   = $renderer->get_sitemap_xml( $url_list );
 		$expected = '<?xml version="1.0" encoding="UTF-8"?>' .
@@ -335,7 +335,7 @@ class Test_WP_Sitemaps_Renderer extends WP_UnitTestCase {
 			),
 		);
 
-		$renderer = new Core_Sitemaps_Renderer();
+		$renderer = new WP_Sitemaps_Renderer();
 
 		$actual   = $renderer->get_sitemap_xml( $url_list );
 		$expected = '<?xml version="1.0" encoding="UTF-8"?>' .
