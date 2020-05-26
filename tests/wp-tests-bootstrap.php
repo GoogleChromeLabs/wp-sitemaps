@@ -25,7 +25,7 @@ require_once $sitemaps_tests_dir . '/includes/functions.php';
  *
  * No need for this work to happen when spinning up tests.
  */
-function sitemaps_remove_automated_checks() {
+function wp_sitemaps_remove_automated_checks() {
 	remove_action( 'wp_maybe_auto_update', 'wp_maybe_auto_update' );
 	remove_action( 'wp_update_themes', 'wp_update_themes' );
 	remove_action( 'wp_update_plugins', 'wp_update_plugins' );
@@ -45,7 +45,7 @@ function sitemaps_remove_automated_checks() {
 tests_add_filter(
 	'muplugins_loaded',
 	static function () {
-		sitemaps_remove_automated_checks();
+		wp_sitemaps_remove_automated_checks();
 	}
 );
 

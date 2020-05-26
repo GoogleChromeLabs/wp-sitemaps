@@ -1,6 +1,6 @@
 <?php
 /**
- * WP_Sitemaps: WP_Sitemaps class
+ * Sitemaps: WP_Sitemaps class
  *
  * This is the main class integrating all other classes.
  *
@@ -10,7 +10,7 @@
  */
 
 /**
- * Class Sitemaps.
+ * Class WP_Sitemaps.
  *
  * @since 5.5.0
  */
@@ -43,7 +43,7 @@ class WP_Sitemaps {
 	public $renderer;
 
 	/**
-	 * Sitemaps constructor.
+	 * WP_Sitemaps constructor.
 	 *
 	 * @since 5.5.0
 	 */
@@ -85,9 +85,9 @@ class WP_Sitemaps {
 		 * @param array $providers {
 		 *     Array of Core_Sitemap_Provider objects keyed by their name.
 		 *
-		 *     @type object $posts      The Core_WP_Sitemaps_Posts object.
-		 *     @type object $taxonomies The Core_WP_Sitemaps_Taxonomies object.
-		 *     @type object $users      The Core_WP_Sitemaps_Users object.
+		 *     @type object $posts      The WP_Sitemaps_Posts object.
+		 *     @type object $taxonomies The WP_Sitemaps_Taxonomies object.
+		 *     @type object $users      The WP_Sitemaps_Users object.
 		 * }
 		 */
 		$providers = apply_filters(

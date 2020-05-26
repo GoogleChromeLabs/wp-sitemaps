@@ -58,23 +58,23 @@ add_action( 'init', 'wp_sitemaps_get_server' );
  *
  * Adds and flushes rewrite rules.
  */
-function sitemaps_plugin_activation() {
+function wp_sitemaps_plugin_activation() {
 	$sitemaps = new WP_Sitemaps();
 	$sitemaps->register_rewrites();
 	flush_rewrite_rules( false );
 }
 
-register_activation_hook( __FILE__, 'sitemaps_plugin_activation' );
+register_activation_hook( __FILE__, 'wp_sitemaps_plugin_activation' );
 
 /**
  * Plugin deactivation hook.
  *
  * Adds and flushes rewrite rules.
  */
-function sitemaps_plugin_deactivation() {
+function wp_sitemaps_plugin_deactivation() {
 	$sitemaps = new WP_Sitemaps();
 	$sitemaps->unregister_rewrites();
 	flush_rewrite_rules( false );
 }
 
-register_deactivation_hook( __FILE__, 'sitemaps_plugin_deactivation' );
+register_deactivation_hook( __FILE__, 'wp_sitemaps_plugin_deactivation' );

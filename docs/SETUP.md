@@ -1,6 +1,6 @@
 # Local Setup
 
-To get a local environment set up locally we would recommend cloning the [sitemaps-quickstart](https://github.com/humanmade/sitemaps-quickstart) repo and following the installation instructions there.
+To get a local environment set up locally we would recommend cloning the [core-sitemaps-quickstart](https://github.com/humanmade/core-sitemaps-quickstart) repo and following the installation instructions there.
 
 ## Plugin Installation
 

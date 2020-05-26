@@ -40,15 +40,15 @@ You can use `remove_action( 'init', 'wp_sitemaps_get_server' );` to disable init
 
 = How can I disable sitemaps for a certain object type? =
 
-You can use the `sitemaps_register_providers` filter to disable sitemap generation for posts, users, or taxonomies.
+You can use the `wp_sitemaps_register_providers` filter to disable sitemap generation for posts, users, or taxonomies.
 
 = How can I disable sitemaps for a certain post type or taxonomy? =
 
-You can use the `sitemaps_post_types` filter to disable sitemap generation for posts of a certain post type.
+You can use the `wp_sitemaps_post_types` filter to disable sitemap generation for posts of a certain post type.
 
 By default, only public posts will be represented in the sitemap.
 
-Similarly, the `sitemaps_taxonomies` filter can be used to disable sitemap generation for certain taxonomies.
+Similarly, the `wp_sitemaps_taxonomies` filter can be used to disable sitemap generation for certain taxonomies.
 
 **Example: Disabling sitemaps for the "page" post type**
 
@@ -76,7 +76,7 @@ add_filter(
 
 = How can I exclude certain posts / taxonomies / users from the sitemap or add custom ones? =
 
-The `sitemaps_taxonomies_url_list`, `sitemaps_taxonomies_url_list`, and `sitemaps_users_url_list` filters allow you to add or remove URLs as needed.
+The `wp_sitemaps_taxonomies_url_list`, `wp_sitemaps_taxonomies_url_list`, and `wp_sitemaps_users_url_list` filters allow you to add or remove URLs as needed.
 
 **Example: Ensuring the page with ID 42 is not included**
 
@@ -136,7 +136,7 @@ add_filter(
 
 = How can I change the number of URLs per sitemap? =
 
-Use the `sitemaps_max_urls` filter to adjust the maximum number of URLs included in a sitemap. The default value is 2000 URLs.
+Use the `wp_sitemaps_max_urls` filter to adjust the maximum number of URLs included in a sitemap. The default value is 2000 URLs.
 
 = How can I change the appearance of the XML sitemaps in the browser using XSL? =
 
@@ -145,7 +145,7 @@ A variety of filters exist to allow you to adjust the styling:
 * `wp_sitemaps_stylesheet_url` - Filter the URL for the sitemap stylesheet.
 * `wp_sitemaps_stylesheet_index_url` - Filter the URL for the sitemap index stylesheet.
 * `wp_sitemaps_stylesheet_content` - Filter the content of the sitemap stylesheet.
-* `sitemaps_index_stylesheet_content` - Filter the content of the sitemap index stylesheet.
+* `wp_sitemaps_index_stylesheet_content` - Filter the content of the sitemap index stylesheet.
 * `wp_sitemaps_stylesheet_css` - Filter the CSS only for the sitemap stylesheet.
 
 = Does this plugin support `changefreq` and `priority` attributes for sitemaps? =

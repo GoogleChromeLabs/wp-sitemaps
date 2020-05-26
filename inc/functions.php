@@ -10,14 +10,12 @@
  * @since 5.5.0
  */
 
-// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
-
 /**
  * Retrieves the current Sitemaps server instance.
  *
  * @since 5.5.0
  *
- * @return Sitemaps|null Sitemaps instance, or null if sitemaps are disabled.
+ * @return WP_Sitemaps|null Sitemaps instance, or null if sitemaps are disabled.
  */
 function wp_sitemaps_get_server() {
 	/**
@@ -25,9 +23,9 @@ function wp_sitemaps_get_server() {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @var Sitemaps $sitemaps
+	 * @var WP_Sitemaps $sitemaps
 	 */
-	global $sitemaps;
+	global $wp_sitemaps;
 
 	$is_enabled = (bool) get_option( 'blog_public' );
 
@@ -45,7 +43,7 @@ function wp_sitemaps_get_server() {
 	}
 
 	// If there isn't a global instance, set and bootstrap the sitemaps system.
-	if ( empty( $sitemaps ) ) {
+	if ( empty( $wp_sitemaps ) ) {
 		$sitemaps = new WP_Sitemaps();
 		$sitemaps->init();
 
@@ -56,12 +54,12 @@ function wp_sitemaps_get_server() {
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param sitemaps $sitemaps Server object.
+		 * @param WP_Sitemaps $sitemaps Server object.
 		 */
 		do_action( 'wp_sitemaps_init', $sitemaps );
 	}
 
-	return $sitemaps;
+	return $wp_sitemaps;
 }
 
 /**
@@ -86,7 +84,7 @@ function wp_get_sitemaps() {
  *
  * @since 5.5.0
  *
- * @param string            $name     Unique name for the sitemap provider.
+ * @param string               $name     Unique name for the sitemap provider.
  * @param WP_Sitemaps_Provider $provider The `Sitemaps_Provider` instance implementing the sitemap.
  * @return bool Returns true if the sitemap was added. False on failure.
  */
