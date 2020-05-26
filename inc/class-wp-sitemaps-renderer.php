@@ -1,6 +1,6 @@
 <?php
 /**
- * Sitemaps: Core_Sitemaps_Renderer class
+ * Sitemaps: WP_Sitemaps_Renderer class
  *
  * Responsible for rendering Sitemaps data to XML in accordance with sitemap protocol.
  *
@@ -10,11 +10,11 @@
  */
 
 /**
- * Class Core_Sitemaps_Renderer
+ * Class WP_Sitemaps_Renderer
  *
  * @since 5.5.0
  */
-class Core_Sitemaps_Renderer {
+class WP_Sitemaps_Renderer {
 	/**
 	 * XSL stylesheet for styling a sitemap for web browsers.
 	 *
@@ -34,7 +34,7 @@ class Core_Sitemaps_Renderer {
 	protected $stylesheet_index = '';
 
 	/**
-	 * Core_Sitemaps_Renderer constructor.
+	 * WP_Sitemaps_Renderer constructor.
 	 *
 	 * @since 5.5.0
 	 */
@@ -76,7 +76,7 @@ class Core_Sitemaps_Renderer {
 		 *
 		 * @param string $sitemap_url Full URL for the sitemaps xsl file.
 		 */
-		return apply_filters( 'core_sitemaps_stylesheet_url', $sitemap_url );
+		return apply_filters( 'wp_sitemaps_stylesheet_url', $sitemap_url );
 	}
 
 	/**
@@ -106,7 +106,7 @@ class Core_Sitemaps_Renderer {
 		 *
 		 * @param string $sitemap_url Full URL for the sitemaps index xsl file.
 		 */
-		return apply_filters( 'core_sitemaps_stylesheet_index_url', $sitemap_url );
+		return apply_filters( 'wp_sitemaps_stylesheet_index_url', $sitemap_url );
 	}
 
 	/**
