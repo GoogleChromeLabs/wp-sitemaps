@@ -181,8 +181,8 @@ if ( ! function_exists( 'esc_xml_e' ) ) :
 	 * @param string $domain Optional. Text domain. Unique identifier for retrieving translated strings.
 	 *                       Default 'default'.
 	 */
-	function esc_xml_e( $text, $domain = 'default' ) {
-		echo esc_xml( translate( $text, $domain ) );
+	function esc_xml_e( $text, $domain = 'default' ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
+		echo esc_xml( translate( $text, $domain ) ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText, WordPress.WP.I18n.NonSingularStringLiteralDomain
 	}
 endif;
 
@@ -201,7 +201,7 @@ if ( ! function_exists( 'esc_xml_x' ) ) :
 	 *                        Default 'default'.
 	 * @return string Translated text.
 	 */
-	function esc_xml_x( $text, $context, $domain = 'default' ) {
-		return esc_xml( translate_with_gettext_context( $text, $context, $domain ) );
+	function esc_xml_x( $text, $context, $domain = 'default' ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
+		return esc_xml( translate_with_gettext_context( $text, $context, $domain ) ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText, WordPress.WP.I18n.NonSingularStringLiteralContext, WordPress.WP.I18n.NonSingularStringLiteralDomain
 	}
 endif;
