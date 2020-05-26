@@ -27,7 +27,7 @@ if ( function_exists( 'wp_get_sitemaps' ) ) {
 
 // The limit for how many sitemaps to include in an index.
 const WP_SITEMAPS_MAX_SITEMAPS    = 50000;
-const WP_SITEMAPS_REWRITE_VERSION = '2020-04-29';
+const WP_SITEMAPS_REWRITE_VERSION = '2020-05-26';
 
 // Limit the number of URLs included in a sitemap.
 if ( ! defined( 'WP_SITEMAPS_MAX_URLS' ) ) {
@@ -39,7 +39,6 @@ require_once __DIR__ . '/inc/class-wp-sitemaps-provider.php';
 require_once __DIR__ . '/inc/class-wp-sitemaps-index.php';
 require_once __DIR__ . '/inc/class-wp-sitemaps-registry.php';
 require_once __DIR__ . '/inc/class-wp-sitemaps-renderer.php';
-require_once __DIR__ . '/inc/class-wp-sitemaps-stylesheet.php';
 require_once __DIR__ . '/inc/providers/class-wp-sitemaps-posts.php';
 require_once __DIR__ . '/inc/providers/class-wp-sitemaps-taxonomies.php';
 require_once __DIR__ . '/inc/providers/class-wp-sitemaps-users.php';
