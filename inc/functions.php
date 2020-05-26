@@ -23,7 +23,7 @@ function wp_sitemaps_get_server() {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @var WP_Sitemaps $sitemaps
+	 * @var WP_Sitemaps $wp_sitemaps
 	 */
 	global $wp_sitemaps;
 
@@ -56,7 +56,7 @@ function wp_sitemaps_get_server() {
 		 *
 		 * @param WP_Sitemaps $sitemaps Server object.
 		 */
-		do_action( 'wp_sitemaps_init', $sitemaps );
+		do_action( 'wp_sitemaps_init', $wp_sitemaps );
 	}
 
 	return $wp_sitemaps;
