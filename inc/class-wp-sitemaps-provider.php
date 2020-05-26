@@ -110,9 +110,22 @@ abstract class WP_Sitemaps_Provider {
 
 		$object_subtypes = $this->get_object_subtypes();
 
-		foreach ( $object_subtypes as $object_subtype_name => $data ) {
+		// If there are no object subtypes, include a single sitemap for the
+		// entire object type.
+		if ( empty( $object_subtypes ) ) {
 			$sitemap_data[] = array(
-				'name'   => $object_subtype_name,
+				'name'  => '',
+				'pages' => $this->max_num_pages(),
+			);
+			return $sitemap_data;
+		}
+
+		// Otherwise, include individual sitemaps for every object subtype.
+		foreach ( $object_subtypes as $object_subtype_name => $data ) {
+			$object_subtype_name = (string) $object_subtype_name;
+
+			$sitemap_data[] = array(
+				'name'  => $object_subtype_name,
 				'pages' => $this->max_num_pages( $object_subtype_name ),
 			);
 		}
@@ -205,15 +218,6 @@ abstract class WP_Sitemaps_Provider {
 			);
 		}
 
-		/**
-		 * To prevent complexity in code calling this function, such as `get_sitemap_type_data()`
-		 * in this class, a non-empty array is returned, so that sitemaps for providers without
-		 * object subtypes are still registered correctly.
-		 *
-		 * @link https://github.com/GoogleChromeLabs/wp-sitemaps/pull/72#discussion_r347496750
-		 */
-		return array(
-			'' => (object) array( 'name' => '' ),
-		);
+		return array();
 	}
 }
