@@ -55,19 +55,9 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
 	 * @return array $url_list Array of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num, $taxonomy = '' ) {
-		// Find the query_var for subtype.
-		if ( ! $taxonomy ) {
-			$taxonomy = $this->get_queried_type();
-		}
-
-		// Bail early if we don't have a taxonomy.
-		if ( empty( $taxonomy ) ) {
-			return array();
-		}
-
 		$supported_types = $this->get_object_subtypes();
 
-		// Bail early if the queried taxonomy is not a supported type.
+		// Bail early if the queried taxonomy is not supported.
 		if ( ! isset( $supported_types[ $taxonomy ] ) ) {
 			return array();
 		}
@@ -126,7 +116,7 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
 	 */
 	public function max_num_pages( $taxonomy = '' ) {
 		if ( empty( $taxonomy ) ) {
-			$taxonomy = $this->get_queried_type();
+			return 1;
 		}
 
 		$term_count = wp_count_terms( $taxonomy, array( 'hide_empty' => true ) );
