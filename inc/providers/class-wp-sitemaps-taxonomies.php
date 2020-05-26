@@ -98,9 +98,21 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
 
 		if ( ! empty( $taxonomy_terms->terms ) ) {
 			foreach ( $taxonomy_terms->terms as $term ) {
-				$url_list[] = array(
+				$sitemap_entry = array(
 					'loc' => get_term_link( $term ),
 				);
+
+				/**
+				 * Filters the sitemap entry for an individual term.
+				 *
+				 * @since 5.5.0
+				 *
+				 * @param array   $sitemap_entry Sitemap entry for the term.
+				 * @param WP_Term $term          Term object.
+				 * @param string  $taxonomy      Taxonomy name.
+				 */
+				$sitemap_entry = apply_filters( 'wp_sitemaps_taxonomies_entry', $sitemap_entry, $term, $taxonomy );
+				$url_list[] = $sitemap_entry;
 			}
 		}
 
