@@ -117,11 +117,11 @@ abstract class WP_Sitemaps_Provider {
 				 *
 				 * @since 5.5.0
 				 *
-				 * @param array   $sitemap_entry  Sitemap entry for the post.
-				 * @param WP_Post $object_type    Object empty name.
-				 * @param WP_Post $object_subtype Object subtype name.
-				 *                                Empty string if the object type does not support subtypes.
-				 * @param string  $page           Page of results.
+				 * @param array  $sitemap_entry  Sitemap entry for the post.
+				 * @param string $object_type    Object empty name.
+				 * @param string $object_subtype Object subtype name.
+				 *                               Empty string if the object type does not support subtypes.
+				 * @param string $page           Page of results.
 				 */
 				$sitemap_entry = apply_filters( 'wp_sitemaps_index_entry', $sitemap_entry, $this->object_type, $type['name'], $page );
 
