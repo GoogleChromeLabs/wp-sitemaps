@@ -135,8 +135,8 @@ if ( ! function_exists( 'esc_xml' ) ) :
 		 * Filters a string cleaned and escaped for output in XML.
 		 *
 		 * Text passed to esc_xml() is stripped of invalid or special characters
-		 * before output.  HTML named character references are converted to their
-		 * equiablent code points.
+		 * before output. HTML named character references are converted to their
+		 * equivalent code points.
 		 *
 		 * @since 5.5.0
 		 *
