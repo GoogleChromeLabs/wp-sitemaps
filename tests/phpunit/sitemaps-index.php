@@ -17,6 +17,15 @@ class Test_WP_Sitemaps_Index extends WP_UnitTestCase {
 		$this->assertCount( 24, $sitemap_index->get_sitemap_list() );
 	}
 
+	public function test_get_sitemap_list_no_entries() {
+		$registry = new WP_Sitemaps_Registry();
+
+		$registry->add_sitemap( 'foo', new Core_WP_Empty_Test_Provider( 'foo' ) );
+
+		$sitemap_index = new WP_Sitemaps_Index( $registry );
+		$this->assertCount( 0, $sitemap_index->get_sitemap_list() );
+	}
+
 	public function test_get_index_url() {
 		$sitemap_index = new WP_Sitemaps_Index( new WP_Sitemaps_Registry() );
 		$index_url = $sitemap_index->get_index_url();

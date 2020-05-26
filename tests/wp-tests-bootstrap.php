@@ -75,3 +75,6 @@ tests_add_filter(
  * @noinspection PhpIncludeInspection
  */
 require $sitemaps_tests_dir . '/includes/bootstrap.php';
+
+require_once( __DIR__ . '/phpunit/inc/class-wp-sitemaps-test-provider.php' );
+require_once( __DIR__ . '/phpunit/inc/class-wp-sitemaps-empty-test-provider.php' );

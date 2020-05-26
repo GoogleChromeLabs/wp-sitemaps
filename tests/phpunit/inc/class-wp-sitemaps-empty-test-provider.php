@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Class WP_Sitemaps_Test_Provider.
+ * Class Core_Sitemaps_Empty_Provider.
  *
  * Provides test data for additional registered providers.
  */
-class WP_Sitemaps_Test_Provider extends WP_Sitemaps_Provider {
+class Core_WP_Empty_Test_Provider extends WP_Sitemaps_Provider {
 	/**
-	 * WP_Sitemaps_Posts constructor.
+	 * Core_Sitemaps_Posts constructor.
 	 *
 	 * @param string $object_type Optional. Object type name to use. Default 'test'.
 	 */
@@ -22,11 +22,7 @@ class WP_Sitemaps_Test_Provider extends WP_Sitemaps_Provider {
 	 * @return array Map of object subtype objects (WP_Post_Type) keyed by their name.
 	 */
 	public function get_object_subtypes() {
-		return array(
-			'type-1' => (object) array( 'name' => 'type-1' ),
-			'type-2' => (object) array( 'name' => 'type-2' ),
-			'type-3' => (object) array( 'name' => 'type-3' ),
-		);
+		return array();
 	}
 
 	/**
@@ -47,6 +43,6 @@ class WP_Sitemaps_Test_Provider extends WP_Sitemaps_Provider {
 	 * @return int Total number of pages.
 	 */
 	public function max_num_pages( $object_subtype = '' ) {
-		return 4;
+		return 0;
 	}
 }
