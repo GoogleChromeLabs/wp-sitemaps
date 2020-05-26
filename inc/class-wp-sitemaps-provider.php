@@ -37,18 +37,6 @@ abstract class WP_Sitemaps_Provider {
 	protected $object_type = '';
 
 	/**
-	 * Object subtype name.
-	 *
-	 * For example, this should be a post type name for object type 'post' or
-	 * a taxonomy name for object type 'term').
-	 *
-	 * @since 5.5.0
-	 *
-	 * @var string
-	 */
-	protected $object_subtype = '';
-
-	/**
 	 * Gets a URL list for a sitemap.
 	 *
 	 * @since 5.5.0
@@ -60,21 +48,6 @@ abstract class WP_Sitemaps_Provider {
 	abstract public function get_url_list( $page_num, $object_subtype = '' );
 
 	/**
-	 * Returns the name of the object type or object subtype being queried.
-	 *
-	 * @since 5.5.0
-	 *
-	 * @return string Object subtype if set, otherwise object type.
-	 */
-	public function get_queried_type() {
-		if ( empty( $this->object_subtype ) ) {
-			return $this->object_type;
-		}
-
-		return $this->object_subtype;
-	}
-
-	/**
 	 * Gets the max number of pages available for the object type.
 	 *
 	 * @since 5.5.0
@@ -83,20 +56,6 @@ abstract class WP_Sitemaps_Provider {
 	 * @return int Total number of pages.
 	 */
 	abstract public function max_num_pages( $object_subtype = '' );
-
-	/**
-	 * Sets the object subtype.
-	 *
-	 * @since 5.5.0
-	 *
-	 * @param string $object_subtype The name of the object subtype.
-	 * @return bool Returns true on success.
-	 */
-	public function set_object_subtype( $object_subtype ) {
-		$this->object_subtype = $object_subtype;
-
-		return true;
-	}
 
 	/**
 	 * Gets data about each sitemap type.
@@ -212,12 +171,6 @@ abstract class WP_Sitemaps_Provider {
 	 * @return array List of object subtypes objects keyed by their name.
 	 */
 	public function get_object_subtypes() {
-		if ( ! empty( $this->object_subtype ) ) {
-			return array(
-				$this->object_subtype => (object) array( 'name' => $this->object_subtype ),
-			);
-		}
-
 		return array();
 	}
 }

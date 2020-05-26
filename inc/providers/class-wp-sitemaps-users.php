@@ -42,9 +42,20 @@ class WP_Sitemaps_Users extends WP_Sitemaps_Provider {
 		$url_list = array();
 
 		foreach ( $users as $user ) {
-			$url_list[] = array(
+			$sitemap_entry = array(
 				'loc'     => get_author_posts_url( $user->ID ),
 			);
+
+			/**
+			 * Filters the sitemap entry for an individual user.
+			 *
+			 * @since 5.5.0
+			 *
+			 * @param array   $sitemap_entry Sitemap entry for the user.
+			 * @param WP_User $user          User object.
+			 */
+			$sitemap_entry = apply_filters( 'wp_sitemaps_users_entry', $sitemap_entry, $user );
+			$url_list[] = $sitemap_entry;
 		}
 
 		/**

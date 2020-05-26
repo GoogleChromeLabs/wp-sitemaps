@@ -57,11 +57,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 	 * @return array $url_list Array of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num, $post_type = '' ) {
-		if ( ! $post_type ) {
-			$post_type = $this->get_queried_type();
-		}
-
-		// Return an empty array if the type is not supported.
+		// Bail early if the queried post type is not supported.
 		$supported_types = $this->get_object_subtypes();
 
 		if ( ! isset( $supported_types[ $post_type ] ) ) {
@@ -103,9 +99,21 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 		}
 
 		foreach ( $posts as $post ) {
-			$url_list[] = array(
+			$sitemap_entry = array(
 				'loc' => get_permalink( $post ),
 			);
+
+			/**
+			 * Filters the sitemap entry for an individual post.
+			 *
+			 * @since 5.5.0
+			 *
+			 * @param array   $sitemap_entry Sitemap entry for the post.
+			 * @param WP_Post $post          Post object.
+			 * @param string  $post_type     Name of the post_type.
+			 */
+			$sitemap_entry = apply_filters( 'wp_sitemaps_posts_entry', $sitemap_entry, $post, $post_type );
+			$url_list[] = $sitemap_entry;
 		}
 
 		/**
@@ -130,7 +138,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 	 */
 	public function max_num_pages( $post_type = '' ) {
 		if ( empty( $post_type ) ) {
-			$post_type = $this->get_queried_type();
+			return 0;
 		}
 
 		$query = new WP_Query(
