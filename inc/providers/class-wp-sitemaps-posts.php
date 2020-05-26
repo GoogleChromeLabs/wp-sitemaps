@@ -126,7 +126,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 	 */
 	public function max_num_pages( $post_type = '' ) {
 		if ( empty( $post_type ) ) {
-			return 1;
+			return 0;
 		}
 
 		$query = new WP_Query(

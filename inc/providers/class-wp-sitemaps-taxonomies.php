@@ -116,7 +116,7 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
 	 */
 	public function max_num_pages( $taxonomy = '' ) {
 		if ( empty( $taxonomy ) ) {
-			return 1;
+			return 0;
 		}
 
 		$term_count = wp_count_terms( $taxonomy, array( 'hide_empty' => true ) );
