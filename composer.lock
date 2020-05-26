@@ -5389,16 +5389,16 @@
         },
         {
             "name": "wp-phpunit/wp-phpunit",
-            "version": "5.3.2",
+            "version": "5.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-phpunit/wp-phpunit.git",
-                "reference": "e52333e5f31108e14bd9fdb5dc73846ec0410012"
+                "reference": "15925e03c8594c08cf2822e24e511af8dc6f779e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-phpunit/wp-phpunit/zipball/e52333e5f31108e14bd9fdb5dc73846ec0410012",
-                "reference": "e52333e5f31108e14bd9fdb5dc73846ec0410012",
+                "url": "https://api.github.com/repos/wp-phpunit/wp-phpunit/zipball/15925e03c8594c08cf2822e24e511af8dc6f779e",
+                "reference": "15925e03c8594c08cf2822e24e511af8dc6f779e",
                 "shasum": ""
             },
             "type": "library",
@@ -5428,7 +5428,7 @@
                 "test",
                 "wordpress"
             ],
-            "time": "2019-12-13T13:23:00+00:00"
+            "time": "2020-04-01T14:35:27+00:00"
         }
     ],
     "aliases": [],
