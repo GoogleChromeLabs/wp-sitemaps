@@ -108,16 +108,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 			);
 		}
 
-		/**
-		 * Filters the array of URLs for a sitemap before rendering.
-		 *
-		 * @since 5.5.0
-		 *
-		 * @param array  $url_list  Array of URLs for a sitemap.
-		 * @param string $post_type Name of the post_type.
-		 * @param int    $page_num  Page number of the results.
-		 */
-		return apply_filters( 'wp_sitemaps_posts_url_list', $url_list, $post_type, $page_num );
+		return $url_list;
 	}
 
 	/**
