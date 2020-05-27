@@ -65,43 +65,30 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 		}
 
 		/**
-		 * Filters the post type URL list query arguments.
+		 * Filters the posts URL list before it is generated.
 		 *
-		 * Allows modification of the URL list query arguments before querying.
-		 *
-		 * @see WP_Query for a full list of arguments
+		 * Passing a non-null value will effectively short-circuit the generation,
+		 * returning that value instead.
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array  $args      An array of WP_Query arguments.
-		 * @param string $post_type The post type string.
+		 * @param array  $url_list  The URL list. Default null.
+		 * @param string $post_type Post type name.
+		 * @param int    $page_num  Page of results.
 		 */
-		$args = apply_filters(
-			'wp_sitemaps_posts_url_list_query_args',
-			array(
-				'orderby'                => 'ID',
-				'order'                  => 'ASC',
-				'post_type'              => $post_type,
-				'posts_per_page'         => wp_sitemaps_get_max_urls( $this->object_type ),
-				'post_status'            => array( 'publish' ),
-				'paged'                  => $page_num,
-				'no_found_rows'          => true,
-				'update_post_term_cache' => false,
-				'update_post_meta_cache' => false,
-			),
-			$post_type
-		);
-
 		$url_list = apply_filters(
-			'core_pre_sitemaps_post_url_list_query',
+			'wp_sitemaps_posts_pre_url_list',
 			null,
 			$post_type,
-			$args
+			$page_num
 		);
 
 		if ( null !== $url_list ) {
 			return $url_list;
 		}
+
+		$args = $this->get_posts_query_args( $post_type );
+		$args['paged'] = $page_num;
 
 		$query = new WP_Query( $args );
 
@@ -169,34 +156,66 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 		}
 
 		/**
-		 * Filters the query arguments for calculating the maximum number of pages.
+		 * Filters the max number of pages before it is generated.
 		 *
-		 * Allows modification of the "maximum number of pages" query arguments before querying.
-		 *
-		 * @see WP_Query for a full list of arguments
+		 * Passing a non-null value will effectively short-circuit the generation,
+		 * returning that value instead.
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array  $args      An array of WP_Query arguments.
-		 * @param string $post_type The post type string.
+		 * @param int $max_num_pages The maximum number of pages. Default null.
+		 * @param string $post_type Post type name.
+		 */
+		$max_num_pages = apply_filters( 'wp_sitemaps_taxonomies_pre_max_num_pages', null, $post_type );
+
+		if ( null !== $max_num_pages ) {
+			return $max_num_pages;
+		}
+
+		$args = $this->get_posts_query_args( $post_type );
+		$args['paged'] = 1;
+		$args['fields'] = 'ids';
+		$args['no_found_rows'] = false;
+
+		$query = new WP_Query( $args );
+
+		return isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
+	}
+
+	/**
+	 * Returns the query args for retrieving posts to list in the sitemap.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param string $post_type Post type name.
+	 * @return array $args Array of WP_Query arguments.
+	 */
+	protected function get_posts_query_args( $post_type ) {
+		/**
+		 * Filters the query arguments for post type sitemap queries.
+		 *
+		 * @see WP_Query for a full list of arguments.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param array  $args      Array of WP_Query arguments.
+		 * @param string $post_type Post type name.
 		 */
 		$args = apply_filters(
-			'wp_sitemaps_posts_max_num_pages_query_args',
+			'wp_sitemaps_posts_query_args',
 			array(
-				'fields'                 => 'ids',
 				'orderby'                => 'ID',
 				'order'                  => 'ASC',
 				'post_type'              => $post_type,
 				'posts_per_page'         => wp_sitemaps_get_max_urls( $this->object_type ),
-				'paged'                  => 1,
+				'post_status'            => array( 'publish' ),
+				'no_found_rows'          => true,
 				'update_post_term_cache' => false,
 				'update_post_meta_cache' => false,
 			),
 			$post_type
 		);
 
-		$query = new WP_Query( $args );
-
-		return isset( $query->max_num_pages ) ? $query->max_num_pages : 1;
+		return $args;
 	}
 }

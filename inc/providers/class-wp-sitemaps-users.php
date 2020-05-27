@@ -37,7 +37,31 @@ class WP_Sitemaps_Users extends WP_Sitemaps_Provider {
 	 * @return array $url_list Array of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num, $object_subtype = '' ) {
-		$query    = $this->get_public_post_authors_query( $page_num );
+		/**
+		 * Filters the users URL list before it is generated.
+		 *
+		 * Passing a non-null value will effectively short-circuit the generation,
+		 * returning that value instead.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param array  $url_list The URL list. Default null.
+		 * @param int    $page_num Page of results.
+		 */
+		$url_list = apply_filters(
+			'wp_sitemaps_taxonomies_pre_url_list',
+			null,
+			$page_num
+		);
+
+		if ( null !== $url_list ) {
+			return $url_list;
+		}
+
+		$args = $this->get_users_query_args();
+		$args['paged'] = $page_num;
+
+		$query = new WP_User_Query( $args );
 		$users    = $query->get_results();
 		$url_list = array();
 
@@ -82,7 +106,26 @@ class WP_Sitemaps_Users extends WP_Sitemaps_Provider {
 	 * @return int Total page count.
 	 */
 	public function max_num_pages( $object_subtype = '' ) {
-		$query = $this->get_public_post_authors_query();
+		/**
+		 * Filters the max number of pages before it is generated.
+		 *
+		 * Passing a non-null value will effectively short-circuit the generation,
+		 * returning that value instead.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param int $max_num_pages The maximum number of pages. Default null.
+		 */
+		$max_num_pages = apply_filters( 'wp_sitemaps_users_pre_max_num_pages', null );
+
+		if ( null !== $max_num_pages ) {
+			return $max_num_pages;
+		}
+
+		$args = $this->get_users_query_args();
+		$args['paged'] = 1;
+
+		$query = new WP_User_Query( $args );
 
 		$total_users = $query->get_total();
 
@@ -90,16 +133,13 @@ class WP_Sitemaps_Users extends WP_Sitemaps_Provider {
 	}
 
 	/**
-	 * Returns a query for authors with public posts.
-	 *
-	 * Implementation must support `$query->max_num_pages`.
+	 * Returns the query args for retrieving users to list in the sitemap.
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param integer $page_num Optional. Default is 1. Page of query results to return.
-	 * @return WP_User_Query A WordPress user query object for authors with public posts.
+	 * @return array $args Array of WP_User_Query arguments.
 	 */
-	public function get_public_post_authors_query( $page_num = 1 ) {
+	protected function get_users_query_args() {
 		$public_post_types = get_post_types(
 			array(
 				'public' => true,
@@ -118,19 +158,16 @@ class WP_Sitemaps_Users extends WP_Sitemaps_Provider {
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array $args An array of WP_User_Query arguments.
+		 * @param array $args Array of WP_User_Query arguments.
 		 */
 		$args = apply_filters(
 			'wp_sitemaps_users_query_args',
 			array(
 				'has_published_posts' => array_keys( $public_post_types ),
 				'number'              => wp_sitemaps_get_max_urls( $this->object_type ),
-				'paged'               => absint( $page_num ),
 			)
 		);
 
-		$query = new WP_User_Query( $args );
-
-		return $query;
+		return $args;
 	}
 }

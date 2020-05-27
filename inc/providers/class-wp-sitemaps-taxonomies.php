@@ -62,54 +62,36 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
 			return array();
 		}
 
+		/**
+		 * Filters the taxonomies URL list before it is generated.
+		 *
+		 * Passing a non-null value will effectively short-circuit the generation,
+		 * returning that value instead.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param array  $url_list The URL list. Default null.
+		 * @param string $taxonomy Taxonomy name.
+		 * @param int    $page_num Page of results.
+		 */
+		$url_list = apply_filters(
+			'wp_sitemaps_taxonomies_pre_url_list',
+			null,
+			$taxonomy,
+			$page_num
+		);
+
+		if ( null !== $url_list ) {
+			return $url_list;
+		}
+
 		$url_list = array();
 
 		// Offset by how many terms should be included in previous pages.
 		$offset = ( $page_num - 1 ) * wp_sitemaps_get_max_urls( $this->object_type );
 
-		/**
-		 * Filters the taxonomy terms query arguments.
-		 *
-		 * Allows modification of the taxonomy query arguments before querying.
-		 *
-		 * @see WP_Term_Query for a full list of arguments
-		 *
-		 * @since 5.5.0
-		 *
-		 * @param array  $args     An array of WP_Term_Query arguments.
-		 * @param string $taxonomy The taxonomy string.
-		 */
-		$args = apply_filters(
-			'wp_sitemaps_taxonomies_terms_query_args',
-			array(
-				'fields'                 => 'ids',
-				'taxonomy'               => $taxonomy,
-				'orderby'                => 'term_order',
-				'number'                 => wp_sitemaps_get_max_urls( $this->object_type ),
-				'offset'                 => $offset,
-				'hide_empty'             => true,
-
-				/*
-				* Limits aren't included in queries when hierarchical is set to true (by default).
-				*
-				* @link: https://github.com/WordPress/WordPress/blob/5.3/wp-includes/class-wp-term-query.php#L558-L567
-				*/
-				'hierarchical'           => false,
-				'update_term_meta_cache' => false,
-			),
-			$taxonomy
-		);
-
-		$taxonomy_terms = apply_filters(
-			'wp_pre_taxonomy_terms_query',
-			null,
-			$taxonomy,
-			$args
-		);
-
-		if ( null !== $taxonomy_terms ) {
-			return $taxonomy_terms;
-		}
+		$args = $this->get_terms_query_args( $taxonomy );
+		$args['offset'] = $offset;
 
 		$taxonomy_terms = new WP_Term_Query( $args );
 
@@ -158,8 +140,63 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
 			return 0;
 		}
 
-		$term_count = wp_count_terms( $taxonomy, array( 'hide_empty' => true ) );
+		/**
+		 * Filters the max number of pages before it is generated.
+		 *
+		 * Passing a non-null value will effectively short-circuit the generation,
+		 * returning that value instead.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param int $max_num_pages The maximum number of pages. Default null.
+		 * @param string $taxonomy Taxonomy name.
+		 */
+		$max_num_pages = apply_filters( 'wp_sitemaps_taxonomies_pre_max_num_pages', null, $taxonomy );
+
+		if ( null !== $max_num_pages ) {
+			return $max_num_pages;
+		}
+
+		$term_count = wp_count_terms( $taxonomy, $this->get_terms_query_args( $taxonomy ) );
 
 		return (int) ceil( $term_count / wp_sitemaps_get_max_urls( $this->object_type ) );
+	}
+
+	/**
+	 * Returns the query args for retrieving terms to list in the sitemap.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param string $taxonomy Taxonomy name.
+	 * @return array $args Array of WP_Term_Query arguments.
+	 */
+	protected function get_terms_query_args( $taxonomy ) {
+		/**
+		 * Filters the taxonomy terms query arguments.
+		 *
+		 * Allows modification of the taxonomy query arguments before querying.
+		 *
+		 * @see WP_Term_Query for a full list of arguments
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param array  $args     Array of WP_Term_Query arguments.
+		 * @param string $taxonomy Taxonomy name.
+		 */
+		$args = apply_filters(
+			'wp_sitemaps_taxonomies_query_args',
+			array(
+				'fields'                 => 'ids',
+				'taxonomy'               => $taxonomy,
+				'orderby'                => 'term_order',
+				'number'                 => wp_sitemaps_get_max_urls( $this->object_type ),
+				'hide_empty'             => true,
+				'hierarchical'           => false,
+				'update_term_meta_cache' => false,
+			),
+			$taxonomy
+		);
+
+		return $args;
 	}
 }
