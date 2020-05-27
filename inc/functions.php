@@ -142,7 +142,7 @@ if ( ! function_exists( 'esc_xml' ) ) :
 	(?<non_cdata>(.*))                    # non-CDATA Section
 /mx 
 EOF;
-		$safe_text = preg_replace_callback(
+		$safe_text = (string) preg_replace_callback(
 			$regex,
 			function( $matches ) {
 				if ( ! $matches[0] ) {
@@ -172,7 +172,9 @@ EOF;
 		 */
 		return apply_filters( 'esc_xml', $safe_text, $text ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
 	}
+endif;
 
+if ( ! function_exists( 'esc_xml_non_cdata_section' ) ) :
 	/**
 	 * Escaping for non-CDATA Section XML blocks.
 	 *
@@ -188,7 +190,7 @@ EOF;
 		// Replace HTML entities with their Unicode codepoints,
 		// without doing the same for the 5 XML entities.
 		$html_only_entities = array_diff( $allowedentitynames, array( 'amp', 'lt', 'gt', 'apos', 'quot' ) );
-		$safe_text          = preg_replace_callback(
+		$safe_text          = (string) preg_replace_callback(
 			'/&(' . implode( '|', $html_only_entities ) . ');/',
 			function( $matches ) {
 				return html_entity_decode( $matches[0], ENT_HTML5 );
