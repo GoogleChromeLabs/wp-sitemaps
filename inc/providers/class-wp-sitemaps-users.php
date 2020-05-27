@@ -1,6 +1,6 @@
 <?php
 /**
- * Sitemaps: Core_Sitemaps_Users class
+ * Sitemaps: WP_Sitemaps_Users class
  *
  * Builds the sitemaps for the 'user' object type.
  *
@@ -14,9 +14,9 @@
  *
  * @since 5.5.0
  */
-class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
+class WP_Sitemaps_Users extends WP_Sitemaps_Provider {
 	/**
-	 * Core_Sitemaps_Users constructor.
+	 * WP_Sitemaps_Users constructor.
 	 *
 	 * @since 5.5.0
 	 */
@@ -34,7 +34,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	 * @param string $object_subtype Optional. Not applicable for Users but
 	 *                               required for compatibility with the parent
 	 *                               provider class. Default empty.
-	 * @return array List of URLs for a sitemap.
+	 * @return array $url_list Array of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num, $object_subtype = '' ) {
 		$query    = $this->get_public_post_authors_query( $page_num );
@@ -42,20 +42,31 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 		$url_list = array();
 
 		foreach ( $users as $user ) {
-			$url_list[] = array(
+			$sitemap_entry = array(
 				'loc'     => get_author_posts_url( $user->ID ),
 			);
+
+			/**
+			 * Filters the sitemap entry for an individual user.
+			 *
+			 * @since 5.5.0
+			 *
+			 * @param array   $sitemap_entry Sitemap entry for the user.
+			 * @param WP_User $user          User object.
+			 */
+			$sitemap_entry = apply_filters( 'wp_sitemaps_users_entry', $sitemap_entry, $user );
+			$url_list[] = $sitemap_entry;
 		}
 
 		/**
-		 * Filters the list of URLs for a sitemap before rendering.
+		 * Filters the array of URLs for a sitemap. before rendering.
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array  $url_list List of URLs for a sitemap.
+		 * @param array  $url_list Array of URLs for a sitemap.
 		 * @param int    $page_num Page of results.
 		 */
-		return apply_filters( 'core_sitemaps_users_url_list', $url_list, $page_num );
+		return apply_filters( 'wp_sitemaps_users_url_list', $url_list, $page_num );
 	}
 
 	/**
@@ -63,7 +74,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @see Core_Sitemaps_Provider::max_num_pages
+	 * @see WP_Sitemaps_Provider::max_num_pages
 	 *
 	 * @param string $object_subtype Optional. Not applicable for Users but
 	 *                               required for compatibility with the parent
@@ -75,7 +86,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 
 		$total_users = $query->get_total();
 
-		return (int) ceil( $total_users / core_sitemaps_get_max_urls( $this->object_type ) );
+		return (int) ceil( $total_users / wp_sitemaps_get_max_urls( $this->object_type ) );
 	}
 
 	/**
@@ -86,7 +97,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 	 * @since 5.5.0
 	 *
 	 * @param integer $page_num Optional. Default is 1. Page of query results to return.
-	 * @return WP_User_Query
+	 * @return WP_User_Query A WordPress user query object for authors with public posts.
 	 */
 	public function get_public_post_authors_query( $page_num = 1 ) {
 		$public_post_types = get_post_types(
@@ -101,7 +112,7 @@ class Core_Sitemaps_Users extends Core_Sitemaps_Provider {
 		$query = new WP_User_Query(
 			array(
 				'has_published_posts' => array_keys( $public_post_types ),
-				'number'              => core_sitemaps_get_max_urls( $this->object_type ),
+				'number'              => wp_sitemaps_get_max_urls( $this->object_type ),
 				'paged'               => absint( $page_num ),
 			)
 		);

@@ -1,6 +1,6 @@
 <?php
 /**
- * Sitemaps: Core_Sitemaps_Taxonomies class
+ * Sitemaps: WP_Sitemaps_Taxonomies class
  *
  * Builds the sitemaps for the 'taxonomy' object type.
  *
@@ -14,9 +14,9 @@
  *
  * @since 5.5.0
  */
-class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
+class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
 	/**
-	 * Core_Sitemaps_Taxonomies constructor.
+	 * WP_Sitemaps_Taxonomies constructor.
 	 *
 	 * @since 5.5.0
 	 */
@@ -42,7 +42,7 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		 *
 		 * @param array $taxonomies Map of registered taxonomy objects keyed by their name.
 		 */
-		return apply_filters( 'core_sitemaps_taxonomies', $taxonomies );
+		return apply_filters( 'wp_sitemaps_taxonomies', $taxonomies );
 	}
 
 	/**
@@ -52,22 +52,12 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	 *
 	 * @param int    $page_num Page of results.
 	 * @param string $taxonomy Optional. Taxonomy name. Default empty.
-	 * @return array List of URLs for a sitemap.
+	 * @return array $url_list Array of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num, $taxonomy = '' ) {
-		// Find the query_var for subtype.
-		if ( ! $taxonomy ) {
-			$taxonomy = $this->get_queried_type();
-		}
-
-		// Bail early if we don't have a taxonomy.
-		if ( empty( $taxonomy ) ) {
-			return array();
-		}
-
 		$supported_types = $this->get_object_subtypes();
 
-		// Bail early if the queried taxonomy is not a supported type.
+		// Bail early if the queried taxonomy is not supported.
 		if ( ! isset( $supported_types[ $taxonomy ] ) ) {
 			return array();
 		}
@@ -75,13 +65,13 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 		$url_list = array();
 
 		// Offset by how many terms should be included in previous pages.
-		$offset = ( $page_num - 1 ) * core_sitemaps_get_max_urls( $this->object_type );
+		$offset = ( $page_num - 1 ) * wp_sitemaps_get_max_urls( $this->object_type );
 
 		$args = array(
 			'fields'                 => 'ids',
 			'taxonomy'               => $taxonomy,
 			'orderby'                => 'term_order',
-			'number'                 => core_sitemaps_get_max_urls( $this->object_type ),
+			'number'                 => wp_sitemaps_get_max_urls( $this->object_type ),
 			'offset'                 => $offset,
 			'hide_empty'             => true,
 
@@ -98,22 +88,34 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 
 		if ( ! empty( $taxonomy_terms->terms ) ) {
 			foreach ( $taxonomy_terms->terms as $term ) {
-				$url_list[] = array(
+				$sitemap_entry = array(
 					'loc' => get_term_link( $term ),
 				);
+
+				/**
+				 * Filters the sitemap entry for an individual term.
+				 *
+				 * @since 5.5.0
+				 *
+				 * @param array   $sitemap_entry Sitemap entry for the term.
+				 * @param WP_Term $term          Term object.
+				 * @param string  $taxonomy      Taxonomy name.
+				 */
+				$sitemap_entry = apply_filters( 'wp_sitemaps_taxonomies_entry', $sitemap_entry, $term, $taxonomy );
+				$url_list[] = $sitemap_entry;
 			}
 		}
 
 		/**
-		 * Filters the list of URLs for a sitemap before rendering.
+		 * Filters the array of URLs for a sitemap. before rendering.
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array  $url_list List of URLs for a sitemap.
+		 * @param array  $url_list Array of URLs for a sitemap.
 		 * @param string $taxonomy Taxonomy name.
 		 * @param int    $page_num Page of results.
 		 */
-		return apply_filters( 'core_sitemaps_taxonomies_url_list', $url_list, $taxonomy, $page_num );
+		return apply_filters( 'wp_sitemaps_taxonomies_url_list', $url_list, $taxonomy, $page_num );
 	}
 
 	/**
@@ -126,11 +128,11 @@ class Core_Sitemaps_Taxonomies extends Core_Sitemaps_Provider {
 	 */
 	public function max_num_pages( $taxonomy = '' ) {
 		if ( empty( $taxonomy ) ) {
-			$taxonomy = $this->get_queried_type();
+			return 0;
 		}
 
 		$term_count = wp_count_terms( $taxonomy, array( 'hide_empty' => true ) );
 
-		return (int) ceil( $term_count / core_sitemaps_get_max_urls( $this->object_type ) );
+		return (int) ceil( $term_count / wp_sitemaps_get_max_urls( $this->object_type ) );
 	}
 }

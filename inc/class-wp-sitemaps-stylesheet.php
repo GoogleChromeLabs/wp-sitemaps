@@ -1,6 +1,6 @@
 <?php
 /**
- * Sitemaps: Core_Sitemaps_Stylesheet class
+ * Sitemaps: WP_Sitemaps_Stylesheet class
  *
  * This class provides the XSL stylesheets to style all sitemaps.
  *
@@ -14,7 +14,7 @@
  *
  * @since 5.5.0
  */
-class Core_Sitemaps_Stylesheet {
+class WP_Sitemaps_Stylesheet {
 	/**
 	 * Renders the xsl stylesheet depending on whether its the sitemap index or not.
 	 *
@@ -202,7 +202,7 @@ XSL;
 		 *
 		 * @param string $xsl Full content for the xml stylesheet.
 		 */
-		return apply_filters( 'core_sitemaps_stylesheet_content', $xsl_content );
+		return apply_filters( 'wp_sitemaps_stylesheet_content', $xsl_content );
 	}
 
 	/**
@@ -297,7 +297,7 @@ XSL;
 		 *
 		 * @param string $xsl Full content for the xml stylesheet.
 		 */
-		return apply_filters( 'core_sitemaps_index_stylesheet_content', $xsl_content );
+		return apply_filters( 'wp_sitemaps_index_stylesheet_content', $xsl_content );
 	}
 
 	/**
@@ -343,7 +343,7 @@ XSL;
 		 *
 		 * @param string $css CSS to be applied to default xsl file.
 		 */
-		return apply_filters( 'core_sitemaps_stylesheet_css', $css );
+		return apply_filters( 'wp_sitemaps_stylesheet_css', $css );
 	}
 
 	/**

@@ -2,7 +2,7 @@
 
 [TODO: Add this]
 
-If you your site is not running under http://sitemaps.local then you can run the functional tests against the 
+If your site is not running under http://sitemaps.local then you can run the functional tests against the
 site as follows:
 
 ```bash

@@ -1,6 +1,6 @@
 <?php
 /**
- * Sitemaps: Core_Sitemaps class
+ * Sitemaps: WP_Sitemaps class
  *
  * This is the main class integrating all other classes.
  *
@@ -10,17 +10,17 @@
  */
 
 /**
- * Class Core_Sitemaps.
+ * Class WP_Sitemaps.
  *
  * @since 5.5.0
  */
-class Core_Sitemaps {
+class WP_Sitemaps {
 	/**
 	 * The main index of supported sitemaps.
 	 *
 	 * @since 5.5.0
 	 *
-	 * @var Core_Sitemaps_Index
+	 * @var WP_Sitemaps_Index
 	 */
 	public $index;
 
@@ -29,7 +29,7 @@ class Core_Sitemaps {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @var Core_Sitemaps_Registry
+	 * @var WP_Sitemaps_Registry
 	 */
 	public $registry;
 
@@ -38,19 +38,19 @@ class Core_Sitemaps {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @var Core_Sitemaps_Renderer
+	 * @var WP_Sitemaps_Renderer
 	 */
 	public $renderer;
 
 	/**
-	 * Core_Sitemaps constructor.
+	 * WP_Sitemaps constructor.
 	 *
 	 * @since 5.5.0
 	 */
 	public function __construct() {
-		$this->registry = new Core_Sitemaps_Registry();
-		$this->renderer = new Core_Sitemaps_Renderer();
-		$this->index    = new Core_Sitemaps_Index( $this->registry );
+		$this->registry = new WP_Sitemaps_Registry();
+		$this->renderer = new WP_Sitemaps_Renderer();
+		$this->index    = new WP_Sitemaps_Index( $this->registry );
 	}
 
 	/**
@@ -63,7 +63,7 @@ class Core_Sitemaps {
 		$this->register_sitemaps();
 
 		// Add additional action callbacks.
-		add_action( 'core_sitemaps_init', array( $this, 'register_rewrites' ) );
+		add_action( 'wp_sitemaps_init', array( $this, 'register_rewrites' ) );
 		add_action( 'template_redirect', array( $this, 'render_sitemaps' ) );
 		add_action( 'wp_loaded', array( $this, 'maybe_flush_rewrites' ) );
 		add_filter( 'pre_handle_404', array( $this, 'redirect_sitemapxml' ), 10, 2 );
@@ -82,19 +82,25 @@ class Core_Sitemaps {
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array $providers Array of Core_Sitemap_Provider objects keyed by their name.
+		 * @param array $providers {
+		 *     Array of Core_Sitemap_Provider objects keyed by their name.
+		 *
+		 *     @type object $posts      The WP_Sitemaps_Posts object.
+		 *     @type object $taxonomies The WP_Sitemaps_Taxonomies object.
+		 *     @type object $users      The WP_Sitemaps_Users object.
+		 * }
 		 */
 		$providers = apply_filters(
-			'core_sitemaps_register_providers',
+			'wp_sitemaps_register_providers',
 			array(
-				'posts'      => new Core_Sitemaps_Posts(),
-				'taxonomies' => new Core_Sitemaps_Taxonomies(),
-				'users'      => new Core_Sitemaps_Users(),
+				'posts'      => new WP_Sitemaps_Posts(),
+				'taxonomies' => new WP_Sitemaps_Taxonomies(),
+				'users'      => new WP_Sitemaps_Users(),
 			)
 		);
 
 		// Register each supported provider.
-		/* @var Core_Sitemaps_Provider $provider */
+		/* @var WP_Sitemaps_Provider $provider */
 		foreach ( $providers as $name => $provider ) {
 			$this->registry->add_sitemap( $name, $provider );
 		}
@@ -158,7 +164,7 @@ class Core_Sitemaps {
 	 * @since 5.5.0
 	 */
 	public function maybe_flush_rewrites() {
-		if ( update_option( 'core_sitemaps_rewrite_version', CORE_SITEMAPS_REWRITE_VERSION ) ) {
+		if ( update_option( 'wp_sitemaps_rewrite_version', WP_SITEMAPS_REWRITE_VERSION ) ) {
 			flush_rewrite_rules( false );
 		}
 	}
@@ -183,7 +189,7 @@ class Core_Sitemaps {
 
 		// Render stylesheet if this is stylesheet route.
 		if ( $stylesheet_type ) {
-			$stylesheet = new Core_Sitemaps_Stylesheet();
+			$stylesheet = new WP_Sitemaps_Stylesheet();
 
 			$stylesheet->render_stylesheet( $stylesheet_type );
 			exit;
@@ -207,13 +213,6 @@ class Core_Sitemaps {
 			$paged = 1;
 		}
 
-		$object_subtypes = $provider->get_object_subtypes();
-
-		// Only set the current object sub-type if it's supported.
-		if ( isset( $object_subtypes[ $object_subtype ] ) ) {
-			$provider->set_object_subtype( $object_subtype );
-		}
-
 		$url_list = $provider->get_url_list( $paged, $object_subtype );
 
 		// Force a 404 and bail early if no URLs are present.
@@ -233,8 +232,7 @@ class Core_Sitemaps {
 	 *
 	 * @param bool     $bypass Pass-through of the pre_handle_404 filter value.
 	 * @param WP_Query $query The WP_Query object.
-	 *
-	 * @return bool bypass value.
+	 * @return bool Bypass value.
 	 */
 	public function redirect_sitemapxml( $bypass, $query ) {
 		// If a plugin has already utilized the pre_handle_404 function, return without action to avoid conflicts.
@@ -259,7 +257,7 @@ class Core_Sitemaps {
 	 *
 	 * @param string $output robots.txt output.
 	 * @param bool   $public Whether the site is public or not.
-	 * @return string robots.txt output.
+	 * @return string The robots.txt output.
 	 */
 	public function add_robots( $output, $public ) {
 		if ( $public ) {
@@ -275,7 +273,7 @@ class Core_Sitemaps {
 	 * @since 5.5.0
 	 *
 	 * @param string $redirect The redirect URL currently determined.
-	 * @return bool|string $redirect
+	 * @return bool|string $redirect The canonical redirect URL.
 	 */
 	public function redirect_canonical( $redirect ) {
 		if ( get_query_var( 'sitemap' ) || get_query_var( 'sitemap-stylesheet' ) ) {

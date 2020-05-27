@@ -1,6 +1,6 @@
 <?php
 /**
- * Sitemaps: Core_Sitemaps_Registry class
+ * Sitemaps: WP_Sitemaps_Registry class
  *
  * Handles registering sitemaps.
  *
@@ -10,11 +10,11 @@
  */
 
 /**
- * Class Core_Sitemaps_Registry.
+ * Class WP_Sitemaps_Registry.
  *
  * @since 5.5.0
  */
-class Core_Sitemaps_Registry {
+class WP_Sitemaps_Registry {
 	/**
 	 * Registered sitemaps.
 	 *
@@ -29,8 +29,8 @@ class Core_Sitemaps_Registry {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param string                 $name     Name of the sitemap.
-	 * @param Core_Sitemaps_Provider $provider Instance of a Core_Sitemaps_Provider.
+	 * @param string               $name     Name of the sitemap.
+	 * @param WP_Sitemaps_Provider $provider Instance of a WP_Sitemaps_Provider.
 	 * @return bool True if the sitemap was added, false if it is already registered.
 	 */
 	public function add_sitemap( $name, $provider ) {
@@ -38,7 +38,7 @@ class Core_Sitemaps_Registry {
 			return false;
 		}
 
-		if ( ! $provider instanceof Core_Sitemaps_Provider ) {
+		if ( ! $provider instanceof WP_Sitemaps_Provider ) {
 			return false;
 		}
 
@@ -53,7 +53,7 @@ class Core_Sitemaps_Registry {
 	 * @since 5.5.0
 	 *
 	 * @param string $name Sitemap provider name.
-	 * @return Core_Sitemaps_Provider|null Sitemaps provider if it exists, null otherwise.
+	 * @return WP_Sitemaps_Provider|null Sitemaps provider if it exists, null otherwise.
 	 */
 	public function get_sitemap( $name ) {
 		if ( ! isset( $this->sitemaps[ $name ] ) ) {
@@ -73,8 +73,8 @@ class Core_Sitemaps_Registry {
 	public function get_sitemaps() {
 		$total_sitemaps = count( $this->sitemaps );
 
-		if ( $total_sitemaps > CORE_SITEMAPS_MAX_SITEMAPS ) {
-			return array_slice( $this->sitemaps, 0, CORE_SITEMAPS_MAX_SITEMAPS, true );
+		if ( $total_sitemaps > WP_SITEMAPS_MAX_SITEMAPS ) {
+			return array_slice( $this->sitemaps, 0, WP_SITEMAPS_MAX_SITEMAPS, true );
 		}
 
 		return $this->sitemaps;
