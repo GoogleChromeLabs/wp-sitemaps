@@ -51,13 +51,8 @@ class WP_Sitemaps_Stylesheet {
 		);
 		$text        = sprintf(
 			/* translators: %s: number of URLs. */
-<<<<<<< HEAD
 			esc_xml__( 'This XML Sitemap contains %s URLs.', 'core-sitemaps' ),
 			'<xsl:value-of select="count( sitemap:urlset/sitemap:url )"/>'
-=======
-			__( 'Number of URLs in this XML Sitemap: %s.', 'core-sitemaps' ),
-			'<xsl:value-of select="count(sitemap:urlset/sitemap:url)"/>'
->>>>>>> master
 		);
 		$columns     = $this->get_stylesheet_columns();
 
