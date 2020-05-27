@@ -52,4 +52,40 @@ class Tests_Formatting_EscXml extends WP_UnitTestCase {
 		$actual   = esc_xml( $source );
 		$this->assertEquals( $expected, $actual );
 	}
+
+	public function test_ignores_cdata_sections() {
+		// basic CDATA Section containing chars that would otherwise be escaped if not in a CDATA Section
+		// not to mention the CDATA Section markup itself :-)
+		// $source contains embedded newlines to test that the regex that ignores CDATA Sections
+		// correctly handles that case.
+		$source   = "This is\na<![CDATA[test of the <emergency>]]>\nbroadcast system";
+		$expected = "This is\na<![CDATA[test of the <emergency>]]>\nbroadcast system";
+		$actual   = esc_xml( $source );
+		$this->assertEquals( $expected, $actual );
+
+		// string with chars that should be escaped as well as a CDATA Section that should be not be.
+		$source   = 'This is &hellip; a <![CDATA[test of the <emergency>]]> broadcast <system />';
+		$expected = 'This is … a <![CDATA[test of the <emergency>]]> broadcast &lt;system /&gt;';
+		$actual   = esc_xml( $source );
+		$this->assertEquals( $expected, $actual );
+
+		// Same as above, but with the CDATA Section at the start of the string.
+		$source   = '<![CDATA[test of the <emergency>]]> This is &hellip; a broadcast <system />';
+		$expected = '<![CDATA[test of the <emergency>]]> This is … a broadcast &lt;system /&gt;';
+		$actual   = esc_xml( $source );
+		$this->assertEquals( $expected, $actual );
+
+		// Same as above, but with the CDATA Section at the end of the string.
+		$source   = 'This is &hellip; a broadcast <system /><![CDATA[test of the <emergency>]]> ';
+		$expected = 'This is … a broadcast &lt;system /&gt;<![CDATA[test of the <emergency>]]> ';
+		$actual   = esc_xml( $source );
+		$this->assertEquals( $expected, $actual );
+
+		// multiple CDATA Sections.
+		$source   = 'This is &hellip; a <![CDATA[test of the <emergency>]]> &broadcast; <![CDATA[<system />]]>';
+		$expected = 'This is … a <![CDATA[test of the <emergency>]]> &amp;broadcast; <![CDATA[<system />]]>';
+		$actual   = esc_xml( $source );
+		$this->assertEquals( $expected, $actual );
+	}
+
 }
