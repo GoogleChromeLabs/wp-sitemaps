@@ -1,18 +1,13 @@
 <?php
-/**
- * Test sitemap provider.
- *
- * @package Core_Sitemaps
- */
 
 /**
- * Class Core_Sitemaps_Empty_Provider.
+ * Class WP_Sitemaps_Test_Provider.
  *
  * Provides test data for additional registered providers.
  */
-class Core_Sitemaps_Empty_Test_Provider extends Core_Sitemaps_Provider {
+class WP_Sitemaps_Test_Provider extends WP_Sitemaps_Provider {
 	/**
-	 * Core_Sitemaps_Posts constructor.
+	 * WP_Sitemaps_Posts constructor.
 	 *
 	 * @param string $object_type Optional. Object type name to use. Default 'test'.
 	 */
@@ -27,7 +22,11 @@ class Core_Sitemaps_Empty_Test_Provider extends Core_Sitemaps_Provider {
 	 * @return array Map of object subtype objects (WP_Post_Type) keyed by their name.
 	 */
 	public function get_object_subtypes() {
-		return array();
+		return array(
+			'type-1' => (object) array( 'name' => 'type-1' ),
+			'type-2' => (object) array( 'name' => 'type-2' ),
+			'type-3' => (object) array( 'name' => 'type-3' ),
+		);
 	}
 
 	/**
@@ -48,6 +47,6 @@ class Core_Sitemaps_Empty_Test_Provider extends Core_Sitemaps_Provider {
 	 * @return int Total number of pages.
 	 */
 	public function max_num_pages( $object_subtype = '' ) {
-		return 0;
+		return 4;
 	}
 }

@@ -1,10 +1,10 @@
 <?php
 /**
- * Sitemaps: Core_Sitemaps_Tests class
+ * Sitemaps: Sitemaps_Tests class
  *
  * Main test class.
  *
- * @package   Core_Sitemaps
+ * @package   Sitemaps
  * @copyright 2019 The Core Sitemaps Contributors
  * @license   GNU General Public License, version 2
  * @link      https://github.com/GoogleChromeLabs/wp-sitemaps
@@ -15,7 +15,7 @@
  *
  * @group sitemaps
  */
-class Test_Core_Sitemaps extends WP_UnitTestCase {
+class Test_Sitemaps extends WP_UnitTestCase {
 
 	/**
 	 * List of user IDs.
@@ -62,7 +62,7 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 	/**
 	 * Test sitemap provider.
 	 *
-	 * @var Core_Sitemaps_Test_Provider
+	 * @var WP_Sitemaps_Test_Provider
 	 */
 	public static $test_provider;
 
@@ -89,7 +89,7 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 		// Create a user with an editor role to complete some tests.
 		self::$editor_id  = $factory->user->create( array( 'role' => 'editor' ) );
 
-		self::$test_provider = new Core_Sitemaps_Test_Provider();
+		self::$test_provider = new WP_Sitemaps_Test_Provider();
 	}
 
 	/**
@@ -101,9 +101,9 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 	 * @param string $sub_type The object subtype to use when getting a URL list.
 	 */
 	public function test_add_attributes_to_url_list( $type, $sub_type ) {
-		add_filter( 'core_sitemaps_' . $type . '_url_list', array( $this, '_add_attributes_to_url_list' ) );
+		add_filter( 'wp_sitemaps_' . $type . '_url_list', array( $this, '_add_attributes_to_url_list' ) );
 
-		$providers = core_sitemaps_get_sitemaps();
+		$providers = wp_get_sitemaps();
 
 		$post_list = $providers[ $type ]->get_url_list( 1, $sub_type );
 
@@ -161,7 +161,7 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 	public function _get_sitemap_entries() {
 		$entries = array();
 
-		$providers = core_sitemaps_get_sitemaps();
+		$providers = wp_get_sitemaps();
 
 		foreach ( $providers as $provider ) {
 			// Using `array_push` is more efficient than `array_merge` in the loop.
@@ -179,19 +179,19 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 
 		$expected = array(
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sitemap-sub-type=post&paged=1',
+				'loc' => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sitemap-sub-type=post&paged=1',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sitemap-sub-type=page&paged=1',
+				'loc' => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sitemap-sub-type=page&paged=1',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sitemap-sub-type=category&paged=1',
+				'loc' => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sitemap-sub-type=category&paged=1',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sitemap-sub-type=post_tag&paged=1',
+				'loc' => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sitemap-sub-type=post_tag&paged=1',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=users&paged=1',
+				'loc' => 'http://' . WP_TESTS_DOMAIN . '/?sitemap=users&paged=1',
 			),
 		);
 
@@ -208,19 +208,19 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 
 		$expected = array(
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-post-1.xml',
+				'loc' => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-post-1.xml',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-page-1.xml',
+				'loc' => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-page-1.xml',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-category-1.xml',
+				'loc' => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-category-1.xml',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-post_tag-1.xml',
+				'loc' => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-taxonomies-post_tag-1.xml',
 			),
 			array(
-				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-users-1.xml',
+				'loc' => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-users-1.xml',
 			),
 		);
 
@@ -256,7 +256,7 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 	 * Tests getting a URL list for post type post.
 	 */
 	public function test_get_url_list_post() {
-		$providers = core_sitemaps_get_sitemaps();
+		$providers = wp_get_sitemaps();
 
 		$post_list = $providers['posts']->get_url_list( 1, 'post' );
 
@@ -272,7 +272,7 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 		// Short circuit the show on front option.
 		add_filter( 'pre_option_show_on_front', '__return_true' );
 
-		$providers = core_sitemaps_get_sitemaps();
+		$providers = wp_get_sitemaps();
 
 		$post_list = $providers['posts']->get_url_list( 1, 'page' );
 
@@ -285,7 +285,7 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 	 * Tests getting a URL list for post type page with included home page.
 	 */
 	public function test_get_url_list_page_with_home() {
-		$providers = core_sitemaps_get_sitemaps();
+		$providers = wp_get_sitemaps();
 
 		$post_list = $providers['posts']->get_url_list( 1, 'page' );
 
@@ -308,7 +308,7 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 	public function test_get_url_list_private_post() {
 		wp_set_current_user( self::$editor_id );
 
-		$providers = core_sitemaps_get_sitemaps();
+		$providers = wp_get_sitemaps();
 
 		$post_list_before = $providers['posts']->get_url_list( 1, 'post' );
 
@@ -335,7 +335,7 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 
 		$ids = self::factory()->post->create_many( 10, array( 'post_type' => $post_type ) );
 
-		$providers = core_sitemaps_get_sitemaps();
+		$providers = wp_get_sitemaps();
 
 		$post_list = $providers['posts']->get_url_list( 1, $post_type );
 
@@ -358,7 +358,7 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 
 		self::factory()->post->create_many( 10, array( 'post_type' => $post_type ) );
 
-		$providers = core_sitemaps_get_sitemaps();
+		$providers = wp_get_sitemaps();
 
 		$post_list = $providers['posts']->get_url_list( 1, $post_type );
 
@@ -399,9 +399,9 @@ class Test_Core_Sitemaps extends WP_UnitTestCase {
 	 * Test functionality that adds a new sitemap provider to the registry.
 	 */
 	public function test_register_sitemap_provider() {
-		core_sitemaps_register_sitemap( 'test_sitemap', self::$test_provider );
+		wp_register_sitemap( 'test_sitemap', self::$test_provider );
 
-		$sitemaps = core_sitemaps_get_sitemaps();
+		$sitemaps = wp_get_sitemaps();
 
 		$this->assertEquals( $sitemaps['test_sitemap'], self::$test_provider, 'Can not confirm sitemap registration is working.' );
 	}

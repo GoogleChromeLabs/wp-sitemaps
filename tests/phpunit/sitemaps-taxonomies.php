@@ -1,6 +1,6 @@
 <?php
 
-class Test_Core_Sitemaps_Taxonomies extends WP_UnitTestCase {
+class Test_WP_Sitemaps_Taxonomies extends WP_UnitTestCase {
 	/**
 	 * List of post_tag IDs.
 	 *
@@ -35,7 +35,7 @@ class Test_Core_Sitemaps_Taxonomies extends WP_UnitTestCase {
 
 	/**
 	 * Test getting a URL list for default taxonomies via
-	 * Core_Sitemaps_Taxonomies::get_url_list().
+	 * WP_Sitemaps_Taxonomies::get_url_list().
 	 */
 	public function test_get_url_list_taxonomies() {
 		// Add the default category to the list of categories we're testing.
@@ -49,7 +49,7 @@ class Test_Core_Sitemaps_Taxonomies extends WP_UnitTestCase {
 			)
 		);
 
-		$tax_provider = new Core_Sitemaps_Taxonomies();
+		$tax_provider = new WP_Sitemaps_Taxonomies();
 
 		$cat_list  = $tax_provider->get_url_list( 1, 'category' );
 
@@ -80,7 +80,7 @@ class Test_Core_Sitemaps_Taxonomies extends WP_UnitTestCase {
 
 	/**
 	 * Test getting a URL list for a custom taxonomy via
-	 * Core_Sitemaps_Taxonomies::get_url_list().
+	 * WP_Sitemaps_Taxonomies::get_url_list().
 	 */
 	public function test_get_url_list_custom_taxonomy() {
 		wp_set_current_user( self::$editor_id );
@@ -104,7 +104,7 @@ class Test_Core_Sitemaps_Taxonomies extends WP_UnitTestCase {
 			$terms
 		);
 
-		$tax_provider = new Core_Sitemaps_Taxonomies();
+		$tax_provider = new WP_Sitemaps_Taxonomies();
 
 		$post_list = $tax_provider->get_url_list( 1, $taxonomy );
 
@@ -116,7 +116,7 @@ class Test_Core_Sitemaps_Taxonomies extends WP_UnitTestCase {
 
 	/**
 	 * Test getting a URL list for a private custom taxonomy via
-	 * Core_Sitemaps_Taxonomies::get_url_list().
+	 * WP_Sitemaps_Taxonomies::get_url_list().
 	 */
 	public function test_get_url_list_custom_taxonomy_private() {
 		// Create a custom taxonomy for this test.
@@ -129,7 +129,7 @@ class Test_Core_Sitemaps_Taxonomies extends WP_UnitTestCase {
 		// Create a test post applied to all test terms.
 		self::factory()->post->create( array( 'tax_input' => array( $taxonomy => $terms ) ) );
 
-		$tax_provider = new Core_Sitemaps_Taxonomies();
+		$tax_provider = new WP_Sitemaps_Taxonomies();
 
 		$post_list = $tax_provider->get_url_list( 1, $taxonomy );
 
@@ -163,7 +163,7 @@ class Test_Core_Sitemaps_Taxonomies extends WP_UnitTestCase {
 			)
 		);
 
-		$tax_provider = new Core_Sitemaps_Taxonomies();
+		$tax_provider = new WP_Sitemaps_Taxonomies();
 		$entries = wp_list_pluck( $tax_provider->get_sitemap_entries(), 'loc' );
 
 		// Clean up.
@@ -177,11 +177,11 @@ class Test_Core_Sitemaps_Taxonomies extends WP_UnitTestCase {
 	/**
 	 * Test ability to filter object subtypes.
 	 */
-	public function test_filter_core_sitemaps_taxonomies() {
-		$taxonomies_provider = new Core_Sitemaps_Taxonomies();
+	public function test_filter_sitemaps_taxonomies() {
+		$taxonomies_provider = new WP_Sitemaps_Taxonomies();
 
 		// Return an empty array to show that the list of subtypes is filterable.
-		add_filter( 'core_sitemaps_taxonomies', '__return_empty_array' );
+		add_filter( 'wp_sitemaps_taxonomies', '__return_empty_array' );
 		$subtypes = $taxonomies_provider->get_object_subtypes();
 
 		$this->assertEquals( array(), $subtypes, 'Could not filter taxonomies subtypes.' );
@@ -190,10 +190,10 @@ class Test_Core_Sitemaps_Taxonomies extends WP_UnitTestCase {
 	/**
 	 * Test ability to filter the taxonomies URL list.
 	 */
-	public function test_filter_core_sitemaps_taxonomies_url_list() {
-		$taxonomies_provider = new Core_Sitemaps_Taxonomies();
+	public function test_filter_sitemaps_taxonomies_url_list() {
+		$taxonomies_provider = new WP_Sitemaps_Taxonomies();
 
-		add_filter( 'core_sitemaps_taxonomies_url_list', '__return_empty_array' );
+		add_filter( 'wp_sitemaps_taxonomies_url_list', '__return_empty_array' );
 
 		// Register taxonomy, create a term for it and assign a post to it.
 		register_taxonomy( 'test_tax', 'post' );

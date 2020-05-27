@@ -2,7 +2,7 @@
 /**
  * WordPress PHPUnit tests config file.
  *
- * @package Core_Sitemaps
+ * @package Sitemaps
  * @copyright 2019 The Core Sitemaps Contributors
  * @license   GNU General Public License, version 2
  * @link      https://github.com/GoogleChromeLabs/wp-sitemaps
