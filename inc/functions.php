@@ -128,20 +128,36 @@ if ( ! function_exists( 'esc_xml' ) ) :
 	 * @return string
 	 */
 	function esc_xml( $text ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
-		global $allowedentitynames;
-
 		$safe_text = wp_check_invalid_utf8( $text );
-		$safe_text = _wp_specialchars( $safe_text, ENT_QUOTES );
-		// Replace HTML entities with their Unicode codepoints,
-		// without doing the same for the 5 XML entities.
-		$html_only_entities = array_diff( $allowedentitynames, array( 'amp', 'lt', 'gt', 'apos', 'quot' ) );
-		$safe_text          = preg_replace_callback(
-			'/&(' . implode( '|', $html_only_entities ) . ');/',
+
+		$cdata_regex = '\<\!\[CDATA\[.*?\]\]\>';
+		$regex       = <<<EOF
+/
+	(?=.*?{$cdata_regex})                 # lookahead that will match anything followed by a CDATA Section
+	(?<non_cdata_followed_by_cdata>(.*?)) # the "anything" matched by the lookahead
+	(?<cdata>({$cdata_regex}))            # the CDATA Section matched by the lookahead
+
+|                                         # alternative
+
+	(?<non_cdata>(.*))                    # non-CDATA Section
+/mx 
+EOF;
+		$safe_text = preg_replace_callback(
+			$regex,
 			function( $matches ) {
-				return html_entity_decode( $matches[0], ENT_HTML5 );
+				if ( ! $matches[0] ) {
+					return '';
+				} elseif ( ! empty( $matches['non_cdata'] ) ) {
+					// escape HTML entities in the non-CDATA Section.
+					return esc_xml_non_cdata_section( $matches['non_cdata'] );
+				}
+
+				// Return the CDATA Section unchanged, escape HTML entities in the rest.
+				return esc_xml_non_cdata_section( $matches['non_cdata_followed_by_cdata'] ) . $matches['cdata'];
 			},
 			$safe_text
 		);
+
 		/**
 		 * Filters a string cleaned and escaped for output in XML.
 		 *
@@ -155,6 +171,32 @@ if ( ! function_exists( 'esc_xml' ) ) :
 		 * @param string $text      The text prior to being escaped.
 		 */
 		return apply_filters( 'esc_xml', $safe_text, $text ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
+	}
+
+	/**
+	 * Escaping for non-CDATA Section XML blocks.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param string $text Text to escape.
+	 * @return string
+	 */
+	function esc_xml_non_cdata_section( $text ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
+		global $allowedentitynames;
+
+		$safe_text = _wp_specialchars( $text, ENT_QUOTES );
+		// Replace HTML entities with their Unicode codepoints,
+		// without doing the same for the 5 XML entities.
+		$html_only_entities = array_diff( $allowedentitynames, array( 'amp', 'lt', 'gt', 'apos', 'quot' ) );
+		$safe_text          = preg_replace_callback(
+			'/&(' . implode( '|', $html_only_entities ) . ');/',
+			function( $matches ) {
+				return html_entity_decode( $matches[0], ENT_HTML5 );
+			},
+			$safe_text
+		);
+
+		return $safe_text;
 	}
 endif;
 
