@@ -105,7 +105,7 @@ class WP_Sitemaps_Users extends WP_Sitemaps_Provider {
 	 *                               provider class. Default empty.
 	 * @return int Total page count.
 	 */
-	public function max_num_pages( $object_subtype = '' ) {
+	public function get_max_num_pages( $object_subtype = '' ) {
 		/**
 		 * Filters the max number of pages before it is generated.
 		 *

@@ -135,7 +135,7 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
 	 * @param string $taxonomy Taxonomy name.
 	 * @return int Total number of pages.
 	 */
-	public function max_num_pages( $taxonomy = '' ) {
+	public function get_max_num_pages( $taxonomy = '' ) {
 		if ( empty( $taxonomy ) ) {
 			return 0;
 		}

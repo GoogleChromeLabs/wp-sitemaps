@@ -42,7 +42,7 @@ class Core_WP_Empty_Test_Provider extends WP_Sitemaps_Provider {
 	 * @param string $object_subtype Optional. Object subtype. Default empty.
 	 * @return int Total number of pages.
 	 */
-	public function max_num_pages( $object_subtype = '' ) {
+	public function get_max_num_pages( $object_subtype = '' ) {
 		return 0;
 	}
 }
