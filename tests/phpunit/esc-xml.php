@@ -4,24 +4,46 @@
  * @group formatting
  */
 class Tests_Formatting_EscXml extends WP_UnitTestCase {
-	public function test_esc_xml_basics() {
-		// Simple string.
-		$source   = 'The quick brown fox.';
-		$expected = $source;
+	/**
+	 * Test basic escaping
+	 *
+	 * @group basic
+	 * @dataProvider _test_esc_xml_basics_dataprovider
+	 *
+	 * @param string $source   The source string to be escaped.
+	 * @param string $expected The expected escaped value of `$source`.
+	 */
+	public function test_esc_xml_basics( $source, $expected ) {
 		$actual   = esc_xml( $source );
 		$this->assertEquals( $expected, $actual );
+	}
 
-		// URL with &.
-		$source   = 'http://localhost/trunk/wp-login.php?action=logout&_wpnonce=cd57d75985';
-		$expected = 'http://localhost/trunk/wp-login.php?action=logout&amp;_wpnonce=cd57d75985';
-		$actual   = esc_xml( $source );
-		$this->assertEquals( $expected, $actual );
-
-		// SQL query.
-		$source   = "SELECT meta_key, meta_value FROM wp_trunk_sitemeta WHERE meta_key IN ('site_name', 'siteurl', 'active_sitewide_plugins', '_site_transient_timeout_theme_roots', '_site_transient_theme_roots', 'site_admins', 'can_compress_scripts', 'global_terms_enabled') AND site_id = 1";
-		$expected = 'SELECT meta_key, meta_value FROM wp_trunk_sitemeta WHERE meta_key IN (&#039;site_name&#039;, &#039;siteurl&#039;, &#039;active_sitewide_plugins&#039;, &#039;_site_transient_timeout_theme_roots&#039;, &#039;_site_transient_theme_roots&#039;, &#039;site_admins&#039;, &#039;can_compress_scripts&#039;, &#039;global_terms_enabled&#039;) AND site_id = 1';
-		$actual   = esc_xml( $source );
-		$this->assertEquals( $expected, $actual );
+	/**
+	 * Data provider for `test_esc_xml_basics()`.
+	 *
+	 * @return array {
+	 *    @type string $source   The source string to be escaped.
+	 *    @type string $expected The expected escaped value of `$source`.
+	 * }
+	 */
+	public function _test_esc_xml_basics_dataprovider() {
+		return array(
+			// Simple string.
+			array(
+				'The quick brown fox.',
+				'The quick brown fox.',
+			),
+			// URL with &.
+			array(
+				'http://localhost/trunk/wp-login.php?action=logout&_wpnonce=cd57d75985',
+				'http://localhost/trunk/wp-login.php?action=logout&amp;_wpnonce=cd57d75985',
+			),
+			// SQL query w/ single quotes.
+			array(
+				"SELECT meta_key, meta_value FROM wp_trunk_sitemeta WHERE meta_key IN ('site_name', 'siteurl', 'active_sitewide_plugins', '_site_transient_timeout_theme_roots', '_site_transient_theme_roots', 'site_admins', 'can_compress_scripts', 'global_terms_enabled') AND site_id = 1",
+				'SELECT meta_key, meta_value FROM wp_trunk_sitemeta WHERE meta_key IN (&#039;site_name&#039;, &#039;siteurl&#039;, &#039;active_sitewide_plugins&#039;, &#039;_site_transient_timeout_theme_roots&#039;, &#039;_site_transient_theme_roots&#039;, &#039;site_admins&#039;, &#039;can_compress_scripts&#039;, &#039;global_terms_enabled&#039;) AND site_id = 1',
+			),
+		);
 	}
 
 	public function test_escapes_ampersands() {
@@ -53,39 +75,63 @@ class Tests_Formatting_EscXml extends WP_UnitTestCase {
 		$this->assertEquals( $expected, $actual );
 	}
 
-	public function test_ignores_cdata_sections() {
-		// basic CDATA Section containing chars that would otherwise be escaped if not in a CDATA Section
-		// not to mention the CDATA Section markup itself :-)
-		// $source contains embedded newlines to test that the regex that ignores CDATA Sections
-		// correctly handles that case.
-		$source   = "This is\na<![CDATA[test of the <emergency>]]>\nbroadcast system";
-		$expected = "This is\na<![CDATA[test of the <emergency>]]>\nbroadcast system";
-		$actual   = esc_xml( $source );
-		$this->assertEquals( $expected, $actual );
-
-		// string with chars that should be escaped as well as a CDATA Section that should be not be.
-		$source   = 'This is &hellip; a <![CDATA[test of the <emergency>]]> broadcast <system />';
-		$expected = 'This is … a <![CDATA[test of the <emergency>]]> broadcast &lt;system /&gt;';
-		$actual   = esc_xml( $source );
-		$this->assertEquals( $expected, $actual );
-
-		// Same as above, but with the CDATA Section at the start of the string.
-		$source   = '<![CDATA[test of the <emergency>]]> This is &hellip; a broadcast <system />';
-		$expected = '<![CDATA[test of the <emergency>]]> This is … a broadcast &lt;system /&gt;';
-		$actual   = esc_xml( $source );
-		$this->assertEquals( $expected, $actual );
-
-		// Same as above, but with the CDATA Section at the end of the string.
-		$source   = 'This is &hellip; a broadcast <system /><![CDATA[test of the <emergency>]]> ';
-		$expected = 'This is … a broadcast &lt;system /&gt;<![CDATA[test of the <emergency>]]> ';
-		$actual   = esc_xml( $source );
-		$this->assertEquals( $expected, $actual );
-
-		// multiple CDATA Sections.
-		$source   = 'This is &hellip; a <![CDATA[test of the <emergency>]]> &broadcast; <![CDATA[<system />]]>';
-		$expected = 'This is … a <![CDATA[test of the <emergency>]]> &amp;broadcast; <![CDATA[<system />]]>';
-		$actual   = esc_xml( $source );
+	/**
+	 * Test that CDATA Sections are not escaped.
+	 *
+	 * @group cdata
+	 * @dataProvider _test_ignores_cdata_sections_dataprovider
+	 *
+	 * @param string $source   The source string to be escaped.
+	 * @param string $expected The expected escaped value of `$source`.
+	 */
+	public function test_ignores_cdata_sections( $source, $expected ) {
+		$actual = esc_xml( $source );
 		$this->assertEquals( $expected, $actual );
 	}
 
+	/**
+	 * Data provider for `test_ignores_cdata_sections()`.
+	 *
+	 * @return array {
+	 *    @type string $source   The source string to be escaped.
+	 *    @type string $expected The expected escaped value of `$source`.
+	 * }
+	 */
+	public function _test_ignores_cdata_sections_dataprovider() {
+		return array(
+			// basic CDATA Section containing chars that would otherwise be escaped if not in a CDATA Section
+			// not to mention the CDATA Section markup itself :-)
+			// $source contains embedded newlines to test that the regex that ignores CDATA Sections
+			// correctly handles that case.
+			array(
+				"This is\na<![CDATA[test of\nthe <emergency>]]>\nbroadcast system",
+				"This is\na<![CDATA[test of\nthe <emergency>]]>\nbroadcast system",
+			),
+			// string with chars that should be escaped as well as a CDATA Section that should be not be.
+			array(
+				'This is &hellip; a <![CDATA[test of the <emergency>]]> broadcast <system />',
+				'This is … a <![CDATA[test of the <emergency>]]> broadcast &lt;system /&gt;',
+			),
+			// Same as above, but with the CDATA Section at the start of the string.
+			array(
+				'<![CDATA[test of the <emergency>]]> This is &hellip; a broadcast <system />',
+				'<![CDATA[test of the <emergency>]]> This is … a broadcast &lt;system /&gt;',
+			),
+			// Same as above, but with the CDATA Section at the end of the string.
+			array(
+				'This is &hellip; a broadcast <system /><![CDATA[test of the <emergency>]]>',
+				'This is … a broadcast &lt;system /&gt;<![CDATA[test of the <emergency>]]>',
+			),
+			// Multiple CDATA Sections.
+			array(
+				'This is &hellip; a <![CDATA[test of the <emergency>]]> &broadcast; <![CDATA[<system />]]>',
+				'This is … a <![CDATA[test of the <emergency>]]> &amp;broadcast; <![CDATA[<system />]]>',
+			),
+			// Ensure that ']]>' that does not mark the end of a CDATA Section is escaped.
+			array(
+				'<![CDATA[<&]]>]]>',
+				'<![CDATA[<&]]>]]&gt;',
+			),
+		);
+	}
 }
