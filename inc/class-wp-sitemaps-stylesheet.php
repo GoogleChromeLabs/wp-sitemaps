@@ -360,7 +360,7 @@ XSL;
 		 *                       arrays whose keys are local names and
 		 *                       whose values are column heading text.
 		 */
-		$_columns = apply_filters( 'core_sitemaps_stylesheet_columns', $default_columns );
+		$_columns = apply_filters( 'wp_sitemaps_stylesheet_columns', $default_columns );
 
 		$columns = array();
 		foreach ( $_columns as $namespace_uri => $namespace_columns ) {
