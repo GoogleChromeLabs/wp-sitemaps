@@ -137,10 +137,10 @@ if ( ! function_exists( 'esc_xml' ) ) :
 	(?<non_cdata_followed_by_cdata>(.*?)) # the "anything" matched by the lookahead
 	(?<cdata>({$cdata_regex}))            # the CDATA Section matched by the lookahead
 
-|                                         # alternative
+|	                                      # alternative
 
 	(?<non_cdata>(.*))                    # non-CDATA Section
-/mx 
+/sx 
 EOF;
 		$safe_text = (string) preg_replace_callback(
 			$regex,
@@ -237,7 +237,7 @@ if ( ! function_exists( 'esc_xml_e' ) ) :
 	 *                       Default 'default'.
 	 */
 	function esc_xml_e( $text, $domain = 'default' ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
-		echo esc_xml( translate( $text, $domain ) ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText, WordPress.WP.I18n.NonSingularStringLiteralDomain
+		echo esc_xml( translate( $text, $domain ) ); // phpcs:ignore WordPress.WP.I18n
 	}
 endif;
 
@@ -257,6 +257,6 @@ if ( ! function_exists( 'esc_xml_x' ) ) :
 	 * @return string Translated text.
 	 */
 	function esc_xml_x( $text, $context, $domain = 'default' ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
-		return esc_xml( translate_with_gettext_context( $text, $context, $domain ) ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText, WordPress.WP.I18n.NonSingularStringLiteralContext, WordPress.WP.I18n.NonSingularStringLiteralDomain
+		return esc_xml( translate_with_gettext_context( $text, $context, $domain ) ); // phpcs:ignore WordPress.WP.I18n
 	}
 endif;
