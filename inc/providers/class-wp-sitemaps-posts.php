@@ -166,7 +166,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 		 * @param int $max_num_pages The maximum number of pages. Default null.
 		 * @param string $post_type Post type name.
 		 */
-		$max_num_pages = apply_filters( 'wp_sitemaps_taxonomies_pre_max_num_pages', null, $post_type );
+		$max_num_pages = apply_filters( 'wp_sitemaps_posts_pre_max_num_pages', null, $post_type );
 
 		if ( null !== $max_num_pages ) {
 			return $max_num_pages;

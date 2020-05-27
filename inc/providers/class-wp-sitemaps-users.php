@@ -49,7 +49,7 @@ class WP_Sitemaps_Users extends WP_Sitemaps_Provider {
 		 * @param int    $page_num Page of results.
 		 */
 		$url_list = apply_filters(
-			'wp_sitemaps_taxonomies_pre_url_list',
+			'wp_sitemaps_users_pre_url_list',
 			null,
 			$page_num
 		);

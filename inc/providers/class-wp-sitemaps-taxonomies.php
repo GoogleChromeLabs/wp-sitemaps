@@ -90,7 +90,7 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
 		// Offset by how many terms should be included in previous pages.
 		$offset = ( $page_num - 1 ) * wp_sitemaps_get_max_urls( $this->object_type );
 
-		$args = $this->get_terms_query_args( $taxonomy );
+		$args = $this->get_taxonomies_query_args( $taxonomy );
 		$args['offset'] = $offset;
 
 		$taxonomy_terms = new WP_Term_Query( $args );
@@ -157,20 +157,20 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
 			return $max_num_pages;
 		}
 
-		$term_count = wp_count_terms( $taxonomy, $this->get_terms_query_args( $taxonomy ) );
+		$term_count = wp_count_terms( $taxonomy, $this->get_taxonomies_query_args( $taxonomy ) );
 
 		return (int) ceil( $term_count / wp_sitemaps_get_max_urls( $this->object_type ) );
 	}
 
 	/**
-	 * Returns the query args for retrieving terms to list in the sitemap.
+	 * Returns the query args for retrieving taxonomy terms to list in the sitemap.
 	 *
 	 * @since 5.5.0
 	 *
 	 * @param string $taxonomy Taxonomy name.
 	 * @return array $args Array of WP_Term_Query arguments.
 	 */
-	protected function get_terms_query_args( $taxonomy ) {
+	protected function get_taxonomies_query_args( $taxonomy ) {
 		/**
 		 * Filters the taxonomy terms query arguments.
 		 *
