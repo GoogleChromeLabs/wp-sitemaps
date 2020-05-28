@@ -134,6 +134,66 @@ add_filter(
 );
 ```
 
+
+= How can I add `changefreq`, `priority`, or `lastmod` to a sitemap? =
+
+You can use the `wp_sitemaps_posts_entry` / `wp_sitemaps_users_entry` / `wp_sitemaps_taxonomies_entry` filters to add additional attributes like `changefreq`, `priority`, or `lastmod` to single item in the sitemap.
+
+**Example: Adding the last modified date for posts**
+
+```php
+add_filter(
+    'wp_sitemaps_posts_entry',
+    function( $entry, $post ) {
+        $entry['lastmod'] = $post->post_modified_gmt;
+        return $entry;
+    },
+    10,
+    2
+);
+```
+
+Similarly, you can use the `wp_sitemaps_index_entry` filter to add `lastmod` on the sitemap index. Note: `changefreq` and `priority` are not supported on the sitemap index.
+
+= How can I add image sitemaps? =
+
+Image sitemaps are not supported by default, but can be added by plugins through a set of filters.
+
+First, use the `wp_sitemaps_urlset_attributes` filter to add the necessary XML namespace:
+
+```php
+add_filter(
+    'wp_sitemaps_urlset_attributes',
+    function( $attributes ) {
+        $attributes['xmlns:image'] = 'http://www.google.com/schemas/sitemap-image/1.1';
+        return $attributes;
+    }
+);
+```
+
+This makes sure the resulting XML is valid.  After that, use the `wp_sitemaps_posts_entry` filter to add the image data for a post.
+
+```php
+add_filter(
+    'wp_sitemaps_posts_entry',
+    function( $entry, $post ) {
+        $entry['image:image'] = array(
+            array(
+                'image:loc' => 'http://example.com/image.jpg',
+                'image:title' => 'Cats',
+            ),
+            array(
+                'image:loc' => 'http://example.com/image2.jpg',
+                'image:title' => 'Cats and Dogs',
+            ),
+        );
+        return $entry;
+    },
+    10,
+    2
+);
+```
+
 = How can I change the number of URLs per sitemap? =
 
 Use the `wp_sitemaps_max_urls` filter to adjust the maximum number of URLs included in a sitemap. The default value is 2000 URLs.
