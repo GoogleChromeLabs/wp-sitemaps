@@ -154,7 +154,7 @@ class WP_Sitemaps_Renderer {
 		$stylsheet_url = $this->get_sitemap_stylesheet_url();
 		$stylesheet_pi = '';
 		if ( $stylsheet_url ) {
-			$stylesheet_pi = sprintf( '<?xml-stylesheet href="%s" type="text/xsl" ?>', $stylsheet_url );
+			$stylesheet_pi = sprintf( '<?xml-stylesheet type="text/xsl" href="%s" ?>', $stylsheet_url );
 		}
 
 		$urlset = new SimpleXMLElement(

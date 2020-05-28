@@ -329,7 +329,6 @@ XSL;
 				text-decoration: none;
 			}';
 
-
 		$sitemap          = get_query_var( 'sitemap-stylesheet' );
 		$sitemap_sub_type = get_query_var( 'sitemap-stylesheet-sub-type' );
 
