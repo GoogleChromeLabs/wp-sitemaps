@@ -117,3 +117,55 @@ function wp_sitemaps_get_max_urls( $object_type ) {
 	 */
 	return apply_filters( 'wp_sitemaps_max_urls', WP_SITEMAPS_MAX_URLS, $object_type );
 }
+
+
+/**
+ * Get the URL for a sitemap or a sitemap's stylesheet.
+ *
+ * @since 5.5.0
+ *
+ * @param string $type             The type of URL to get. Accepts 'sitemap' and 'stylesheet'.
+ * @param string $sitemap          The provider name. Accepts 'posts', 'taxonomies', 'users' or a custom provider name.
+ * @param string $sitemap_sub_type The sitemap sub-type. Default is empty.
+ * @param string $page             The The page of the sitemap.  Only used when `$type` is 'sitemap'. Default is empty.
+ * @return string
+ */
+function wp_sitemaps_get_url( $type, $sitemap, $sitemap_sub_type = '', $page = '' ) {
+	/* @var WP_Rewrite $wp_rewrite */
+	global $wp_rewrite;
+
+	if ( 'sitemap' === $type ) {
+		$query_args = array(
+			'sitemap'          => $sitemap,
+			'sitemap-sub-type' => $sitemap_sub_type,
+			'paged'            => $page,
+		);
+		$extension  = 'xml';
+	} else {
+		$query_args = array(
+			'sitemap-stylesheet'          => $sitemap,
+			'sitemap-stylesheet-sub-type' => $sitemap_sub_type,
+		);
+		$extension  = 'xsl';
+	}
+
+	if ( ! $wp_rewrite->using_permalinks() ) {
+		return add_query_arg(
+		// Accounts for cases where name is not included, ex: sitemaps-users-1.xml.
+			array_filter( $query_args ),
+			home_url( '/' )
+		);
+	}
+
+	$basename = sprintf(
+		'/wp-sitemap-%1$s.%2$s',
+		implode(
+			'-',
+			// Accounts for cases where name is not included, ex: sitemaps-users-1.xml.
+			array_filter( $query_args )
+		),
+		$extension
+	);
+
+	return home_url( $basename );
+}

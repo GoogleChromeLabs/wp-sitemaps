@@ -115,24 +115,34 @@ class WP_Sitemaps {
 		// Add rewrite tags.
 		add_rewrite_tag( '%sitemap%', '([^?]+)' );
 		add_rewrite_tag( '%sitemap-sub-type%', '([^?]+)' );
-
-		// Register index route.
-		add_rewrite_rule( '^wp-sitemap\.xml$', 'index.php?sitemap=index', 'top' );
-
-		// Register rewrites for the XSL stylesheet.
 		add_rewrite_tag( '%sitemap-stylesheet%', '([^?]+)' );
-		add_rewrite_rule( '^wp-sitemap\.xsl$', 'index.php?sitemap-stylesheet=sitemap', 'top' );
-		add_rewrite_rule( '^wp-sitemap-index\.xsl$', 'index.php?sitemap-stylesheet=index', 'top' );
+		add_rewrite_tag( '%sitemap-stylesheet-sub-type%', '([^?]+)' );
 
-		// Register routes for providers.
+		// Register index routes.
+		add_rewrite_rule( '^wp-sitemap\.xml$', 'index.php?sitemap=index', 'top' );
+		add_rewrite_rule( '^wp-sitemap\.xsl$', 'index.php?sitemap-stylesheet=sitemap', 'top' );
+
+		// Register providers routes.
+		// routes with sub-types.
 		add_rewrite_rule(
 			'^wp-sitemap-([a-z]+?)-([a-z\d_-]+?)-(\d+?)\.xml$',
 			'index.php?sitemap=$matches[1]&sitemap-sub-type=$matches[2]&paged=$matches[3]',
 			'top'
 		);
 		add_rewrite_rule(
+			'^wp-sitemap-([a-z]+?)-([a-z\d_-]+?)\.xsl$',
+			'index.php?sitemap-stylesheet=$matches[1]&sitemap-stylesheet-sub-type=$matches[2]',
+			'top'
+		);
+		// routes without sub-types.
+		add_rewrite_rule(
 			'^wp-sitemap-([a-z]+?)-(\d+?)\.xml$',
 			'index.php?sitemap=$matches[1]&paged=$matches[2]',
+			'top'
+		);
+		add_rewrite_rule(
+			'^wp-sitemap-([a-z]+?)\.xsl$',
+			'index.php?sitemap-stylesheet=$matches[1]',
 			'top'
 		);
 	}

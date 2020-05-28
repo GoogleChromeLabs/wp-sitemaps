@@ -16,40 +16,6 @@
  */
 class WP_Sitemaps_Renderer {
 	/**
-	 * XSL stylesheet for styling a sitemap for web browsers.
-	 *
-	 * @since 5.5.0
-	 *
-	 * @var string
-	 */
-	protected $stylesheet = '';
-
-	/**
-	 * XSL stylesheet for styling a sitemap for web browsers.
-	 *
-	 * @since 5.5.0
-	 *
-	 * @var string
-	 */
-	protected $stylesheet_index = '';
-
-	/**
-	 * WP_Sitemaps_Renderer constructor.
-	 *
-	 * @since 5.5.0
-	 */
-	public function __construct() {
-		$stylesheet_url = $this->get_sitemap_stylesheet_url();
-		if ( $stylesheet_url ) {
-			$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . esc_url( $stylesheet_url ) . '" ?>';
-		}
-		$stylesheet_index_url   = $this->get_sitemap_index_stylesheet_url();
-		if ( $stylesheet_index_url ) {
-			$this->stylesheet_index = '<?xml-stylesheet type="text/xsl" href="' . esc_url( $stylesheet_index_url ) . '" ?>';
-		}
-	}
-
-	/**
 	 * Gets the URL for the sitemap stylesheet.
 	 *
 	 * @since 5.5.0
@@ -57,14 +23,7 @@ class WP_Sitemaps_Renderer {
 	 * @return string The sitemap stylesheet url.
 	 */
 	public function get_sitemap_stylesheet_url() {
-		/* @var WP_Rewrite $wp_rewrite */
-		global $wp_rewrite;
-
-		$sitemap_url = home_url( '/wp-sitemap.xsl' );
-
-		if ( ! $wp_rewrite->using_permalinks() ) {
-			$sitemap_url = add_query_arg( 'sitemap-stylesheet', 'sitemap', home_url( '/' ) );
-		}
+		$stylesheet_url = wp_sitemaps_get_url( 'stylesheet', get_query_var( 'sitemap' ), get_query_var( 'sitemap-sub-type' ) );
 
 		/**
 		 * Filters the URL for the sitemap stylesheet.
@@ -74,9 +33,9 @@ class WP_Sitemaps_Renderer {
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param string $sitemap_url Full URL for the sitemaps xsl file.
+		 * @param string $stylesheet_url Full URL for the sitemaps xsl file.
 		 */
-		return apply_filters( 'wp_sitemaps_stylesheet_url', $sitemap_url );
+		return apply_filters( 'wp_sitemaps_stylesheet_url', $stylesheet_url );
 	}
 
 	/**
@@ -139,11 +98,17 @@ class WP_Sitemaps_Renderer {
 	 * @return string|false A well-formed XML string for a sitemap index. False on error.
 	 */
 	public function get_sitemap_index_xml( $sitemaps ) {
+		$stylsheet_url = $this->get_sitemap_index_stylesheet_url();
+		$stylesheet_pi = '';
+		if ( $stylsheet_url ) {
+			$stylesheet_pi = sprintf( '<?xml-stylesheet type="text/xsl" href="%s" ?>', esc_url( $stylsheet_url ) );
+		}
+
 		$sitemap_index = new SimpleXMLElement(
 			sprintf(
 				'%1$s%2$s%3$s',
 				'<?xml version="1.0" encoding="UTF-8" ?>',
-				$this->stylesheet_index,
+				$stylesheet_pi,
 				'<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" />'
 			)
 		);
@@ -186,11 +151,17 @@ class WP_Sitemaps_Renderer {
 	 * @return string|false A well-formed XML string for a sitemap index. False on error.
 	 */
 	public function get_sitemap_xml( $url_list ) {
+		$stylsheet_url = $this->get_sitemap_stylesheet_url();
+		$stylesheet_pi = '';
+		if ( $stylsheet_url ) {
+			$stylesheet_pi = sprintf( '<?xml-stylesheet href="%s" type="text/xsl" ?>', $stylsheet_url );
+		}
+
 		$urlset = new SimpleXMLElement(
 			sprintf(
 				'%1$s%2$s%3$s',
 				'<?xml version="1.0" encoding="UTF-8" ?>',
-				$this->stylesheet,
+				$stylesheet_pi,
 				'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" />'
 			)
 		);

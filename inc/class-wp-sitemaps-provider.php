@@ -128,39 +128,7 @@ abstract class WP_Sitemaps_Provider {
 	 * @return string The composed URL for a sitemap entry.
 	 */
 	public function get_sitemap_url( $name, $page ) {
-		/* @var WP_Rewrite $wp_rewrite */
-		global $wp_rewrite;
-
-		if ( ! $wp_rewrite->using_permalinks() ) {
-			return add_query_arg(
-				// Accounts for cases where name is not included, ex: sitemaps-users-1.xml.
-				array_filter(
-					array(
-						'sitemap'          => $this->name,
-						'sitemap-sub-type' => $name,
-						'paged'            => $page,
-					)
-				),
-				home_url( '/' )
-			);
-		}
-
-		$basename = sprintf(
-			'/wp-sitemap-%1$s.xml',
-			implode(
-				'-',
-				// Accounts for cases where name is not included, ex: sitemaps-users-1.xml.
-				array_filter(
-					array(
-						$this->name,
-						$name,
-						(string) $page,
-					)
-				)
-			)
-		);
-
-		return home_url( $basename );
+		return wp_sitemaps_get_url( 'sitemap', $this->name, $name, $page );
 	}
 
 	/**
