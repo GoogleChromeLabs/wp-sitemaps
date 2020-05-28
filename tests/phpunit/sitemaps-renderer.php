@@ -369,10 +369,12 @@ class Test_WP_Sitemaps_Renderer extends WP_UnitTestCase {
 		libxml_clear_errors();
 
 		$xml_dom = new DOMDocument();
+		$xml_dom->loadXML( $xml, $options );
+		$libxml_last_error = libxml_get_last_error();
 
-		$this->assertTrue(
-			$xml_dom->loadXML( $xml, $options ),
-			libxml_get_last_error() ? sprintf( 'Non-well-formed XML: %s.', libxml_get_last_error()->message ) : ''
+		$this->assertFalse(
+			isset( $libxml_last_error->message ),
+			isset( $libxml_last_error->message ) ? sprintf( 'Non-well-formed XML: %s.', $libxml_last_error->message ) : ''
 		);
 
 		// Restore default error handler.
