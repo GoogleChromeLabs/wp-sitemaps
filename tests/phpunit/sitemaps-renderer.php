@@ -83,9 +83,9 @@ class Test_WP_Sitemaps_Renderer extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Test XML output for the sitemap index renderer with multiple attributes.
+	 * Test XML output for the sitemap index renderer with lastmod attributes.
 	 */
-	public function test_get_sitemap_index_xml_with_multiple_attributes() {
+	public function test_get_sitemap_index_xml_with_lastmod() {
 		$entries = array(
 			array(
 				'loc' => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-post-1.xml',
@@ -191,41 +191,58 @@ class Test_WP_Sitemaps_Renderer extends WP_UnitTestCase {
 	/**
 	 * Test XML output for the sitemap page renderer.
 	 */
-	public function test_get_sitemap_xml_with_multiple_attributes() {
+	public function test_get_sitemap_xml_with_image_sitemap() {
+		add_filter( 'wp_sitemaps_urlset_attributes', array( $this, '_filter_urlset_attributes' ) );
+
 		$url_list = array(
 			array(
 				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/2019/10/post-1',
 				'lastmod' => '2005-01-01',
 				'image:image' => array(
-					'image:loc' => 'http://example.com/image.jpg',
+					array(
+						'image:loc' => 'http://example.com/image.jpg',
+						'image:title' => 'Cats',
+					),
+					array(
+						'image:loc' => 'http://example.com/image2.jpg',
+						'image:title' => 'Cats and Dogs',
+					)
 				),
 			),
 			array(
 				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/2019/10/post-2',
 				'lastmod' => '2005-01-01',
 				'image:image' => array(
-					'image:loc' => 'http://example.com/image.jpg',
+					array(
+						'image:loc' => 'http://example.com/image.jpg',
+					)
 				),
 			),
 			array(
 				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/2019/10/post-3',
 				'lastmod' => '2005-01-01',
 				'image:image' => array(
-					'image:loc' => 'http://example.com/image.jpg',
+					array(
+						'image:loc' => 'http://example.com/image.jpg',
+					)
 				),
 			),
 			array(
 				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/2019/10/post-4',
 				'lastmod' => '2005-01-01',
 				'image:image' => array(
-					'image:loc' => 'http://example.com/image.jpg',
+					array(
+						'image:loc' => 'http://example.com/image.jpg',
+					)
 				),
 			),
 			array(
 				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/2019/10/post-5',
 				'lastmod' => '2005-01-01',
 				'image:image' => array(
-					'image:loc' => 'http://example.com/image.jpg',
+					array(
+						'image:loc' => 'http://example.com/image.jpg',
+					)
 				),
 			),
 		);
@@ -233,15 +250,41 @@ class Test_WP_Sitemaps_Renderer extends WP_UnitTestCase {
 		$renderer = new WP_Sitemaps_Renderer();
 
 		$actual   = $renderer->get_sitemap_xml( $url_list );
-		$expected = '<?xml version="1.0" encoding="UTF-8"?>' .
-			'<?xml-stylesheet type="text/xsl" href="http://' . WP_TESTS_DOMAIN . '/?sitemap-stylesheet=sitemap" ?>' .
-			'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' .
-			'<url><loc>http://' . WP_TESTS_DOMAIN . '/2019/10/post-1</loc><lastmod>2005-01-01</lastmod><image:image><image:loc>http://example.com/image.jpg</image:loc></image:image></url>' .
-			'<url><loc>http://' . WP_TESTS_DOMAIN . '/2019/10/post-2</loc><lastmod>2005-01-01</lastmod><image:image><image:loc>http://example.com/image.jpg</image:loc></image:image></url>' .
-			'<url><loc>http://' . WP_TESTS_DOMAIN . '/2019/10/post-3</loc><lastmod>2005-01-01</lastmod><image:image><image:loc>http://example.com/image.jpg</image:loc></image:image></url>' .
-			'<url><loc>http://' . WP_TESTS_DOMAIN . '/2019/10/post-4</loc><lastmod>2005-01-01</lastmod><image:image><image:loc>http://example.com/image.jpg</image:loc></image:image></url>' .
-			'<url><loc>http://' . WP_TESTS_DOMAIN . '/2019/10/post-5</loc><lastmod>2005-01-01</lastmod><image:image><image:loc>http://example.com/image.jpg</image:loc></image:image></url>' .
-			'</urlset>';
+		$tests_domain = WP_TESTS_DOMAIN;
+		$expected = <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+			<?xml-stylesheet type="text/xsl" href="http://$tests_domain/?sitemap-stylesheet=sitemap" ?>
+			<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+				<url>
+					<loc>http://$tests_domain/2019/10/post-1</loc>
+					<lastmod>2005-01-01</lastmod>
+					<image:image><image:loc>http://example.com/image.jpg</image:loc><image:title>Cats</image:title></image:image>
+					<image:image><image:loc>http://example.com/image2.jpg</image:loc><image:title>Cats and Dogs</image:title></image:image>
+				</url>
+				<url>
+					<loc>http://$tests_domain/2019/10/post-2</loc>
+					<lastmod>2005-01-01</lastmod>
+					<image:image><image:loc>http://example.com/image.jpg</image:loc></image:image>
+				</url>
+				<url>
+					<loc>http://$tests_domain/2019/10/post-3</loc>
+					<lastmod>2005-01-01</lastmod>
+					<image:image><image:loc>http://example.com/image.jpg</image:loc></image:image>
+				</url>
+				<url>
+					<loc>http://$tests_domain/2019/10/post-4</loc>
+					<lastmod>2005-01-01</lastmod>
+					<image:image><image:loc>http://example.com/image.jpg</image:loc></image:image>
+				</url>
+				<url>
+					<loc>http://$tests_domain/2019/10/post-5</loc>
+					<lastmod>2005-01-01</lastmod>
+					<image:image><image:loc>http://example.com/image.jpg</image:loc></image:image>
+				</url>
+			</urlset>
+XML;
+
+		remove_filter( 'wp_sitemaps_urlset_attributes', array( $this, '_filter_urlset_attributes' ) );
 
 		$this->assertXMLEquals( $expected, $actual, 'Sitemap page markup incorrect.' );
 	}
@@ -330,7 +373,9 @@ class Test_WP_Sitemaps_Renderer extends WP_UnitTestCase {
 				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/2019/10/post-1',
 				'lastmod' => '2005-01-01',
 				'image:image' => array(
-					'image:loc' => 'http://example.com/image.jpg',
+					array(
+						'image:loc' => 'http://example.com/image.jpg',
+					)
 				),
 			),
 		);

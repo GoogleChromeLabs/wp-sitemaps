@@ -205,6 +205,8 @@ class WP_Sitemaps_Renderer {
 		/**
 		 * Filters the `<urlset>` attributes for the sitemap.
 		 *
+		 * Can be used to add support for additional namespaces.
+		 *
 		 * @since 5.5.0
 		 *
 		 * @param array $attributes Associative array of urlset attributes and their values.
@@ -231,19 +233,33 @@ class WP_Sitemaps_Renderer {
 				 * Turns
 				 *
 				 * 'image:image' => array(
-				 *   'image:loc' => 'http://example.com/image.jpg',
+				 *   array(
+				 *     'image:loc' => 'http://example.com/image.jpg',
+				 *     'image:title' => 'Cats',
+				 *   ),
+				 *   array(
+				 *     'image:loc' => 'http://example.com/image2.jpg',
+				 *     'image:title' => 'Cats and Dogs',
+				 *   ),
 				 * )
 				 *
 				 * into
 				 *
 				 * <image:image>
 				 *   <image:loc>http://example.com/image.jpg</image:loc>
+				 *   <image:title>Cats</image:loc>
+				 * </image:image>
+				 * <image:image>
+				 *   <image:loc>http://example.com/image2.jpg</image:loc>
+				 *   <image:title>Cats and Dogs</image:loc>
 				 * </image:image>
 				 */
 				if ( is_array( $value ) ) {
-					$item = $url->addChild( $prefix . $attr );
 					foreach ( $value as $child_attr => $child_value ) {
-						$item->addChild( $prefix . $child_attr, $child_value );
+						$item = $url->addChild( $prefix . $attr );
+						foreach( (array) $child_value as $grandchild_attr => $grandchild_value ) {
+							$item->addChild( $prefix . $grandchild_attr, $grandchild_value );
+						}
 					}
 				} else {
 					$url->addChild( $prefix . $attr, esc_attr( $value ) );
