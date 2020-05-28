@@ -128,7 +128,7 @@ abstract class WP_Sitemaps_Provider {
 	 * @return string The composed URL for a sitemap entry.
 	 */
 	public function get_sitemap_url( $name, $page ) {
-		return wp_sitemaps_get_url( 'sitemap', $this->name, $name, $page );
+		return wp_sitemaps_get_url( 'sitemap', $this->name, $name, (string) $page );
 	}
 
 	/**
