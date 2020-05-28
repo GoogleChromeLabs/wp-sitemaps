@@ -4,24 +4,94 @@
  * @group renderer
  */
 class Test_WP_Sitemaps_Renderer extends WP_UnitTestCase {
-	public function test_get_sitemap_stylesheet_url() {
+	/**
+	 * Test the stylesheet URL generation with plain permalinks.
+	 *
+	 * @dataProvider _test_get_sitemap_stylesheet_url_dataprovider
+	 *
+	 * @param string $sitemap          Sitemap name.
+	 * @param string $sitemap_sub_type Sitemap sub-type.
+	 */
+	public function test_get_sitemap_stylesheet_url( $sitemap, $sitemap_sub_type ) {
+		global $wp_query;
+
 		$sitemap_renderer = new WP_Sitemaps_Renderer();
+
+		// Set the appropriate query vars so that the stylesheet URL is correctly generated.
+		$wp_query->set( 'sitemap', $sitemap );
+		$wp_query->set( 'sitemap-sub-type', $sitemap_sub_type );
+
 		$stylesheet_url   = $sitemap_renderer->get_sitemap_stylesheet_url();
 
-		$this->assertStringEndsWith( '/?sitemap-stylesheet=sitemap', $stylesheet_url );
+		$expected = sprintf(
+			'/?sitemap-stylesheet=%s%s',
+			$sitemap,
+			$sitemap_sub_type ? '&sitemap-stylesheet-sub-type=' . $sitemap_sub_type : ''
+		);
+		$this->assertStringEndsWith( $expected, $stylesheet_url );
 	}
 
-	public function test_get_sitemap_stylesheet_url_pretty_permalinks() {
+	/**
+	 * Data provider for test_get_sitemap_stylesheet_url() and test_get_sitemap_stylesheet_url_pretty_permalinks().
+	 *
+	 * @return string[][]
+	 */
+	public function _test_get_sitemap_stylesheet_url_dataprovider() {
+		return array(
+			array(
+				'posts',
+				'post',
+			),
+			array(
+				'posts',
+				'page',
+			),
+			array(
+				'taxonomies',
+				'category',
+			),
+			array(
+				'taxonomies',
+				'post_tag',
+			),
+			array(
+				'users',
+				'',
+			),
+		);
+	}
+
+	/**
+	 * Test the stylesheet URL generation with pretty permalinks.
+	 *
+	 * @dataProvider _test_get_sitemap_stylesheet_url_dataprovider
+	 *
+	 * @param string $sitemap          Sitemap name.
+	 * @param string $sitemap_sub_type Sitemap sub-type.
+	 */
+	public function test_get_sitemap_stylesheet_url_pretty_permalinks( $sitemap, $sitemap_sub_type ) {
+		global $wp_query;
+
 		// Set permalinks for testing.
 		$this->set_permalink_structure( '/%year%/%postname%/' );
 
 		$sitemap_renderer = new WP_Sitemaps_Renderer();
+
+		$wp_query->set( 'sitemap', $sitemap );
+		$wp_query->set( 'sitemap-sub-type', $sitemap_sub_type );
+
 		$stylesheet_url   = $sitemap_renderer->get_sitemap_stylesheet_url();
+
+		$expected = sprintf(
+			'/wp-sitemap-%s%s.xsl',
+			$sitemap,
+			$sitemap_sub_type ? "-{$sitemap_sub_type}" : ''
+			);
 
 		// Clean up permalinks.
 		$this->set_permalink_structure();
 
-		$this->assertStringEndsWith( '/wp-sitemap.xsl', $stylesheet_url );
+		$this->assertStringEndsWith( $expected, $stylesheet_url );
 	}
 
 	public function test_get_sitemap_index_stylesheet_url() {
@@ -110,6 +180,8 @@ class Test_WP_Sitemaps_Renderer extends WP_UnitTestCase {
 	 * Test XML output for the sitemap page renderer.
 	 */
 	public function test_get_sitemap_xml() {
+		global $wp_query;
+
 		$url_list = array(
 			array(
 				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/2019/10/post-1',
@@ -130,9 +202,13 @@ class Test_WP_Sitemaps_Renderer extends WP_UnitTestCase {
 
 		$renderer = new WP_Sitemaps_Renderer();
 
+		// Set the appropriate query vars so that the stylesheet URL is correctly generated.
+		$wp_query->set( 'sitemap', 'posts' );
+		$wp_query->set( 'sitemap-sub-type', 'post' );
+
 		$actual   = $renderer->get_sitemap_xml( $url_list );
 		$expected = '<?xml version="1.0" encoding="UTF-8"?>' .
-					'<?xml-stylesheet type="text/xsl" href="http://' . WP_TESTS_DOMAIN . '/?sitemap-stylesheet=sitemap" ?>' .
+					'<?xml-stylesheet type="text/xsl" href="http://' . WP_TESTS_DOMAIN . '/?sitemap-stylesheet=posts&sitemap-stylesheet-sub-type=post" ?>' .
 					'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' .
 					'<url><loc>http://' . WP_TESTS_DOMAIN . '/2019/10/post-1</loc></url>' .
 					'<url><loc>http://' . WP_TESTS_DOMAIN . '/2019/10/post-2</loc></url>' .
