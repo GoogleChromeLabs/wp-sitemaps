@@ -257,7 +257,7 @@ class WP_Sitemaps_Renderer {
 				if ( is_array( $value ) ) {
 					foreach ( $value as $child_attr => $child_value ) {
 						$item = $url->addChild( $prefix . $attr );
-						foreach( (array) $child_value as $grandchild_attr => $grandchild_value ) {
+						foreach ( (array) $child_value as $grandchild_attr => $grandchild_value ) {
 							$item->addChild( $prefix . $grandchild_attr, $grandchild_value );
 						}
 					}
