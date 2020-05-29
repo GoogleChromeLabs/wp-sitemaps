@@ -115,16 +115,7 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
 			}
 		}
 
-		/**
-		 * Filters the array of URLs for a sitemap. before rendering.
-		 *
-		 * @since 5.5.0
-		 *
-		 * @param array  $url_list Array of URLs for a sitemap.
-		 * @param string $taxonomy Taxonomy name.
-		 * @param int    $page_num Page of results.
-		 */
-		return apply_filters( 'wp_sitemaps_taxonomies_url_list', $url_list, $taxonomy, $page_num );
+		return $url_list;
 	}
 
 	/**

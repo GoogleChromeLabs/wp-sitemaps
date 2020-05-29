@@ -93,67 +93,6 @@ class Test_Sitemaps extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Ensure URL lists can have attributes added via filters.
-	 *
-	 * @dataProvider _url_list_providers
-	 *
-	 * @param string $type     The object type to test.
-	 * @param string $sub_type The object subtype to use when getting a URL list.
-	 */
-	public function test_add_attributes_to_url_list( $type, $sub_type ) {
-		add_filter( 'wp_sitemaps_' . $type . '_url_list', array( $this, '_add_attributes_to_url_list' ) );
-
-		$providers = wp_get_sitemaps();
-
-		$post_list = $providers[ $type ]->get_url_list( 1, $sub_type );
-
-		foreach ( $post_list as $entry ) {
-			$this->assertEquals( 'value', $entry['extra'], 'Could not add attributes to url lists for ' . $type . '.' );
-		}
-	}
-
-	/**
-	 * Data provider for `test_add_attributes_to_url_list()`.
-	 *
-	 * @return array A list of object types and subtypes.
-	 */
-	public function _url_list_providers() {
-		return array(
-			array(
-				'posts',
-				'post',
-			),
-			array(
-				'taxonomies',
-				'post_tag',
-			),
-			array(
-				'users',
-				'',
-			),
-		);
-	}
-
-	/**
-	 * Filter callback to add an extra value to URL lists.
-	 *
-	 * @param array $url_list Array of URLs from a sitemap provider.
-	 * @return array The filtered URL list.
-	 */
-	public function _add_attributes_to_url_list( $url_list ) {
-		$entries = array_map(
-			static function ( $entry ) {
-				$entry['extra'] = 'value';
-
-				return $entry;
-			},
-			$url_list
-		);
-
-		return $entries;
-	}
-
-	/**
 	 * Helper function to get all sitemap entries data.
 	 *
 	 * @return array A list of sitemap entires.

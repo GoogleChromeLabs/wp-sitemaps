@@ -60,45 +60,31 @@ add_filter(
 
 ### How can I exclude certain posts / taxonomies / users from the sitemap or add custom ones?
 
-The `wp_sitemaps_taxonomies_url_list`, `wp_sitemaps_taxonomies_url_list`, and `wp_sitemaps_users_url_list` filters allow you to add or remove URLs as needed.
+The `wp_sitemaps_posts_query_args`, `wp_sitemaps_taxonomies_query_args`, and `wp_sitemaps_users_query_args` filters can be used to modify the underlying queries. Using these queries, certain items can be excluded.
 
 **Example: Ensuring the page with ID 42 is not included**
 
 ```php
 add_filter(
-	'wp_sitemaps_posts_url_list',
-	function( $urls, $type ) {
-		if ( 'page' === $type ) {
-			$post_to_remove = array( 'loc' => get_permalink( 42 ) );
-			$key = array_search( $post_to_remove, $urls, true );
-			if ( false !== $key ) {
-				array_splice( $urls, $key, 1 );
-			}
-		}
-		return $urls;
-	},
-	10,
-	2
+	'wp_sitemaps_posts_query_args',
+	function( $args ) {
+		$args['post__not_in'] = isset( $args['post__not_in'] ) ? $args['post__not_in'] : array();
+		$args['post__not_in'][] = 42;
+		return $args;
+	}
 );
 ```
 
-**Example: Ensuring the category with ID 1 is not included**
+**Example: Ensuring the category with ID 7 is not included**
 
 ```php
 add_filter(
-	'wp_sitemaps_taxonomies_url_list',
-	function( $urls, $type ) {
-		if ( 'category' === $type ) {
-			$term_to_remove = array( 'loc' => get_term_link( 1 ) );
-			$key = array_search( $term_to_remove, $urls, true );
-			if ( false !== $key ) {
-				array_splice( $urls, $key, 1 );
-			}
-		}
-		return $urls;
-	},
-	10,
-	2
+	'wp_sitemaps_taxonomies_query_args',
+	function( $args ) {
+		$args['exclude'] = isset( $args['exclude'] ) ? $args['exclude'] : array();
+		$args['exclude'][] = 7;
+		return $args;
+	}
 );
 ```
 
@@ -106,14 +92,11 @@ add_filter(
 
 ```php
 add_filter(
-	'wp_sitemaps_users_url_list',
-	function( $urls ) {
-		$user_to_remove = array( 'loc' => get_author_posts_url( 1 ) );
-		$key = array_search( $user_to_remove, $urls, true );
-		if ( false !== $key ) {
-			array_splice( $urls, $key, 1 );
-		}
-		return $urls;
+	'wp_sitemaps_users_query_args',
+	function( $args ) {
+		$args['exclude'] = isset( $args['exclude'] ) ? $args['exclude'] : array();
+		$args['exclude'][] = 1;
+		return $args;
 	}
 );
 ```
