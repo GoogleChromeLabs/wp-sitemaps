@@ -55,21 +55,34 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
 	 * @return array $url_list Array of URLs for a sitemap.
 	 */
 	public function get_url_list( $page_num, $taxonomy = '' ) {
-		// Find the query_var for subtype.
-		if ( ! $taxonomy ) {
-			$taxonomy = $this->get_queried_type();
-		}
-
-		// Bail early if we don't have a taxonomy.
-		if ( empty( $taxonomy ) ) {
-			return array();
-		}
-
 		$supported_types = $this->get_object_subtypes();
 
-		// Bail early if the queried taxonomy is not a supported type.
+		// Bail early if the queried taxonomy is not supported.
 		if ( ! isset( $supported_types[ $taxonomy ] ) ) {
 			return array();
+		}
+
+		/**
+		 * Filters the taxonomies URL list before it is generated.
+		 *
+		 * Passing a non-null value will effectively short-circuit the generation,
+		 * returning that value instead.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param array  $url_list The URL list. Default null.
+		 * @param string $taxonomy Taxonomy name.
+		 * @param int    $page_num Page of results.
+		 */
+		$url_list = apply_filters(
+			'wp_sitemaps_taxonomies_pre_url_list',
+			null,
+			$taxonomy,
+			$page_num
+		);
+
+		if ( null !== $url_list ) {
+			return $url_list;
 		}
 
 		$url_list = array();
@@ -77,30 +90,28 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
 		// Offset by how many terms should be included in previous pages.
 		$offset = ( $page_num - 1 ) * wp_sitemaps_get_max_urls( $this->object_type );
 
-		$args = array(
-			'fields'                 => 'ids',
-			'taxonomy'               => $taxonomy,
-			'orderby'                => 'term_order',
-			'number'                 => wp_sitemaps_get_max_urls( $this->object_type ),
-			'offset'                 => $offset,
-			'hide_empty'             => true,
-
-			/*
-			 * Limits aren't included in queries when hierarchical is set to true (by default).
-			 *
-			 * @link: https://github.com/WordPress/WordPress/blob/5.3/wp-includes/class-wp-term-query.php#L558-L567
-			 */
-			'hierarchical'           => false,
-			'update_term_meta_cache' => false,
-		);
+		$args = $this->get_taxonomies_query_args( $taxonomy );
+		$args['offset'] = $offset;
 
 		$taxonomy_terms = new WP_Term_Query( $args );
 
 		if ( ! empty( $taxonomy_terms->terms ) ) {
 			foreach ( $taxonomy_terms->terms as $term ) {
-				$url_list[] = array(
+				$sitemap_entry = array(
 					'loc' => get_term_link( $term ),
 				);
+
+				/**
+				 * Filters the sitemap entry for an individual term.
+				 *
+				 * @since 5.5.0
+				 *
+				 * @param array   $sitemap_entry Sitemap entry for the term.
+				 * @param WP_Term $term          Term object.
+				 * @param string  $taxonomy      Taxonomy name.
+				 */
+				$sitemap_entry = apply_filters( 'wp_sitemaps_taxonomies_entry', $sitemap_entry, $term, $taxonomy );
+				$url_list[] = $sitemap_entry;
 			}
 		}
 
@@ -115,13 +126,68 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
 	 * @param string $taxonomy Taxonomy name.
 	 * @return int Total number of pages.
 	 */
-	public function max_num_pages( $taxonomy = '' ) {
+	public function get_max_num_pages( $taxonomy = '' ) {
 		if ( empty( $taxonomy ) ) {
-			$taxonomy = $this->get_queried_type();
+			return 0;
 		}
 
-		$term_count = wp_count_terms( $taxonomy, array( 'hide_empty' => true ) );
+		/**
+		 * Filters the max number of pages before it is generated.
+		 *
+		 * Passing a non-null value will effectively short-circuit the generation,
+		 * returning that value instead.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param int $max_num_pages The maximum number of pages. Default null.
+		 * @param string $taxonomy Taxonomy name.
+		 */
+		$max_num_pages = apply_filters( 'wp_sitemaps_taxonomies_pre_max_num_pages', null, $taxonomy );
+
+		if ( null !== $max_num_pages ) {
+			return $max_num_pages;
+		}
+
+		$term_count = wp_count_terms( $taxonomy, $this->get_taxonomies_query_args( $taxonomy ) );
 
 		return (int) ceil( $term_count / wp_sitemaps_get_max_urls( $this->object_type ) );
+	}
+
+	/**
+	 * Returns the query args for retrieving taxonomy terms to list in the sitemap.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param string $taxonomy Taxonomy name.
+	 * @return array $args Array of WP_Term_Query arguments.
+	 */
+	protected function get_taxonomies_query_args( $taxonomy ) {
+		/**
+		 * Filters the taxonomy terms query arguments.
+		 *
+		 * Allows modification of the taxonomy query arguments before querying.
+		 *
+		 * @see WP_Term_Query for a full list of arguments
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param array  $args     Array of WP_Term_Query arguments.
+		 * @param string $taxonomy Taxonomy name.
+		 */
+		$args = apply_filters(
+			'wp_sitemaps_taxonomies_query_args',
+			array(
+				'fields'                 => 'ids',
+				'taxonomy'               => $taxonomy,
+				'orderby'                => 'term_order',
+				'number'                 => wp_sitemaps_get_max_urls( $this->object_type ),
+				'hide_empty'             => true,
+				'hierarchical'           => false,
+				'update_term_meta_cache' => false,
+			),
+			$taxonomy
+		);
+
+		return $args;
 	}
 }
