@@ -173,7 +173,6 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 		}
 
 		$args = $this->get_posts_query_args( $post_type );
-		$args['paged'] = 1;
 		$args['fields'] = 'ids';
 		$args['no_found_rows'] = false;
 

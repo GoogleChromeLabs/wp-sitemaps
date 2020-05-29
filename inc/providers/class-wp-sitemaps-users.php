@@ -123,8 +123,6 @@ class WP_Sitemaps_Users extends WP_Sitemaps_Provider {
 		}
 
 		$args = $this->get_users_query_args();
-		$args['paged'] = 1;
-
 		$query = new WP_User_Query( $args );
 
 		$total_users = $query->get_total();
