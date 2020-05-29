@@ -69,7 +69,7 @@ add_filter(
 	'wp_sitemaps_posts_query_args',
 	function( $args ) {
 		$args['post__not_in'] = isset( $args['post__not_in'] ) ? $args['post__not_in'] : array();
-		$args['post__not_in'][] 42;
+		$args['post__not_in'][] = 42;
 		return $args;
 	}
 );
@@ -82,7 +82,7 @@ add_filter(
 	'wp_sitemaps_taxonomies_query_args',
 	function( $args ) {
 		$args['exclude'] = isset( $args['exclude'] ) ? $args['exclude'] : array();
-		$args['exclude'][] 7;
+		$args['exclude'][] = 7;
 		return $args;
 	}
 );
@@ -95,7 +95,7 @@ add_filter(
 	'wp_sitemaps_users_query_args',
 	function( $args ) {
 		$args['exclude'] = isset( $args['exclude'] ) ? $args['exclude'] : array();
-		$args['exclude'][] 1;
+		$args['exclude'][] = 1;
 		return $args;
 	}
 );
