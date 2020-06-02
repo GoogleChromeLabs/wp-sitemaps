@@ -186,7 +186,7 @@ class Test_WP_Sitemaps_Renderer extends WP_UnitTestCase {
 					'</urlset>';
 
 		$this->assertXMLEquals( $expected, $actual, 'Sitemap page markup incorrect.' );
-	}	
+	}
 
 	/**
 	 * Test XML output for the sitemap page renderer when stylesheet is disabled.
