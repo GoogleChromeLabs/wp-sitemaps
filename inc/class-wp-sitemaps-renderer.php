@@ -151,8 +151,12 @@ class WP_Sitemaps_Renderer {
 		foreach ( $sitemaps as $entry ) {
 			$sitemap = $sitemap_index->addChild( 'sitemap' );
 			// Add each attribute as a child node to the <sitemap> entry.
-			foreach ( $entry as $attr => $value ) {
-				$sitemap->addChild( $attr, esc_attr( $value ) );
+			foreach ( $entry as $name => $value ) {
+				if ( 'loc' === $name ) {
+					$sitemap->addChild( $name, esc_url( $value ) );
+				} else {
+					$sitemap->addChild( $name, esc_attr( $value ) );
+				}
 			}
 		}
 
@@ -198,71 +202,15 @@ class WP_Sitemaps_Renderer {
 			)
 		);
 
-		$urlset->getNamespaces();
-
-		$attributes = array();
-
-		/**
-		 * Filters the `<urlset>` attributes for the sitemap.
-		 *
-		 * Can be used to add support for additional namespaces.
-		 *
-		 * @since 5.5.0
-		 *
-		 * @param array $attributes Associative array of urlset attributes and their values.
-		 */
-		$attributes = apply_filters( 'wp_sitemaps_urlset_attributes', $attributes );
-
-		foreach ( $attributes as $attribute => $value ) {
-			$urlset->addAttribute( 'xmlns:' . $attribute, $value );
-		}
-
 		foreach ( $url_list as $url_item ) {
 			$url = $urlset->addChild( 'url' );
 
 			// Add each attribute as a child node to the <url> entry.
-			foreach ( $url_item as $attr => $value ) {
-				$prefix = '';
-				if ( false !== strpos( $attr, ':' ) ) {
-					$prefix = explode( ':', $attr )[0] . ':';
-				}
-
-				/*
-				 * Arrays need to be prefixed with their namespace.
-				 *
-				 * Turns
-				 *
-				 * 'image:image' => array(
-				 *   array(
-				 *     'image:loc' => 'http://example.com/image.jpg',
-				 *     'image:title' => 'Cats',
-				 *   ),
-				 *   array(
-				 *     'image:loc' => 'http://example.com/image2.jpg',
-				 *     'image:title' => 'Cats and Dogs',
-				 *   ),
-				 * )
-				 *
-				 * into
-				 *
-				 * <image:image>
-				 *   <image:loc>http://example.com/image.jpg</image:loc>
-				 *   <image:title>Cats</image:loc>
-				 * </image:image>
-				 * <image:image>
-				 *   <image:loc>http://example.com/image2.jpg</image:loc>
-				 *   <image:title>Cats and Dogs</image:loc>
-				 * </image:image>
-				 */
-				if ( is_array( $value ) ) {
-					foreach ( $value as $child_attr => $child_value ) {
-						$item = $url->addChild( $prefix . $attr );
-						foreach ( (array) $child_value as $grandchild_attr => $grandchild_value ) {
-							$item->addChild( $prefix . $grandchild_attr, $grandchild_value );
-						}
-					}
+			foreach ( $url_item as $name => $value ) {
+				if ( 'loc' === $name ) {
+					$url->addChild( $name, esc_url( $value ) );
 				} else {
-					$url->addChild( $prefix . $attr, esc_attr( $value ) );
+					$url->addChild( $name, esc_attr( $value ) );
 				}
 			}
 		}
