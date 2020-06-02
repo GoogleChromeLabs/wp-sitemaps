@@ -55,7 +55,7 @@ abstract class WP_Sitemaps_Provider {
 	 * @param string $object_subtype Optional. Object subtype. Default empty.
 	 * @return int Total number of pages.
 	 */
-	abstract public function max_num_pages( $object_subtype = '' );
+	abstract public function get_max_num_pages( $object_subtype = '' );
 
 	/**
 	 * Gets data about each sitemap type.
@@ -74,7 +74,7 @@ abstract class WP_Sitemaps_Provider {
 		if ( empty( $object_subtypes ) ) {
 			$sitemap_data[] = array(
 				'name'  => '',
-				'pages' => $this->max_num_pages(),
+				'pages' => $this->get_max_num_pages(),
 			);
 			return $sitemap_data;
 		}
@@ -85,7 +85,7 @@ abstract class WP_Sitemaps_Provider {
 
 			$sitemap_data[] = array(
 				'name'  => $object_subtype_name,
-				'pages' => $this->max_num_pages( $object_subtype_name ),
+				'pages' => $this->get_max_num_pages( $object_subtype_name ),
 			);
 		}
 
