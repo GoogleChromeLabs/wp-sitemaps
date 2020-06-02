@@ -204,6 +204,16 @@ class WP_Sitemaps_Renderer {
 					$url->addChild( $name, esc_url( $value ) );
 				} elseif ( in_array( $name, array( 'lastmod', 'changefreq', 'priority' ), true ) ) {
 					$url->addChild( $name, esc_attr( $value ) );
+				} else {
+					_doing_it_wrong(
+						__METHOD__,
+						/* translators: %s: list of element names */
+						sprintf(
+							__( 'Fields other than %s are not currently supported for sitemaps', 'core-sitemaps' ),
+							implode( ',', array( 'loc', 'lastmod', 'changefreq', 'priority' ) )
+						),
+						'5.5.0'
+					);
 				}
 			}
 		}
