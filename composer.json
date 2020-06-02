@@ -63,9 +63,10 @@
   "require-dev": {
     "dealerdirect/phpcodesniffer-composer-installer": "^0.6.0",
     "phpcompatibility/phpcompatibility-wp": "^2.1",
-	"phpunit/phpunit": "^5.7 || ^6.5 || ^7.5",
+    "phpunit/phpunit": "^5.7 || ^6.5 || ^7.5",
     "roave/security-advisories": "dev-master",
     "roots/wordpress": "dev-master",
+    "sirbrillig/phpcs-variable-analysis": "^2.8",
     "wp-cli/wp-cli": "^2.2",
     "wp-cli/wp-cli-bundle": "^2.2",
     "wp-coding-standards/wpcs": "^2.2",
