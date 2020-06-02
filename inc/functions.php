@@ -117,3 +117,147 @@ function wp_sitemaps_get_max_urls( $object_type ) {
 	 */
 	return apply_filters( 'wp_sitemaps_max_urls', WP_SITEMAPS_MAX_URLS, $object_type );
 }
+
+if ( ! function_exists( 'esc_xml' ) ) :
+	/**
+	 * Escaping for XML blocks.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param string $text Text to escape.
+	 * @return string
+	 */
+	function esc_xml( $text ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
+		$safe_text = wp_check_invalid_utf8( $text );
+
+		$cdata_regex = '\<\!\[CDATA\[.*?\]\]\>';
+		$regex       = <<<EOF
+/
+	(?=.*?{$cdata_regex})                 # lookahead that will match anything followed by a CDATA Section
+	(?<non_cdata_followed_by_cdata>(.*?)) # the "anything" matched by the lookahead
+	(?<cdata>({$cdata_regex}))            # the CDATA Section matched by the lookahead
+
+|	                                      # alternative
+
+	(?<non_cdata>(.*))                    # non-CDATA Section
+/sx 
+EOF;
+		$safe_text = (string) preg_replace_callback(
+			$regex,
+			function( $matches ) {
+				if ( ! $matches[0] ) {
+					return '';
+				} elseif ( ! empty( $matches['non_cdata'] ) ) {
+					// escape HTML entities in the non-CDATA Section.
+					return _esc_xml_non_cdata_section( $matches['non_cdata'] );
+				}
+
+				// Return the CDATA Section unchanged, escape HTML entities in the rest.
+				return _esc_xml_non_cdata_section( $matches['non_cdata_followed_by_cdata'] ) . $matches['cdata'];
+			},
+			$safe_text
+		);
+
+		/**
+		 * Filters a string cleaned and escaped for output in XML.
+		 *
+		 * Text passed to esc_xml() is stripped of invalid or special characters
+		 * before output. HTML named character references are converted to their
+		 * equivalent code points.
+		 *
+		 * @since 5.5.0
+		 *
+		 * @param string $safe_text The text after it has been escaped.
+		 * @param string $text      The text prior to being escaped.
+		 */
+		return apply_filters( 'esc_xml', $safe_text, $text ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
+	}
+endif;
+
+if ( ! function_exists( '_esc_xml_non_cdata_section' ) ) :
+	/**
+	 * Escaping for non-CDATA Section XML blocks.
+	 *
+	 * @access private
+	 * @since 5.5.0
+	 *
+	 * @param string $text Text to escape.
+	 * @return string
+	 */
+	function _esc_xml_non_cdata_section( $text ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
+		global $allowedentitynames;
+
+		$safe_text = _wp_specialchars( $text, ENT_QUOTES );
+		// Replace HTML entities with their Unicode codepoints,
+		// without doing the same for the 5 XML entities.
+		$html_only_entities = array_diff( $allowedentitynames, array( 'amp', 'lt', 'gt', 'apos', 'quot' ) );
+		$safe_text          = (string) preg_replace_callback(
+			'/&(' . implode( '|', $html_only_entities ) . ');/',
+			function( $matches ) {
+				return html_entity_decode( $matches[0], ENT_HTML5 );
+			},
+			$safe_text
+		);
+
+		return $safe_text;
+	}
+endif;
+
+if ( ! function_exists( 'esc_xml__' ) ) :
+	/**
+	 * Retrieve the translation of $text and escapes it for safe use in XML output.
+	 *
+	 * If there is no translation, or the text domain isn't loaded, the original text
+	 * is escaped and returned.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param string $text   Text to translate.
+	 * @param string $domain Optional. Text domain. Unique identifier for retrieving translated strings.
+	 *                       Default 'default'.
+	 * @return string Translated text.
+	 */
+	function esc_xml__( $text, $domain = 'default' ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
+		return esc_xml( translate( $text, $domain ) ); // phpcs:ignore WordPress.WP.I18n
+	}
+endif;
+
+if ( ! function_exists( 'esc_xml_e' ) ) :
+	/**
+	 * Display translated text that has been escaped for safe use in XML output.
+	 *
+	 * If there is no translation, or the text domain isn't loaded, the original text
+	 * is escaped and displayed.
+	 *
+	 * If you need the value for use in PHP, use esc_xml__().
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param string $text   Text to translate.
+	 * @param string $domain Optional. Text domain. Unique identifier for retrieving translated strings.
+	 *                       Default 'default'.
+	 */
+	function esc_xml_e( $text, $domain = 'default' ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
+		echo esc_xml( translate( $text, $domain ) ); // phpcs:ignore WordPress.WP.I18n
+	}
+endif;
+
+if ( ! function_exists( 'esc_xml_x' ) ) :
+	/**
+	 * Translate string with gettext context, and escapes it for safe use in XML output.
+	 *
+	 * If there is no translation, or the text domain isn't loaded, the original text
+	 * is escaped and returned.
+	 *
+	 * @since 5.5.0
+	 *
+	 * @param string $text    Text to translate.
+	 * @param string $context Context information for the translators.
+	 * @param string $domain  Optional. Text domain. Unique identifier for retrieving translated strings.
+	 *                        Default 'default'.
+	 * @return string Translated text.
+	 */
+	function esc_xml_x( $text, $context, $domain = 'default' ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
+		return esc_xml( translate_with_gettext_context( $text, $context, $domain ) ); // phpcs:ignore WordPress.WP.I18n
+	}
+endif;
