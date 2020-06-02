@@ -140,42 +140,7 @@ Similarly, you can use the `wp_sitemaps_index_entry` filter to add `lastmod` on 
 
 = How can I add image sitemaps? =
 
-Image sitemaps are not supported by default, but can be added by plugins through a set of filters.
-
-First, use the `wp_sitemaps_urlset_attributes` filter to add the necessary XML namespace:
-
-```php
-add_filter(
-    'wp_sitemaps_urlset_attributes',
-    function( $attributes ) {
-        $attributes['xmlns:image'] = 'http://www.google.com/schemas/sitemap-image/1.1';
-        return $attributes;
-    }
-);
-```
-
-This makes sure the resulting XML is valid.  After that, use the `wp_sitemaps_posts_entry` filter to add the image data for a post.
-
-```php
-add_filter(
-    'wp_sitemaps_posts_entry',
-    function( $entry, $post ) {
-        $entry['image:image'] = array(
-            array(
-                'image:loc' => 'http://example.com/image.jpg',
-                'image:title' => 'Cats',
-            ),
-            array(
-                'image:loc' => 'http://example.com/image2.jpg',
-                'image:title' => 'Cats and Dogs',
-            ),
-        );
-        return $entry;
-    },
-    10,
-    2
-);
-```
+Adding image sitemaps are not supported yet, but support will be added in the future so that plugin developers can add them if needed.
 
 = How can I change the number of URLs per sitemap? =
 
