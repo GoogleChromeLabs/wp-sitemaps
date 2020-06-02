@@ -149,11 +149,11 @@ EOF;
 					return '';
 				} elseif ( ! empty( $matches['non_cdata'] ) ) {
 					// escape HTML entities in the non-CDATA Section.
-					return esc_xml_non_cdata_section( $matches['non_cdata'] );
+					return _esc_xml_non_cdata_section( $matches['non_cdata'] );
 				}
 
 				// Return the CDATA Section unchanged, escape HTML entities in the rest.
-				return esc_xml_non_cdata_section( $matches['non_cdata_followed_by_cdata'] ) . $matches['cdata'];
+				return _esc_xml_non_cdata_section( $matches['non_cdata_followed_by_cdata'] ) . $matches['cdata'];
 			},
 			$safe_text
 		);
@@ -174,16 +174,17 @@ EOF;
 	}
 endif;
 
-if ( ! function_exists( 'esc_xml_non_cdata_section' ) ) :
+if ( ! function_exists( '_esc_xml_non_cdata_section' ) ) :
 	/**
 	 * Escaping for non-CDATA Section XML blocks.
 	 *
+	 * @access private
 	 * @since 5.5.0
 	 *
 	 * @param string $text Text to escape.
 	 * @return string
 	 */
-	function esc_xml_non_cdata_section( $text ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
+	function _esc_xml_non_cdata_section( $text ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
 		global $allowedentitynames;
 
 		$safe_text = _wp_specialchars( $text, ENT_QUOTES );
