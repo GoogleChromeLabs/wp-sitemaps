@@ -209,7 +209,7 @@ class WP_Sitemaps_Renderer {
 						__METHOD__,
 						/* translators: %s: list of element names */
 						sprintf(
-							__( 'Fields other than %s are not currently supported for sitemaps', 'core-sitemaps' ),
+							__( 'Fields other than %s are not currently supported for sitemaps.', 'core-sitemaps' ),
 							implode( ',', array( 'loc', 'lastmod', 'changefreq', 'priority' ) )
 						),
 						'5.5.0'
