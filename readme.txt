@@ -117,6 +117,31 @@ add_filter(
 );
 ```
 
+
+= How can I add `changefreq`, `priority`, or `lastmod` to a sitemap? =
+
+You can use the `wp_sitemaps_posts_entry` / `wp_sitemaps_users_entry` / `wp_sitemaps_taxonomies_entry` filters to add additional attributes like `changefreq`, `priority`, or `lastmod` to single item in the sitemap.
+
+**Example: Adding the last modified date for posts**
+
+```php
+add_filter(
+    'wp_sitemaps_posts_entry',
+    function( $entry, $post ) {
+        $entry['lastmod'] = $post->post_modified_gmt;
+        return $entry;
+    },
+    10,
+    2
+);
+```
+
+Similarly, you can use the `wp_sitemaps_index_entry` filter to add `lastmod` on the sitemap index. Note: `changefreq` and `priority` are not supported on the sitemap index.
+
+= How can I add image sitemaps? =
+
+Adding image sitemaps are not supported yet, but support will be added in the future so that plugin developers can add them if needed.
+
 = How can I change the number of URLs per sitemap? =
 
 Use the `wp_sitemaps_max_urls` filter to adjust the maximum number of URLs included in a sitemap. The default value is 2000 URLs.

@@ -38,7 +38,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 		unset( $post_types['attachment'] );
 
 		/**
-		 * Filters the list of post object sub types available within the sitemap.
+		 * Filters the list of post object subtypes available within the sitemap.
 		 *
 		 * @since 5.5.0
 		 *
