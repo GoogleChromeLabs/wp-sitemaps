@@ -52,62 +52,85 @@ class WP_Sitemaps_Stylesheet {
 		$text        = sprintf(
 			/* translators: %s: number of URLs. */
 			__( 'Number of URLs in this XML Sitemap: %s.', 'core-sitemaps' ),
-			'<xsl:value-of select="count(sitemap:urlset/sitemap:url)"/>'
+			'<xsl:value-of select="count( sitemap:urlset/sitemap:url )" />'
 		);
 
-		$url = esc_html__( 'URL', 'core-sitemaps' );
+		$lang       = get_language_attributes( 'html' );
+		$url        = esc_html__( 'URL', 'core-sitemaps' );
+		$lastmod    = esc_html__( 'Last Modified', 'core-sitemaps' );
+		$changefreq = esc_html__( 'Change Frequency', 'core-sitemaps' );
+		$priority   = esc_html__( 'Priority', 'core-sitemaps' );
 
 		$xsl_content = <<<XSL
 <?xml version="1.0" encoding="UTF-8"?>
-			<xsl:stylesheet version="2.0"
-				xmlns:html="http://www.w3.org/TR/REC-html40"
-				xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-				xmlns:sitemap="http://www.sitemaps.org/schemas/sitemap/0.9"
-				xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-			<xsl:output method="html" version="1.0" encoding="UTF-8" indent="yes"/>
-			<xsl:template match="/">
-				<html xmlns="http://www.w3.org/1999/xhtml">
-				<head>
-					<title>$title</title>
-					<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-					<style type="text/css">
-						$css
-					</style>
-				</head>
-				<body>
-					<div id="sitemap__header">
-						<h1>$title</h1>
-						<p>$description</p>
-					</div>
-					<div id="sitemap__content">
-						<p class="text">$text</p>
-						<table id="sitemap__table">
-							<thead>
+<xsl:stylesheet
+		version="1.0"
+		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+		xmlns:sitemap="http://www.sitemaps.org/schemas/sitemap/0.9"
+		exclude-result-prefixes="sitemap"
+		>
+
+	<xsl:output method="html" encoding="UTF-8" indent="yes"/>
+
+	<!--
+	  Set variables for whether lastmod, changefreq or priority occur for any url in the sitemap.
+	  We do this up front because it can be expensive in a large sitemap.
+	  -->
+	<xsl:variable name="has-lastmod"    select="count( /sitemap:urlset/sitemap:url/sitemap:lastmod )"    />
+	<xsl:variable name="has-changefreq" select="count( /sitemap:urlset/sitemap:url/sitemap:changefreq )" />
+	<xsl:variable name="has-priority"   select="count( /sitemap:urlset/sitemap:url/sitemap:priority )"   />
+
+	<xsl:template match="/">
+		<html {$lang}>
+			<head>
+				<title>{$title}</title>
+				<style>{$css}</style>
+			</head>
+			<body>
+				<div id="sitemap__header">
+					<h1>{$title}</h1>
+					<p>{$description}</p>
+				</div>
+				<div id="sitemap__content">
+					<p class="text">{$text}</p>
+					<table id="sitemap__table">
+						<thead>
 							<tr>
-								<th>$url</th>
+								<th class="loc">{$url}</th>
+								<xsl:if test="\$has-lastmod">
+									<th class="lastmod">{$lastmod}</th>
+								</xsl:if>
+								<xsl:if test="\$has-changefreq">
+									<th class="changefreq">{$changefreq}</th>
+								</xsl:if>
+								<xsl:if test="\$has-priority">
+									<th class="priority">{$priority}</th>
+								</xsl:if>
 							</tr>
-							</thead>
-							<tbody>
+						</thead>
+						<tbody>
 							<xsl:for-each select="sitemap:urlset/sitemap:url">
 								<tr>
-									<td>
-										<xsl:variable name="itemURL">
-											<xsl:value-of select="sitemap:loc"/>
-										</xsl:variable>
-										<a href="{\$itemURL}">
-											<xsl:value-of select="sitemap:loc"/>
-										</a>
-									</td>
+									<td class="loc"><a href="{sitemap:loc}"><xsl:value-of select="sitemap:loc" /></a></td>
+									<xsl:if test="\$has-lastmod">
+										<td class="lastmod"><xsl:value-of select="sitemap:lastmod" /></td>
+									</xsl:if>
+									<xsl:if test="\$has-changefreq">
+										<td class="changefreq"><xsl:value-of select="sitemap:changefreq" /></td>
+									</xsl:if>
+									<xsl:if test="\$has-priority">
+										<td class="priority"><xsl:value-of select="sitemap:priority" /></td>
+									</xsl:if>
 								</tr>
 							</xsl:for-each>
-							</tbody>
-						</table>
+						</tbody>
+					</table>
+				</div>
+			</body>
+		</html>
+	</xsl:template>
+</xsl:stylesheet>
 
-					</div>
-				</body>
-				</html>
-			</xsl:template>
-			</xsl:stylesheet>\n
 XSL;
 
 		/**
@@ -135,63 +158,56 @@ XSL;
 		);
 		$text        = sprintf(
 			/* translators: %s: number of URLs. */
-			__( 'This XML Sitemap contains %s URLs.', 'core-sitemaps' ),
-			'<xsl:value-of select="count(sitemap:sitemapindex/sitemap:sitemap)"/>'
+			__( 'Number of URLs in this XML Sitemap: %s.', 'core-sitemaps' ),
+			'<xsl:value-of select="count( sitemap:sitemapindex/sitemap:sitemap )" />'
 		);
-
-		$url = esc_html__( 'URL', 'core-sitemaps' );
+		$lang        = get_language_attributes( 'html' );
+		$url         = esc_html__( 'URL', 'core-sitemaps' );
 
 		$xsl_content = <<<XSL
 <?xml version="1.0" encoding="UTF-8"?>
-			<xsl:stylesheet version="2.0"
-				xmlns:html="http://www.w3.org/TR/REC-html40"
-				xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-				xmlns:sitemap="http://www.sitemaps.org/schemas/sitemap/0.9"
-				xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-			<xsl:output method="html" version="1.0" encoding="UTF-8" indent="yes"/>
-			<xsl:template match="/">
-				<html xmlns="http://www.w3.org/1999/xhtml">
-				<head>
-					<title>$title</title>
-					<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-					<style type="text/css">
-						$css
-					</style>
-				</head>
-				<body>
-					<div id="sitemap__header">
-						<h1>$title</h1>
-						<p>$description</p>
-					</div>
-					<div id="sitemap__content">
-						<p class="text">$text</p>
-						<table id="sitemap__table">
-							<thead>
+<xsl:stylesheet
+		version="1.0"
+		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+		xmlns:sitemap="http://www.sitemaps.org/schemas/sitemap/0.9"
+		exclude-result-prefixes="sitemap"
+		>
+
+	<xsl:output method="html" encoding="UTF-8" indent="yes" />
+
+	<xsl:template match="/">
+		<html {$lang}>
+			<head>
+				<title>{$title}</title>
+				<style>{$css}</style>
+			</head>
+			<body>
+				<div id="sitemap__header">
+					<h1>{$title}</h1>
+					<p>{$description}</p>
+				</div>
+				<div id="sitemap__content">
+					<p class="text">{$text}</p>
+					<table id="sitemap__table">
+						<thead>
 							<tr>
-								<th>$url</th>
+								<th class="loc">{$url}</th>
 							</tr>
-							</thead>
-							<tbody>
+						</thead>
+						<tbody>
 							<xsl:for-each select="sitemap:sitemapindex/sitemap:sitemap">
 								<tr>
-									<td>
-										<xsl:variable name="itemURL">
-											<xsl:value-of select="sitemap:loc"/>
-										</xsl:variable>
-										<a href="{\$itemURL}">
-											<xsl:value-of select="sitemap:loc"/>
-										</a>
-									</td>
+									<td class="loc"><a href="{sitemap:loc}"><xsl:value-of select="sitemap:loc" /></a></td>
 								</tr>
 							</xsl:for-each>
-							</tbody>
-						</table>
+						</tbody>
+					</table>
+				</div>
+			</body>
+		</html>
+	</xsl:template>
+</xsl:stylesheet>
 
-					</div>
-				</body>
-				</html>
-			</xsl:template>
-			</xsl:stylesheet>\n
 XSL;
 
 		/**
