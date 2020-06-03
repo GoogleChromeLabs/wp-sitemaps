@@ -205,12 +205,22 @@ class WP_Sitemaps_Renderer {
 		foreach ( $url_list as $url_item ) {
 			$url = $urlset->addChild( 'url' );
 
-			// Add each attribute as a child node to the <url> entry.
+			// Add each element as a child node to the <url> entry.
 			foreach ( $url_item as $name => $value ) {
 				if ( 'loc' === $name ) {
 					$url->addChild( $name, esc_url( $value ) );
-				} else {
+				} elseif ( in_array( $name, array( 'lastmod', 'changefreq', 'priority' ), true ) ) {
 					$url->addChild( $name, esc_attr( $value ) );
+				} else {
+					_doing_it_wrong(
+						__METHOD__,
+						/* translators: %s: list of element names */
+						sprintf(
+							__( 'Fields other than %s are not currently supported for sitemaps.', 'core-sitemaps' ),
+							implode( ',', array( 'loc', 'lastmod', 'changefreq', 'priority' ) )
+						),
+						'5.5.0'
+					);
 				}
 			}
 		}

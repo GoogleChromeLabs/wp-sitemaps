@@ -213,9 +213,15 @@ class Test_WP_Sitemaps_Renderer extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Ensure extra attributes added to URL lists are included in rendered XML.
+	 * Test that all children of Q{http://www.sitemaps.org/schemas/sitemap/0.9}url in the rendered XML
+	 * defined in the Sitemaps spec (i.e., loc, lastmod, changefreq, priority).
+	 *
+	 * Note that when a means of adding elements in extension namespaces is settled on,
+	 * this test will need to be updated accordingly.
+	 *
+	 * @expectedIncorrectUsage WP_Sitemaps_Renderer::get_sitemap_xml
 	 */
-	public function test_get_sitemap_xml_extra_attributes() {
+	public function test_get_sitemap_xml_extra_elements() {
 		$url_list = array(
 			array(
 				'loc'     => 'http://' . WP_TESTS_DOMAIN . '/2019/10/post-1',
@@ -231,36 +237,15 @@ class Test_WP_Sitemaps_Renderer extends WP_UnitTestCase {
 
 		$renderer = new WP_Sitemaps_Renderer();
 
-		$xml_dom   = $this->loadXML( $renderer->get_sitemap_xml( $url_list ) );
-		$xpath    = new DOMXPath( $xml_dom );
+		$xml_dom = $this->loadXML( $renderer->get_sitemap_xml( $url_list ) );
+		$xpath   = new DOMXPath( $xml_dom );
 		$xpath->registerNamespace( 'sitemap', 'http://www.sitemaps.org/schemas/sitemap/0.9' );
 
 		$this->assertEquals(
-			count( $url_list ),
-			$xpath->evaluate( 'count( /sitemap:urlset/sitemap:url/sitemap:string )' ),
-			'Extra string attributes are not being rendered in XML.'
+			0,
+			$xpath->evaluate( "count( /sitemap:urlset/sitemap:url/*[  namespace-uri() != 'http://www.sitemaps.org/schemas/sitemap/0.9' or not( local-name() = 'loc' or local-name() = 'lastmod' or local-name() = 'changefreq' or local-name() = 'priority' ) ] )" ),
+			'Invalid child of "sitemap:url" in rendered XML.'
 		);
-		$this->assertEquals(
-			count( $url_list ),
-			$xpath->evaluate( 'count( /sitemap:urlset/sitemap:url/sitemap:number )' ),
-			'Extra number attributes are not being rendered in XML.'
-		);
-
-		foreach ( $url_list as $idx => $url_item ) {
-			// XPath position() is 1-indexed, so incrememnt $idx accordingly.
-			$idx++;
-
-			$this->assertEquals(
-				$url_item['string'],
-				$xpath->evaluate( "string( /sitemap:urlset/sitemap:url[ {$idx} ]/sitemap:string )" ),
-				'Extra string attributes are not being rendered in XML.'
-			);
-			$this->assertEquals(
-				$url_item['number'],
-				$xpath->evaluate( "string( /sitemap:urlset//sitemap:url[ {$idx} ]/sitemap:number )" ),
-				'Extra number attributes are not being rendered in XML.'
-			);
-		}
 	}
 
 	/**
