@@ -168,7 +168,7 @@ XSL;
 		);
 		$text         = sprintf(
 			/* translators: %s: number of URLs. */
-			esc_xml ( __( 'Number of URLs in this XML Sitemap: %s.', 'core-sitemaps' ) ),
+			esc_xml( __( 'Number of URLs in this XML Sitemap: %s.', 'core-sitemaps' ) ),
 			'<xsl:value-of select="count( sitemap:sitemapindex/sitemap:sitemap )" />'
 		);
 
