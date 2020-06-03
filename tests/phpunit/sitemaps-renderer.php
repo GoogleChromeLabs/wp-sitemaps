@@ -125,6 +125,39 @@ class Test_WP_Sitemaps_Renderer extends WP_UnitTestCase {
 		$this->assertXMLEquals( $expected, $actual, 'Sitemap index markup incorrect.' );
 	}
 
+	/**
+	 * Test that all children of Q{http://www.sitemaps.org/schemas/sitemap/0.9}sitemap in the
+	 * rendered index XML are defined in the Sitemaps spec (i.e., loc, lastmod).
+	 *
+	 * Note that when a means of adding elements in extension namespaces is settled on,
+	 * this test will need to be updated accordingly.
+	 *
+	 * @expectedIncorrectUsage WP_Sitemaps_Renderer::get_sitemap_index_xml
+	 */
+	public function test_get_sitemap_index_xml_extra_elements() {
+		$url_list = array(
+			array(
+				'loc' => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-post-1.xml',
+				'unknown' => 'this is a test',
+			),
+			array(
+				'loc' => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-page-1.xml',
+				'unknown' => 'that was a test',
+			),
+		);
+
+		$renderer = new WP_Sitemaps_Renderer();
+
+		$xml_dom = $this->loadXML( $renderer->get_sitemap_index_xml( $url_list ) );
+		$xpath   = new DOMXPath( $xml_dom );
+		$xpath->registerNamespace( 'sitemap', 'http://www.sitemaps.org/schemas/sitemap/0.9' );
+
+		$this->assertEquals(
+			0,
+			$xpath->evaluate( "count( /sitemap:sitemapindex/sitemap:sitemap/*[  namespace-uri() != 'http://www.sitemaps.org/schemas/sitemap/0.9' or not( local-name() = 'loc' or local-name() = 'lastmod' ) ] )" ),
+			'Invalid child of "sitemap:sitemap" in rendered index XML.'
+		);
+	}
 
 	/**
 	 * Test XML output for the sitemap index renderer when stylesheet is disabled.
@@ -213,8 +246,8 @@ class Test_WP_Sitemaps_Renderer extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Test that all children of Q{http://www.sitemaps.org/schemas/sitemap/0.9}url in the rendered XML
-	 * defined in the Sitemaps spec (i.e., loc, lastmod, changefreq, priority).
+	 * Test that all children of Q{http://www.sitemaps.org/schemas/sitemap/0.9}url in the
+	 * rendered sitemap XML are defined in the Sitemaps spec (i.e., loc, lastmod, changefreq, priority).
 	 *
 	 * Note that when a means of adding elements in extension namespaces is settled on,
 	 * this test will need to be updated accordingly.
