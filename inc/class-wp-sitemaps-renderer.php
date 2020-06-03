@@ -150,12 +150,23 @@ class WP_Sitemaps_Renderer {
 
 		foreach ( $sitemaps as $entry ) {
 			$sitemap = $sitemap_index->addChild( 'sitemap' );
-			// Add each attribute as a child node to the <sitemap> entry.
+
+			// Add each element as a child node to the <sitemap> entry.
 			foreach ( $entry as $name => $value ) {
 				if ( 'loc' === $name ) {
 					$sitemap->addChild( $name, esc_url( $value ) );
-				} else {
+				} elseif ( 'lastmod' === $name ) {
 					$sitemap->addChild( $name, esc_attr( $value ) );
+				} else {
+					_doing_it_wrong(
+						__METHOD__,
+						/* translators: %s: list of element names */
+						sprintf(
+							__( 'Fields other than %s are not currently supported for sitemaps.', 'core-sitemaps' ),
+							implode( ',', array( 'loc', 'lastmod', 'changefreq', 'priority' ) )
+						),
+						'5.5.0'
+					);
 				}
 			}
 		}
