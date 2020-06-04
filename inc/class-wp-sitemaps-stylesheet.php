@@ -241,7 +241,7 @@ XSL;
 		 *
 		 * @param string $xsl Full content for the xml stylesheet.
 		 */
-		return apply_filters( 'wp_sitemaps_index_stylesheet_content', $xsl_content );
+		return apply_filters( 'wp_sitemaps_stylesheet_index_content', $xsl_content );
 	}
 
 	/**
