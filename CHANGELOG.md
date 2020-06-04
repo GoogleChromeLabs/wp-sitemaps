@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.4.0]
+
+- Various updates to inline documentation ([#175](https://github.com/GoogleChromeLabs/wp-sitemaps/pull/175))
+- Improve logic when there are no sitemap entries ([#190](https://github.com/GoogleChromeLabs/wp-sitemaps/pull/190))
+- Remove `core_` prefix of functions and filters ([#182](https://github.com/GoogleChromeLabs/wp-sitemaps/pull/182))
+- Add new filters for individual sitemap entries ([#191](https://github.com/GoogleChromeLabs/wp-sitemaps/pull/191))
+- Add new filters to modify query arguments ([#183](https://github.com/GoogleChromeLabs/wp-sitemaps/pull/183))
+- Introduce `esc_xml` helper function ([#192](https://github.com/GoogleChromeLabs/wp-sitemaps/pull/192), [#203](https://github.com/GoogleChromeLabs/wp-sitemaps/pull/203))
+- Add new `wp_sitemaps_index_entry` filter ([#184](https://github.com/GoogleChromeLabs/wp-sitemaps/pull/184))
+
 ## [0.3.0]
 
 - Disable sitemaps for private sites discouraging search engines ([#138](https://github.com/GoogleChromeLabs/wp-sitemaps/pull/138))
@@ -29,7 +39,8 @@ All notable changes to this project will be documented in this file.
 
 - Initial release
 
-[unreleased]: https://github.com/GoogleChromeLabs/wp-sitemaps/compare/v0.3.0...HEAD 
+[unreleased]: https://github.com/GoogleChromeLabs/wp-sitemaps/compare/v0.4.0...HEAD 
+[0.4.0]: https://github.com/GoogleChromeLabs/wp-sitemaps/releases/tag/v0.4.0
 [0.3.0]: https://github.com/GoogleChromeLabs/wp-sitemaps/releases/tag/v0.3.0
 [0.2.0]: https://github.com/GoogleChromeLabs/wp-sitemaps/releases/tag/v0.2.0
 [0.1.0]: https://github.com/GoogleChromeLabs/wp-sitemaps/releases/tag/v0.1.0
