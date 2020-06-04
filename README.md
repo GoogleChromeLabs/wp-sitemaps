@@ -16,11 +16,47 @@ Interested in contributing to this plugin? Feel free to join us in the [#core-si
 - Contributing: [Contributing Documentation Section](/docs/CONTRIBUTING.md)
 - Testing: [Testing Documentation Section](/docs/TESTING.md).
 
+## Available Hooks and Filters
+
+**General:**
+
+* `wp_sitemaps_is_enabled` - Filters whether XML Sitemaps are enabled or not.
+* `wp_sitemaps_max_urls` - Filters the maximum number of URLs displayed on a sitemap.
+* `wp_sitemaps_register_providers` - Filters the list of registered sitemap providers.
+* `wp_sitemaps_init` - Fires when initializing sitemaps.
+* `wp_sitemaps_index_entry` - Filters the sitemap entry for the sitemap index.
+
+**Providers:**
+
+* `wp_sitemaps_post_types` - Filters the list of post types to include in the sitemaps.
+* `wp_sitemaps_posts_entry` - Filters the sitemap entry for an individual post.
+* `wp_sitemaps_posts_query_args` - Filters the query arguments for post type sitemap queries.
+* `wp_sitemaps_posts_pre_url_list` - Filters the posts URL list before it is generated (short-circuit).
+* `wp_sitemaps_posts_pre_max_num_pages` - Filters the max number of pages before it is generated (short-circuit).
+* `wp_sitemaps_taxonomies` - Filters the list of taxonomies to include in the sitemaps.
+* `wp_sitemaps_taxonomies_entry` - Filters the sitemap entry for an individual term.
+* `wp_sitemaps_taxonomies_query_args` - Filters the query arguments for taxonomy terms sitemap queries.
+* `wp_sitemaps_taxonomies_pre_url_list` - Filters the taxonomies URL list before it is generated (short-circuit).
+* `wp_sitemaps_taxonomies_pre_max_num_pages` - Filters the max number of pages before it is generated (short-circuit).
+* `wp_sitemaps_users_entry` - Filters the sitemap entry for an individual user.
+* `wp_sitemaps_users_query_args` - Filters the query arguments for user sitemap queries.
+* `wp_sitemaps_users_pre_url_list` - Filters the users URL list before it is generated (short-circuit).
+* `wp_sitemaps_users_pre_max_num_pages` - Filters the max number of pages before it is generated (short-circuit).
+
+**Stylesheets:**
+
+* `wp_sitemaps_stylesheet_css` - Filters the CSS for the sitemap stylesheet.
+* `wp_sitemaps_stylesheet_url` - Filters the URL for the sitemap stylesheet.
+* `wp_sitemaps_stylesheet_content` - Filters the content of the sitemap stylesheet.
+* `wp_sitemaps_stylesheet_index_url` - Filters the URL for the sitemap index stylesheet.
+* `wp_sitemaps_stylesheet_index_content` - Filters the content of the sitemap index stylesheet.
+
 ## Frequently Asked Questions
 
 ### How can I fully disable sitemap generation?
 
-You can use `remove_action( 'init', 'wp_sitemaps_get_server' );` to disable initialization of any sitemap functionality.
+If you update the WordPress settings to discourage search engines from indexing your site, sitemaps will be disabled.
+Alternatively, use the `wp_sitemaps_is_enabled` filter, or use `remove_action( 'init', 'wp_sitemaps_get_server' );` to disable initialization of any sitemap functionality.
 
 ### How can I disable sitemaps for a certain object type?
 

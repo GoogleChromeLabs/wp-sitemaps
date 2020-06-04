@@ -255,7 +255,7 @@ class WP_Sitemaps_Renderer {
 
 			wp_die(
 				sprintf(
-				/* translators: %s: SimpleXML */
+					/* translators: %s: SimpleXML */
 					esc_xml( __( 'Could not generate XML sitemap due to missing %s extension', 'core-sitemaps' ) ),
 					'SimpleXML'
 				),
