@@ -15,9 +15,7 @@ class Test_WP_Sitemaps_Posts extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Test XML output for the sitemap page renderer.
-	 *
-	 * @group sof
+	 * Test `wp_sitemaps_posts_show_on_front_entry` filter.
 	 */
 	public function test_posts_show_on_front_entry() {
 		$posts_provider = new WP_Sitemaps_Posts();
