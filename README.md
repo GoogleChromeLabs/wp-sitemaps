@@ -30,6 +30,7 @@ Interested in contributing to this plugin? Feel free to join us in the [#core-si
 
 * `wp_sitemaps_post_types` - Filters the list of post types to include in the sitemaps.
 * `wp_sitemaps_posts_entry` - Filters the sitemap entry for an individual post.
+* `wp_sitemaps_posts_show_on_front_entry` - Filters the sitemap entry for the home page when the 'show_on_front' option equals 'posts'.
 * `wp_sitemaps_posts_query_args` - Filters the query arguments for post type sitemap queries.
 * `wp_sitemaps_posts_pre_url_list` - Filters the posts URL list before it is generated (short-circuit).
 * `wp_sitemaps_posts_pre_max_num_pages` - Filters the max number of pages before it is generated (short-circuit).
