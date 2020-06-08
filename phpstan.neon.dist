@@ -7,7 +7,7 @@ parameters:
     checkMissingIterableValueType: false
     paths:
         - inc/
-    autoload_files:
+    bootstrapFiles:
         - core-sitemaps.php
     ignoreErrors:
         # Uses func_get_args()
