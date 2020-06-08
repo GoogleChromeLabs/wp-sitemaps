@@ -1,5 +1,5 @@
 === Core Sitemaps ===
-Contributors: joemcgill, pacifika, kburgoine, tweetythierry, swissspidy
+Contributors: joemcgill, pacifika, kburgoine, tweetythierry, swissspidy, pbiron
 Tags: seo, sitemaps
 Requires at least: 5.4
 Tested up to: 5.5
