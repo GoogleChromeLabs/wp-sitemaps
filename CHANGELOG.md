@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Add new `wp_sitemaps_posts_show_on_front_entry` filter ([#207](https://github.com/GoogleChromeLabs/wp-sitemaps/pull/207))
+
 ## [0.4.0]
 
 - Various updates to inline documentation ([#175](https://github.com/GoogleChromeLabs/wp-sitemaps/pull/175))
