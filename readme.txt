@@ -24,7 +24,7 @@ Interested in contributing to this plugin? Feel free to [join us on GitHub](http
 
 **General:**
 
-* `wp_sitemaps_is_enabled` - Filters whether XML Sitemaps are enabled or not.
+* `wp_sitemaps_enabled` - Filters whether XML Sitemaps are enabled or not.
 * `wp_sitemaps_max_urls` - Filters the maximum number of URLs displayed on a sitemap.
 * `wp_sitemaps_register_providers` - Filters the list of registered sitemap providers.
 * `wp_sitemaps_init` - Fires when initializing sitemaps.
@@ -75,7 +75,7 @@ Interested in contributing to this plugin? Feel free to [join us on GitHub](http
 = How can I fully disable sitemap generation? =
 
 If you update the WordPress settings to discourage search engines from indexing your site, sitemaps will be disabled.
-Alternatively, use the `wp_sitemaps_is_enabled` filter, or use `remove_action( 'init', 'wp_sitemaps_get_server' );` to disable initialization of any sitemap functionality.
+Alternatively, use the `wp_sitemaps_enabled` filter, or use `remove_action( 'init', 'wp_sitemaps_get_server' );` to disable initialization of any sitemap functionality.
 
 = How can I disable sitemaps for a certain object type? =
 
