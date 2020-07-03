@@ -2,6 +2,8 @@
 
 A feature plugin to integrate basic XML Sitemaps in WordPress Core.
 
+**Note: This feature has been integrated into WordPress 5.5. If you run WordPress 5.5, you can freely disable this plugin.**
+
 ## Description
 
 As [originally proposed in June 2019](https://make.wordpress.org/core/2019/06/12/xml-sitemaps-feature-project-proposal/), this feature plugin seeks to integrate basic XML Sitemaps functionality into WordPress Core.
@@ -20,7 +22,7 @@ Interested in contributing to this plugin? Feel free to join us in the [#core-si
 
 **General:**
 
-* `wp_sitemaps_is_enabled` - Filters whether XML Sitemaps are enabled or not.
+* `wp_sitemaps_enabled` - Filters whether XML Sitemaps are enabled or not.
 * `wp_sitemaps_max_urls` - Filters the maximum number of URLs displayed on a sitemap.
 * `wp_sitemaps_register_providers` - Filters the list of registered sitemap providers.
 * `wp_sitemaps_init` - Fires when initializing sitemaps.
@@ -57,7 +59,7 @@ Interested in contributing to this plugin? Feel free to join us in the [#core-si
 ### How can I fully disable sitemap generation?
 
 If you update the WordPress settings to discourage search engines from indexing your site, sitemaps will be disabled.
-Alternatively, use the `wp_sitemaps_is_enabled` filter, or use `remove_action( 'init', 'wp_sitemaps_get_server' );` to disable initialization of any sitemap functionality.
+Alternatively, use the `wp_sitemaps_enabled` filter, or use `remove_action( 'init', 'wp_sitemaps_get_server' );` to disable initialization of any sitemap functionality.
 
 ### How can I disable sitemaps for a certain object type?
 
