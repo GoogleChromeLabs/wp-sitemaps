@@ -12,6 +12,8 @@ A feature plugin to integrate basic XML Sitemaps in WordPress Core.
 
 == Description ==
 
+**Note: This feature has been integrated into WordPress 5.5. If you run WordPress 5.5, you can freely disable this plugin.**
+
 As [originally proposed in June 2019](https://make.wordpress.org/core/2019/06/12/xml-sitemaps-feature-project-proposal/), this feature plugin seeks to integrate basic XML Sitemaps functionality in WordPress Core.
 
 A short explanation of how this plugin works can be found on [this make/core blog post](https://make.wordpress.org/core/2020/01/27/feature-plugin-xml-sitemaps/).
