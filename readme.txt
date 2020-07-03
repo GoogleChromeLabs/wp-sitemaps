@@ -4,13 +4,15 @@ Tags: seo, sitemaps
 Requires at least: 5.4
 Tested up to: 5.5
 Requires PHP: 5.6
-Stable tag: 0.4.1
+Stable tag: 0.4.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 A feature plugin to integrate basic XML Sitemaps in WordPress Core.
 
 == Description ==
+
+**Note: This feature has been integrated into WordPress 5.5. If you run WordPress 5.5, you can freely disable this plugin.**
 
 As [originally proposed in June 2019](https://make.wordpress.org/core/2019/06/12/xml-sitemaps-feature-project-proposal/), this feature plugin seeks to integrate basic XML Sitemaps functionality in WordPress Core.
 
@@ -22,7 +24,7 @@ Interested in contributing to this plugin? Feel free to [join us on GitHub](http
 
 **General:**
 
-* `wp_sitemaps_is_enabled` - Filters whether XML Sitemaps are enabled or not.
+* `wp_sitemaps_enabled` - Filters whether XML Sitemaps are enabled or not.
 * `wp_sitemaps_max_urls` - Filters the maximum number of URLs displayed on a sitemap.
 * `wp_sitemaps_register_providers` - Filters the list of registered sitemap providers.
 * `wp_sitemaps_init` - Fires when initializing sitemaps.
@@ -73,7 +75,7 @@ Interested in contributing to this plugin? Feel free to [join us on GitHub](http
 = How can I fully disable sitemap generation? =
 
 If you update the WordPress settings to discourage search engines from indexing your site, sitemaps will be disabled.
-Alternatively, use the `wp_sitemaps_is_enabled` filter, or use `remove_action( 'init', 'wp_sitemaps_get_server' );` to disable initialization of any sitemap functionality.
+Alternatively, use the `wp_sitemaps_enabled` filter, or use `remove_action( 'init', 'wp_sitemaps_get_server' );` to disable initialization of any sitemap functionality.
 
 = How can I disable sitemaps for a certain object type? =
 
@@ -89,7 +91,7 @@ Similarly, the `wp_sitemaps_taxonomies` filter can be used to disable sitemap ge
 
 **Example: Disabling sitemaps for the "page" post type**
 
-```php
+`
 add_filter(
 	'wp_sitemaps_post_types',
 	function( $post_types ) {
@@ -97,11 +99,11 @@ add_filter(
 		return $post_types;
 	}
 );
-```
+`
 
 **Example: Disabling sitemaps for the "post_tag" taxonomy**
 
-```php
+`
 add_filter(
 	'wp_sitemaps_taxonomies',
 	function( $taxonomies ) {
@@ -109,7 +111,7 @@ add_filter(
 		return $taxonomies;
 	}
 );
-```
+`
 
 = How can I exclude certain posts / taxonomies / users from the sitemap or add custom ones? =
 
@@ -117,7 +119,7 @@ The `wp_sitemaps_posts_query_args`, `wp_sitemaps_taxonomies_query_args`, and `wp
 
 **Example: Ensuring the page with ID 42 is not included**
 
-```php
+`
 add_filter(
 	'wp_sitemaps_posts_query_args',
 	function( $args ) {
@@ -126,11 +128,11 @@ add_filter(
 		return $args;
 	}
 );
-```
+`
 
 **Example: Ensuring the category with ID 7 is not included**
 
-```php
+`
 add_filter(
 	'wp_sitemaps_taxonomies_query_args',
 	function( $args ) {
@@ -139,11 +141,11 @@ add_filter(
 		return $args;
 	}
 );
-```
+`
 
 **Example: Ensuring the user with ID 1 is not included**
 
-```php
+`
 add_filter(
 	'wp_sitemaps_users_query_args',
 	function( $args ) {
@@ -152,8 +154,7 @@ add_filter(
 		return $args;
 	}
 );
-```
-
+`
 
 = How can I add `changefreq`, `priority`, or `lastmod` to a sitemap? =
 
@@ -161,7 +162,7 @@ You can use the `wp_sitemaps_posts_entry` / `wp_sitemaps_users_entry` / `wp_site
 
 **Example: Adding the last modified date for posts**
 
-```php
+`
 add_filter(
     'wp_sitemaps_posts_entry',
     function( $entry, $post ) {
@@ -171,7 +172,7 @@ add_filter(
     10,
     2
 );
-```
+`
 
 Similarly, you can use the `wp_sitemaps_index_entry` filter to add `lastmod` on the sitemap index. Note: `changefreq` and `priority` are not supported on the sitemap index.
 
