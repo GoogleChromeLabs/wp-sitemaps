@@ -21,7 +21,7 @@
  */
 
 // Do not load plugin if WordPress core already has sitemap support.
-if ( function_exists( 'wp_get_sitemaps' ) ) {
+if ( function_exists( 'wp_get_sitemaps' ) || function_exists( 'wp_get_sitemap_providers' ) ) {
 	return;
 }
 
