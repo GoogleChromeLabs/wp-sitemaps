@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.4.3]
+
+- Ensure compatibility with WordPress 5.5 Beta 3 ([#226](https://github.com/GoogleChromeLabs/wp-sitemaps/pull/226))
+
 ## [0.4.2]
 
 - Rename `wp_sitemaps_is_enabled` filter to `wp_sitemaps_enabled` to match WordPress core ([#218](https://github.com/GoogleChromeLabs/wp-sitemaps/pull/218))
@@ -47,7 +51,8 @@ All notable changes to this project will be documented in this file.
 
 - Initial release
 
-[unreleased]: https://github.com/GoogleChromeLabs/wp-sitemaps/compare/v0.4.2...HEAD 
+[unreleased]: https://github.com/GoogleChromeLabs/wp-sitemaps/compare/v0.4.3...HEAD
+[0.4.3]: https://github.com/GoogleChromeLabs/wp-sitemaps/releases/tag/v0.4.3
 [0.4.2]: https://github.com/GoogleChromeLabs/wp-sitemaps/releases/tag/v0.4.2
 [0.4.1]: https://github.com/GoogleChromeLabs/wp-sitemaps/releases/tag/v0.4.1
 [0.4.0]: https://github.com/GoogleChromeLabs/wp-sitemaps/releases/tag/v0.4.0

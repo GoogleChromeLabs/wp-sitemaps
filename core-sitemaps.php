@@ -17,7 +17,7 @@
  * Domain Path:       /languages
  * Requires at least: 5.4
  * Requires PHP:      5.6
- * Version:           0.4.2
+ * Version:           0.4.3
  */
 
 // Do not load plugin if WordPress core already has sitemap support.
