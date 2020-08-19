@@ -4,7 +4,7 @@
   "main": "Gruntfile.js",
   "author": "WordPress.org contributors",
   "devDependencies": {
-    "grunt": "^1.2.1",
+    "grunt": "^1.3.0",
     "grunt-wp-i18n": "^1.0.3"
   }
 }
